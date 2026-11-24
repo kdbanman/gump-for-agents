@@ -216,4 +216,103 @@ theorem SSM.einf_continuousOn {ι : Type*} {F : ι → Face} {einf : ℝ → ℝ
         linarith
     _ = ε := by ring
 
+/-! ### Taken over from the referee (`research/blast/ref-chain/RefChainVacuity.lean`, `RefChainSSM.lean`,
+agent `ref-chain`, 2026-11-24): the a.e. form of `price_of_pointwise`, (SSM) without the integrability
+hypothesis, and the referee's objection to (SSM) in full.  Proofs as the referee wrote them. -/
+
+/-- **The price from convergence at almost every tilt** (referee's `price_of_ae`): at a first-order jump the
+finite curves need not converge at the jump point itself; dominated convergence needs only a.e. s. -/
+theorem price_of_ae (F : ℕ → Face) (emax : ℝ) (hA : ∀ n, 0 < (F n).area)
+    (hmax : ∀ n i x, (F n).L.cost i x ≤ emax) (f : ℝ → ℝ)
+    (hlim : ∀ᵐ s ∂volume, s ∈ Set.Ioc (0:ℝ) 1 →
+      Tendsto (fun n => tiltMean (F n).μ (F n).L.energy s (F n).L.energy / (F n).area) atTop (𝓝 (f s))) :
+    Tendsto (fun n => (F n).logTau / (F n).area) atTop (𝓝 (∫ s in (0:ℝ)..1, f s)) := by
+  set g : ℕ → ℝ → ℝ := fun n s => tiltMean (F n).μ (F n).L.energy s (F n).L.energy / (F n).area
+  have hg : ∀ n, (F n).logTau / (F n).area = ∫ s in (0:ℝ)..1, g n s := fun n => by
+    have e : (F n).logTau = ∫ s in (0:ℝ)..1, tiltMean (F n).μ (F n).L.energy s (F n).L.energy :=
+      (KilledChain.tilt_identity (F n).L (F n).qsd).1
+    rw [e, intervalIntegral.integral_div]
+  simp_rw [hg]
+  have hcont : ∀ n, Continuous (g n) := fun n =>
+    (continuous_tiltMean (F n).qsd.isProb _ _).div_const _
+  have hbound : ∀ n s, ‖g n s‖ ≤ emax := fun n s => by
+    have hP := (F n).qsd.isProb
+    have hE0 : ∀ x, 0 ≤ (F n).L.energy x := fun x =>
+      Finset.sum_nonneg (fun i _ => (F n).L.cost_nonneg i x)
+    have hE1 : ∀ x, (F n).L.energy x ≤ emax * (F n).area := fun x => by
+      have := Finset.sum_le_sum (fun i (_ : i ∈ (univ : Finset (F n).V)) => hmax n i x)
+      simpa [KilledChain.LocalDeath.energy, Face.area, mul_comm] using this
+    have hm := tiltMean_mem hP (F n).L.energy (F n).L.energy s 0 (emax * (F n).area) hE0 hE1
+    have hAn : (0:ℝ) < (F n).area := by exact_mod_cast hA n
+    rw [Real.norm_eq_abs, abs_of_nonneg (div_nonneg hm.1 hAn.le), div_le_iff₀ hAn]
+    exact hm.2
+  apply intervalIntegral.tendsto_integral_filter_of_dominated_convergence (fun _ => emax)
+  · exact Eventually.of_forall (fun n => (hcont n).aestronglyMeasurable)
+  · exact Eventually.of_forall (fun n => ae_of_all _ (fun s _ => hbound n s))
+  · exact intervalIntegrable_const
+  · refine hlim.mono (fun s hs hs' => ?_)
+    rw [Set.uIoc_of_le zero_le_one] at hs'
+    exact hs hs'
+
+/-- **(SSM) gives the integrated hypothesis with no integrability assumption** (referee's `SSM.toIntSSM'`),
+for any family with arbitrarily small error terms. -/
+theorem SSM.toIntSSM' {ι : Type*} {F : ι → Face} {einf : ℝ → ℝ} {K ξ K0 : ℝ}
+    (h : SSM F einf K ξ K0)
+    (hlarge : ∀ δ > 0, ∃ g, ∃ i : (F g).V, K * exp (-((F g).r i / ξ)) + K0 / (F g).area < δ) :
+    IntSSM F (∫ s in (0:ℝ)..1, einf s) K ξ K0 :=
+  h.toIntSSM ((SSM.einf_continuousOn h hlarge).intervalIntegrable_of_Icc zero_le_one)
+
+/-- **Under (SSM) the per-cell tilted energy converges to e_∞ at every tilt** (referee's `SSM.tilt_limit`). -/
+theorem SSM.tilt_limit {F : ℕ → Face} {einf : ℝ → ℝ} {K ξ K0 : ℝ} (h : SSM F einf K ξ K0)
+    (hA : Tendsto (fun n => ((F n).area : ℝ)) atTop atTop)
+    (hloc : Tendsto (fun n => (∑ i, exp (-((F n).r i / ξ))) / (F n).area) atTop (𝓝 0))
+    (s : ℝ) (hs : s ∈ Set.Icc (0:ℝ) 1) :
+    Tendsto (fun n => tiltMean (F n).μ (F n).L.energy s (F n).L.energy / (F n).area) atTop (𝓝 (einf s)) := by
+  have hbound : ∀ᶠ n in atTop,
+      |tiltMean (F n).μ (F n).L.energy s (F n).L.energy / (F n).area - einf s| ≤
+        K * ((∑ i, exp (-((F n).r i / ξ))) / (F n).area) + K0 / (F n).area := by
+    filter_upwards [hA.eventually_gt_atTop 0] with n hn
+    have hsum : tiltMean (F n).μ (F n).L.energy s (F n).L.energy =
+        ∑ i, (F n).localMean i s := tiltMean_sum _ _ s _
+    have e : tiltMean (F n).μ (F n).L.energy s (F n).L.energy / (F n).area - einf s =
+        (∑ i, ((F n).localMean i s - einf s)) / (F n).area := by
+      rw [hsum, Finset.sum_sub_distrib, Finset.sum_const, Finset.card_univ, nsmul_eq_mul]
+      simp only [Face.area] at hn ⊢
+      field_simp
+    rw [e, abs_div, abs_of_pos hn, div_le_iff₀ hn]
+    calc |∑ i, ((F n).localMean i s - einf s)| ≤ ∑ i, |(F n).localMean i s - einf s| :=
+          Finset.abs_sum_le_sum_abs _ _
+      _ ≤ ∑ i, (K * exp (-((F n).r i / ξ)) + K0 / (F n).area) :=
+          Finset.sum_le_sum (fun i _ => h n i s hs)
+      _ = (K * ((∑ i, exp (-((F n).r i / ξ))) / (F n).area) + K0 / (F n).area) * (F n).area := by
+          rw [Finset.sum_add_distrib, ← Finset.mul_sum, Finset.sum_const, Finset.card_univ, nsmul_eq_mul]
+          simp only [Face.area] at hn ⊢
+          field_simp
+  have hlim : Tendsto (fun n => K * ((∑ i, exp (-((F n).r i / ξ))) / (F n).area) + K0 / (F n).area)
+      atTop (𝓝 0) := by
+    have h1 := hloc.const_mul K
+    have h2 := (tendsto_const_nhds (x := K0)).div_atTop hA
+    simpa using h1.add h2
+  rw [tendsto_iff_norm_sub_tendsto_zero]
+  apply squeeze_zero' (Eventually.of_forall (fun n => norm_nonneg _)) _ hlim
+  filter_upwards [hbound] with n hn
+  simpa [Real.norm_eq_abs] using hn
+
+/-- **A jump of the limiting per-cell tilted energy refutes (SSM)** for any family with large faces
+(referee's `jump_refutes_SSM`): whatever e_∞, K, K₀. -/
+theorem jump_refutes_SSM {F : ℕ → Face} {einf : ℝ → ℝ} {K ξ K0 : ℝ}
+    (hA : Tendsto (fun n => ((F n).area : ℝ)) atTop atTop)
+    (hloc : Tendsto (fun n => (∑ i, exp (-((F n).r i / ξ))) / (F n).area) atTop (𝓝 0))
+    (hlarge : ∀ δ > 0, ∃ g, ∃ i : (F g).V, K * exp (-((F g).r i / ξ)) + K0 / (F g).area < δ)
+    (f : ℝ → ℝ)
+    (hf : ∀ s ∈ Set.Icc (0:ℝ) 1,
+      Tendsto (fun n => tiltMean (F n).μ (F n).L.energy s (F n).L.energy / (F n).area) atTop (𝓝 (f s)))
+    (hjump : ¬ ContinuousOn f (Set.Icc 0 1)) :
+    ¬ SSM F einf K ξ K0 := by
+  intro h
+  apply hjump
+  have heq : Set.EqOn f einf (Set.Icc 0 1) := fun s hs =>
+    tendsto_nhds_unique (hf s hs) (SSM.tilt_limit h hA hloc s hs)
+  exact (SSM.einf_continuousOn h hlarge).congr heq
+
 end Gump.Chain
