@@ -1988,7 +1988,7 @@ theorem meet_EH (n t : Nat) (ht : 22 ≤ t) : run (pair .E .H 0 (5 + 2 * n)) (2 
 ```
 
 - **Meant to be:** §31 table: E meets H: the stream turns into wire B between two edges ("U meets H: the same: wire B between the same two edges").
-- **Difference:** Same law, from every distance 5 + 2n, from generation 2n + 22 (seam 1 + n, wire B on units n − 1 .. n + 4). **Correction to the table**: the edges are not the same as U–H's. The lower edges agree, but E–H's upper edge carries for ever a three-unit inclusion (two altered units around one unit of plain train) four units below the top of the wire-B region, moving up with the edge (`tape_meet.py`; `explore` of the classification at t = 12 .. 30). The section's note that E–H's edge is "wider" at generation 56 is this inclusion.
+- **Difference:** Same law, from every distance 5 + 2n, from generation 2n + 22 (seam 1 + n, wire B on units n − 1 .. n + 4). **Correction to the table**: the edges are not the same as U–H's. The lower edges agree, but E–H's upper edge carries for ever a three-unit inclusion (two altered units around one unit of plain train) just below its four topmost units of wire B, moving up with the edge (pictures printed by `tape_meet.py`). The section's note that E–H's edge is "wider" at generation 56 is this inclusion.
 
 ### `meet_EK` (`Gump/TapeMeetFronts.lean`)
 
