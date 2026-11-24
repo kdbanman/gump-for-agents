@@ -130,7 +130,9 @@ log τ ≤ (1/n)∑_{k=0}^{n−1}⟨E⟩_{k/n} on every face, width ≤ ε_max A
 s ∈ (0,1] — at any rate, not uniformly, with no spatial locality, and with jumps of f allowed — then
 log τ/A → ∫₀¹ f. So Theorem 3 (d)'s "one price for rimmed and wrapped faces" follows from the two families having the
 same pointwise limit of the per-cell tilted energy; a first-order jump along the tilt (the referee's two humps) does
-not obstruct it. Conversely `SSM.einf_continuousOn` makes the referee's objection a theorem: (SSM) on a family with
+not obstruct it. Its finite form, `price_compare`: if the per-cell tilted energies of two faces differ by at most δ at the n + 1 tilts
+k/n and each falls by at most w over [0, 1], their prices per cell differ by at most δ + w/n. Conversely
+`SSM.einf_continuousOn` makes the referee's objection a theorem: (SSM) on a family with
 arbitrarily small error terms forces e_∞ to be continuous on [0,1], so a jump of the limit curve refutes (SSM).
 
 ## Places where the source needed more than it said

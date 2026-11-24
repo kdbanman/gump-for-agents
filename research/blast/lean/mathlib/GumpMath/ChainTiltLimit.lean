@@ -109,6 +109,83 @@ theorem price_of_pointwise (F : ℕ → Face) (emax : ℝ) (hA : ∀ n, 0 < (F n
     rw [Set.uIoc_of_le zero_le_one] at hs
     exact hlim s hs
 
+/-- **Comparing two faces from finitely many tilts.**  If the per-cell tilted energies of two faces differ by at
+most δ at s = k/n (k = 0, …, n), and each curve falls by at most w over [0, 1], then their prices per cell differ
+by at most δ + w/n.  (w ≤ ε_max always; jumps between grid points cost nothing more.) -/
+theorem price_compare (G G' : Face) (hA : 0 < G.area) (hA' : 0 < G'.area) (n : ℕ) (hn : 0 < n)
+    (δ w : ℝ)
+    (hδ : ∀ k ≤ n, |tiltMean G.μ G.L.energy ((k : ℕ) / n) G.L.energy / G.area -
+      tiltMean G'.μ G'.L.energy ((k : ℕ) / n) G'.L.energy / G'.area| ≤ δ)
+    (hw : (tiltMean G.μ G.L.energy 0 G.L.energy - tiltMean G.μ G.L.energy 1 G.L.energy) / G.area ≤ w)
+    (hw' : (tiltMean G'.μ G'.L.energy 0 G'.L.energy - tiltMean G'.μ G'.L.energy 1 G'.L.energy) / G'.area ≤ w) :
+    |G.logTau / G.area - G'.logTau / G'.area| ≤ δ + w / n := by
+  set f : ℝ → ℝ := fun s => tiltMean G.μ G.L.energy s G.L.energy / G.area
+  set f' : ℝ → ℝ := fun s => tiltMean G'.μ G'.L.energy s G'.L.energy / G'.area
+  have hAr : (0:ℝ) < G.area := by exact_mod_cast hA
+  have hAr' : (0:ℝ) < G'.area := by exact_mod_cast hA'
+  have hn' : (0:ℝ) < n := by exact_mod_cast hn
+  -- Riemann brackets per cell
+  obtain ⟨lo, up⟩ := tilt_riemann_bounds G n hn
+  obtain ⟨lo', up'⟩ := tilt_riemann_bounds G' n hn
+  set Lo := (1 / n) * ∑ k ∈ range n, f ((k + 1 : ℕ) / n)
+  set Up := (1 / n) * ∑ k ∈ range n, f ((k : ℕ) / n)
+  set Lo' := (1 / n) * ∑ k ∈ range n, f' ((k + 1 : ℕ) / n)
+  set Up' := (1 / n) * ∑ k ∈ range n, f' ((k : ℕ) / n)
+  have hlo : Lo ≤ G.logTau / G.area := by
+    rw [le_div_iff₀ hAr]
+    simp only [Lo, f, Finset.mul_sum, Finset.sum_mul]
+    calc ∑ k ∈ range n, 1 / n * (tiltMean G.μ G.L.energy ((k + 1 : ℕ) / n) G.L.energy / G.area) * G.area
+        = (1 / n) * ∑ k ∈ range n, tiltMean G.μ G.L.energy ((k + 1 : ℕ) / n) G.L.energy := by
+          rw [Finset.mul_sum]; exact Finset.sum_congr rfl (fun k _ => by field_simp)
+      _ ≤ _ := lo
+  have hup : G.logTau / G.area ≤ Up := by
+    rw [div_le_iff₀ hAr]
+    simp only [Up, f, Finset.mul_sum, Finset.sum_mul]
+    calc G.logTau ≤ (1 / n) * ∑ k ∈ range n, tiltMean G.μ G.L.energy ((k : ℕ) / n) G.L.energy := up
+      _ = ∑ k ∈ range n, 1 / n * (tiltMean G.μ G.L.energy ((k : ℕ) / n) G.L.energy / G.area) * G.area := by
+          rw [Finset.mul_sum]; exact Finset.sum_congr rfl (fun k _ => by field_simp)
+  have hlo' : Lo' ≤ G'.logTau / G'.area := by
+    rw [le_div_iff₀ hAr']
+    simp only [Lo', f', Finset.mul_sum, Finset.sum_mul]
+    calc ∑ k ∈ range n, 1 / n * (tiltMean G'.μ G'.L.energy ((k + 1 : ℕ) / n) G'.L.energy / G'.area) * G'.area
+        = (1 / n) * ∑ k ∈ range n, tiltMean G'.μ G'.L.energy ((k + 1 : ℕ) / n) G'.L.energy := by
+          rw [Finset.mul_sum]; exact Finset.sum_congr rfl (fun k _ => by field_simp)
+      _ ≤ _ := lo'
+  have hup' : G'.logTau / G'.area ≤ Up' := by
+    rw [div_le_iff₀ hAr']
+    simp only [Up', f', Finset.mul_sum, Finset.sum_mul]
+    calc G'.logTau ≤ (1 / n) * ∑ k ∈ range n, tiltMean G'.μ G'.L.energy ((k : ℕ) / n) G'.L.energy := up'
+      _ = ∑ k ∈ range n, 1 / n * (tiltMean G'.μ G'.L.energy ((k : ℕ) / n) G'.L.energy / G'.area) * G'.area := by
+          rw [Finset.mul_sum]; exact Finset.sum_congr rfl (fun k _ => by field_simp)
+  -- the brackets have width (f 0 - f 1)/n
+  have hwid : Up - Lo = (f 0 - f 1) / n := by
+    simp only [Up, Lo, ← mul_sub, ← Finset.sum_sub_distrib]
+    rw [Finset.sum_range_sub' (fun k => f ((k : ℕ) / n)) n]
+    simp [div_self hn'.ne']
+    ring
+  have hwid' : Up' - Lo' = (f' 0 - f' 1) / n := by
+    simp only [Up', Lo', ← mul_sub, ← Finset.sum_sub_distrib]
+    rw [Finset.sum_range_sub' (fun k => f' ((k : ℕ) / n)) n]
+    simp [div_self hn'.ne']
+    ring
+  -- the lower sums are within δ
+  have hLL : |Lo - Lo'| ≤ δ := by
+    simp only [Lo, Lo', ← mul_sub, ← Finset.sum_sub_distrib, abs_mul]
+    rw [abs_of_pos (by positivity : (0:ℝ) < 1 / n)]
+    calc 1 / n * |∑ k ∈ range n, (f ((k + 1 : ℕ) / n) - f' ((k + 1 : ℕ) / n))|
+        ≤ 1 / n * ∑ k ∈ range n, |f ((k + 1 : ℕ) / n) - f' ((k + 1 : ℕ) / n)| :=
+          mul_le_mul_of_nonneg_left (Finset.abs_sum_le_sum_abs _ _) (by positivity)
+      _ ≤ 1 / n * ∑ _k ∈ range n, δ :=
+          mul_le_mul_of_nonneg_left (Finset.sum_le_sum (fun k hk => hδ (k + 1)
+            (by have := mem_range.1 hk; omega))) (by positivity)
+      _ = δ := by simp; field_simp
+  have h0 : f 0 - f 1 ≤ w := by simpa [f, sub_div] using hw
+  have h0' : f' 0 - f' 1 ≤ w := by simpa [f', sub_div] using hw'
+  have hw1 : (f 0 - f 1) / n ≤ w / n := div_le_div_of_nonneg_right h0 hn'.le
+  have hw1' : (f' 0 - f' 1) / n ≤ w / n := div_le_div_of_nonneg_right h0' hn'.le
+  rw [abs_le] at hLL ⊢
+  constructor <;> linarith
+
 /-- **(SSM) forbids a jump along the tilt.**  If (SSM) holds for a family containing faces and cells with
 arbitrarily small error term K e^{-r_i/ξ} + K₀/A (large balls in large faces), then e_∞ is a uniform limit of the
 continuous curves s ↦ ⟨ε_i⟩_{s,G}, hence continuous on [0, 1].  So a jump of the limiting tilted energy (two kinds

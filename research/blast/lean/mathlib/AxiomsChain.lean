@@ -80,6 +80,7 @@ open Gump.Chain
 #print axioms tilt_riemann_bounds
 #print axioms price_of_pointwise
 #print axioms SSM.einf_continuousOn
+#print axioms price_compare
 -- the surrogate's kernel on bit masks (the shape of GumpMath/DiceDef.lean)
 #print axioms Bits.sum_bits
 #print axioms Bits.bitP_row
