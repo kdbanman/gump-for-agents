@@ -1,0 +1,77 @@
+[
+ {
+  "section": "The dice surrogate's lifetime: kernel-checked certificates (rigour/README.md, THEOREMS.md; mathlib/GumpMath/Dice*.lean)",
+  "rows": [
+   [
+    "hull3_lifetime",
+    "rigour/README.md claim 3: the 9-cell hull triangle R = 3 at (0.44, 0.42), ln τ = 2.4837157463 (h = 8.3432634405e-02, dense.py and qsd.c).",
+    "A different form of the same fact, stronger in one respect: for every t, 0.72·0.9165673655948901373^t ≤ P_full(T > t) and P_x(T > t) ≤ 1384·0.9165673655948901374^t for every state. The chain is `Face.P` of DiceDef.lean (tied to dense.py by dice_tie.py, not by proof)."
+   ],
+   [
+    "hull3_tau",
+    "the same row: ln τ = 2.4837157463, τ := E_μ T = 1/h for the quasi-stationary law μ.",
+    "For every quasi-stationary law (μ, λ) (IsQSD: a probability vector on the non-empty states with μQ = λμ), 0.9165673655948901373 ≤ λ ≤ 0.9165673655948901374 and 2.4837157463 < -ln(1-λ) < 2.4837157464. Existence and uniqueness of μ (Lemma 0) are not proved here; the statement is vacuous if no QSD exists."
+   ],
+   [
+    "torus103_tau",
+    "README claim 3: wrapped face (1,0),(0,3), ln τ = 3.3935247191.",
+    "3.3935247190 < ln τ < 3.3935247191 for every QSD with λ > 0 (a QSD with λ = 0 exists here: the point mass on the full face, which dies surely)."
+   ],
+   [
+    "torus113_tau",
+    "README claim 3: wrapped face (1,1),(0,3), ln τ = 2.6946266059.",
+    "2.6946266059 < ln τ < 2.6946266060, every QSD with λ > 0."
+   ],
+   [
+    "strip13_tau",
+    "README claim 3: free strip 1×3, ln τ = 2.7988780569.",
+    "2.7988780569 < ln τ < 2.7988780570, every QSD."
+   ],
+   [
+    "patch13_tau",
+    "README claim 3: patch 1×3, ln τ = 1.8804189341.",
+    "Bounds as stated in the theorem, every QSD."
+   ],
+   [
+    "torus113_lifetime",
+    "the survival form for the wrapped face (1,1),(0,3).",
+    "Lower bound from the state with the cells of orientation x alive (the full face dies surely); the upper bound from t+1 on, for every state."
+   ]
+  ]
+ },
+ {
+  "section": "Both exits at 9 cells (rigour/README.md claim 4; mathlib/GumpMath/DiceExit*.lean)",
+  "rows": [
+   [
+    "torus113_bust",
+    "README claim 4: wrapped (1,1),(0,3), bust share 0.9369 (qsd.c halffall_share K=6: a fall of ≥ ⌈A/2⌉ cells in one generation among the last 6 transitions).",
+    "bustShare 6 μ λ ∈ (0.936852, 0.936854) for every QSD with λ > 0. bustShare is defined as 1 - μ·noBust 6 / (λ^5 (1-λ)); that this is the share of the death flux is the stationarity argument in DiceExit.lean's header, in prose, not formalised."
+   ],
+   [
+    "hull3_bust",
+    "README claim 4: triangle R = 3, bust share 0.0170: a rimmed face dies by the fade.",
+    "bustShare 6 ∈ (0.017017, 0.017018) for every QSD; same caveat."
+   ]
+  ]
+ },
+ {
+  "section": "Theorem 1 for every size (rigour/THEOREMS.md Theorem 1; mathlib/GumpMath/DiceBound.lean)",
+  "rows": [
+   [
+    "survival_le_all",
+    "THEOREMS.md Theorem 1 (B1): ln τ ≤ ε_max·A, ε_max = -ln min(ρ1²ρ2, (1-ρ1)²(1-ρ2)).",
+    "Survival form, for every face whose points beneath all carry coins (every wrapped face and strip, every size) and all densities in [0,1]: P_x(T > t) ≤ (1 - δ₀^A)^t. The middle term E_μ[E] (Jensen) is not formalised; hull faces (corners with two coins) are not covered."
+   ],
+   [
+    "qsd_le_all",
+    "the same, eigenvalue form.",
+    "λ ≤ 1 - δ₀^A for every QSD."
+   ],
+   [
+    "lntau_le_all",
+    "THEOREMS.md: ε_max = 2.509 at (0.44, 0.42).",
+    "ln τ < 2.5095·A for every QSD of every such face."
+   ]
+  ]
+ }
+]

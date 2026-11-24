@@ -343,6 +343,170 @@ theorem qsd_up (V : Tree) (L M vmin vmax : ℕ) (htab : c.tabOK F = true)
     linarith
   exact le_of_mul_le_mul_right hrow hpos
 
+/-- (Inequality form, for certificates checked on orbit representatives.) **Upper bound on survival with a set of surely-dying states.** -/
+theorem survival_up_sure_ineq (V Gs : Tree) (L M K N vmin vmax : ℕ) (htab : c.tabOK F = true)
+    (hup : ∀ x, (F.P ((c.n1 : ℚ) / c.d1) ((c.n2 : ℚ) / c.d2) *ᵥ vec V F.A) x ≤ ((L : ℚ) / M) * vec V F.A x)
+    (hg : ∀ x, (F.P ((c.n1 : ℚ) / c.d1) ((c.n2 : ℚ) / c.d2) *ᵥ vec Gs F.A) x ≤ ((K : ℚ) / N) * vec V F.A x)
+    (hv : vecOK2 V Gs F.A vmin vmax = true) (hM : 0 < M) (hN : 0 < N) (hvmin : 0 < vmin) (hL : 0 < L)
+    (t : ℕ) (x : Fin (2 ^ F.A)) :
+    F.survival ((c.n1 : ℚ) / c.d1) ((c.n2 : ℚ) / c.d2) (t + 1) x ≤
+      ((vmax : ℚ) / vmin + ((K : ℚ) / N) * vmax / ((L : ℚ) / M)) * ((L : ℚ) / M) ^ (t + 1) := by
+  set P := F.P ((c.n1 : ℚ) / c.d1) ((c.n2 : ℚ) / c.d2)
+  have hP := c.P_nonneg F htab
+  have hvmin' : (0 : ℚ) < vmin := by exact_mod_cast hvmin
+  have hlam : (0 : ℚ) < (L : ℚ) / M := by positivity
+  have hkap : (0 : ℚ) ≤ (K : ℚ) / N := by positivity
+  have hspec : ∀ y : Fin (2 ^ F.A), ((y : ℕ) = 0 → V.get F.A y = 0 ∧ Gs.get F.A y = 0) ∧
+      ((y : ℕ) ≠ 0 → V.get F.A y ≤ vmax ∧ (Gs.get F.A y = 1 ∨ vmin ≤ V.get F.A y)) := by
+    intro y
+    have := allRows_spec _ _ hv y y.isLt
+    constructor
+    · intro h0; simp only [h0, ite_true, Bool.and_eq_true, beq_iff_eq] at this
+      rw [h0]; exact this
+    · intro h0; simp only [h0, ite_false, Bool.and_eq_true, decide_eq_true_eq, Bool.or_eq_true,
+        beq_iff_eq] at this
+      exact this
+  have hvnn : ∀ y, 0 ≤ vec V F.A y := fun y => Nat.cast_nonneg _
+  have hvmax : ∀ y, vec V F.A y ≤ vmax := by
+    intro y
+    by_cases h0 : (y : ℕ) = 0
+    · rw [vec, (hspec y).1 h0 |>.1]; positivity
+    · simp only [vec]; exact_mod_cast ((hspec y).2 h0).1
+  have hlive : ∀ y, F.live y ≤ (1 / (vmin : ℚ)) * vec V F.A y + vec Gs F.A y := by
+    intro y
+    by_cases h0 : (y : ℕ) = 0
+    · rw [show F.live y = 0 by simp [Face.live, h0]]
+      have : (0 : ℚ) ≤ vec Gs F.A y := Nat.cast_nonneg _
+      have : (0 : ℚ) ≤ 1 / (vmin : ℚ) * vec V F.A y := mul_nonneg (by positivity) (hvnn y)
+      linarith
+    · rw [show F.live y = 1 by simp [Face.live, h0]]
+      rcases ((hspec y).2 h0).2 with hG | hlo
+      · rw [vec, vec, hG]; push_cast
+        have : 0 ≤ 1 / (vmin : ℚ) * (V.get F.A y : ℚ) := by positivity
+        linarith
+      · have : (1 : ℚ) ≤ 1 / (vmin : ℚ) * vec V F.A y := by
+          rw [vec, one_div_mul_eq_div, le_div_iff₀ hvmin', one_mul]; exact_mod_cast hlo
+        have : (0 : ℚ) ≤ vec Gs F.A y := Nat.cast_nonneg _
+        linarith
+  have hPt := Certificate.pow_nonneg' P hP
+  have hv1 := Certificate.pow_mulVec_le P hP (vec V F.A) _ hlam.le (hup)
+  rw [Face.survival]
+  have e1 : ((P ^ (t + 1)) *ᵥ F.live) x ≤
+      ((P ^ (t + 1)) *ᵥ fun y => (1 / (vmin : ℚ)) * vec V F.A y + vec Gs F.A y) x :=
+    Certificate.mulVec_mono _ (hPt (t + 1)) hlive x
+  have e2 : ((P ^ (t + 1)) *ᵥ fun y => (1 / (vmin : ℚ)) * vec V F.A y + vec Gs F.A y) x =
+      (1 / (vmin : ℚ)) * ((P ^ (t + 1)) *ᵥ vec V F.A) x + ((P ^ t) *ᵥ (P *ᵥ vec Gs F.A)) x := by
+    have e2a : ((P ^ (t + 1)) *ᵥ fun y => (1 / (vmin : ℚ)) * vec V F.A y + vec Gs F.A y) x =
+        ((P ^ (t + 1)) *ᵥ fun y => (1 / (vmin : ℚ)) * vec V F.A y) x + ((P ^ (t + 1)) *ᵥ vec Gs F.A) x := by
+      simp only [Matrix.mulVec, dotProduct, mul_add, Finset.sum_add_distrib]
+    have e2b : (P ^ (t + 1)) *ᵥ vec Gs F.A = (P ^ t) *ᵥ (P *ᵥ vec Gs F.A) := by
+      rw [pow_succ, Matrix.mulVec_mulVec]
+    rw [e2a, e2b, Certificate.mulVec_smul_fun]
+  have e3 : ((P ^ t) *ᵥ (P *ᵥ vec Gs F.A)) x ≤ ((P ^ t) *ᵥ fun y => (K : ℚ) / N * vec V F.A y) x :=
+    Certificate.mulVec_mono _ (hPt t) (hg) x
+  rw [Certificate.mulVec_smul_fun] at e3
+  have e4 := hv1 (t + 1) x
+  have e5 := hv1 t x
+  have hx := hvmax x
+  have hlt : ((L : ℚ) / M) ^ (t + 1) = ((L : ℚ) / M) ^ t * ((L : ℚ) / M) := pow_succ _ _
+  calc ((P ^ (t + 1)) *ᵥ F.live) x
+      ≤ (1 / (vmin : ℚ)) * (((L : ℚ) / M) ^ (t + 1) * vec V F.A x) +
+          (K : ℚ) / N * (((L : ℚ) / M) ^ t * vec V F.A x) := by
+        rw [e2] at e1
+        have := mul_le_mul_of_nonneg_left e4 (by positivity : (0 : ℚ) ≤ 1 / (vmin : ℚ))
+        have := mul_le_mul_of_nonneg_left e5 hkap
+        linarith
+    _ ≤ (1 / (vmin : ℚ)) * (((L : ℚ) / M) ^ (t + 1) * vmax) +
+          (K : ℚ) / N * (((L : ℚ) / M) ^ t * vmax) := by gcongr
+    _ = ((vmax : ℚ) / vmin + ((K : ℚ) / N) * vmax / ((L : ℚ) / M)) * ((L : ℚ) / M) ^ (t + 1) := by
+        rw [hlt]; field_simp
+
+/-- (Inequality form, for certificates checked on orbit representatives.) **Lower bound on survival** from a lower vector `0 ≤ Vl ≤ wmax`. -/
+theorem survival_lo_ineq (Vl : Tree) (Ll Ml wmax : ℕ) (htab : c.tabOK F = true)
+    (hlo : ∀ x, ((Ll : ℚ) / Ml) * vec Vl F.A x ≤ (F.P ((c.n1 : ℚ) / c.d1) ((c.n2 : ℚ) / c.d2) *ᵥ vec Vl F.A) x)
+    (hvl : vecOK Vl F.A 0 wmax = true) (hMl : 0 < Ml) (hwmax : 0 < wmax) (t : ℕ) (x : Fin (2 ^ F.A)) :
+    ((vec Vl F.A x) / wmax) * ((Ll : ℚ) / Ml) ^ t ≤ F.survival ((c.n1 : ℚ) / c.d1) ((c.n2 : ℚ) / c.d2) t x := by
+  have hP := c.P_nonneg F htab
+  have hwmax' : (0 : ℚ) < wmax := by exact_mod_cast hwmax
+  have key := survival_ge_of _ hP F.live (vec Vl F.A) ((Ll : ℚ) / Ml) (wmax : ℚ) (by positivity)
+    (hlo)
+    (fun y => by
+      obtain ⟨h0, h1⟩ := vecOK_spec Vl F.A 0 wmax hvl y
+      by_cases hy : (y : ℕ) = 0
+      · rw [h0 hy]; simp [Face.live, hy]
+      · rw [show F.live y = 1 by simp [Face.live, hy], mul_one]; exact (h1 hy).2) t x
+  rw [Face.survival, div_mul_eq_mul_div, div_le_iff₀ hwmax', mul_comm _ (wmax : ℚ)]
+  linarith
+
+/-- (Inequality form, for certificates checked on orbit representatives.) **The lower bound on a quasi-stationary eigenvalue λ > 0**, when the lower vector vanishes only on
+states that die surely. -/
+theorem qsd_lo_sure_ineq (Vl : Tree) (Ll Ml wmax : ℕ) (htab : c.tabOK F = true)
+    (hlo : ∀ x, ((Ll : ℚ) / Ml) * vec Vl F.A x ≤ (F.P ((c.n1 : ℚ) / c.d1) ((c.n2 : ℚ) / c.d2) *ᵥ vec Vl F.A) x)
+    (hvl : vecOK Vl F.A 0 wmax = true) (hs : c.sureOK Vl F.A = true) (hMl : 0 < Ml)
+    (μ : Fin (2 ^ F.A) → ℝ) (lam : ℝ) (hq : IsQSD F ((c.n1 : ℚ) / c.d1) ((c.n2 : ℚ) / c.d2) μ lam)
+    (hlam : 0 < lam) : ((Ll : ℚ) / Ml : ℝ) ≤ lam := by
+  have hμ := hq.nonneg
+  have hv0 : ∀ y : Fin (2 ^ F.A), (y : ℕ) = 0 → vec Vl F.A y = 0 := fun y => (vecOK_spec Vl F.A _ _ hvl y).1
+  have hpair := qsd_pair F _ _ μ lam hq (vec Vl F.A) hv0
+  have hrow : ∑ x, μ x * (((Ll : ℚ) / Ml * vec Vl F.A x : ℚ) : ℝ) ≤
+      ∑ x, μ x * ((F.P _ _ *ᵥ vec Vl F.A) x : ℝ) :=
+    sum_le_sum fun x _ => mul_le_mul_of_nonneg_left (by exact_mod_cast hlo x) (hμ x)
+  rw [hpair] at hrow
+  have e : ∑ x, μ x * (((Ll : ℚ) / Ml * vec Vl F.A x : ℚ) : ℝ) =
+      ((Ll : ℚ) / Ml : ℝ) * ∑ y, μ y * (vec Vl F.A y : ℝ) := by
+    rw [mul_sum]; refine sum_congr rfl fun x _ => ?_; push_cast; ring
+  rw [e] at hrow
+  have hnn : ∀ y ∈ (univ : Finset (Fin (2 ^ F.A))), 0 ≤ μ y * (vec Vl F.A y : ℝ) :=
+    fun y _ => mul_nonneg (hμ y) (by simp [vec])
+  rcases (sum_nonneg hnn).lt_or_eq with hpos | hzero
+  · exact le_of_mul_le_mul_right hrow hpos
+  · -- the sum vanishes: μ lives on states that die surely, so λ = 0
+    exfalso
+    have hz : ∀ y, μ y * (vec Vl F.A y : ℝ) = 0 := fun y =>
+      (sum_eq_zero_iff_of_nonneg hnn).mp hzero.symm y (mem_univ y)
+    have hP0 : ∀ x y : Fin (2 ^ F.A), (y : ℕ) ≠ 0 →
+        μ x * (F.P ((c.n1 : ℚ) / c.d1) ((c.n2 : ℚ) / c.d2) x y : ℝ) = 0 := by
+      intro x y hy
+      by_cases hx0 : (x : ℕ) = 0
+      · rw [hq.empty x hx0, zero_mul]
+      by_cases hw : Vl.get F.A x = 0
+      · rw [c.P_sure F htab x y (c.sureOK_spec F Vl hs x hx0 hw) hy]; simp
+      · have : (vec Vl F.A x : ℝ) ≠ 0 := by simp [vec, hw]
+        rw [(mul_eq_zero.mp (hz x)).resolve_right this, zero_mul]
+    have hall : ∀ y : Fin (2 ^ F.A), (y : ℕ) ≠ 0 → μ y = 0 := by
+      intro y hy
+      have := hq.eigen y hy
+      rw [sum_eq_zero fun x _ => hP0 x y hy] at this
+      exact (mul_eq_zero.mp this.symm).resolve_left hlam.ne'
+    have : ∑ x, μ x = 0 := sum_eq_zero fun x _ => by
+      by_cases hx : (x : ℕ) = 0
+      · exact hq.empty x hx
+      · exact hall x hx
+    rw [hq.total] at this; exact one_ne_zero this
+
+/-- (Inequality form, for certificates checked on orbit representatives.) **The upper bound on a quasi-stationary eigenvalue**, from an upper vector positive off the empty state. -/
+theorem qsd_up_ineq (V : Tree) (L M vmin vmax : ℕ) (htab : c.tabOK F = true)
+    (hup : ∀ x, (F.P ((c.n1 : ℚ) / c.d1) ((c.n2 : ℚ) / c.d2) *ᵥ vec V F.A) x ≤ ((L : ℚ) / M) * vec V F.A x)
+    (hv : vecOK V F.A vmin vmax = true) (hM : 0 < M) (hvmin : 0 < vmin)
+    (μ : Fin (2 ^ F.A) → ℝ) (lam : ℝ) (hq : IsQSD F ((c.n1 : ℚ) / c.d1) ((c.n2 : ℚ) / c.d2) μ lam) :
+    lam ≤ ((L : ℚ) / M : ℝ) := by
+  have hμ := hq.nonneg
+  have hv0 : ∀ y : Fin (2 ^ F.A), (y : ℕ) = 0 → vec V F.A y = 0 := fun y => (vecOK_spec V F.A _ _ hv y).1
+  have hpair := qsd_pair F _ _ μ lam hq (vec V F.A) hv0
+  have hS := qsd_mass F _ _ μ lam hq (vec V F.A) vmin fun y hy => (vecOK_spec V F.A _ _ hv y).2 hy |>.1
+  have hvmin' : (0 : ℝ) < vmin := by exact_mod_cast hvmin
+  have hrow : ∑ x, μ x * ((F.P _ _ *ᵥ vec V F.A) x : ℝ) ≤
+      ∑ x, μ x * (((L : ℚ) / M * vec V F.A x : ℚ) : ℝ) :=
+    sum_le_sum fun x _ => mul_le_mul_of_nonneg_left (by exact_mod_cast hup x) (hμ x)
+  rw [hpair] at hrow
+  have e : ∑ x, μ x * (((L : ℚ) / M * vec V F.A x : ℚ) : ℝ) = ((L : ℚ) / M : ℝ) * ∑ y, μ y * (vec V F.A y : ℝ) := by
+    rw [mul_sum]; refine sum_congr rfl fun x _ => ?_; push_cast; ring
+  rw [e] at hrow
+  have hpos : (0 : ℝ) < ∑ y, μ y * (vec V F.A y : ℝ) := by
+    have : ((vmin : ℚ) : ℝ) = (vmin : ℝ) := by push_cast; rfl
+    linarith
+  exact le_of_mul_le_mul_right hrow hpos
+
 end Data
 
 end Gump.Dice
