@@ -5,7 +5,7 @@
    [
     "hull3_lifetime",
     "rigour/README.md claim 3: the 9-cell hull triangle R = 3 at (0.44, 0.42), ln τ = 2.4837157463 (h = 8.3432634405e-02, dense.py and qsd.c).",
-    "A different form of the same fact, stronger in one respect: for every t, 0.72·0.9165673655948901373^t ≤ P_full(T > t) and P_x(T > t) ≤ 1384·0.9165673655948901374^t for every state. The chain is `Face.P` of DiceDef.lean (tied to dense.py by dice_tie.py, not by proof)."
+    "Weaker than the README's number in one respect and different in kind: it pins the decay rate λ to 19 digits for every t, but its constants are loose (the true sup over t of P_x(T > t)/λ^t is about 1.63, against the stated 1384; ref-dice REVIEW.md). ln τ itself is hull3_tau. The chain is `Face.P` of DiceDef.lean (tied to dense.py by dice_tie.py and, exactly, by the referee's kernel)."
    ],
    [
     "hull3_tau",
@@ -45,12 +45,12 @@
    [
     "torus113_bust",
     "README claim 4: wrapped (1,1),(0,3), bust share 0.9369 (qsd.c halffall_share K=6: a fall of ≥ ⌈A/2⌉ cells in one generation among the last 6 transitions).",
-    "bustShare 6 μ λ ∈ (0.936852, 0.936853) for every QSD with λ > 0. bustShare is defined as 1 - μ·noBust 6 / (λ^5 (1-λ)); that this is the share of the death flux is the stationarity argument in DiceExit.lean's header, in prose, not formalised."
+    "bustShare 6 μ λ ∈ (0.936852, 0.936853) for every QSD with λ > 0. bustShare is defined as 1 - μ·noBust 6 / (λ^5 (1-λ)); that this is the share of the death flux is the stationarity argument in DiceExit.lean's header, in prose, not formalised. The share is the stationary share of the death flux (deaths from the quasi-stationary law), not the share of all deaths from a fixed start (from the full hull face it is about 0.152, ref-dice)."
    ],
    [
     "hull3_bust",
     "README claim 4: triangle R = 3, bust share 0.0170: a rimmed face dies by the fade.",
-    "bustShare 6 ∈ (0.017017, 0.017018) for every QSD; same caveat."
+    "bustShare 6 ∈ (0.017017, 0.017018) for every QSD; same caveat. The share is the stationary share of the death flux (deaths from the quasi-stationary law), not the share of all deaths from a fixed start (from the full hull face it is about 0.152, ref-dice)."
    ]
   ]
  },
@@ -85,7 +85,7 @@
    [
     "flux_share",
     "rigour/README.md claim 4 and qsd.c halffall_share: the share of the quasi-stationary death flux whose last K transitions contain a fall of at least half the face.",
-    "Path form, every generation: for every QSD (μ, λ) with 0 < λ < 1, K ≥ 1, m ≥ 0, P_μ(T = m+K, bust in the last K) / P_μ(T = m+K) = bustShare K μ λ, with paths summed explicitly (pathE: every list of m+K states with the product of its transition probabilities). Replaces the prose step of DiceExit.lean. The sum over all generations is not formed (every generation has the same ratio)."
+    "Path form, every generation: for every QSD (μ, λ) with 0 < λ < 1, K ≥ 1, m ≥ 0, P_μ(T = m+K, bust in the last K) / P_μ(T = m+K) = bustShare K μ λ, with paths summed explicitly (pathE: every list of m+K states with the product of its transition probabilities). Replaces the prose step of DiceExit.lean. The sum over all generations is not formed (every generation has the same ratio). The share is the stationary share of the death flux (deaths from the quasi-stationary law), not the share of all deaths from a fixed start (from the full hull face it is about 0.152, ref-dice)."
    ],
    [
     "death_flux",
@@ -95,12 +95,12 @@
    [
     "hull3_bust_flux",
     "README claim 4: triangle R = 3, bust share 0.0170 (a rimmed face dies by the fade).",
-    "For every QSD and every generation m+6, the path share is in (0.017017, 0.017018)."
+    "For every QSD and every generation m+6, the path share is in (0.017017, 0.017018). The share is the stationary share of the death flux (deaths from the quasi-stationary law), not the share of all deaths from a fixed start (from the full hull face it is about 0.152, ref-dice)."
    ],
    [
     "torus113_bust_flux",
     "README claim 4: wrapped (1,1),(0,3), bust share 0.9369.",
-    "For every QSD with λ > 0 and every generation m+6, in (0.936852, 0.936853)."
+    "For every QSD with λ > 0 and every generation m+6, in (0.936852, 0.936853). The share is the stationary share of the death flux (deaths from the quasi-stationary law), not the share of all deaths from a fixed start (from the full hull face it is about 0.152, ref-dice)."
    ],
    [
     "lntau_le_hull",
@@ -121,6 +121,11 @@
     "lntau_le_torus",
     "The weighted local inequality on wrapped faces (not in the source).",
     "Every wrapped face (H, D > 0): ln τ < 1.9228·A for every QSD. Replaces the per-face checks of DiceRegular.lean."
+   ],
+   [
+    "qsd_mean",
+    "rigour/README.md: τ := E_μ T = 1/h, h = 1 − λ, for the quasi-stationary law μ.",
+    "Same, as Σ_t P_μ(T > t) = 1/(1 − λ) for every QSD with 0 ≤ λ < 1 on any face whose ∅ is absorbing (qsd_survival: P_μ(T > t) = λ^t). Proved by the referee ref-dice (QsdSurvival.lean, 003cb73), taken over in DiceMean.lean; qsd_mean_all, hull3_mean, qsd_mean_hull instantiate it."
    ]
   ]
  }

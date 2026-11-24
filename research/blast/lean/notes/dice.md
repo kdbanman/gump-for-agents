@@ -30,6 +30,12 @@ Every theorem below compiles with no `sorry` and depends only on `propext`, `Cla
   proves an abstract Lemma 0; I did not depend on it, as briefed). On wrapped faces a QSD with λ = 0 exists (the
   point mass on the full face, which dies surely), so those theorems assume λ > 0.
 
+**What the surrogate is not** [measured by the referee, `research/blast/ref-dice/REVIEW.md`, 003cb73]: its private
+coins are not gump's cells beneath. Taking gump's shared cells beneath as i.i.d. coins of the same densities, the
+one-step law from the full hull face R = 3 differs from the surrogate's by total variation 0.33; and 12 of the 15
+cells beneath that face lie on the hull's other faces, not in its interior. The surrogate is a model of the
+mechanism (as `rigour/README.md` says), and the theorems here are about it, not about gump.
+
 **The tie to `dense.py`** [measured]: `python3 research/blast/lean/dice_tie.py` (90 s) has Lean `#eval` its own
 `Face.P` and `Face.a` and compares with `dense.kernel` (floats) and an exact Fraction re-derivation, on 12 faces
 (3, 6 and 9 cells: hull 1, 3; tori (1,0,1), (1,0,2), (1,1,2), (2,0,1), (1,0,3), (1,1,3); strips 1×2, 1×3; patches
@@ -82,8 +88,8 @@ The headline, verbatim (`GumpMath/DiceHull3.lean`):
         2.4837157463 < -Real.log (1 - lam) ∧ -Real.log (1 - lam) < 2.4837157464
 
 So h = 1 − λ ∈ [0.0834326344051098626, 0.0834326344051098627] (dense.py 8.3432634405110e-02, qsd.c
-8.3432634405108e-02: the certificate agrees with qsd.c to its last digit and says dense.py's 13th digit is off by
-2 units). The certified interval for ln τ is [2.48371574633378442, 2.48371574633378443] (`dice_cert.py` prints it);
+8.3432634405108e-02: the certificate agrees with dense.py to its last printed digit; it is qsd.c's last digit that
+is 2 units off. Corrected 2026-11-24 after the referee; the first version of this note had it backwards). The certified interval for ln τ is [2.48371574633378442, 2.48371574633378443] (`dice_cert.py` prints it);
 the theorem states the 10-digit form the README quotes. The ln bound is proved from Taylor bounds on exp at a/k
 (`DiceReal.lean`, `Real.exp_bound`), not from floating point.
 
@@ -127,6 +133,10 @@ stationarity of the window under the QSD (from μ, X_t given T > t is μ, so eve
 that argument is in the file header, in prose, not formalised.
 
 ## 4. 12 cells: symmetry (`DiceSym.lean` proved; the 12-cell theorem file generated but not built)
+
+*Clients of `DiceSym.lean`* (added 2026-11-24): none of my modules uses it (at a65957b, nor later: the 12-cell file
+that would have was removed). Its only client is the chain agent's `GumpMath/LinkSym.lean` (`P_sym`, `alpha_sym`,
+`act_bij`), through which `LinkTorus103Sym`/`LinkTorus113Sym` use it.
 
 Row-by-row checking costs 2^(2A+1) node operations: 12 cells would take ~20 min per pass. A permutation σ of the
 cells that preserves the tables (neighbour multisets, coins) preserves P (`P_sym`: P(σx, σy) = P(x, y), the
@@ -231,3 +241,16 @@ All [proved], standard three axioms (`AxiomsDice.lean`), each module built alone
 
 Reproduce: `cd research/blast/lean/mathlib && lake build GumpMath.DiceFlux` (then DiceHull, DiceBound3,
 DiceHullAll, one at a time; DiceBound3 about 2 minutes, the others under a minute), `lake env lean AxiomsDice.lean`.
+
+## Repairs after the referee (2026-11-24, 15:05 UTC)
+
+- `DiceLife.lean`'s header cites `qsd_survival` (P_μ(T > t) = λ^t, so τ = E_μ T = 1/(1 − λ)); it did not exist.
+  It does now: `GumpMath/DiceMean.lean` takes over the referee's proof (`research/blast/ref-dice/QsdSurvival.lean`,
+  credit to `ref-dice`): `qsd_survival`, `qsd_mean`, `qsd_mean_all`, `hull3_mean`, and `qsd_mean_hull` (every R).
+  `DiceLife.lean` itself was not edited (its comment now names an existing theorem; editing it would rebuild every
+  module downstream, the chain agent's `Link*` included).
+- The h comparison in §3 was backwards (corrected there).
+- `hull3_lifetime` pins the decay rate, with loose constants: the true sup of P_x(T > t)/λ^t is about 1.63 against
+  the stated 1384 (referee). The bust shares (`hull3_bust`, `torus113_bust`, `flux_share` and its instances) are the
+  stationary share of the death flux, deaths from the quasi-stationary law, not the share of all deaths from a fixed
+  start: from the full hull face that share is about 0.152 (referee). The statement rows say so.
