@@ -1,7 +1,7 @@
 /-
 Certificate data for the face `patch 1 3` of the dice surrogate, written by
 `python3 research/blast/lean/dice_cert.py patch 1 3` (do not edit by hand).
-Checked in the kernel by `GumpMath/DiceCert.lean`; nothing here is trusted.
+Checked in the kernel by `GumpMath/DicePatch13.lean`; nothing here is trusted.
 -/
 import GumpMath.DiceCert
 
@@ -10,7 +10,7 @@ set_option maxRecDepth 100000
 namespace Gump.Dice.Patch13Data
 open Gump.Dice
 
-/-- in-layer neighbour lists, as `geom.py` builds them -/
+/-- in-layer neighbour lists, in the order of `Face.nb` -/
 def G : List (List ℕ) := [[1, 5, 2], [4, 0, 2], [0, 1], [4, 8, 5], [7, 1, 3, 5], [0, 3, 4], [7, 8], [4, 6, 8], [3, 6, 7]]
 
 /-- coins (m1, m2) per cell -/
@@ -38,6 +38,6 @@ def Mlo : ℕ := 10000000000000000000000
 def vmin : ℕ := 512578742737798365392687933687717765733945035097853904000
 def vmax : ℕ := 887265030917793740892798581339181237616784301770540916785880
 def wmax : ℕ := 887265030917793740892798581339181237616784301770540916785880
-def wfull : ℕ := 882997999489879706816693234439450376224174943348851311197345
+def wx : ℕ := 882997999489879706816693234439450376224174943348851311197345
 
 end Gump.Dice.Patch13Data

@@ -173,9 +173,12 @@ theorem allRows_spec (p : ℕ → Bool) : ∀ n, allRows p n = true → ∀ x < 
       · exact allRows_spec p n h.2 x hx
       · exact h.1
 
+/-- Row check with two vectors: M · (N u)(x) ≤ L · D · w(x). -/
+def rowLe (A Dt L M : ℕ) (U W : Tree) (x : ℕ) : Bool :=
+  decide (M * U.eval A (c.fac x) ≤ L * Dt * W.get A x)
+
 /-- Upper row check: M · (N v)(x) ≤ L · D · v(x). -/
-def rowUp (A Dt L M : ℕ) (V : Tree) (x : ℕ) : Bool :=
-  decide (M * V.eval A (c.fac x) ≤ L * Dt * V.get A x)
+def rowUp (A Dt L M : ℕ) (V : Tree) (x : ℕ) : Bool := c.rowLe A Dt L M V V x
 
 /-- Lower row check: L · D · v(x) ≤ M · (N v)(x). -/
 def rowLo (A Dt L M : ℕ) (V : Tree) (x : ℕ) : Bool :=
@@ -273,19 +276,40 @@ theorem mulVec_eq (h : c.tabOK F = true) (V : Tree) (x : Fin (2 ^ F.A)) :
   refine sum_congr rfl fun y _ => ?_
   ring
 
-/-- **Soundness of the upper check**: (P v)(x) ≤ (L/M) v(x) for every state. -/
-theorem rows_up (h : c.tabOK F = true) (V : Tree) (L M : ℕ) (hM : 0 < M)
-    (hr : allRows (c.rowUp F.A (c.Dt F.A) L M V) (2 ^ F.A) = true) (x : Fin (2 ^ F.A)) :
-    (F.P ((c.n1 : ℚ) / c.d1) ((c.n2 : ℚ) / c.d2) *ᵥ vec V F.A) x ≤ ((L : ℚ) / M) * vec V F.A x := by
+/-- **Soundness of the two-vector check**: (P u)(x) ≤ (L/M) w(x) for every state. -/
+theorem rows_le (h : c.tabOK F = true) (U W : Tree) (L M : ℕ) (hM : 0 < M)
+    (hr : allRows (c.rowLe F.A (c.Dt F.A) L M U W) (2 ^ F.A) = true) (x : Fin (2 ^ F.A)) :
+    (F.P ((c.n1 : ℚ) / c.d1) ((c.n2 : ℚ) / c.d2) *ᵥ vec U F.A) x ≤ ((L : ℚ) / M) * vec W F.A x := by
   have hx := allRows_spec _ _ hr x x.isLt
-  simp only [rowUp, decide_eq_true_eq] at hx
+  simp only [rowLe, decide_eq_true_eq] at hx
   rw [c.mulVec_eq F h, vec]
   have hD : (0 : ℚ) < c.Dt F.A := by
     rw [Dt]; push_cast; exact prod_pos fun i _ => by exact_mod_cast c.den_pos F h i
   have hM' : (0 : ℚ) < M := by exact_mod_cast hM
-  have hx' : (M : ℚ) * V.eval F.A (c.fac x) ≤ L * c.Dt F.A * V.get F.A x := by exact_mod_cast hx
+  have hx' : (M : ℚ) * U.eval F.A (c.fac x) ≤ L * c.Dt F.A * W.get F.A x := by exact_mod_cast hx
   rw [div_le_iff₀ hD, div_mul_eq_mul_div, div_mul_eq_mul_div, le_div_iff₀ hM']
   nlinarith
+
+/-- **Soundness of the upper check**: (P v)(x) ≤ (L/M) v(x) for every state. -/
+theorem rows_up (h : c.tabOK F = true) (V : Tree) (L M : ℕ) (hM : 0 < M)
+    (hr : allRows (c.rowUp F.A (c.Dt F.A) L M V) (2 ^ F.A) = true) (x : Fin (2 ^ F.A)) :
+    (F.P ((c.n1 : ℚ) / c.d1) ((c.n2 : ℚ) / c.d2) *ᵥ vec V F.A) x ≤ ((L : ℚ) / M) * vec V F.A x :=
+  c.rows_le F h V V L M hM hr x
+
+/-- A state whose cells all die surely (every alive numerator 0) goes to no non-empty state. -/
+theorem P_sure (h : c.tabOK F = true) (x y : Fin (2 ^ F.A)) (hx : ∀ i < F.A, c.alpha x i = 0)
+    (hy : (y : ℕ) ≠ 0) : F.P ((c.n1 : ℚ) / c.d1) ((c.n2 : ℚ) / c.d2) x y = 0 := by
+  rw [c.P_eq F h]
+  obtain ⟨i, hi⟩ := Nat.exists_testBit_of_ne_zero hy
+  have hiA : i < F.A := by
+    by_contra hc
+    have := Nat.ge_two_pow_of_testBit hi
+    have : 2 ^ F.A ≤ 2 ^ i := Nat.pow_le_pow_right (by norm_num) (by omega)
+    have := y.isLt
+    omega
+  have : ∏ j ∈ range F.A, Tree.sel (c.fac x j) ((y : ℕ).testBit j) = 0 :=
+    prod_eq_zero (mem_range.mpr hiA) (by simp [Tree.sel, hi, fac, hx i hiA])
+  rw [this]; simp
 
 /-- **Soundness of the lower check**: (L/M) v(x) ≤ (P v)(x) for every state. -/
 theorem rows_lo (h : c.tabOK F = true) (V : Tree) (L M : ℕ) (hM : 0 < M)

@@ -1,7 +1,7 @@
 /-
 Certificate data for the face `strip 1 3` of the dice surrogate, written by
 `python3 research/blast/lean/dice_cert.py strip 1 3` (do not edit by hand).
-Checked in the kernel by `GumpMath/DiceCert.lean`; nothing here is trusted.
+Checked in the kernel by `GumpMath/DiceStrip13.lean`; nothing here is trusted.
 -/
 import GumpMath.DiceCert
 
@@ -10,7 +10,7 @@ set_option maxRecDepth 100000
 namespace Gump.Dice.Strip13Data
 open Gump.Dice
 
-/-- in-layer neighbour lists, as `geom.py` builds them -/
+/-- in-layer neighbour lists, in the order of `Face.nb` -/
 def G : List (List ℕ) := [[1, 5, 2], [4, 7, 0, 2], [6, 0, 1], [4, 8, 5], [7, 1, 3, 5], [0, 3, 4], [7, 2, 8], [1, 4, 6, 8], [3, 6, 7]]
 
 /-- coins (m1, m2) per cell -/
@@ -38,6 +38,6 @@ def Mlo : ℕ := 10000000000000000000000
 def vmin : ℕ := 2073269071339572057417193884290181340303138145792266457095
 def vmax : ℕ := 1060511886113430517905750208993243348990040109031126898576802
 def wmax : ℕ := 1060511886113430517905750208993243348990040109031126898576802
-def wfull : ℕ := 1033747784371892793486742315287671818522099706992604638443024
+def wx : ℕ := 1033747784371892793486742315287671818522099706992604638443024
 
 end Gump.Dice.Strip13Data

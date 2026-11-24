@@ -1,7 +1,7 @@
 /-
 Certificate data for the face `hull 3` of the dice surrogate, written by
 `python3 research/blast/lean/dice_cert.py hull 3` (do not edit by hand).
-Checked in the kernel by `GumpMath/DiceCert.lean`; nothing here is trusted.
+Checked in the kernel by `GumpMath/DiceHull3.lean`; nothing here is trusted.
 -/
 import GumpMath.DiceCert
 
@@ -10,7 +10,7 @@ set_option maxRecDepth 100000
 namespace Gump.Dice.Hull3Data
 open Gump.Dice
 
-/-- in-layer neighbour lists, as `geom.py` builds them -/
+/-- in-layer neighbour lists, in the order of `Face.nb` -/
 def G : List (List ℕ) := [[4, 1], [7, 4, 2, 0], [6, 5, 1, 3], [5, 2], [5, 1, 6, 0], [4, 7, 3, 2], [2, 4, 8, 7], [1, 5, 8, 6], [7, 6]]
 
 /-- coins (m1, m2) per cell -/
@@ -38,6 +38,6 @@ def Mlo : ℕ := 10000000000000000000000
 def vmin : ℕ := 973085010368225100599261115650867227308950060860357553583
 def vmax : ℕ := 1346174992881242770776195722096618471653933554971696556278100
 def wmax : ℕ := 1346174992881242770776195722096618471653933554971696556278100
-def wfull : ℕ := 977810377832304371974476753841813424067358153651036879254598
+def wx : ℕ := 977810377832304371974476753841813424067358153651036879254598
 
 end Gump.Dice.Hull3Data
