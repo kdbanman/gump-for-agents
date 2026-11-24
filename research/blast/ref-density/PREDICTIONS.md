@@ -26,3 +26,13 @@ Conjectured before looking: the asymmetry of row 11, if it reproduces, follows f
 persistent than layer 1 (different autocorrelations), not from a lead in time of one over the other (P = 0.6).
 The "density part = 0.15 of 0.68" depends on the path: the mean-density coin chain's layer is denser than gump's
 (P = 0.7 that its replaced layer-1 core sits above 0.435 all-time).
+
+## Added 14:28 UTC, before these rows started (the gump baseline and R = 9 rows had been seen; no other R = 11 row finished)
+
+| # | row | theirs | P(within 3σ) |
+|---|---|---|---:|
+| 13 | copy from the whole layer, d = 1, Δ | −0.169 ± 0.011 | 0.80 |
+| 14 | in that chain, the replaced layer-1 core's density under a low face (F ≤ 10, after darts) lies between the core-copy chain's and gump's, so the four-chain ordering by that density survives a fifth chain | — | 0.60 |
+| 15 | LOW10 coins, d = 1, Δ | +0.463 ± 0.010 | 0.80 |
+| 16 | mean-density coins, d = 2, Δ | +0.244 ± 0.013 | 0.80 |
+| 17 | the scan chain at p = 0.2 has its replaced layer-1 core above 0.35 after the darts (so "worth coins of 0.19" is not the density of an equivalent support) | — | 0.80 |

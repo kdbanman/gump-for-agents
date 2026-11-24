@@ -110,16 +110,19 @@ def main():
         print(f"\ngump R=11, all eight faces: 8E/D = {g['lt8']:.4f} +- {g['er8']:.4f} ({g['Dany']:.0f} deaths); anchor 13.633 +- 0.001")
     print("\nR = 9: my chain against nzd.c (commit 9a105d3) run by me, same settings, own seeds")
     for name in ("gump", "fair_d1", "shufcore_d1", "p0.2_d1"):
-        a = [r for t, r in rows.items() if t.startswith(f"r9_{name}_")]
-        bs = [nzd(p) for p in glob.glob(os.path.join(D, "..", "nzd", f"r9_{name}_*.txt"))]
+        a = [r for t, r in rows.items() if t.startswith(f"r9_{name}_s") and not r.get("inprog")]
+        bs = [nzd(p) for p in sorted(glob.glob(os.path.join(D, "..", "nzd", f"r9_{name}_s*.txt")))]
         bs = [b for b in bs if b]
         if a and bs:
-            a, b = a[0], bs[0]
-            z = (a["lt"] - b["lt"]) / math.hypot(a["er"], b["er"])
-            p1a = a["desc"][0][1] / a["desc"][1][0] if a["desc"].get(1, (0,))[0] else float("nan")
-            p1b = b["desc"][0][1] / b["desc"][1][0] if b["desc"].get(1, (0,))[0] else float("nan")
-            print(f"  {name:12s} mine {a['lt']:.4f} +- {a['er']:.4f} ({a['D']:.0f})  nzd {b['lt']:.4f} +- {b['er']:.4f} ({b['D']:.0f})  diff {z:+.2f} sigma;"
-                  f"  8 faces: mine {a['lt8']:.4f} nzd {b['lt8']:.4f};  P1 mine {p1a:.3f} nzd {p1b:.3f}")
+            def pool(rs):
+                E = sum(r["E"] for r in rs); Dd = sum(r["D"] for r in rs); Da = sum(r["Dany"] for r in rs)
+                d1 = sum(r["desc"][1][0] for r in rs); k1 = sum(r["desc"][1][1] for r in rs)
+                return dict(lt=math.log(E / Dd), er=1 / math.sqrt(Dd), D=Dd, lt8=math.log(8 * E / Da), P1=k1 / d1, n=len(rs))
+            A, Bp = pool(a), pool(bs)
+            z = (A["lt"] - Bp["lt"]) / math.hypot(A["er"], Bp["er"])
+            each = " ".join(f"{r['lt']:.4f}" for r in a) + " | nzd " + " ".join(f"{r['lt']:.4f}" for r in bs)
+            print(f"  {name:12s} mine {A['lt']:.4f} +- {A['er']:.4f} ({A['D']:.0f}, {A['n']} seeds)  nzd {Bp['lt']:.4f} +- {Bp['er']:.4f} ({Bp['D']:.0f}, {Bp['n']})  diff {z:+.2f} sigma;"
+                  f"  8 faces: mine {A['lt8']:.4f} nzd {Bp['lt8']:.4f};  P1 mine {A['P1']:.3f} nzd {Bp['P1']:.3f}  [each: {each}]")
     print("\nDescents of the watched face from >= 16 (P_k = died/desc); layer-1 core density all-time, at F <= 10, after darts")
     for tag, r in rows.items():
         dsc = r["desc"]
