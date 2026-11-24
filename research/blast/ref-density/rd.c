@@ -43,6 +43,11 @@
  *   rd R validate SEED GENS             no noise, no re-seeding, prints lanes 0..2 (hex, cell order) each gen
  *   rd R cells                          prints the cell table
  *   rd R run SEED GENS M D0 COIN [LAGGENS] [CKPT]
+ *   env RD_FULL=1: full replacement instead of darts: after every step, every cell of N (in every lane whose life did
+ *         not just end) is a fresh independent coin of its depth's bias (a 32-bit half of a fresh word < round(p 2^32)).
+ *         The next step reads the coins; diagnostics are read before the redraw (so "after darts" = the coins).
+ *   env RD_FULLTEST=REPS (with RD_FULL): validation of that redraw instead of a run (bias by depth from all-alive and
+ *         all-dead states, no change outside N, covariances between cells, lanes and successive draws).
  *   env RD_DUMP=FILE: per generation, lanes 0..63: face population, full-1 and core-1 live counts, min(age,255) (uint8)
  *   env RD_NEGCTL=1: one neighbour of axis-0 cells replaced by the edge-sharing coplanar face (negative control)
  */
@@ -179,6 +184,19 @@ static int NN, Ncell[MAXC], inN[MAXC];
 static int core[40][MAXC], ncore[40], full[40][MAXC], nfull[40];
 static int core1[64], ncore1, full1[200], nfull1;
 
+/* full replacement (env RD_FULL=1): every cell of N, in every lane not in keep, is set to a fresh coin of its own
+   bias, independently of everything (one 32-bit half of a fresh xoshiro word per cell and lane). */
+static void fullrep_apply(const u64 *thr, const u64 *keep) {
+    for (int j = 0; j < NN; j++) {
+        int c = Ncell[j]; u64 t = thr[c];
+        for (int w = 0; w < W; w++) {
+            u64 x = 0;
+            for (int b = 0; b < 64; b += 2) { u64 r = rnd(); x |= (u64)((r & 0xffffffffULL) < t) << b; x |= (u64)((r >> 32) < t) << (b + 1); }
+            S[W * c + w] = (S[W * c + w] & keep[w]) | (x & ~keep[w]);
+        }
+    }
+}
+
 int main(int argc, char **argv) {
     if (argc < 3) { fprintf(stderr, "see header\n"); return 1; }
     R = atoi(argv[1]); const char *mode = argv[2];
@@ -250,6 +268,37 @@ int main(int argc, char **argv) {
     printf("SETUP R %d NC %d face %d NN %d B %d M %d eps %.6f q_hit %.6f D0 %d coin %s seed %llu gens %ld\n", R, NC, nface[0], NN, B, M, (double)M / B, q, D0, coin, (unsigned long long)seed, gens);
     printf("GROUPS core:"); for (int k = 0; k <= R; k++) printf(" %d", ncore[k]); printf("  full:"); for (int k = 0; k <= R; k++) printf(" %d", nfull[k]); printf("\n");
     if (cmode == 0) { printf("BIAS"); for (int k = 0; k <= 10; k++) printf(" %d:%.6f", k, thr[full[k][0]] / 4294967296.0); printf("\n"); }
+    int fullmode = getenv("RD_FULL") ? atoi(getenv("RD_FULL")) : 0;
+    if (fullmode && cmode) { fprintf(stderr, "full replacement takes biases only\n"); return 1; }
+    if (fullmode) printf("FULL replacement: every cell of N redrawn every generation (M ignored)\n");
+    if (getenv("RD_FULLTEST")) {   /* validation of the full replacement */
+        int reps = atoi(getenv("RD_FULLTEST"));
+        u64 keep0[W] = {0}, *pre = malloc(sizeof(u64) * W * (NC + 1));
+        double na[40] = {0}, aa[40] = {0}, nd[40] = {0}, ad[40] = {0}, outside = 0;
+        double pair_n = 0, pair_11 = 0, pair_1a = 0, pair_1b = 0, tim_11 = 0, tim_1a = 0, tim_1b = 0, tim_n = 0, ln_11 = 0, ln_1a = 0, ln_1b = 0, ln_n = 0;
+        for (int r = 0; r < reps; r++) {
+            for (int c = 0; c < NC; c++) for (int w = 0; w < W; w++) S[W * c + w] = (w < W / 2) ? (r & 1 ? 0x5555555555555555ULL : ~0ULL) : (r & 1 ? 0xaaaaaaaaaaaaaaaaULL : 0);
+            memcpy(pre, S, sizeof(u64) * W * (NC + 1));
+            fullrep_apply(thr, keep0);
+            for (int c = 0; c < NC; c++) for (int w = 0; w < W; w++) if (!inN[c] && S[W * c + w] != pre[W * c + w]) outside += 1;
+            for (int j = 0; j < NN; j++) { int c = Ncell[j], k = dep[0][c];
+                for (int l = 0; l < LANES; l++) { int was = (pre[W * c + (l >> 6)] >> (l & 63)) & 1, v = getb(c, l);
+                    if (was) { na[k] += 1; aa[k] += v; } else { nd[k] += 1; ad[k] += v; } } }
+            for (int j = 0; j + 1 < NN; j++) for (int l = 0; l < LANES; l++) { int a = getb(Ncell[j], l), b = getb(Ncell[j + 1], l); pair_n += 1; pair_1a += a; pair_1b += b; pair_11 += a & b; }
+            for (int j = 0; j < NN; j++) for (int l = 0; l + 1 < LANES; l += 2) { int a = getb(Ncell[j], l), b = getb(Ncell[j], l + 1); ln_n += 1; ln_1a += a; ln_1b += b; ln_11 += a & b; }
+            memcpy(pre, S, sizeof(u64) * W * (NC + 1));
+            fullrep_apply(thr, keep0);
+            for (int j = 0; j < NN; j++) for (int l = 0; l < LANES; l++) { int a = (pre[W * Ncell[j] + (l >> 6)] >> (l & 63)) & 1, b = getb(Ncell[j], l); tim_n += 1; tim_1a += a; tim_1b += b; tim_11 += a & b; }
+        }
+        printf("FULLTEST reps %d: cells outside N changed: %.0f\n", reps, outside);
+        for (int k = 0; k < 40; k++) if (na[k] > 0) { double p = thr[full[k][0]] / 4294967296.0, fa = aa[k] / na[k], fd = ad[k] / nd[k], sa = sqrt(p * (1 - p) / na[k]), sd = sqrt(p * (1 - p) / nd[k]);
+            printf("FULLTEST depth %d bias %.5f: after alive %.5f (z %+.2f), after dead %.5f (z %+.2f); against bias+0.01: z %+.1f %+.1f\n", k, p, fa, (fa - p) / sa, fd, (fd - p) / sd, (fa - p - 0.01) / sa, (fd - p - 0.01) / sd); }
+        double cv;
+        cv = pair_11 / pair_n - (pair_1a / pair_n) * (pair_1b / pair_n); printf("FULLTEST covariance of consecutive N cells, same lane: %+.2e (z %+.2f)\n", cv, cv / (0.2433 / sqrt(pair_n)));
+        cv = ln_11 / ln_n - (ln_1a / ln_n) * (ln_1b / ln_n); printf("FULLTEST covariance of adjacent lanes, same cell: %+.2e (z %+.2f)\n", cv, cv / (0.2433 / sqrt(ln_n)));
+        cv = tim_11 / tim_n - (tim_1a / tim_n) * (tim_1b / tim_n); printf("FULLTEST covariance of one cell in two successive draws: %+.2e (z %+.2f)\n", cv, cv / (0.2433 / sqrt(tim_n)));
+        return 0;
+    }
     fflush(stdout);
     /* state */
     const int HDESC = (int)floor(nface[0] / 4.0 + 0.5);   /* descents from >= round(A/4) (16 at 63 cells) */
@@ -326,8 +375,12 @@ int main(int argc, char **argv) {
             if (ended) { soup(l); age[l] = 0; armed[l] = 0; minlev[l] = 99; }
         }
         if (dump) fwrite(drec, 1, sizeof drec, dump);
-        /* darts */
-        if (M > 0) for (int l = 0; l < LANES; l++) {
+        /* darts, or full replacement */
+        if (fullmode) {
+            u64 keep[W] = {0}; for (int l = 0; l < LANES; l++) if (age[l] == 0) keep[l >> 6] |= 1ULL << (l & 63);
+            fullrep_apply(thr, keep);
+        }
+        else if (M > 0) for (int l = 0; l < LANES; l++) {
             if (age[l] == 0) continue;
             double u = (rnd() >> 11) * 0x1.0p-53; int K = 0; while (cdf[K] <= u) K++;
             for (int j = 0; j < K; j++) {
