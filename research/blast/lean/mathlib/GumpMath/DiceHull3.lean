@@ -59,3 +59,36 @@ theorem hull3_lifetime (t : ℕ) :
     · norm_num [Lup, Mup]
 
 end Gump.Dice
+
+namespace Gump.Dice
+open Hull3Data
+
+/-- **ln τ of the 9-cell hull triangle.** For every quasi-stationary law (μ, λ) of the chain,
+0.9165673655948901373 ≤ λ ≤ 0.9165673655948901374, and τ = E_μ T = 1/(1 - λ) has
+2.4837157463 < ln τ < 2.4837157464 (`rigour/README.md`: 2.4837157463). -/
+theorem hull3_tau (μ : Fin (2 ^ (hull 3).A) → ℝ) (lam : ℝ) (hq : IsQSD (hull 3) ρ1 ρ2 μ lam) :
+    (0.9165673655948901373 : ℝ) ≤ lam ∧ lam ≤ 0.9165673655948901374 ∧
+    2.4837157463 < -Real.log (1 - lam) ∧ -Real.log (1 - lam) < 2.4837157464 := by
+  rw [hρ1, hρ2] at hq
+  obtain ⟨h1, h2⟩ := data.qsd_bounds (hull 3) Vup Vlo Lup Mup Llo Mlo vmin vmax vmin wmax tab up lo vu vl
+    (by norm_num [Mup]) (by norm_num [Mlo]) (by norm_num [vmin]) (by norm_num [vmin]) μ lam hq
+  have l1 : (0.9165673655948901373 : ℝ) ≤ lam := le_trans (by norm_num [Llo, Mlo]) h1
+  have l2 : lam ≤ 0.9165673655948901374 := le_trans h2 (by norm_num [Lup, Mup])
+  refine ⟨l1, l2, ?_, ?_⟩
+  · refine lt_neg_log (1 - lam) _ (by linarith) (by norm_num) (by norm_num) 15 (by norm_num) ?_
+    have hs : 0 ≤ expSum (2.4837157463 / 3) 15 + expErr (2.4837157463 / 3) 15 := by
+      simp only [expSum, expErr, Finset.sum_range_succ, Finset.sum_range_zero, Nat.factorial]; norm_num
+    calc (1 - lam) * (expSum (2.4837157463 / 3) 15 + expErr (2.4837157463 / 3) 15) ^ 3
+        ≤ (1 - 0.9165673655948901373) * (expSum (2.4837157463 / 3) 15 + expErr (2.4837157463 / 3) 15) ^ 3 := by
+          gcongr
+      _ < 1 := by
+          simp only [expSum, expErr, Finset.sum_range_succ, Finset.sum_range_zero, Nat.factorial]; norm_num
+  · have hs : 0 ≤ expSum (2.4837157464 / 3) 15 - expErr (2.4837157464 / 3) 15 := by
+      simp only [expSum, expErr, Finset.sum_range_succ, Finset.sum_range_zero, Nat.factorial]; norm_num
+    refine neg_log_lt (1 - lam) _ (by linarith) (by norm_num) (by norm_num) 15 (by norm_num) hs ?_
+    calc (1 : ℝ) < (1 - 0.9165673655948901374) * (expSum (2.4837157464 / 3) 15 - expErr (2.4837157464 / 3) 15) ^ 3 := by
+          simp only [expSum, expErr, Finset.sum_range_succ, Finset.sum_range_zero, Nat.factorial]; norm_num
+      _ ≤ (1 - lam) * (expSum (2.4837157464 / 3) 15 - expErr (2.4837157464 / 3) 15) ^ 3 := by
+          gcongr
+
+end Gump.Dice
