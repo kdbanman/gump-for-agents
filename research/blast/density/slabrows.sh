@@ -4,12 +4,12 @@
 # Geometry: the torus (H,K),(0,D) of env HKD (default 1_4_21: 63 cells; 1_4_15: 45 cells) from slabgeom.py;
 # output scratch rows/slab_TAG_sSEED.txt.
 HERE=$(cd "$(dirname "$0")" && pwd); S=$HERE/../../scratch/blast/density; mkdir -p $S/rows
-[ -x $S/slab ] || gcc -O3 -march=native -o $S/slab $HERE/slab.c -lm
+B=${SLABBIN:-slab}; [ -x $S/$B ] || gcc -O3 -march=native -o $S/$B $HERE/slab.c -lm
 G=${HKD:-1_4_21}; [ -f $S/slab_$G.bin ] || python3 $HERE/slabgeom.py $(echo $G | tr _ ' ') $S/slab_$G.bin
 for spec in "$@"; do
   IFS=: read tag seed gens L p <<E2
 $spec
 E2
   OUT=$S/rows/slab_${tag}_s$seed.txt; [ -s $OUT ] && continue
-  nice -n 10 $S/slab $S/slab_$G.bin brute $seed $gens $L $p > $OUT.part && mv $OUT.part $OUT
+  nice -n 10 $S/$B $S/slab_$G.bin brute $seed $gens $L $p > $OUT.part && mv $OUT.part $OUT
 done

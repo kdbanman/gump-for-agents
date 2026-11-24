@@ -47,10 +47,10 @@ void step(void) {
     memcpy(&me, a + (size_t)i * W, 64); o = rule(x, me); memcpy(b + (size_t)i * W, &o, 64); }
   u64 *t = a; a = b; b = t;
 }
-static int L = 8; static u64 thr = 0;
-static inline u64 bword(void) { if (thr >= 65536) return ~0ULL; u64 r = 0;
-  for (int i = 0; i < 16; i++) { u64 z = rnd2(); r = ((thr >> i) & 1) ? (z | r) : (z & r); } return r; }
-void coins(void) { for (int i = L * A; i < n; i++) for (int w = 0; w < W; w++) a[(size_t)i * W + w] = bword(); }
+static int L = 8; static u64 thr = 0, lthr[8];   /* lthr[l]: the bias of layer l's coins (layers >= L) */
+static inline u64 bword(u64 th) { if (th >= 65536) return ~0ULL; u64 r = 0;
+  for (int i = 0; i < 16; i++) { u64 z = rnd2(); r = ((th >> i) & 1) ? (z | r) : (z & r); } return r; }
+void coins(void) { for (int i = L * A; i < n; i++) { u64 th = lthr[i / A]; for (int w = 0; w < W; w++) a[(size_t)i * W + w] = bword(th); } }
 static void count(int lo, int hi, int *out) {     /* per-lane population of cells [lo, hi) */
   vec cc[NB]; for (int k = 0; k < NB; k++) cc[k] = (vec){0};
   for (int i = lo; i < hi; i++) { vec x; memcpy(&x, a + (size_t)i * W, 64); for (int k = 0; k < NB; k++) { vec t = cc[k] & x; cc[k] ^= x; x = t; } }
@@ -65,23 +65,27 @@ void v_get(int lane, uint8_t *c) { for (int i = 0; i < n; i++) c[i] = (a[(size_t
 void v_clear(void) { memset(a, 0, (size_t)(n + 1) * W * 8); }
 void v_swap(int i, int j, int v) { nb[12 * i + j] = v; }
 int v_nb(int i, int j) { return nb[12 * i + j]; }
-void v_coins(int L_, double p, unsigned long long seed) { L = L_; thr = (u64)floor(p * 65536 + 0.5); sm2 = fin64(fin64(seed + 0x632BE59BD9B4E019ULL) ^ 0xD1B54A32D192ED03ULL); coins(); }
+void v_coins(int L_, double p, unsigned long long seed) { L = L_; thr = (u64)floor(p * 65536 + 0.5); for (int l = 0; l < 8; l++) lthr[l] = thr; sm2 = fin64(fin64(seed + 0x632BE59BD9B4E019ULL) ^ 0xD1B54A32D192ED03ULL); coins(); }
 #else
 int main(int argc, char **argv) {
   if (argc < 7 || strcmp(argv[2], "brute")) { fprintf(stderr, "usage: slab GEOM brute SEED GENS L P\n"); return 2; }
   if (geom_load(argv[1]) < 0) { fprintf(stderr, "bad geometry\n"); return 2; }
   u64 seed = strtoull(argv[3], 0, 10); long gens = atol(argv[4]); L = atoi(argv[5]); double p = atof(argv[6]);
-  thr = (u64)floor(p * 65536 + 0.5);
+  thr = (u64)floor(p * 65536 + 0.5); for (int l = 0; l < 8; l++) lthr[l] = thr;
+  { char buf[512]; strncpy(buf, argv[6], 511); buf[511] = 0; int l = L;      /* P may be a list "pL,pL+1,...": one bias a layer */
+    for (char *t = strtok(buf, ","); t && l < 8; t = strtok(0, ","), l++) lthr[l] = (u64)floor(atof(t) * 65536 + 0.5);
+    for (; l < 8 && l > L; l++) lthr[l] = lthr[l - 1]; }
   sm = fin64(seed * 0x2545F4914F6CDD1DULL + 7); sm2 = fin64(fin64(seed + 0x632BE59BD9B4E019ULL) ^ 0xD1B54A32D192ED03ULL);
   int H = (int)floor(A / 4.0 + 0.5);
   static int pop[NL], pop7[NL], pop1[NL]; static long age[NL]; static uint32_t arm[NL], pend[NL];
   long NK[16] = {0}, DK[16] = {0}, CK[16] = {0}; double E = 0, sp = 0; long n0 = 0, n7 = 0, both = 0;
-  double L1n[7] = {0}, L1s[7] = {0}; const int tv[7] = {1 << 20, 20, 15, 10, 6, 4, 2};
+  double L1n[7] = {0}, L1s[7] = {0}, LYs[8] = {0}, LYn = 0; const int tv[7] = {1 << 20, 20, 15, 10, 6, 4, 2}; static int popl[NL];
   for (int l = 0; l < NL; l++) { soup(l); age[l] = 0; }
   if (L < 8) coins();
   for (long g = 0; g < gens + T0; g++) {
     step(); if (L < 8) coins();
     count(0, A, pop); count(7 * A, 8 * A, pop7); count(A, 2 * A, pop1);
+    if (g >= T0 && (g & 7) == 0) { for (int y = 0; y < 8; y++) { count(y * A, (y + 1) * A, popl); for (int l = 0; l < NL; l++) if (age[l] + 1 > T0) LYs[y] += popl[l]; } for (int l = 0; l < NL; l++) if (age[l] + 1 > T0) LYn += 1; }
     for (int l = 0; l < NL; l++) {
       age[l]++; int counted = (g >= T0 && age[l] > T0), d0 = pop[l] == 0, d7 = (L == 8) && pop7[l] == 0;
       if (counted) { E += 1; sp += pop[l]; for (int t = 0; t < 7; t++) if (pop[l] <= tv[t]) { L1n[t] += 1; L1s[t] += pop1[l]; } }
@@ -98,6 +102,8 @@ int main(int argc, char **argv) {
   if (n0) printf(" lntau_watched %.4f +- %.4f", log(E / n0), 1 / sqrt((double)n0));
   if (L == 8 && n0 + n7) printf(" lntau_face %.4f +- %.4f", log(2 * E / (n0 + n7)), 1 / sqrt((double)(n0 + n7)));
   printf("\nREC H %d :", H); for (int k = 0; k < 16; k++) printf(" %d:%ld/%ld/%ld", k, NK[k], DK[k], CK[k]);
+  printf("\nLAYERS (mean density of each layer, every 8th counted generation) :"); for (int y = 0; y < 8; y++) printf(" %d:%.5f", y, LYn ? LYs[y] / LYn / A : -1.0);
+  printf("\nBIASES :"); for (int y = L; y < 8; y++) printf(" %d:%.5f", y, lthr[y] / 65536.0);
   printf("\nLAYER1 n %d :", A); for (int t = 0; t < 7; t++) printf(" %d:%.5f", tv[t] > 1000 ? -1 : tv[t], L1n[t] ? L1s[t] / L1n[t] / A : -1.0); printf("\n");
   return 0;
 }

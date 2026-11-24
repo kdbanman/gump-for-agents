@@ -928,7 +928,7 @@ pairs within 1.1σ. **The referee's corrections to the reading** [`ref-density/R
    0.060), the reverse of the loop it was quoted for (`python3 research/blast/ref-density/lagdump.py`).
 3. **"Density accounts for a fifth" depends on the matching.** Coins at gump's mean density hold up a denser support
    than gump's (+0.010 to +0.011 at every replaced depth); on the chain matched to gump's realized density (LOW10)
-   the density share is 0.215 ± 0.019 (theirs) or 0.205 ± 0.035 (mine): about a third.
+   the part due to density is 0.215 ± 0.019 (the agent's rows) or 0.205 ± 0.035 (the referee's) of the fair coins' +0.65 to +0.68: about a third.
 4. **p* is a coin bias, not a support density.** The chain at p = 0.2, which lives as gump does, has its replaced
    core of layer 1 at 0.399 after the darts and 0.456 before (gump 0.430): sparse coins make the rule fill in.
 Also: the layer densities of the noisy chains are read after the darts (defect 7), and adjacent seeds shared one
