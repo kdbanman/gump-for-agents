@@ -1,11 +1,21 @@
 /-
 `Lemma0F (hull R)` checked by the kernel from a certificate (`certOK`, `lemma0_of_cert`), hence `hull_full_all R`
-and `hull_full_sym R`, for R = 3, 5, 7, 9, 11, 13; and the triangle's rotation and reflection checked to be
+and `hull_full_sym R`, for R = 1, 3, 5, 7, 9, 11, 13; and the triangle's rotation and reflection checked to be
 automorphisms of the tables (`autOK`), so the prices are equal along the triangle's six symmetries. Written by `link_hull_cert.py` (the certificate is data; the kernel checks every step).
 -/
 import GumpMath.LinkFaceAut
 
 namespace Gump.Link
+
+/-- `hull 1` (three corners): u = the full face, entered in one step from every state that can survive. -/
+theorem hull1_lemma0 : Lemma0F (Gump.Dice.hull 1) := by
+  have hA : (Gump.Dice.hull 1).A = 3 := by decide
+  have key : ∀ x < 8, x ≠ 0 → (∃ i < 3, aliveF (Gump.Dice.hull 1) x i = true) →
+      stepF (Gump.Dice.hull 1) x 7 = true := by decide +kernel
+  refine ⟨7, by rw [hA]; norm_num, by norm_num, ?_, fun x hx hx0 hal => Relation.ReflTransGen.single ?_⟩
+  · rw [hA]; decide +kernel
+  · rw [hA] at hx hal
+    exact ⟨by rw [hA]; norm_num, by norm_num, key x (by simpa using hx) hx0 hal⟩
 
 /-- The certificate for `hull 3` (9 cells): u, c0, growth path, walks. -/
 theorem hull3_lemma0 : Lemma0F (Gump.Dice.hull 3) :=

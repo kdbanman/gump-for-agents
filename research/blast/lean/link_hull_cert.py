@@ -3,6 +3,7 @@
 checked there by the kernel (`decide +kernel`), for the R given on the command line.
 
     python3 research/blast/lean/link_hull_cert.py TABLES R...    (TABLES: the output of the #eval dump below)
+    LINK_FILE=LinkHullCert2 python3 research/blast/lean/link_hull_cert.py TABLES 15 17   (a second module)
 
 The tables (cell coordinates, Face.nb, m1, m2 for each cell) come from `#eval` of the dice agent's definitions:
     def dump (R : ℕ) : String := let F := Gump.Dice.hull R
@@ -18,6 +19,7 @@ from collections import deque
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 OUT = os.environ.get('LINK_OUT', os.path.join(HERE, 'mathlib', 'GumpMath')) + '/'
+NAME = os.environ.get('LINK_FILE', 'LinkHullCert')
 
 
 def rule(s, n):
@@ -116,7 +118,21 @@ def perm(F, f):
     return [idx[tuple(f(c))] for c in F.cell]
 
 
+HULL1 = """/-- `hull 1` (three corners): u = the full face, entered in one step from every state that can survive. -/
+theorem hull1_lemma0 : Lemma0F (Gump.Dice.hull 1) := by
+  have hA : (Gump.Dice.hull 1).A = 3 := by decide
+  have key : ∀ x < 8, x ≠ 0 → (∃ i < 3, aliveF (Gump.Dice.hull 1) x i = true) →
+      stepF (Gump.Dice.hull 1) x 7 = true := by decide +kernel
+  refine ⟨7, by rw [hA]; norm_num, by norm_num, ?_, fun x hx hx0 hal => Relation.ReflTransGen.single ?_⟩
+  · rw [hA]; decide +kernel
+  · rw [hA] at hx hal
+    exact ⟨by rw [hA]; norm_num, by norm_num, key x (by simpa using hx) hx0 hal⟩
+"""
+
+
 def lean(R, F):
+    if R == 1:
+        return HULL1
     u, c0, path, walks = cert(F)
     w = ', '.join('[' + ', '.join(map(str, x)) + ']' for x in walks)
     rot = perm(F, lambda c: [c[1], c[2], c[0]])
@@ -146,8 +162,10 @@ namespace Gump.Link
 {body}
 end Gump.Link
 """
-    open(OUT + 'LinkHullCert.lean', 'w').write(s)
+    open(OUT + NAME + '.lean', 'w').write(s)
     for R in Rs:
+        if R == 1:
+            continue
         F = Face(T[R]); u, c0, path, walks = cert(F)
         print(R, 'A', F.A, 'path', len(path), 'max walk', max(len(x) for x in walks))
 
