@@ -16,7 +16,8 @@ exactly") and of the density README, before I read `nz.c` or `nzd.c` (I never op
   densities are read after the darts (they include the fresh coins), and adjacent seeds share their coin stream.
 - **The mechanism does not stand as stated.** "The lives order by the low-face density of the replaced core"
   [measured on their four chains] fails on three further chains of mine: the whole-layer copy has gump's low-face
-  density (0.386 against 0.384) and, before the darts, gump's clustering, yet lives 0.20 less (7σ); the scan chains
+  density (0.386 against 0.384; nzd.c's own diagnostic agrees, 0.386) and less clustering, yet lives 0.18 less
+  (two seeds, 7.8σ); the scan chains
   at p = 0.1 and 0.2 have low-face densities below the core copy's or near it (0.311, 0.354 against 0.348) yet live
   0.12 and 0.45 longer.
 - **The reading has further soft spots**: "the layer leads by 1–2 generations" (the cross-correlation peaks at lag 0;
@@ -63,7 +64,7 @@ exactly") and of the density README, before I read `nz.c` or `nzd.c` (I never op
 | fair coins | 14.311 ± 0.016 (+0.678) | seeds 1012, 1013: 14.264 ± 0.025, 14.324 ± 0.033; pooled 14.286 ± 0.020 (+0.653) | 2,554 | −1.0σ |
 | mean-density coins | 14.165 ± 0.011 (+0.532) | 14.168 ± 0.026 (+0.535) | 1,437 | +0.1σ |
 | copy from the replaced cells | 13.199 ± 0.013 (−0.434) | 13.188 ± 0.020 (−0.445) | 2,392 | −0.5σ |
-| copy from the whole layer | 13.464 ± 0.011 (−0.169) | 13.428 ± 0.026 (−0.205) | 1,505 | −1.3σ |
+| copy from the whole layer | 13.464 ± 0.011 (−0.169) | seeds 1008, 1014: 13.428 ± 0.026, 13.472 ± 0.026; pooled 13.450 ± 0.018 (−0.183) | 2,946 | −0.7σ |
 | every depth at p = 0.1 | 13.312 ± 0.022 (−0.322) | 13.306 ± 0.024 (−0.327) | 1,701 | −0.2σ |
 | every depth at p = 0.2 | 13.676 ± 0.024 (+0.043) | 13.635 ± 0.023 (+0.002) | 1,837 | −1.2σ |
 | zero of the scan (linear, 0.1–0.2) | p* = 0.188 ± 0.007 | p* = 0.199 ± 0.007 | | +1.1σ |
@@ -123,6 +124,12 @@ R = 9 agrees). The eight-face values agree too (mine 13.802 ± 0.007, theirs 13.
    whole-layer copy is (its deeper replaced layers are within 0.004 of gump's before the darts). Whatever sets the
    life, it is not the low-face density of the replaced core, nor its clustering, alone.
    `python3 research/blast/ref-density/collect.py` (section "Descents"; the after-dart column is `BYFPOST`).
+   **Confirmed with the agent's own program and measure**: `NZD_LAYERS=1 nzd 11 brute 9301 1000000 256 1 3 s` (the
+   whole-layer copy, `data/nzd/lay_shufwhole_d1_s9301.txt`) gives LAYER core1 at pop ≤ 10 = 0.3858 (gump 0.3838 in
+   their `lay2_gump_d1_s6002.txt`), VAR core1 at pop ≤ 10 = 1.65 of binomial (gump 1.81: *less* clustered), and
+   core 2 after the darts 0.423 all time, 0.447 at pop ≤ 10 (gump 0.409, 0.428: *denser*) — with Δ ln τ = −0.183 ±
+   0.018 over my two seeds (7.8σ below my gump). A support that is as dense as gump's in layer 1, denser in layer 2
+   and less clustered under a low face, and a shorter life.
 2. **"Gump's layer 1 leads the face's population by one to two generations" contradicts the loop it supports**
    [numbers measured, reading inference]. The lagged correlations reproduce to three decimals (table), but the
    cross-correlation of the whole layer 1 with the face **peaks at lag 0** (+0.375 > +0.296 at lags 1 and 2):
@@ -216,7 +223,7 @@ R = 9 agrees). The eight-face values agree too (mine 13.802 ± 0.007, theirs 13.
 | 12 | R = 9 chain against nzd.c | 0.90 | **hit** (all four pairs within 1.1σ) |
 | — | conjecture: the lag asymmetry is from different autocorrelations, not a lead | 0.60 | **half wrong**: no lead in the peak sense, but the asymmetry is directional (Granger), not only autocorrelation |
 | — | the mean-density chain's replaced core sits above 0.435 all time | 0.70 | **hit** (0.4405 rule-made, 0.438 after the darts) |
-| 13 | copy from the whole layer | 0.80 | **hit** (−1.3σ) |
+| 13 | copy from the whole layer | 0.80 | **hit** (−1.3σ; two seeds −0.7σ) |
 | 14 | the ordering by low-face density survives a fifth chain | 0.60 | **miss** (0.386, gump's density, Δ −0.20) |
 | 15 | LOW10 d = 1 | 0.80 | **hit** (−0.5σ) |
 | 16 | mean density d = 2 | 0.80 | **hit** (+2.0σ) |
@@ -224,6 +231,11 @@ R = 9 agrees). The eight-face values agree too (mine 13.802 ± 0.007, theirs 13.
 | 18 | fair d = 2 | 0.80 | **hit** (+0.2σ) |
 | 19 | mean density, ε = 1/16 | 0.80 | **hit** (+1.1σ) |
 | 20 | my second fair seed lands above the first | 0.65 | **hit** (14.324 against 14.264) |
+| 21 | second whole-layer copy seed: core 1 at face ≤ 10 within 0.005 of 0.384, Δ < −0.10 | 0.80 | **hit** (0.3853, −0.161) |
+| 22 | nzd.c's own LAYER core1 at pop ≤ 10 on that chain within 0.01 of 0.384 | 0.80 | **hit** (0.3858) |
+
+Score: 21 hits, 1 miss (14), 1 half-wrong conjecture, 1 not blind (8). I was too cautious on the reproductions
+(mean stated probability 0.80, outcome 18 of 18) and right to doubt the mechanism.
 
 ## Not checked
 
