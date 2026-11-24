@@ -237,5 +237,4 @@ inhabitants, junk lifetime), `RefChainSSM.lean` (the objection completed), `gen_
 `chain_numbers.py` (QSD, tilt, prices, Lemma 0, Riemann, rate), `seam_check.py`, `constants_check.py`,
 `routes_check.py`, `emax_bound.py`, `names_check.py`, and their `.out` files; `reelab.log`. Lean: `cd research/blast/lean/mathlib && lake env lean
 /home/user/gump-for-agents/research/blast/ref-chain/<File>.lean`; Python: `OMP_NUM_THREADS=1 python3
-research/blast/ref-chain/<script>.py` from the repository root (`constants_check.py` and `emax_bound.py` from this
-directory, with `PYTHONPATH=reference` for the first).
+research/blast/ref-chain/<script>.py` from the repository root (each script finds `reference/oracle.py` itself).
