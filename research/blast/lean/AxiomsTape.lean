@@ -8,6 +8,7 @@ import Gump.Clock
 import Gump.Call
 import Gump.UnzipProof
 import Gump.CallProof
+import Gump.CallUnionLocal
 open Gump Gump.Tape
 #print axioms glue_run
 #print axioms run_shiftC
@@ -52,3 +53,20 @@ open Gump Gump.Tape
 #print axioms Gump.Call.forcedCheck_spec
 #print axioms Gump.Call.V0_W
 #print axioms Gump.Call.call_law_b
+#print axioms Gump.Call.Box.bstep_spec
+#print axioms Gump.Call.lineCheck_ok
+#print axioms Gump.Call.line_rest
+#print axioms Gump.Call.Lf_snap
+#print axioms Gump.Call.V_HV
+#print axioms Gump.Call.Lf_HL
+#print axioms Gump.Call.V_Lf_disjoint
+#print axioms Gump.Call.step_or
+#print axioms Gump.Call.zone_cover
+#print axioms Gump.Call.LC_spec
+#print axioms Gump.Call.checkStore_ok
+#print axioms Gump.Call.checkStart_ok
+#print axioms Gump.Call.checkVW_ok
+#print axioms Gump.Call.checkTape_ok
+#print axioms Gump.Call.local_union
+#print axioms Gump.Call.call_law_a
+#print axioms Gump.Call.call_law
