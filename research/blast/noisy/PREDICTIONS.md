@@ -163,3 +163,33 @@ is hand a fading face live cells beneath it at times when gump's own layer is fa
 3. Coins at a density well below the layer's own (a third of it) still lengthen the d = 1 life: 55%.
 4. The sign never turns: no coin density between 0.2 and 0.8 at d = 1 shortens the watched face's life: 80%.
 
+
+### Scores of block 4 (13:55 UTC 2026-11-24; from the `density` agent's rows, `research/blast/density/README.md`, commit 9a105d3; one code, not yet refereed)
+
+| item | forecast | outcome | Brier |
+|---|---|---|---|
+| 1 | d = 1 gain at matched density ≥ 0.40: 70% (≤ 0.15: 12%) | +0.532 ± 0.011 (two seeds): **true** | 0.09 |
+| 2 | d = 2 gain at matched density ≥ 0.18: 65% | +0.244 ± 0.013 (one seed): **true** | 0.12 |
+| 3 | coins at a third of the layer's density still lengthen the d = 1 life: 55% | the scan gives −0.32 at 0.1 and +0.04 at 0.2, zero near 0.19; a third of 0.43 is 0.14: **false** | 0.30 |
+| 4 | no coin density between 0.2 and 0.8 shortens the life: 80% | true as far as run: +0.04 at 0.2 (1.8 σ above zero), positive at 0.3 … 0.7, 0.8 not run: **provisionally true** | 0.04 |
+
+What I had right: the gain is mostly the loss of correlation (0.53 of 0.68 survives at matched density). What I had
+wrong: I thought any live support helps a fading face. It does not; below a density of about 0.19 independent coins
+are worse for the face than gump's own layer, and coins that copy the layer's current state shorten the life.
+
+## Block 5 (PI; frozen 13:55 UTC 2026-11-24, before any run at ε other than 1/4 with coins of density near 0.19, and before any run at 45 cells with biased coins)
+
+The question: `density` found that at ε = 1/4, d = 1, 63 cells, coins of density p* ≈ 0.19 leave the life unchanged.
+Is p* a property of gump's support (the same at every replacement rate and face size), so that a face of gump is a
+face over independent coins of density p*? At ε = 1 the support is fresh coins every generation: the one-layer dice
+picture on the hull.
+
+My reading [conjectured]: no single density does it. The gain at matched density grows less than in proportion to ε
+(+0.164 at 1/16, +0.532 at 1/4), and at full replacement all of the support's memory is gone, so a lower density
+is needed to cancel a larger gain.
+
+1. p*(ε = 1/16) is within 0.03 of p*(ε = 1/4), at 63 cells and d = 1: 60%.
+2. p*(ε = 1) is below 0.17: 55%. It is within 0.04 of 0.19: 35%.
+3. p* at 45 cells and ε = 1/4 is within 0.03 of the 63-cell value: 55%.
+4. With ε = 1 and the p* that matches gump at 63 cells, the 45-cell life is within 0.15 of gump's in ln τ (one
+   density gives the face law's slope as well as one point): 35%.
