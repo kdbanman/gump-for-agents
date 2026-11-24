@@ -404,3 +404,67 @@ declared axiom, opaque or `sorryAx`; the same three compiler artefacts as before
 `lntau_le_torus`; `DiceMean.lean` (the dice agent's); tori above 12 cells for prices (dense reach).
 
 Files added: `surv_check.py`, `wrapped_check.py` (with `.out`), `Link3AxiomSweep.lean` (`.out`, `link3_names.txt`).
+
+---
+
+## Fourth review (2026-11-24, the chain agent's last task, up to 5e8aa76; and the dice agent's `DiceMean.lean`)
+
+Refereed: `LinkHull.lean`, `LinkFaceAut.lean`, `LinkHullCert.lean` (the instances R = 1 … 13), the newest rows of
+`statements_link.json` / lines of `AxiomsLink.lean`, and `DiceMean.lean`. The integrator was rebuilding the shared
+tree during this review; I used only oleans it had finished (LinkHull, LinkFaceAut 15:50; DiceMean) and re-elaborated
+a verbatim copy of `LinkHullCert.lean` in my directory (its olean was older than its last commit, then being
+rebuilt). **Verdict: clean; no defect.** Two remarks on scope, both stated honestly in the rows.
+
+**`Lemma0F` and uniqueness.** `Lemma0F F`: a living u from which every cell can be alive next, reached through
+possible transitions from every living state some cell of which can be alive next. With `CellsOK` it gives the full
+lifetime theorem (`face_full_of`). [measured] `lemma0f_check.py`, by the definition and brute force over all states of
+my oracle-built faces: true on hull 1 and hull 3 (and torus (1,0),(0,3), strip 1×3, patch 1×3), each with a simple
+top eigenvalue. [proved: Lean] `RefChainHull.lean`, `two_not_lemma0`: false on a face where the law is not unique (two
+cells of one layer too far apart to be neighbours, coins (2,1): each cell alone is a closed class; numerically the
+top eigenvalue ρ1²ρ2 = 0.081312 has multiplicity 2). Exactly what uniqueness needs? Sufficient, and nearly necessary
+[proved: paper]: given u, if some state that can survive does not reach u, the states it reaches form a closed set
+avoiding u's class; if that set contains a cycle it carries a second QSD with λ > 0; only a state whose every path dies
+without a cycle can fail `Lemma0F` and leave uniqueness intact. So `Lemma0F` is slightly stronger than necessary, and
+true on every face checked.
+
+**The certificates.** `lemma0_of_cert` is sound by construction (a step to the singleton {i} of an alive-able cell,
+then walks of singletons to {c0}, then a growth path to u). `link_hull_cert.py` run on **tables I built from the
+oracle** (`hull_tables.py`, same format as the `#eval` dump) for R = 1, 3, …, 13 writes a file **byte-identical** to the
+committed `LinkHullCert.lean`; so the dice agent's hull tables and my oracle geometry agree on everything the
+certificates and permutations depend on. My own Python check of every certificate on my tables passes; dropping the
+growth path's first step fails each one. The copy re-elaborates: 19 theorems (`hull1…13_lemma0`, `hull3…13_rot/refl`),
+0 errors, standard axioms, 87 s, 1.9 GB (`LinkHullCertCopy.out`).
+
+**`autOK`.** It checks that π is a permutation of the cells, carries each neighbour list onto the neighbour list of the
+image up to order, and keeps m1 and m2; `autOK_spec` and `autState_Q` turn that into an automorphism of `Face.P`.
+[proved: Lean] it rejects a permutation that keeps the neighbours but not the coins (`aut_rejects_coins`: two isolated
+cells, the second without coins) and one that keeps the coins but not the neighbours (`aut_rejects_nbrs`: two corners
+of hull 3 swapped alone); the identity passes. On hull faces degree determines the coins (`hull_type`), so no
+neighbour-preserving, coin-breaking permutation exists there. [measured] the committed rotation and reflection are
+exactly (x,y,z) ↦ (y,z,x) and (x,y,z) ↦ (y,x,z) on my cell lists for R = 3 … 13 and pass my autOK; on hull 3 they
+generate the six-element group with orbits {0,3,8} and {1,2,4,5,6,7}, and my prices are invariant to 10⁻¹⁶ (corners
+0.0481050722, the rest 0.3899000883): the equalities claimed are exactly those the numerics show. Hull 5 has **18**
+cells (2^18 = 262,144 states; a dense kernel of 6.9·10¹⁰ entries): not priced.
+
+**`hull R` and `hA`.** `hull R` has no cells for even R (one odd coordinate and x + y + z = R even is impossible):
+(hull R).A = 0, 3, 0, 9, 0, 18, 0 for R = 0 … 6 (Lean, `decide`), and 30, 45, 63, 84, 108 for R = 7 … 15 (mine). So `hA`
+holds exactly for odd R and `hull_theorems R hA` is vacuous for even R; the rows say "every R with A > 0", which is
+right. `cellsOK_hull` holds for every R (from `hull_type`; matches my R ≤ 15 count of the second review).
+`hull_theorems`/`hull_theorems_at` name the per-cell factors, give the dominant law that is also the dice agent's
+`IsQSD`, `survFrom = Face.survival`, and ln τ < 2.2165·A (the dice agent's `lntau_le_hull_all`; hull 3: ln τ/A = 0.276).
+
+**`DiceMean.lean`.** `qsd_survival` (Σ_x μ(x) P_x(T > t) = λ^t for every `IsQSD` on a face whose ∅ is absorbing),
+`qsd_mean` (Σ_t … = 1/(1 − λ), given 0 ≤ λ < 1), `qsd_mean_all`, `hull3_mean`, `qsd_mean_hull`: statements as the rows
+say. The hypothesis 0 ≤ λ is redundant (it holds for every QSD) and harmless.
+
+**Hygiene.** [proved: Lean] `Link4AxiomSweep.lean` (`Link4AxiomSweep.out`): 1,312 constants of the Chain and Link
+modules and `DiceMean` (LinkHull 46, LinkFaceAut 21, DiceMean 12 new), 960 theorems, only the standard three axioms;
+the only unsafe constants are compiler artefacts (now also `pathFrom._unsafe_rec`). LinkHullCert's 19 theorems: from
+my copy, standard axioms. No `sorry`, `native_decide`, `implemented_by`, `opaque` in the four files. Every name in
+`statements_link.json` (29) and `AxiomsLink.lean` (65) resolves (the five LinkHullCert names through my copy).
+
+**Not checked (fourth review):** prices on hull 5 and larger; `Lemma0F (hull R)` for R ≥ 15 (nobody claims it);
+`lntau_le_hull_all` (the dice agent's); the integrator's rebuilt `LinkHullCert.olean` (I checked the source instead).
+
+Files added: `lemma0f_check.py`, `hull_tables.py` (with `.out`), `RefChainHull.lean`, `LinkHullCertCopy.lean` (`.out`),
+`Link4AxiomSweep.lean` (`.out`, `link4_names.txt`).
