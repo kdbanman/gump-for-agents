@@ -170,8 +170,8 @@ theorem torus202_full :
   have hall := price_all hD.qsd hlam huniq
   have h12 : Real.log ((chain (torus 2 0 2) sdens.dens).lifetime μ) = 12 * L.price μ ⟨0, hA⟩ := by
     rw [hpr, Finset.sum_congr rfl (fun i _ => hall i), Finset.sum_const, Finset.card_univ, Fintype.card_fin,
-      hA12, nsmul_eq_mul]
-    norm_num
+      nsmul_eq_mul]
+    rw [show (((torus 2 0 2).A : ℕ) : ℝ) = 12 by exact_mod_cast hA12]
   have hreg := lntau_le_regular (torus 2 0 2) hcoin regular_torus202 (extend (torus 2 0 2) μ) lam hdice hA
   have hlog := log_lifetime_eq L hD.qsd
   rw [hA12] at hreg
