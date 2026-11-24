@@ -8,15 +8,17 @@ exactly") and of the density README, before I read `nz.c` or `nzd.c` (I never op
 
 ## In brief
 
-- **The numbers stand.** Every headline row I reran reproduces with independent code and seeds, all within 2σ
-  (table). The layer densities and lagged correlations reproduce to the third decimal. The largest tension was fair
-  coins at d = 1 (first seed −1.6σ; with a second seed −1.0σ; note under the table).
+- **The numbers stand.** Every headline row I reran (12 lifetimes, the layer densities, the lags, P₁) reproduces
+  with independent code and seeds, all within 2σ (table; the d = 2 mean-density row is the farthest, +1.97σ). The
+  layer densities and lagged correlations agree to the third decimal. Fair coins at d = 1 read −1.6σ on my first
+  seed and −1.0σ with a second (note under the table).
 - **The program does what the README says.** Two defects of form, none of substance: the noisy chains' layer
   densities are read after the darts (they include the fresh coins), and adjacent seeds share their coin stream.
 - **The mechanism does not stand as stated.** "The lives order by the low-face density of the replaced core"
   [measured on their four chains] fails on three further chains of mine: the whole-layer copy has gump's low-face
-  density (0.386 against 0.384) and, before the darts, gump's clustering, yet lives 0.20 less; the scan chains at p = 0.1 and 0.2 have
-  low-face densities *below* the core copy's or near it (0.311, 0.354 against 0.348) yet live 0.12 and 0.45 longer.
+  density (0.386 against 0.384) and, before the darts, gump's clustering, yet lives 0.20 less (7σ); the scan chains
+  at p = 0.1 and 0.2 have low-face densities below the core copy's or near it (0.311, 0.354 against 0.348) yet live
+  0.12 and 0.45 longer.
 - **The reading has further soft spots**: "the layer leads by 1–2 generations" (the cross-correlation peaks at lag 0;
   the asymmetry is real and points layer → face, the reverse of the causal sentence it is quoted for); "density
   accounts for a fifth" (coins at gump's mean density make a denser support than gump's at every replaced depth; on

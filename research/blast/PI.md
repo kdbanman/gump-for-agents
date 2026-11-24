@@ -260,6 +260,10 @@ differ by total variation 0.33 in one step. `dice` resumed for the repairs (30 m
 Also at integration: regenerate `STATEMENTS.md` and make `check.sh` fail when it is stale; run
 `check.sh --mathlib --long` with nothing else building; `CellsOK` for every hull R is measured (R ≤ 15), not proved.
 A background job (bj01hgfn5) pushes every 40 s until about 16:55 UTC.
+`chain` third hand-back (55cf4a5): generators committed (`link_*.py`), `survFrom_cast`, `Hull3.hull3_complete`,
+`torusNb_all` and `wrapped_full_all` (every wrapped face, no hypothesis). Resumed a fourth time for every hull face
+(`CellsOK (hull R)` from dice's `hull_type`; Lemma 0 on every hull triangle; 90 minutes). `ref-chain` resumed for a
+third review (40 minutes). Wind-down plan: agents' tasks end by about 18:00 UTC, integration by about 19:00.
 
 **13:15 UTC 2026-11-24.** `chain` handed back (notes: `lean/notes/chain.md`, last commit 23163ec; 15 `Chain*.lean`
 modules, 82 headline theorems, `check.sh --mathlib` passed at 13:10). `ref-lean` handed back earlier (repairs in
