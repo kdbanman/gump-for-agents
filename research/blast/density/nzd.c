@@ -249,6 +249,23 @@ static void lane_soup(int lane) { int w = lane >> 6, k = lane & 63; u64 bit = 1U
 static const int lagv[NLAG] = {0, 1, 2, 3, 4, 6, 8, 12, 16, 24, 32, 48};
 static int ng, *gcell[NG], gn[NG]; static char gname[NG][16];
 static int gpop[NG][NL];
+/* face births and deaths per generation, keyed by the face's population the generation before; a birth is split by
+   how many of the newborn's three neighbours below (two in layer 1, one in layer 2) were alive the generation before */
+static int fbl[NL][7], ppop[NL], *below, nbelow[1024];
+static double BBp[7][1024], DNp[1024];
+static void face_births(void) {   /* after step (b = the previous state, its darts included), before the lanes loop */
+  vec cnt[7][7]; for (int c = 0; c < 7; c++) for (int k = 0; k < 7; k++) cnt[c][k] = (vec){0};
+  for (int i = 0; i < A; i++) {
+    vec now, prev, s0 = (vec){0}, s1 = (vec){0}; memcpy(&now, a + (size_t)i * W, 64); memcpy(&prev, b + (size_t)i * W, 64);
+    for (int j = 0; j < nbelow[i]; j++) { vec x; memcpy(&x, b + (size_t)below[3 * i + j] * W, 64); vec t = s0 & x; s0 ^= x; s1 ^= t; }
+    vec born = now & ~prev, died = prev & ~now, e[7];
+    e[0] = born & ~s0 & ~s1; e[1] = born & s0 & ~s1; e[2] = born & ~s0 & s1; e[3] = born & s0 & s1; e[4] = died;
+    e[5] = ~prev & ~s0 & s1; e[6] = ~prev & s0 & s1;      /* dead face cells with 2 (3) live below: the supply */
+    for (int c = 0; c < 7; c++) { vec x = e[c]; for (int k = 0; k < 7; k++) { vec t = cnt[c][k] & x; cnt[c][k] ^= x; x = t; } }
+  }
+  for (int c = 0; c < 7; c++) { u64 w[7][W]; for (int k = 0; k < 7; k++) memcpy(w[k], &cnt[c][k], 64);
+    for (int l = 0; l < NL; l++) { int p = 0; for (int k = 0; k < 7; k++) p |= (int)((w[k][l >> 6] >> (l & 63)) & 1) << k; fbl[l][c] = p; } }
+}
 static double *Sg[NG], *Cg[NG], *Ng;          /* by face population p: sum of the group's population, of its square; count */
 static double Lfw[NG][NLAG], Lbw[NG][NLAG], Lsx[NLAG], Lsy[NG][NLAG], Lsxx[NLAG], Lsyy[NG][NLAG], Lsx2[NG][NLAG], Lsy2[NG][NLAG], Ln[NLAG];
 static short hx[NL][64], hy[NG][NL][64]; static int hpos, hval[NL];
@@ -270,10 +287,15 @@ static void layer_init(void) {
   { int g = ng++; gcell[g] = malloc(sizeof(int) * n); gn[g] = 0;       /* the face's outer neighbours: layer 0 itself */
     for (int i = 0; i < n; i++) { if (dep0[i] == 0) gcell[g][gn[g]++] = i; } sprintf(gname[g], "face"); }
   for (int g = 0; g < ng; g++) { Sg[g] = calloc(A + 1, 8); Cg[g] = calloc(A + 1, 8); }
+  below = malloc(sizeof(int) * 3 * A);
+  for (int i = 0; i < A; i++) { nbelow[i] = 0; for (int j = 0; j < 12; j++) { int c = nb[12 * i + j]; if (c < n && (dep0[c] == 1 || dep0[c] == 2)) below[3 * i + nbelow[i]++] = c; } }
+  for (int l = 0; l < NL; l++) ppop[l] = -1;
   Ng = calloc(A + 1, 8);
 }
 static void layer_accum(int l, int counted) {   /* after observe(); every group counted */
   int x = pop[l];
+  if (counted && ppop[l] >= 0) { DNp[ppop[l]] += 1; for (int c = 0; c < 7; c++) BBp[c][ppop[l]] += fbl[l][c]; }
+  ppop[l] = x;
   if (counted) { Ng[x] += 1; for (int g = 0; g < ng; g++) { Sg[g][x] += gpop[g][l]; Cg[g][x] += (double)gpop[g][l] * gpop[g][l]; } }
   hx[l][hpos] = (short)x; for (int g = 0; g < ng; g++) hy[g][l][hpos] = (short)gpop[g][l];
   hval[l]++;
@@ -294,6 +316,8 @@ static void layer_report(void) {
       printf(" | pop<=%d %.5f (share %.2e)", thr[t], ct ? st / ct / gn[g] : -1.0, ct / tot); }
     printf("\n");
   }
+  printf("DRIFT p : count births(0 below) births(1) births(2) births(3) deaths dead-with-2-below dead-with-3-below, per generation, keyed by the population before\n");
+  for (int p = 0; p <= A; p++) if (DNp[p] > 0) printf("DRIFT %d : %.0f %.5f %.5f %.5f %.5f %.5f %.5f %.5f\n", p, DNp[p], BBp[0][p] / DNp[p], BBp[1][p] / DNp[p], BBp[2][p] / DNp[p], BBp[3][p] / DNp[p], BBp[4][p] / DNp[p], BBp[5][p] / DNp[p], BBp[6][p] / DNp[p]);
   for (int g = 0; g < ng; g++) { printf("BYPOP %s :", gname[g]); for (int p = 0; p <= A; p++) printf(" %d:%.4f:%.0f", p, Ng[p] ? Sg[g][p] / Ng[p] / gn[g] : -1.0, Ng[p]); printf("\n"); }
   /* LAG g : corr(face(t - lag), group(t)) [face leads] and corr(group(t - lag), face(t)) [group leads] */
   for (int g = 0; g < ng; g++) { printf("LAG %s :", gname[g]);
@@ -363,7 +387,7 @@ int main(int argc, char **argv) {
   FILE *dump = getenv("NZD_DUMP") ? fopen(getenv("NZD_DUMP"), "wb") : 0;   /* validation: per generation 512 pops, 512 bytes odl */
   for (long g = 0; g < gens + T0; g++) {
     step(); if (M && !frozen) noise_random(M); observe();
-    if (layers) { for (int q = 0; q < ng; q++) count_group(q); }
+    if (layers) { for (int q = 0; q < ng; q++) count_group(q); face_births(); }
     if (dump) { static uint8_t buf[2 * NL]; for (int l = 0; l < NL; l++) { buf[l] = (uint8_t)pop[l]; buf[NL + l] = (uint8_t)((od[l >> 6] >> (l & 63)) & 1); } fwrite(buf, 1, 2 * NL, dump); }
     for (int l = 0; l < NL; l++) {
       age[l]++;
@@ -379,8 +403,8 @@ int main(int argc, char **argv) {
       if (dead0 || odl) {
         if (counted) { Dany++; if (dead0) { n0++; dw += 1.0 / ndead(l); if (!odl) n0alone++; } }
         if (age[l] > maxage) maxage = age[l];
-        lane_soup(l); age[l] = 0; if (layers) hval[l] = 0;
-      } else if (settled(l)) { nsettled++; lane_soup(l); age[l] = 0; if (layers) hval[l] = 0; uint32_t m = pend[l]; while (m) { CK[__builtin_ctz(m)]++; m &= m - 1; } pend[l] = arm[l] = 0; }
+        lane_soup(l); age[l] = 0; if (layers) { hval[l] = 0; ppop[l] = -1; }
+      } else if (settled(l)) { nsettled++; lane_soup(l); age[l] = 0; if (layers) { hval[l] = 0; ppop[l] = -1; } uint32_t m = pend[l]; while (m) { CK[__builtin_ctz(m)]++; m &= m - 1; } pend[l] = arm[l] = 0; }
     }
     rpos = (rpos + 1) % 12; if (layers) hpos = (hpos + 1) & 63;
   }
