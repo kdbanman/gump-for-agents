@@ -193,3 +193,34 @@ is needed to cancel a larger gain.
 3. p* at 45 cells and ε = 1/4 is within 0.03 of the 63-cell value: 55%.
 4. With ε = 1 and the p* that matches gump at 63 cells, the 45-cell life is within 0.15 of gump's in ln τ (one
    density gives the face law's slope as well as one point): 35%.
+
+### Scores of block 5 (15:2x UTC 2026-11-24; from `density`'s second task, `research/blast/density/README.md`, commit b7f5904; one seed per row, one code)
+
+| item | forecast | outcome | Brier |
+|---|---|---|---|
+| 1 | p*(1/16) within 0.03 of p*(1/4) at 63 cells: 60% | 0.173 ± 0.010 against 0.191 ± 0.003: **true** | 0.16 |
+| 2a | p*(full replacement) below 0.17: 55% | 0.316 (coins under the face's middle), 0.385 (every cell not on a face): **false, and in the wrong direction** | 0.30 |
+| 2b | p*(full replacement) within 0.04 of 0.19: 35% | **false** | 0.12 |
+| 3 | p* at 45 cells within 0.03 of the 63-cell value at ε = 1/4: 55% | 0.180 ± 0.006 against 0.191 ± 0.003: **true** | 0.20 |
+| 4 | with full replacement, the 63-cell p* gives the 45-cell life within 0.15: 35% | as I specified it (coins under the middle): +0.210 ± 0.007, **false**; with every cell not on a face a coin: +0.009 ± 0.007 | 0.12 |
+
+What I had wrong: I reasoned that more replacement means a larger gain to cancel, hence a lower p*. The opposite
+happens. At partial replacement most of the support is still made by gump's rule from the coins, and p* describes
+that mix; with nothing but coins under it a face needs far denser coins (0.32 to 0.385) to live as long as it does
+in gump, and below about 0.35 a hull on coins alone dies at once.
+
+## Block 6 (PI; frozen 15:2x UTC 2026-11-24, before any of these runs)
+
+Seen when written: `density`'s two hand-backs. In particular: with every cell not on a face replaced by a fresh
+coin every generation, p = 0.385 gives gump's life at 45 and 63 cells (+0.009 ± 0.007, −0.028 ± 0.020), the 84-cell
+row reads −0.28 ± 0.15 on 45 deaths, the face dies differently (dips rarer and deadlier), and gump's own layer
+under the 63-cell face has density 0.384 when the face is at most 10 cells (its minimum over the thresholds tried).
+
+1. Gump's layer 1 under the 45-cell face, conditioned on a low face, has a minimum over thresholds within 0.005 of
+   0.385: 45%. (If p* on coins alone is the support's density at its thinnest, this should hold at every size.)
+2. The 84-cell row at 0.385 with at least 300 deaths is below −0.10: 70%. (One density does not give the face
+   law's slope; p* creeps up with the size.)
+3. Full replacement from depth d with coins at each layer's own mean density, 63 cells: Δ(1) > +2: 75%;
+   Δ(2) between +0.3 and +1.5: 55%; |Δ(3)| < 0.15: 45%; |Δ(4)| < 0.05: 45%.
+4. At the smallest d with |Δ| < 0.1, the face's way of dying is gump's: from one cell it dies between 74% and 80%
+   of the time, and dips below 16 cells are within 20% of gump's frequency: 60%.
