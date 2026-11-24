@@ -182,10 +182,13 @@ generation".
 - Referee ref-tape (`research/blast/ref-tape/REVIEW.md`) read the modules at `6be19d4`: no theorem broken, objects
   equal to the catalogue's; its D1 and D3 are repaired (rows, the Unzip header); D2 (`STATEMENTS.md`) is the PI's.
   The call law's part (a) and the second box are after that review and unrefereed.
-- Timing: `sh check.sh` passes in 10 s with everything built, and in 291 s from scratch (all 82 modules, a copy of
-  the workspace with an empty `.lake`, machine load about 7 on 4 cores). Cold times of the tape files under that
-  load: Clock 123 s (mostly `omega` on the charts), CallProof 50 s, UnzipProof 49 s, Unzip 47 s, TapeSignals 38 s,
-  Tape 20 s, Line 13 s, the rest under 10 s.
+- Timing: `sh check.sh` passes in about 10 s with everything built. From scratch (a copy of the workspace with an empty
+  `.lake`, all modules of every arm): 291 s at 13:15 (load about 7 on 4 cores), and **852 s at 14:15 with the call
+  law's modules added, at load 12 to 14 on 4 cores**, so over the ten-minute target on a machine three times
+  oversubscribed. Cold times of the tape files in that run: Clock 314 s (mostly `omega` on the charts), UnzipProof
+  137 s, CallProof 131 s, Unzip 107 s, CallUnionLocal 104 s (the 752 local checks), TapeSignals 80 s, CallBox 52 s,
+  CallLine 51 s, Tape 44 s, the rest under 35 s. The cheapest cut, if needed: split `chartA`'s case analysis by
+  period in Clock.lean.
 
 ## Bearing on the owner's journal
 
