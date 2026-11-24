@@ -163,4 +163,51 @@ theorem torusNb_all (H K D : ℕ) (hH : 0 < H) (hD : 0 < D) : TorusNb H K D := b
   unfold kIdx
   exact (DL_perm _).map _
 
+/-! ### Every wrapped face, with no hypothesis -/
+
+open Gump.Chain Gump.Chain.KilledChain Gump.Chain.Kagome Gump.Link
+
+/-- **Every wrapped face (H, D > 0), at every strict densities, for `Face.P` itself**: `wrapped_theorems` with
+`TorusNb` proved (`torusNb_all`). -/
+theorem wrapped_theorems_all (H K D : ℕ) (hH : 0 < H) (hD : 0 < D) {ρ1 ρ2 : ℚ} (hs : SDens ρ1 ρ2) :
+    ∃ μ lam, (chain (torus H K D) hs.dens).IsDominantQSD μ lam ∧
+      IsQSD (torus H K D) ρ1 ρ2 (extend (torus H K D) μ) lam ∧
+      0 < lam ∧ (∀ x, 0 < μ x) ∧
+      (∀ ν lam', (chain (torus H K D) hs.dens).IsQSD ν lam' → 0 < lam' → ν = μ ∧ lam' = lam) ∧
+      (∀ i x, (LT H K D hs).dc i x = 1 - (((torus H K D).a ρ1 ρ2 x i : ℚ) : ℝ)) ∧
+      Real.log ((chain (torus H K D) hs.dens).lifetime μ) = ∑ i, (LT H K D hs).price μ i ∧
+      (∀ i j : Fin (torus H K D).A, (i : ℕ) % 3 = (j : ℕ) % 3 → (LT H K D hs).price μ i = (LT H K D hs).price μ j) ∧
+      (∃ m M : ℝ, 0 < m ∧ m ≤ M ∧
+        (∀ t x, (chain (torus H K D) hs.dens).CanSurvive x →
+          m / M * lam ^ t ≤ (chain (torus H K D) hs.dens).survFrom t x) ∧
+        (∀ t x, (chain (torus H K D) hs.dens).survFrom (t + 1) x ≤ M / m * lam ^ t)) ∧
+      (∀ t x, (chain (torus H K D) hs.dens).survFrom t x = (((torus H K D).survival ρ1 ρ2 t x : ℚ) : ℝ)) ∧
+      (((K : ℤ), -(H : ℤ) - K) ∈ lattice (H : ℤ) K D → ((D : ℤ), -(D : ℤ)) ∈ lattice (H : ℤ) K D →
+        ∀ i j, (LT H K D hs).price μ i = (LT H K D hs).price μ j) :=
+  wrapped_theorems H K D hH hD (torusNb_all H K D hH hD) hs
+
+/-- **Every wrapped face (H, D > 0) at (ρ1, ρ2) = (0.44, 0.42), for `Face.P` itself**: a unique quasi-stationary
+law with λ > 0, positive on every living state; ln τ the sum of the cells' prices, one price per orientation (one
+per cell when (K, -H-K) and (D, -D) are periods); ln τ < 1.9228·A; decay at exactly λ from every state that can
+survive, for the dice agent's own survival function. -/
+theorem wrapped_full_all (H K D : ℕ) (hH : 0 < H) (hD : 0 < D) :
+    ∃ μ lam, (chain (torus H K D) Hull3.sdens.dens).IsDominantQSD μ lam ∧
+      IsQSD (torus H K D) ρ1 ρ2 (extend (torus H K D) μ) lam ∧
+      0 < lam ∧ (∀ x, 0 < μ x) ∧
+      (∀ ν lam', (chain (torus H K D) Hull3.sdens.dens).IsQSD ν lam' → 0 < lam' → ν = μ ∧ lam' = lam) ∧
+      (∀ i x, (LT H K D Hull3.sdens).dc i x = 1 - (((torus H K D).a ρ1 ρ2 x i : ℚ) : ℝ)) ∧
+      Real.log ((chain (torus H K D) Hull3.sdens.dens).lifetime μ) = ∑ i, (LT H K D Hull3.sdens).price μ i ∧
+      (∀ i j : Fin (torus H K D).A, (i : ℕ) % 3 = (j : ℕ) % 3 →
+        (LT H K D Hull3.sdens).price μ i = (LT H K D Hull3.sdens).price μ j) ∧
+      Real.log ((chain (torus H K D) Hull3.sdens.dens).lifetime μ) < 1.9228 * (torus H K D).A ∧
+      (∃ m M : ℝ, 0 < m ∧ m ≤ M ∧
+        (∀ t x, (chain (torus H K D) Hull3.sdens.dens).CanSurvive x →
+          m / M * lam ^ t ≤ (chain (torus H K D) Hull3.sdens.dens).survFrom t x) ∧
+        (∀ t x, (chain (torus H K D) Hull3.sdens.dens).survFrom (t + 1) x ≤ M / m * lam ^ t)) ∧
+      (∀ t x, (chain (torus H K D) Hull3.sdens.dens).survFrom t x =
+        (((torus H K D).survival ρ1 ρ2 t x : ℚ) : ℝ)) ∧
+      (((K : ℤ), -(H : ℤ) - K) ∈ lattice (H : ℤ) K D → ((D : ℤ), -(D : ℤ)) ∈ lattice (H : ℤ) K D →
+        ∀ i j, (LT H K D Hull3.sdens).price μ i = (LT H K D Hull3.sdens).price μ j) :=
+  wrapped_full H K D hH hD (torusNb_all H K D hH hD)
+
 end Gump.Link.Wrapped
