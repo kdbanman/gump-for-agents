@@ -1,6 +1,6 @@
 # The catalogue's "for every N" laws in Lean (tape files)
 
-Lean arm, 2026-11-24, 11:16–13:15 UTC, 13:16–14:25 UTC and 14:32–16:30 UTC. Files: `Gump/TapeBase.lean`, `Gump/Tape.lean`, `Gump/TapeSignals.lean`
+Lean arm, 2026-11-24, 11:16–13:15 UTC, 13:16–14:25 UTC and 14:32–15:45 UTC. Files: `Gump/TapeBase.lean`, `Gump/Tape.lean`, `Gump/TapeSignals.lean`
 (+ `TapeSignalsData.lean`), `Gump/Line.lean` (+ `LineData.lean`), `Gump/Clock.lean` (+ `ClockData.lean`),
 `Gump/Unzip.lean`, `Gump/UnzipProof.lean`, `Gump/Call.lean` (+ `CallData.lean`), `Gump/CallProof.lean`,
 `Gump/CallBox.lean`, `Gump/CallLine.lean`, `Gump/CallUnion.lean` (+ `CallUnionData.lean`), `Gump/CallUnionLocal.lean`,
@@ -246,6 +246,37 @@ clock's): `reader9_run`, in call9's coordinates (cap on the units 0 .. 3, the st
 review of push 9 had left open whether section 15's theorem covers this cap (its "what is left" (ii)); it does not
 literally (another cap), and the law holds for it all the same. What this does not give: the finite cell during a
 call (the call line crosses the cell; the cap is reached by the train only once the wire in front of it is plain tape).
+
+## The catalogue's next laws: how they were ranked (third session)
+
+Read for laws stated for every size or every word and not yet in Lean: `research/signals/README.md` and the reviews in
+`research/audit/REVIEW-signals*.md`. Ranked by what they say and how much of the catalogue rests on them:
+
+1. **The clock from a single cell** (the brief's first item; §11 lists it as "not proved"; the owner's journal).
+   Done: `lit_enters_at`, `lit_clock_exact`.
+2. **capL eats every word** (§15, `prove_reader.py`): the only remaining law quantified over all words, the tape's
+   −v end as a perfect sink; and the second review of push 9 left open whether it covers the call line's cap.
+   Done: `reader_run`, and `reader9_run` for the call line's (different) cap.
+3. **The beam** (§21, `prove_beam.py`): emitter, stream and receiver as one standing object at any distance, the
+   catalogue's L3 answer as a theorem for every N. Done: `beam_period` (taken first in time, being the cheapest:
+   the line's gluing with no delay).
+4. **The divider** (§21b, `prove_divider.py`: period exactly 8 from generation 2N − 3 for every N ≥ 8): the first
+   emitter of a non-constant word. Not done; the method is `Line.lean`'s (the delayed chart L on the left, the
+   gun and its oscillator in the right chart, base S(14, 3) over 2N0 + 56 generations, which fits the 64-box), with
+   period 8 and the preperiod 2N − 3 in place of 4 and 2N.
+5. **The meetings** (§31; REVIEW-signals-6 §3): exactly one meeting per ordered pair of opposite kinds (a
+   translation argument on the infinite train), and the four outcomes for ever (U–K0 both vanish; E–K0 a puncher;
+   E–H, U–H wire B between two rigid edges, `glue6.py`). Not done: the reduction needs a superposition lemma for
+   two far-apart signals (local, from `signal_run`), and the outcome runs at offset 19 for 20 generations span more
+   than the 32 units of the 64-box once the light cone is added, so they need the 128-box of `CallBox` or a moving
+   window.
+6. Single-instance results (the collision gate and the rake against a pulse of §10, the register of §9, the counter
+   of §17, the stream's one-cell hole of §21) are oracle runs of one object, not laws for every size: nothing to
+   lift beyond re-running them.
+
+No law attempted failed as the catalogue states it. One detail found on the way: for odd N the lit clock's left end at
+generation N − 3 is that of the base at times 11, 15, 19, 23, so "not yet on the cycle" there is seen only at the right
+end (`lit_first_odd`).
 
 ## Not checked, and caveats
 
