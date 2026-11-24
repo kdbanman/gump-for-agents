@@ -46,3 +46,10 @@ The "density part = 0.15 of 0.68" depends on the path: the mean-density coin cha
 | 18 | fair coins, d = 2, Δ | +0.332 ± 0.014 | 0.80 |
 | 19 | mean-density coins at ε = 1/16, d = 1, Δ | +0.164 ± 0.013 | 0.80 |
 | 20 | my second fair seed (d = 1) lands above my first (14.264), i.e. the first was low | — | 0.65 |
+
+## Added 15:24 UTC, before these runs report
+
+| # | forecast | P |
+|---|---|---:|
+| 21 | my second whole-layer copy seed (1014): replaced core 1 after the darts at face ≤ 10 within 0.005 of gump's 0.384, and Δ ln τ < −0.10 | 0.80 |
+| 22 | nzd.c's own layer diagnostics on the whole-layer copy chain (seed 9301, 10⁶ generations): LAYER core1 at pop ≤ 10 within 0.01 of gump's 0.384 | 0.80 |
