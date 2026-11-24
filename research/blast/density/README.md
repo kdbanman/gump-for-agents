@@ -598,7 +598,7 @@ negative controls (one neighbour swapped) fail at generations 3 and 1; the coins
 of its layer's bias each generation) checked for bias and for leaving layers < L alone
 (`python3 research/blast/density/validate_slab.py 600`, `data/validate_slab_600.txt`). The face is layer 0; with coins
 the other face (layer 7) is coins too and cannot die; gump rows end a life when either face dies and count τ_face =
-2 × exposure / deaths. Rows: `sh research/blast/density/slabrows.sh TAG:SEED:GENS:L:P` (`HKD=1_4_15` for 45 cells,
+2 × exposure / deaths. Rows: `sh research/blast/density/slabrows.sh TAG:SEED:GENS:L:P` (`HKD=1_4_15` for 45 cells; row files in `data/slab/`,
 `SLABBIN=slab2` for the per-layer biases), table: `python3 research/blast/density/slabrec.py`. Gump: 9.3524 ± 0.0024
 (45 cells, two rows) and 13.159 ± 0.013 (63 cells, two rows; the project's anchor for this torus 13.1622 ± 0.0007).
 

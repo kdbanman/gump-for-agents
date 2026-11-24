@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Wrapped-face rows (slab.c): ln tau of the watched face, p* by interpolation, and the way of dying against gump's.
 
-    python3 research/blast/density/slabrec.py [DIR]       (files slab_*.txt; default data/rows)
+    python3 research/blast/density/slabrec.py [DIR]       (files slab_*.txt; default data/slab)
 
 Per size (A = 63: torus (1,4),(0,21); A = 45: (1,4),(0,15)): gump's face from the gump row (both faces: 2 E / deaths;
 at 63 cells also the project's anchor 13.1622 +- 0.0007, research/blast/split-slab/README.md), the coin rows (L = 1:
@@ -14,7 +14,7 @@ the other face dies, which censors a few descents (C in the REC line); the coin 
 import glob, math, os, re, sys
 from collections import defaultdict
 HERE = os.path.dirname(os.path.abspath(__file__))
-d = sys.argv[1] if len(sys.argv) > 1 else os.path.join(HERE, 'data', 'rows')
+d = sys.argv[1] if len(sys.argv) > 1 else os.path.join(HERE, 'data', 'slab')
 rows = defaultdict(list)
 for f in sorted(glob.glob(os.path.join(d, 'slab_*.txt'))):
     t = open(f).read(); h = t.splitlines()[0]

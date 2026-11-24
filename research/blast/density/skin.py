@@ -2,7 +2,7 @@
 """The skin-depth table: rate and way of dying of the watched face when every cell at depth >= d is a fresh coin at its
 layer's mean density in gump (full replacement).
 
-    python3 research/blast/density/skin.py [DIR ...]        (row files; default data/rows)
+    python3 research/blast/density/skin.py [DIR ...]        (row files; default data/rows and data/layers)
 
 Rows: tags R9_skinA_d*, R9_skinB_d* (45 cells), skinA_d*, skinB_d* (63 cells); column A = depth >= d under the watched
 face and >= 3 under the others; column B = depth >= d under every face (B with d = 3 is A with d = 3). Against the gump
@@ -15,7 +15,7 @@ import glob, math, os, re, sys
 from collections import defaultdict
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-dirs = sys.argv[1:] or [os.path.join(HERE, 'data', 'rows')]
+dirs = sys.argv[1:] or [os.path.join(HERE, 'data', 'rows'), os.path.join(HERE, 'data', 'layers')]
 def load(f):
     t = open(f).read()
     br = [l for l in t.splitlines() if l.startswith('BRUTE')][0]
@@ -30,7 +30,8 @@ rows = {}; gump = defaultdict(list); seen = set()
 for d in dirs:
     for f in sorted(glob.glob(os.path.join(d, '*.txt'))):
         b = os.path.basename(f); tag = re.sub(r'_s\d+\.txt$', '', b)
-        if b in seen or '\nREC' not in '\n' + open(f).read(): continue
+        txt = open(f).read()
+        if b in seen or '\nREC' not in '\n' + txt or '\nBRUTE' not in '\n' + txt: continue
         seen.add(b)
         r = load(f)
         if tag in ('gump_d1', 'R9_gump') or tag.startswith('lay_gump') or tag.startswith('lay2_gump') or tag.startswith('lay3_gump'):
