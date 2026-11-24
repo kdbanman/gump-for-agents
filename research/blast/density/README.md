@@ -91,7 +91,14 @@ LOW10 = `1:0.3836,2:0.4280,3:0.4205,4:0.4184,5:0.4160,*:0.4158` (the table above
 | d = 2 (a) fair | 1/2 | 5201 (12 M) | 5,283 | 13.965 ± 0.014 | **+0.332 ± 0.014** (pooled +0.315) |
 | d = 2 (b) mean | MEAN | 5211 (12 M) | 5,768 | 13.877 ± 0.013 | **+0.244 ± 0.013** |
 | d = 2 (c) low | LOW10 | 5221 (12 M) | 5,561 | 13.914 ± 0.013 | **+0.281 ± 0.013** |
-SCAN_ROWS
+| (d) scan: every depth at p | 0.1 | 5109 (2.5 M) | 2,115 | 13.312 ± 0.022 | −0.322 ± 0.022 |
+| | 0.2 | 5102 (3 M) | 1,763 | 13.676 ± 0.024 | +0.043 ± 0.024 |
+| | 0.3 | 5103 (3 M) | 1,404 | 13.904 ± 0.027 | +0.271 ± 0.027 |
+| | 0.4 | 5104 (2.5 M) | 1,000 | 14.061 ± 0.032 | +0.428 ± 0.032 |
+| | 0.5 | = (a) | | | +0.678 ± 0.016 |
+| | 0.7 | 5107 (3 M) | 690 | 14.614 ± 0.038 | +0.981 ± 0.038 |
+
+Not run: the scan at 0.6, 0.8, 0.9 (time). Every scan row is one seed.
 
 
 ## The answer: mostly correlation, and it acts through the density the face's support has while the face is low
@@ -120,8 +127,13 @@ watched face has at most 10 cells:
 |---|---:|---|---:|---:|---:|---:|
 | shuffled core | −0.434 | 0.348 (0.351) | 2.47 | 4.13 | 0.386 | +1.59 |
 | gump | 0 | 0.384 (0.407) | 1.81 | 4.19 | 0.395 | +1.69 |
-| LOW10_CHAIN
+| density under a low face (LOW10) | +0.463 | 0.423 (0.455) | 1.35 | 4.41 | 0.395 | +1.77 |
 | mean density | +0.532 | 0.435 (0.467) | 1.37 | 4.43 | 0.397 | +1.78 |
+
+**The LOW10 chain is the density-matched control in effect:** its coins are at 0.384, but the replaced cells of layer 1
+(coins and rule-made cells together) end up at 0.428 on average, gump's own 0.430, and at 0.423 under a low face
+instead of gump's 0.384. Same density, no fading: +0.463. The four annealed chains are in the same order by this
+low-face density as by their lives (0.348, 0.384, 0.423, 0.435 → −0.43, 0, +0.46, +0.53).
 
 In gump the replaced core of layer 1 thins from 0.430 to 0.384 when the face is low (the whole layer 1 from 0.44 to
 0.34): **the support fades with its face.** Coins do not respond to the face, and they hold up the rule-made cells
@@ -150,6 +162,15 @@ adds +0.35 through 9 cells), so a face law that treats the support as an indepen
 overestimates the life (by 0.53 in ln τ at 63 cells). The effect grows with the rate of replacement: +0.164 ± 0.013
 at ε = 1/16 against +0.532 at ε = 1/4 (mean density).
 
+**The density at which the effect vanishes [measured].** With every replaced depth at density p, the gain rises
+steadily with p, about +2.5 per unit of density from 0.2 to 0.7 (−0.32, +0.04, +0.27, +0.43, +0.68, +0.98 at p = 0.1,
+0.2, 0.3, 0.4, 0.5, 0.7), and **crosses zero at p\* ≈ 0.19** (linear between 0.1 and 0.2; ± 0.01 from the two rows'
+errors). For the face, gump's own layers are worth fresh independent coins of density 0.19, less than half their own
+density of 0.42. Read as a face law [conjectured]: the face's life depends on the density of its support *while it is
+low*, and gump's support delivers there what an independent support of 0.19 would; a model of the face over an
+independent bath must use that effective density, not the measured one, and the effective density is set by the
+coupling of the face to its first layer (it would have to be computed, not read off the layers).
+
 **Frozen coins are a different effect [measured; the explanation is conjectured].** Coins at the mean density drawn
 once per life and held give +1.182 ± 0.021, twice the fresh coins' gain, although in that chain the replaced core under
 a low face is *sparser* than gump's (0.305; 0.249 at ≤ 4), the supply lower (4.05), the conversion lower (0.329), the
@@ -169,7 +190,7 @@ selection, not a response, and the gain a Jensen effect. Not checked: the distri
 - Density and clustering of the support are not separated (they move together in the chains measured); the joint law
   of the three cells under a dead face cell was not measured directly (only the supply, which counts it).
 - 45 and 84 cells: not run (84 cells is out of reach of brute force at this cost: ~40 deaths per 12 M generations);
-  frozen coins at density 1/2, ε = 1/16 with fair coins, and the d = 2 second seeds were dropped for time (the machine
+  frozen coins at density 1/2, ε = 1/16 with fair coins, the scan at 0.6, 0.8, 0.9, and the d = 2 second seeds were dropped for time (the machine
   ran at load 6–10 on four cores, rows took 25–55 minutes instead of 12).
 - The shuffle from the whole layer at depths 6–8 copies from layers whose densities were not measured.
 - `nzd.c`'s REC counting is checked against a Python recount on one short run (R = 9); the layer diagnostics only by
