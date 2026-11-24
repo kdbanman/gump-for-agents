@@ -36,7 +36,7 @@ def canon(S):
 def sealed_py_set(path=None):
     if path:
         txt = open(path).read()
-        return [tuple(c) for c in ast.literal_eval(txt[txt.rindex(': [') + 2:].strip())]
+        return [tuple(c) for c in ast.literal_eval(re.search(r': (\[\(.*?\)\])', txt).group(1))]
     import sealed as S
     from pysat.card import CardEnc, EncType
     from pysat.formula import IDPool

@@ -78,7 +78,7 @@ I could not break is "not broken by these tests". It is not "correct".
 | `layer_sealed_six` | says more | every layer, every diagonal. Lists may repeat, which costs nothing, since the duplicate-free list of any finite set is one of them. Complete search to 7 cells through each start cell found no sealed set below 6 (tested). |
 | `halfPlane_sealed` | same | 300 random (v, C), 17,620 cells (tested). |
 | `layer_halfPlane_dead` | says less | acknowledged: half-plane by half-plane, and the convex-hull reading is not formalised. The convex-hull reading itself holds by the oracle on 120 one-layer soups (tested). |
-| `set36_all_sealed` | same | as the row's sentence, which is existence. Minimality is not in Lean (acknowledged). The comparison the README lists as not done, I did. `set36` is sealed by `sealed.py`'s own `is_sealed(W, 2)`. Each layer's 18 cells form one closed kagome walk (a Hamiltonian kagome cycle; the induced graph has 6 chords, i.e. six whole triangles). And `set36` is **the same set**, up to the slab's symmetries, as the one `sealed.py`'s SAT encoding returns at K = 36 (`set36_compare.py`). |
+| `set36_all_sealed` | same | as the row's sentence, which is existence. Minimality is not in Lean (acknowledged). I did the comparison the README lists as not done. `set36` is sealed by `sealed.py`'s own `is_sealed(W, 2)`. Each layer's 18 cells form one closed kagome walk (a Hamiltonian kagome cycle; the induced graph has 6 chords, i.e. six whole triangles). And `set36` is **the same set**, up to the slab's symmetries, as the one `python3 research/theory/sealed.py minsat 2 7 36` prints. That run (100 s, with pysat in a private venv; output in `minsat_2_7_36.txt`) also reproduces the source's patch minimality: none with 35 cells. Command: `set36_compare.py minsat_2_7_36.txt`. |
 | `sealed_iff_nine` | same | |
 | `core_nine` | same | the 9-core of the graph induced on D. |
 | `core_iff_not_bp` | same | the closure is defined as the least closed superset. |
@@ -175,9 +175,9 @@ by D1, so I ran it standalone in the clean clone: 1,307 of 1,307, all five negat
 
 - The proofs themselves: the kernel checked them, and I read proofs only where a statement's meaning depended
   on them.
-- That `set36` is *exactly* what `sealed.py minsat 2 7 36` prints. I compared with a single SAT solve at K = 36
-  in `sealed.py`'s encoding; the iteration K = 1..35 is skipped, so the model could in principle differ. Its
-  minimality claim (none ≤ 35 in the patch) was not re-run either.
+- That `set36` is literally identical to `sealed.py`'s set. I compared canonical forms under the 12 point
+  symmetries of the slab and its even in-layer translations, and they agree.
+- Minimality of 36 beyond the patch of radius 7. As the source says, that is not claimed.
 - Odd-H seam behaviour beyond H ≤ 9. The tightness of the light cone beyond n = 3. Non-primitive directions
   beyond |u_i| ≤ 6. One-layer convex confinement beyond 120 small soups.
 - The files written today (`Dice*`, `Tape*`, `Line*`, `Clock*`, `Chain*`, and the untracked files of the working
