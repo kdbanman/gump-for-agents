@@ -16,14 +16,24 @@ LONG=no; MATH=no
 for a in "$@"; do [ "$a" = "--long" ] && LONG=yes; [ "$a" = "--mathlib" ] && MATH=yes; done
 HERE=$(cd "$(dirname "$0")" && pwd); ROOT=$HERE/../../..; export PATH=$HOME/.elan/bin:$PATH
 cd $HERE
-lake build Gump gumpcheck > .lake/build.log 2>&1 || { tail -20 .lake/build.log; echo "FAIL: build"; exit 1; }
+# every module in Gump/ is built, whether or not Gump.lean imports it
+MODS=$(ls Gump/*.lean | sed 's|Gump/\(.*\)\.lean|Gump.\1|')
+lake build $MODS gumpcheck > .lake/build.log 2>&1 || { tail -20 .lake/build.log; echo "FAIL: build"; exit 1; }
 tail -1 .lake/build.log
 if grep -n "declaration uses 'sorry'" .lake/build.log; then echo "FAIL: sorry"; exit 1; fi
 if grep -n "sorry" Gump/*.lean Check.lean; then echo "FAIL: sorry"; exit 1; fi
-if grep -n "native_decide" Gump/*.lean; then echo "FAIL: native_decide"; exit 1; fi
-lake env lean Axioms.lean > .lake/axioms.txt
-if grep -v "depends on axioms: \[propext, Classical.choice, Quot.sound\]$" .lake/axioms.txt | grep -v "does not depend on any axioms$" | grep -v "depends on axioms: \[propext\]$" | grep -v "depends on axioms: \[propext, Quot.sound\]$"; then echo "FAIL: an unexpected axiom"; exit 1; fi
+# native_decide (the compiler trusted as a prover) only in files named *Native.lean, for long base runs, and their
+# theorems only in AxiomsNative.lean: a separate tier, counted apart below.
+if grep -n "native_decide" $(ls Gump/*.lean | grep -v "Native\.lean$"); then echo "FAIL: native_decide outside *Native.lean"; exit 1; fi
+: > .lake/axioms.txt
+for f in $(ls Axioms*.lean | grep -v "^AxiomsNative\.lean$"); do lake env lean $f >> .lake/axioms.txt; done
+if grep -v "depends on axioms: \[propext, Classical.choice, Quot.sound\]$" .lake/axioms.txt | grep -v "does not depend on any axioms$" | grep -v "depends on axioms: \[propext\]$" | grep -v "depends on axioms: \[propext, Quot.sound\]$" | grep -v "depends on axioms: \[Classical.choice, Quot.sound\]$" | grep -v "depends on axioms: \[propext, Classical.choice\]$" | grep -v "depends on axioms: \[Quot.sound\]$" | grep -v "depends on axioms: \[Classical.choice\]$"; then echo "FAIL: an unexpected axiom"; exit 1; fi
 echo "$(wc -l < .lake/axioms.txt) headline theorems: no sorry, no axiom beyond propext, Classical.choice, Quot.sound"
+if [ -f AxiomsNative.lean ]; then
+  lake env lean AxiomsNative.lean > .lake/axioms_native.txt
+  if grep -n "sorryAx" .lake/axioms_native.txt; then echo "FAIL: sorry in the native tier"; exit 1; fi
+  echo "$(wc -l < .lake/axioms_native.txt) theorems in the second tier (base runs by native_decide: these trust the compiler, Lean.ofReduceBool)"
+fi
 T=$(mktemp -d)
 for t in "08 13 29 23" "09 17 35 71" "10 17 37 65" "11 19 41 4218"; do
   set -- $t
@@ -42,11 +52,12 @@ if [ "$LONG" = yes ]; then
   python3 census_check.py $ROOT/research/scratch/blast/lean/census | tail -2
 fi
 if [ "$MATH" = yes ]; then
-  ( cd mathlib && lake build > .lake/build.log 2>&1 || { tail -20 .lake/build.log; echo "FAIL: mathlib build"; exit 1; }
+  ( cd mathlib && MM=$(ls GumpMath/*.lean | sed 's|GumpMath/\(.*\)\.lean|GumpMath.\1|')
+    lake build $MM > .lake/build.log 2>&1 || { tail -20 .lake/build.log; echo "FAIL: mathlib build"; exit 1; }
     if grep -n "declaration uses 'sorry'" .lake/build.log; then echo "FAIL: sorry (mathlib)"; exit 1; fi
     if grep -n "sorry\|native_decide" GumpMath/*.lean; then echo "FAIL: sorry or native_decide (mathlib)"; exit 1; fi
-    lake env lean Axioms.lean > .lake/axioms.txt
-    if grep -v "depends on axioms: \[propext, Classical.choice, Quot.sound\]$" .lake/axioms.txt; then echo "FAIL: an unexpected axiom (mathlib)"; exit 1; fi
+    : > .lake/axioms.txt; for f in Axioms*.lean; do lake env lean $f >> .lake/axioms.txt; done
+    if grep -v "depends on axioms: \[propext, Classical.choice, Quot.sound\]$" .lake/axioms.txt | grep -v "does not depend on any axioms$" | grep -v "depends on axioms: \[propext\]$" | grep -v "depends on axioms: \[propext, Quot.sound\]$"; then echo "FAIL: an unexpected axiom (mathlib)"; exit 1; fi
     echo "mathlib package: $(wc -l < .lake/axioms.txt) theorems, no sorry, no axiom beyond the standard three" )
 fi
 echo "lean: all checks passed"

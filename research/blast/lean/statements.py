@@ -83,6 +83,13 @@ ROWS = [
  ]),
 ]
 
+# Rows added by later work: every file statements_*.json next to this script, a list of
+# {"section": title, "rows": [[lean name, meant to be, difference], ...]}.
+import json
+for jf in sorted(glob.glob(os.path.join(HERE, 'statements_*.json'))):
+    for sec in json.load(open(jf)):
+        ROWS.append((sec['section'], [tuple(r) for r in sec['rows']]))
+
 out = ['# Lean statements against their sources', '',
        'Written by `python3 research/blast/lean/statements.py`; the Lean statements are copied from the files by the',
        'script. A = `docs/AUTOMATON.md` §3; Th = `research/theory/thickness.md` §2. Every theorem here is in `Axioms.lean`',
