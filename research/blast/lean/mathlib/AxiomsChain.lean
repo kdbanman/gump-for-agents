@@ -7,6 +7,7 @@ import GumpMath.ChainRoutes
 import GumpMath.ChainSeam
 import GumpMath.ChainSSM
 import GumpMath.ChainPrice
+import GumpMath.ChainInst
 open Gump.Chain
 -- Theorem 2 (the tilt identity) and its analytic core
 #print axioms neg_log_Z_one
@@ -64,3 +65,8 @@ open Gump.Chain
 #print axioms Price.price_exists_of_sub
 #print axioms Price.price_exists_of_super
 #print axioms Price.price_interval
+-- the instantiation interface and Lemma 0 in abstract form
+#print axioms KilledChain.ofStochastic_death
+#print axioms KilledChain.isQSD_of
+#print axioms KilledChain.one_class
+#print axioms surrogate_theorems
