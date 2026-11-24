@@ -1,8 +1,8 @@
 /-
 **The call law** (`research/audit/REVIEW-signals-9.md` section 3, base facts `research/audit/signals9/proof9.py`;
-push 9, `research/signals/push9/`). Stated here on the whole lattice, with the infinite store wire; not proved (no
-referee has read the source's proof; `notes/tape.md` lists the base facts that remain, and why they are not yet
-kernel-checked: the line spans 65 doubled units in x and in y, more than the bit box of `Gump.Bits`).
+push 9, `research/signals/push9/`). Stated here on the whole lattice, with the infinite store wire. Part (b) is proved
+in `Gump/CallProof.lean` (`call_law_b`); part (a) is not (`notes/tape.md`: the line spans 65 doubled units in x and
+in y, more than the bit box of `Gump.Bits`, so its run is not yet kernel-checked).
 
 The store wire is wire B with the stretch d^k f on the units c + 1 .. c + k + 1, c = 35 the crossing unit; the call
 line (`Gump.Call.line`, 162 cells, at rest at an even generation) lies across unit c; at generation 0 the two cells

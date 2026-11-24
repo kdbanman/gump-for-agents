@@ -1,10 +1,10 @@
 # The catalogue's "for every N" laws in Lean (tape files)
 
-Lean arm, 2026-11-24, 11:16–13:10 UTC. Files: `Gump/TapeBase.lean`, `Gump/Tape.lean`, `Gump/TapeSignals.lean`
+Lean arm, 2026-11-24, 11:16–13:15 UTC. Files: `Gump/TapeBase.lean`, `Gump/Tape.lean`, `Gump/TapeSignals.lean`
 (+ `TapeSignalsData.lean`), `Gump/Line.lean` (+ `LineData.lean`), `Gump/Clock.lean` (+ `ClockData.lean`),
-`Gump/Unzip.lean`, `Gump/UnzipProof.lean`, `Gump/Call.lean` (+ `CallData.lean`); `AxiomsTape.lean`;
-scripts `tape_lib.py`, `tape_line.py`, `tape_signals.py`, `tape_clock.py`, `tape_call.py`,
-`tape_statements_check.py`; rows in `statements_tape.json`. Every result below is in the **kernel tier**: no
+`Gump/Unzip.lean`, `Gump/UnzipProof.lean`, `Gump/Call.lean` (+ `CallData.lean`), `Gump/CallProof.lean`;
+`AxiomsTape.lean`; scripts `tape_lib.py`, `tape_line.py`, `tape_signals.py`, `tape_clock.py`, `tape_call.py`,
+`tape_statements_check.py`, `tape_unzip.py`, `tape_call_front.py`; rows in `statements_tape.json`. Every result below is in the **kernel tier**: no
 `native_decide` anywhere, every base run is `decide +kernel` on `Gump.Bits`' stepper, and every theorem in
 `AxiomsTape.lean` rests on at most `propext`, `Classical.choice`, `Quot.sound`. Nothing here is refereed.
 
@@ -17,7 +17,7 @@ scripts `tape_lib.py`, `tape_line.py`, `tape_signals.py`, `tape_clock.py`, `tape
 | 3 | the gun's line: period exactly 4 from generation 2N, every N ≥ 2 (§21, `prove_line.py`) | `Line.line_orbit`, `line_period_four` | **proved, stronger**: preperiod exactly 2N |
 | 4 | nine rigid signals on the rake train (§30–35, `prove_echo.py`, `sig6.py`) | `Tape.Signals.signal_run`, `train_step`, `train_shift` | **proved**, every place, every time |
 | 5 | the unzip law (push 8 §5, `prove_unzip8.py`; REVIEW-signals-8 §3) | `Unzip.unzip_law`, `unzip_law_sharp` | **proved**, both the push's bound and the review's sharp one, by a new argument |
-| 6 | the call law (REVIEW-signals-9 §3, `proof9.py`) | `Call.CallLaw`, `Call.LineRest` (definitions) | **stated only**; base facts below |
+| 6 | the call law (REVIEW-signals-9 §3, `proof9.py`) | `Call.CallLaw` (stated), `Call.call_law_b` | **(b) proved** for every k; (a) stated, not proved (below) |
 | – | a stretch d^k f stands (period 2) for every k (push 8 §6, infinite-wire form) | `Unzip.stretch_stands` | proved (a base fact of 5) |
 
 ### Headline statements, verbatim
@@ -33,6 +33,8 @@ theorem clock_every_length (N : Nat) (hN : 1 ≤ N) :
 theorem signal_run (K : Kind) (u : Int) (hu : u % 2 = K.par % 2) (n : Nat) :
     run (xorC (train 1) (lcfg (sig K u))) (2 * n) = xorC (train (1 + 2 * n)) (lcfg (sig K (u + K.dir * n)))
 theorem unzip_law_sharp : UnzipLawSharp
+theorem call_law_b (k : Nat) (hk : 1 ≤ k) (n : Nat) (hn : k + 17 ≤ n) :
+    V k (2 * n) = tape (pulses k (cross + 3 - ((n : Int) - 14)))
 def UnzipLawSharp : Prop :=
   ∀ k : Nat, 1 ≤ k → (∀ n : Nat, k + 3 ≤ n → run (countRead k) (2 * n) = tape (pulses k (2 - n))) ∧
     run (countRead k) (2 * (k + 2)) ≠ tape (pulses k (2 - (k + 2)))
@@ -103,7 +105,15 @@ also j = 5, and the lit clock of 6 + j units falling into it), `tape_statements_
 the unzip law, the sharp law, the stretch and the call law transcribed and checked on the oracle for k = 1 .. 3,
 resp. k = 1: ALL PASS). The scripts regenerate the four `*Data.lean` files exactly (checked by diff for the clock).
 
-## The call law: what remains
+## The call law: (b) proved, (a) remains
+
+**(b), proved** (`CallProof.lean`, `call_law_b`): with the crossing moved to unit 0, V_k at generation 28 + 2n is,
+for n ≥ 2, the hex word `VW k n`: pulses behind a front `f b 9` (one unit wider than the count read's `f 9`) moving
+one unit per double step through the stretch (`tape_call_front.py`: equal to the oracle for k = 1 .. 8 at every
+even generation to 2k + 40). Steps as for the unzip law: 20 generic zone checks, 4 + 5 + 5 at the edge, and the start
+(generation 28: the store, one generation, e1 made live, three more) as one forced run on 15 units for each
+min(k, 7) (`forcedCheck_spec`); from n = k + 3 on the tape theorem. So V_k is the k pulses from 2k + 34 on, for
+every k. The review's seam path (part E) and its tape continuation (part A) are not needed for (b).
 
 `Call.CallLaw` is the statement of REVIEW-signals-9 §3, (a) and (b), on the whole lattice:
 
@@ -117,12 +127,7 @@ def CallLaw : Prop :=
 with `callStart k` = store wire (d^k f on units c+1 .. c+k+1, c = 35) ∪ line (162 cells of call9.json run 0) ∪
 the two CALL cells; `Lf t` the line with the CALL alone; `V k t` the store wire alone with e1 = (1,2,0) of unit c
 made live at generation 29. `tape_statements_check.py` checks the transcription on the oracle for k = 1 (t ≤ 42).
-Not proved. The facts that remain, each a fact, not a guess about difficulty:
-- **(b)** yields to the unzip method: the kymograph of V_k (k = 8, oracle) is, from generation 32 on, a hex word with
-  a front `f b 9` (one unit wider than the count read's `f 9`) moving the same way, which meets the edge and becomes
-  the count read's train at 2k + 32 (the review's statement). Needed: the word family for that front (not yet
-  pinned by formula), its generic and edge zone checks, and the start, which is at an odd generation (29, e1 forced):
-  a piece of the store's odd phase near unit c, not a hex word.
+**(a)**, the line never feels the store wire, is not proved. What remains, each a fact:
 - **(a)** needs the free line's run: the line spans 65 doubled units in x and in y, more than `Gump.Bits`' box
   (64³, core 56). `LineRest` (the line at rest from 42) and part B (the 29 cells where the line and the wire tube
   meet) need either a larger bit box (Bits.lean copied with 128³: mechanical) or a stepper aligned with the line's
@@ -139,14 +144,16 @@ Not proved. The facts that remain, each a fact, not a guess about difficulty:
 - `line_orbit` is about line-C exactly as in the JSON (capA and gun of that file), not about other caps or guns.
 - Nine signals: that these are all the rigid signals of the train is not claimed.
 - `glue_run_moving` and `Call.pulses_at` are proved but not used by any headline proof.
+- `call_law_b` is about V_k, the store wire alone with one forced cell; that V_k is what the store wire does under
+  the line (part (a)) is the unproved half of the call law.
 - Timing: `sh check.sh` passes in 10 s with everything built; a cold build of the tape files takes about 2 min
-  (Clock.lean ≈ 50 s, mostly `omega` on the charts; UnzipProof.lean ≈ 35 s).
+  (Clock.lean ≈ 50 s, mostly `omega` on the charts; UnzipProof.lean ≈ 35 s; CallProof.lean ≈ 45 s).
 
 ## Bearing on the owner's journal
 
 The journal's 10:30 entry of 2026-11-15 ("a clock (a wire between two caps, period 4N + 2 for N units of wire)") and
 its correction (the clock stands, its proof rebuilt by a reviewer): the clock of every length is now checked by
-Lean's kernel, and so is the tape that the signals rest on, the gun's line, the train's nine signals and push 8's
-count read ("the count leaves as a train of pulses") for every k. The unzip proof found something small and
+Lean's kernel, and so is the tape that the signals rest on, the gun's line, the train's nine signals, push 8's
+count read ("the count leaves as a train of pulses") for every k, and half of push 9's call. The unzip proof found something small and
 pretty: the count read is a front of fixed shape, `f 9`, sweeping through the stretch at the speed of a pulse while
 the pulses it sheds run the other way, so the whole release for every k is three local pictures.

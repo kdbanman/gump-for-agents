@@ -81,6 +81,11 @@
     "glue_run_moving",
     "push 8's and the call law's gluing step: a seam that moves at most one unit per generation, with agreement on three units.",
     "Same; proved, not used by the unzip proof here."
+   ],
+   [
+    "call_law_b",
+    "`research/audit/REVIEW-signals-9.md` §3 (b) and P1 of its proof (`proof9.py` parts D, E): for every k ≥ 1, at every even t ≥ 2k + 34, V_k(t) (the store wire alone, e1 = (1,2,0) of the crossing unit made live at generation 29) is plain wire B carrying exactly k units b at units c + 3 − (t − 28)/2 + 2j, j < k.",
+    "Same, on the whole lattice with the infinite store wire, c = 35 as in call9.json; the second conjunct of `Gump.Call.CallLaw`. Proved by the time induction of the unzip law (front `f b 9`), not by the review's seam path. Part (a) of the call law (X_k = V_k ⊔ Lf) is not proved."
    ]
   ]
  }
