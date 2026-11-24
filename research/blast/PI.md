@@ -74,7 +74,29 @@ after its own check; the PI never merges it.
   without warning: after every milestone bring this file up to date ("State"), and within 60,000 tokens of the
   threshold do it at once.
 
-## State (overwritten; last written 11:10 UTC 2026-11-24)
+## State (overwritten; last written 17:20 UTC 2026-11-24)
+
+**The last-day blast is finished except one review.** Everything is in `REPORT.md` (entry "The last-day blast
+(2026-11-24)" and the short version), `lean/README.md` (table, "Added after the integration", what is not proved),
+`noisy/PREDICTIONS.md` (blocks 4, 5, 6 scored) and the reviews `ref-{lean,chain,tape,dice,density}/REVIEW.md`. The
+comment for the lead was posted on PR 39 at 17:19 UTC (text in `pi/COMMENT-DRAFT.md`). `check.sh --mathlib` and
+`--long` pass at the branch tip (57 core and 75 Mathlib modules, 214 + 240 axiom lines, 217 statement rows).
+Usage at 17:07: Fable 0.94, all-model 0.74; the stops are 0.96 and 0.90; the window resets 2026-11-25 11:00 UTC.
+**Start nothing new before the reset.** In flight: `ref-density`'s second review (the skin-depth rows with its own
+code; due about 18:05). Owed when it returns: one line in the REPORT's third-task section and one short comment on
+PR 39 with its verdict, then the owner. The day's chronology is under "Session-private ids" below; the paragraphs
+of this section that follow are older and are superseded where they differ.
+
+Headlines of the day, for whoever picks this up: (1) gump's face law is a property of a skin four layers thick
+(`density`, third task: with every cell from depth 4 down a fresh coin at gump's density, 45 and 63 cells die at
+gump's rate and in gump's way; three layers do not suffice; one code until the referee reports); (2) in Lean, for
+the dice surrogate, every hull face and every wrapped face has a unique quasi-stationary law, ln τ as a sum of
+per-cell prices and a linear upper bound (`hull_full_every`, `wrapped_full_all`), and five 9-cell faces have ln τ
+to ten digits (`hull3_complete`); (3) the catalogue's laws for every N, the call law whole, the clock from one cell,
+the meetings of §31 with one correction to the catalogue's table. Next, after the reset: referee and extend the
+skin (84 and 108 cells; is four exact or a decay), then treat the four-layer skin over coins as the object whose
+lifetime is to be explained (a finite Markov chain per face; the chain theory's general theorems apply to it, the
+product-kernel ones do not, because cells share coins).
 
 - **Open again, on the owner's word of about 17:50 UTC** (quoted above): Lean, at full ambition, and in-depth
   discussion on pull request 39. Before that the owner had closed the blast (14:55 UTC).
