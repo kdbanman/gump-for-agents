@@ -69,8 +69,8 @@ an extra term through the indicator of those states (`survival_up_sure`, one mor
 | torus (1,0),(0,3) (9) | `torus103_lifetime`, `_tau` (λ > 0) | [0.9664099275695942426, …427] | (3.3935247190, 3.3935247191) | 3.3935247191 | 61 s |
 | torus (1,1),(0,3) (9) | `torus113_lifetime`, `_tau` (λ > 0) | [0.9324323935928482210, …211] | (2.6946266059, 2.6946266060) | 2.6946266059 | 51 s |
 | strip 1×3 (9) | `strip13_lifetime`, `_tau` | [0.9391216736592712685, …686] | (2.7988780569, 2.7988780570) | 2.7988780569 | 90 s |
-| patch 1×3 (9) | `patch13_lifetime`, `_tau` | see file | see file | 1.8804189341 | 111 s |
-| torus (2,0),(0,2) (12) | `torus202_lifetime`, `_tau` (λ > 0) | [0.9813486469939093, …113] | (3.9818365882, 3.9818365883) | 3.9818365883 | see §5 |
+| patch 1×3 (9) | `patch13_lifetime`, `_tau` | [0.8474738060566295030, …031] | (1.8804189341, 1.8804189342) | 1.8804189341 | 111 s |
+| torus (2,0),(0,2) (12) | `torus202_lifetime`, `_tau` (λ > 0): **generated, not built** (§4) | [0.9813486469939093, …113] (Python, exact at the 144 orbit rows) | (3.9818365882, 3.9818365883) | 3.9818365883 | > 20 min |
 
 The headline, verbatim (`GumpMath/DiceHull3.lean`):
 
@@ -126,7 +126,7 @@ respect:* that `bustShare` is the share of the death flux whose last 6 transitio
 stationarity of the window under the QSD (from μ, X_t given T > t is μ, so every death window starts from μ);
 that argument is in the file header, in prose, not formalised.
 
-## 4. 12 cells: symmetry (`DiceSym.lean`, `dice_sym.py`)
+## 4. 12 cells: symmetry (`DiceSym.lean` proved; the 12-cell theorem file generated but not built)
 
 Row-by-row checking costs 2^(2A+1) node operations: 12 cells would take ~20 min per pass. A permutation σ of the
 cells that preserves the tables (neighbour multisets, coins) preserves P (`P_sym`: P(σx, σy) = P(x, y), the
@@ -137,6 +137,16 @@ lazily as trees, `Tree.build`/`act`); 144 orbit representatives instead of 4,096
 other faces: torus (1,1),(0,4): 128 automorphisms, 213 orbits; (1,0),(0,4): 16, 354; strip 2×2: 4, 1,104;
 patch 2×2: 2, 2,112; 15-cell tori (1,0),(0,5): 20, 1,884 and (1,1),(0,5): 320, 888 (58M node operations per pass,
 ~35 min: beyond this machine's kernel budget per check).
+
+**Status of the 12-cell theorem [not proved].** `python3 dice_sym.py torus 2 0 2` writes `GumpMath/DiceTorus202Data.lean`
+and `DiceTorus202.lean` (certified λ ∈ [0.9813486469939093, 0.9813486469939113] at the orbit rows in exact Python
+arithmetic; ln τ ∈ (3.9818365882, 3.9818365883), README 3.9818365883). In the kernel: with the 48 symmetry checks in
+one declaration the build was killed at 12 GB of memory; split into one declaration per automorphism it ran for
+more than 25 minutes (peak 5.5 GB) without finishing before my deadline, so the files are **not committed** (an
+unbuilt file in `GumpMath/` would fail `check.sh`). Measured on the way: one automorphism's checks plus the 144-row
+upper pass, 126 s. The cost is in `symOK`/`invOK` (48 × 4,096 states, each evaluating the lazily built action
+tree); the next attempt should check invariance under a generating set (2–3 permutations) and carry the witness
+as a chain of generators, which needs one more induction in `rows_of_reps`.
 
 ## 5. What is not done, and the obstacle as a fact
 
@@ -154,8 +164,22 @@ patch 2×2: 2, 2,112; 15-cell tori (1,0),(0,5): 20, 1,884 and (1,1),(0,5): 320, 
   upper side a local inequality (a cluster decomposition of E = Σ_i ε_i with pair potentials, an LP over the star
   configurations of one cell), which would give max_x E(x)/A < 2.509 for all tori at once; it is not done.
 - Lemma 0 (existence/uniqueness of the QSD) is not used: the λ theorems are "for every QSD", vacuous if none existed.
-- The second 12-cell tori and the 12-cell strips are not certified (time, not an obstacle: §4 gives their costs).
+- No 12-cell face is certified in the kernel (§4: the symmetry machinery is proved, the 12-cell build did not finish
+  in time). Memory is a real constraint here: the exit checks peak at 6.9 GB (`DiceTorus113Exit`, measured), and
+  builds run in parallel by `lake` were killed by the machine's out-of-memory killer twice; build them one at a time.
 - Not refereed. The statements were read against `rigour/README.md` by me only.
+
+## 6. Checks run
+
+- `sh research/blast/lean/check.sh --mathlib` (13:08–13:10 UTC, with every Dice module built): **all checks passed**,
+  "mathlib package: 119 theorems, no sorry, no axiom beyond the standard three" (`AxiomsDice.lean` included).
+- Build times, one module at a time on this shared machine: 9-cell face files 51–115 s each; `DiceHull3Exit` 338–402 s,
+  `DiceTorus113Exit` 188–368 s (peak 6.9 GB); everything else under 20 s. A clean build of all Dice modules is about
+  20 minutes; build them sequentially (`lake build GumpMath.DiceHull3`, then the next), not in parallel.
+- `python3 research/blast/lean/statements.py` runs with `statements_dice.json` (123 statements); I did not commit the
+  regenerated `STATEMENTS.md` (not my file).
+- Not checked: no second agent has read these statements or tried to break the certificates; the tie of `Face.P`
+  to `dense.py` samples 24 of 512 rows at 9 cells; `Face.regular` is not proved for the general torus.
 
 ## Reproduce
 
