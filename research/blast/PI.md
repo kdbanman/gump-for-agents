@@ -197,6 +197,10 @@ tape a0b7dfd013c31f0bd · chain a825b151b0cb2660a · density a672d9caa1fd19096 �
 
 Wave 2 (Opus): ref-chain a7d485bc698b4b1c4 (started 13:15 UTC, referee of `chain`'s Lean files, two hours at most,
 writes `research/blast/ref-chain/REVIEW.md`).
+ref-tape ae67c18db5283c79c (started 13:20 UTC, referee of `tape`'s modules, two hours at most, writes
+`research/blast/ref-tape/REVIEW.md`). `tape` (a0b7dfd013c31f0bd) handed back at 13:16 (notes `lean/notes/tape.md`,
+commit 6be19d4: tape theorem, line orbit, clock, nine signals, unzip law sharp, call law (b)) and was resumed at
+13:20 for the call law's part (a) (a larger bit box) and the clock's lighting for N ≥ 6, two hours at most.
 
 **13:15 UTC 2026-11-24.** `chain` handed back (notes: `lean/notes/chain.md`, last commit 23163ec; 15 `Chain*.lean`
 modules, 82 headline theorems, `check.sh --mathlib` passed at 13:10). `ref-lean` handed back earlier (repairs in
