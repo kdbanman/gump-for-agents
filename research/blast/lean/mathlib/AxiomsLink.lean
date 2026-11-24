@@ -12,6 +12,7 @@ import GumpMath.LinkPatch13Sym
 import GumpMath.LinkSurv
 import GumpMath.LinkWrappedAll
 import GumpMath.LinkWrappedArea
+import GumpMath.LinkHullCert
 open Gump.Link
 -- the bridge
 #print axioms aliveProb_cast
@@ -70,3 +71,17 @@ open Gump.Link
 #print axioms Wrapped.wrapped_theorems_all
 #print axioms Wrapped.wrapped_full_all
 #print axioms Wrapped.wrapped_area
+-- every hull face
+#print axioms cellsOK_hull
+#print axioms hull_theorems
+#print axioms Q_pos_iffF
+#print axioms face_full_of
+#print axioms hull_full_all
+#print axioms lemma0_of_cert
+#print axioms price_aut
+#print axioms hull_full_sym
+#print axioms hull1_lemma0
+#print axioms hull3_lemma0
+#print axioms hull13_lemma0
+#print axioms hull13_rot
+#print axioms hull13_refl

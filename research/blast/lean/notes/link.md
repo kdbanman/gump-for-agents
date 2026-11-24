@@ -91,8 +91,14 @@ lattice is not rotation-invariant. The torus (1,1),(0,3) has one (0.29940 each).
 - Proved for **every wrapped face** `torus H K D` (H, D > 0, any K; third task): everything in `wrapped_full_all`
   (`wrapped_theorems_all` at every 0 < ρ1, ρ2 < 1). Nothing is hypothesis: the bijection is `torusNb_all`.
 - Proved for every hull face and every face with all its coins: `survFrom = Face.survival` (`survFrom_cast`).
+- Proved for **every hull face** (fourth task): `CellsOK` (`cellsOK_hull`) and everything in `hull_theorems`
+  (dominant QSD, tilt identity, ln τ < 2.2165·A, survFrom = Face.survival). Everything in `hull_full_all` /
+  `hull_full_sym` (uniqueness, positivity, decay at exactly λ, equal prices along table automorphisms) is proved
+  under the single hypothesis `Lemma0F (hull R)`, which is kernel-checked for R = 1, 3, …, 13; the rotation and
+  reflection automorphisms are kernel-checked for R = 3, …, 13.
 - **Not proved**: a certified λ (hence ln τ to digits) for the 12-cell torus or any torus beyond the certified two;
-  Lemma 0 on every hull triangle or strip by a general argument (only per face); `CellsOK` for every hull face.
+  `Lemma0F (hull R)` for every R, and the triangle's rotation and reflection as automorphisms for every R (see the
+  fourth task's section for exactly where the general proof stops); Lemma 0 on the strips.
 
 ## Third task (2026-11-24, from 14:51 UTC): the generators, survival, every wrapped face
 
@@ -129,6 +135,43 @@ Files (new): `LinkSurv.lean`, `LinkWrapped.lean`, `LinkWrappedFull.lean`, `LinkW
    One price per orientation is stated on the face as: cells i ≡ j (mod 3) have equal prices; one per cell when
    (K, −H−K) and (D, −D) are periods (the lattice of `ChainTorus.lean`).
 
+## Fourth task (2026-11-24, from 15:23 UTC): every hull face
+
+Files (new): `LinkHull.lean`, `LinkFaceAut.lean`, `LinkHullCert.lean`, `link_hull_cert.py`.
+Imported from the dice agent (read-only): `DiceHullAll` (`hull_type`, `lntau_le_hull_all`), `DiceHull`
+(`hull_P_empty_row`, via `LinkSurv`).
+
+1. **`cellsOK_hull R`** for every R, from `hull_type`; hence **`hull_theorems R`** (no hypothesis): the dominant
+   law, the tilt identity with named per-cell factors, ln τ < 2.2165·A, survFrom = Face.survival.
+2. **Lemma 0, named and density-free**: `Lemma0F F` := a living u with every cell able to be alive next
+   (`aliveF`: `canB` of the cell's coins, k and state), and from every living state some cell of which can be alive
+   next a chain of possible transitions (`StepN`) to u. `Q_pos_iffF` (0 < Q x y ↔ `stepF F x y`, every face with its
+   coins) and `rtg_pow` turn it into `one_class'`'s hypotheses; **`face_full_of`** (any face) and
+   **`hull_full_all R (hA) (h0 : Lemma0F (hull R))`**. `lemma0_of_cert`: Lemma0F from a certificate of polynomial size
+   (`certOK`: u, a growth path from one cell c0 to u, a walk of single cells from every cell to c0).
+   `link_hull_cert.py` builds it the same way for every R: u = every cell whose normal is not z (every cell can be
+   alive next from it: an interior cell sees k = 4, every z cell has a live x and a live y neighbour, the z-corner
+   both its neighbours alive, the x- and y-corners one; a reading of the construction, the kernel checks it); walks by breadth-first search over single cells (a
+   non-corner cell can be born next to a lone live cell; a corner passes to its neighbour); growth inside the
+   non-corner x- and y-cells (no z alive keeps every k ≤ 4), then the two z-cells beside the x- and y-corners, then u.
+   Checked by the kernel for R = 3, …, 13 (`LinkHullCert.lean`, 86 s; a module for R = 15, 17 passed 10 GB of
+   memory and was stopped, not committed; the generator still writes it with `LINK_FILE`);
+   `hull1_lemma0` (three corners: u = the full face, entered in one step) by `decide +kernel`.
+3. **Prices along symmetries**: `price_aut` (any face, any `autOK` automorphism: a permutation of the cells carrying
+   `nb` to `nb` up to order and keeping m1, m2; the state map relabels the live set, `price_invariant`), and
+   **`hull_full_sym R`**: `hull_full_all` plus c_{π i} = c_i for every such π. `hull<R>_rot` ((x,y,z) ↦ (y,z,x)) and
+   `hull<R>_refl` ((x,y,z) ↦ (y,x,z)) are kernel-checked automorphisms for R = 3, …, 13; they generate the six
+   symmetries of the triangle.
+
+**Where the general proof stops.** `Lemma0F (hull R)` and `autOK` for the rotation and reflection are not proved for
+every R. The certificate is uniform in R (the same u, the same three phases), so the general proof is the
+formalisation of that construction in the hull's coordinates, and is not done: (a) aliveF u i for every cell, by
+orientation and boundary, as in `hull_type`'s case analysis; (b) a walk of single cells from every cell to c0, by
+induction on the coordinates; (c) the growth inside the x/y cells, by connectivity of the non-corner x/y cells and
+the monotone step s ↦ M(s) ∩ T (every k ≤ 4 while no z cell is alive); (d) the two z-cell step. For the symmetries,
+`Gump.offsets` permuted by a coordinate permutation is a permutation of the permuted axis's offsets (finite), and
+`hullCells` is invariant (index map by `idxOf?`); not written.
+
 ## Reproduce
 
     cd research/blast/lean/mathlib
@@ -138,6 +181,8 @@ Files (new): `LinkSurv.lean`, `LinkWrapped.lean`, `LinkWrappedFull.lean`, `LinkW
     lake build GumpMath.LinkNoCert GumpMath.LinkTorus202                    # the 12-cell torus: 3-4.5 min
     lake build GumpMath.LinkSurv GumpMath.LinkWrapped GumpMath.LinkWrappedFull   # third task: ~10 s each
     lake build GumpMath.LinkWrappedCheck GumpMath.LinkWrappedAll GumpMath.LinkWrappedArea   # ~10-20 s each
+    lake build GumpMath.LinkHull GumpMath.LinkFaceAut                       # fourth task: ~30 s each
+    lake build GumpMath.LinkHullCert                                        # R = 1..13: ~90 s
 
 The generators (committed; each regenerates its modules **byte for byte**, checked with `LINK_OUT=<dir>` and `cmp`
 against the committed files at 9fde4a9; set `LINK_OUT` to write elsewhere, the default is `mathlib/GumpMath/`):
@@ -148,6 +193,9 @@ against the committed files at 9fde4a9; set `LINK_OUT` to write elsewhere, the d
 - `link_gen_sym.py` — writes the five `Link<Face>Sym.lean`: `python3 research/blast/lean/link_gen_sym.py`.
 - `link_gen_full.py` — writes `LinkFaces.lean`: `python3 research/blast/lean/link_gen_full.py`.
 - `link_torus202.py` — writes `LinkTorus202.lean` (tables, trees, generators): `python3 research/blast/lean/link_torus202.py`.
+- `link_hull_cert.py` — writes `LinkHullCert.lean` (`python3 research/blast/lean/link_hull_cert.py TABLES 1 3 5 7 9 11 13`)
+  byte for byte (`LINK_FILE=<name>` writes another module, e.g. for R = 15, 17: too heavy, see the fourth task); TABLES is the output of
+  the `#eval dump R` given in its docstring (cells, `Face.nb`, `m1`, `m2` of `hull R`).
 The hand-written modules are `LinkBridge`, `LinkUnique`, `LinkSym`, `LinkNoCert` (and those added later).
 
 ## Not checked

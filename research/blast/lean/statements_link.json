@@ -111,6 +111,41 @@
     "wrapped_area",
     "Theorem 2 on the wrapped faces in area form: ln τ = H·D·(c_X + c_Y + c_Z), and ln τ = A·c on a rotation-invariant torus.",
     "For Face.P on torus H K D, every H, D > 0, K, 0 < ρ1, ρ2 < 1, every QSD with λ > 0 (it is the unique one): c_o is the price of cell o < 3 (orientation o at the origin); the second form when (K, −H−K) and (D, −D) are periods, A = 3HD. No hypothesis."
+   ],
+   [
+    "cellsOK_hull",
+    "(the PI's fourth task, step 1) every hull face has its coins: (2,1), or (2,0) with at most two neighbours.",
+    "For every R, from the dice agent's hull_type (the three cell types (6,2,1), (4,2,1), (2,2,0)). No hypothesis."
+   ],
+   [
+    "hull_theorems",
+    "THEOREMS.md, Theorems 1 and 2, on every hull face for Face.P itself.",
+    "For every R with A > 0, at (0.44, 0.42): the dominant QSD (also the dice agent's IsQSD), the tilt identity ln τ = Σ c_i with c_i the price of cell i's own death probability, ln τ < 2.2165·A (the dice agent's lntau_le_hull_all), survFrom = Face.survival. No hypothesis. hull_theorems_at: the same at every 0 < ρ1, ρ2 < 1 without the bound."
+   ],
+   [
+    "face_full_of",
+    "THEOREMS.md, Lemma 0 and its consequences, from Lemma 0 stated combinatorially.",
+    "For every face with CellsOK and A > 0 and every 0 < ρ1, ρ2 < 1: Lemma0F F (a living u from which every cell can be alive next, reached by possible transitions from every living state some cell of which can be alive next; density-free) gives uniqueness among λ > 0, μ > 0 on every living state, decay at exactly λ from every state that can survive."
+   ],
+   [
+    "hull_full_all",
+    "rigour/README.md claim 3 and THEOREMS.md (Lemma 0, Theorems 1, 2) on every hull face, under the single named hypothesis Lemma0F (hull R).",
+    "At (0.44, 0.42), every R with A > 0: unique law among λ > 0, positive on every living state, ln τ = Σ c_i, ln τ < 2.2165·A, decay at exactly λ, survFrom = Face.survival. Lemma0F (hull R) is proved by the kernel for R = 1, 3, …, 13 (hull<R>_lemma0, LinkHullCert*.lean) and not for general R."
+   ],
+   [
+    "lemma0_of_cert",
+    "(the hypothesis from a certificate) Lemma0F from a polynomial-size certificate.",
+    "certOK F u c0 common walks: every cell can be alive next from u, a path of possible transitions from {c0} to u, and from every {i} to {c0}; any face."
+   ],
+   [
+    "price_aut",
+    "THEOREMS.md, Theorem 2: equal prices for cells exchanged by a symmetry, for any automorphism of a face's tables.",
+    "For every face with CellsOK, every π with autOK F π (π permutes the cells, carries each neighbour list to that of the image up to order, keeps m1 and m2; a Boolean), and the QSD unique among λ > 0: c_{π i} = c_i."
+   ],
+   [
+    "hull_full_sym",
+    "rigour/README.md claim 3 on every hull face with the prices equal along the triangle's symmetries, under Lemma0F (hull R).",
+    "hull_full_all plus c_{π i} = c_i for every autOK automorphism π of hull R; the rotation (x,y,z) ↦ (y,z,x) and the reflection (x,y,z) ↦ (y,x,z) are kernel-checked automorphisms for R = 3, …, 13 (hull<R>_rot, hull<R>_refl), not for general R."
    ]
   ]
  }
