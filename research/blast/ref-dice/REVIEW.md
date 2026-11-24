@@ -10,7 +10,8 @@ here; **[conjectured]**. Every script is in this directory; bulk output in `rese
 
 I could not break it. Every theorem says what its row says, and the five kernels are gump's rule on the face over
 private coins entry for entry. Three points need care. The "ln τ" of the statements is −ln(1 − λ): that is the
-source's own definition of τ, but the lemma cited for E_μT = 1/(1 − λ) does not exist. The bust share is the share of
+source's own definition of τ, but the lemma cited for E_μT = 1/(1 − λ) does not exist. I have now proved it,
+in `QsdSurvival.lean`. The bust share is the share of
 the death flux only through a prose step; I checked that step on paper and to 10 digits numerically. The "surrogate"
 is not gump over i.i.d. coins: with gump's own shared cells beneath, the one-step law differs by up to 0.33 in
 total variation. The source says this; it is not a defect of the Lean.
@@ -33,9 +34,12 @@ total variation. The source says this; it is not a defect of the Lean.
    constants of the 22 Dice modules (`dice_names.txt`, written by `DiceAxiomSweep.lean`; `grep qsd_survival` finds only
    the header). The τ theorems are therefore statements about −ln(1 − λ). That is exactly the source's τ := 1/h
    (`rigour/README.md` claim 3, THEOREMS.md Lemma 0), so the statements are honest. The sentence "τ = E_μ T = 1/(1 − λ)"
-   in the docstrings of `hull3_tau` etc. is prose, not a theorem. It is a two-line induction (Σ_x μ(x) P^t 1(x) = λ^t
-   from `IsQSD.eigen`, then Σ_t λ^t = 1/(1 − λ)). It is true on paper [proved, by me]. Fix: prove it, or drop the
-   citation. Matters: medium, because readers will take the docstring's "E_μ T" as kernel-checked.
+   in the docstrings of `hull3_tau` etc. is prose, not a theorem. **I proved it** [proved, kernel, standard axioms] in
+   `QsdSurvival.lean`. `qsd_survival` gives Σ_x μ(x) P_x(T > t) = λ^t on every face whose ∅ row is absorbing.
+   `qsd_mean` gives E_μT := Σ_t P_μ(T > t) = 1/(1 − λ). `qsd_mean_all` covers every face with all its coins, and
+   `hull3_mean` covers hull 3 (∅ absorbing read off its checked tables by `P_sure`). With these the τ theorems say what
+   their docstrings say. Fix: adopt these four theorems, or drop the citation. Matters: low to medium, because readers
+   will take the docstring's "E_μ T" as kernel-checked.
 2. **The bust share is the share of the death flux only through prose. The step is right.** `Face.bustShare K μ λ =
    1 − μ·noBust K / (λ^(K−1)(1 − λ))` (`DiceExit.lean` 42–45) is P_μ(a fall ≥ ⌈A/2⌉ in the K transitions | T = K).
    The header argues that this is the share of the death flux. On paper [proved, by me]: from μ, P_μ(X_t = y, T > t)
@@ -203,7 +207,8 @@ Attacks on copies of the hull-3 data, all as expected:
 - I did not read the agent's Python (`dice_cert.py`, `dice_exit.py`, `dice_sym.py`, `dice_tie.py`) nor
   `geom.py`/`dense.py`/`qsd.c` beyond `qsd.c`'s bust prose and lines 236–310. My kernel was built without them. The
   agreement with the source's values runs through the README's numbers.
-- I did not prove E_μT = 1/(1 − λ) or the window-stationarity step in Lean. Both are paper arguments here.
+- The window-stationarity step of the bust share is a paper argument here, not proved in Lean. E_μT = 1/(1 − λ) is
+  proved (`QsdSurvival.lean`) only for faces with all coins and for hull 3.
 - The simulations are 1–2·10⁶ deaths: ±1e-4 on the hull share, ±3e-4 on the torus. The 6-digit intervals are
   confirmed by my exact recursion and window propagation (float64 for the latter), not by sampling.
 - The agent's commits after a65957b (`torus_regular`, `lntau_le_torus`, the hull-weighted bound, `DiceFlux`).
@@ -219,5 +224,6 @@ Attacks on copies of the hull-3 data, all as expected:
     python3 window_exact.py hull3; python3 window_exact.py torus113
     PYTHONPATH=../../../reference python3 shared.py
     python3 regular_check.py; python3 constants_check.py
-    (cd $L && lake env lean $OLDPWD/DiceAxiomSweep.lean)   # also Perturb.lean (2 expected errors), Regular.lean
+    (cd $L && lake env lean $OLDPWD/DiceAxiomSweep.lean)   # also Perturb.lean (2 expected errors), Regular.lean,
+                                                           # QsdSurvival.lean (E_mu T = 1/(1-lambda), ~1 min)
     python3 nb_compare.py regular.out
