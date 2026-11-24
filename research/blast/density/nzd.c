@@ -283,6 +283,19 @@ static void lane_soup(int lane) { int w = lane >> 6, k = lane & 63; u64 bit = 1U
 static const int lagv[NLAG] = {0, 1, 2, 3, 4, 6, 8, 12, 16, 24, 32, 48};
 static int ng, *gcell[NG], gn[NG]; static char gname[NG][16];
 static int gpop[NG][NL];
+/* per-cell density in the counted hull-generations, overall and given the watched face's population <= 20, 15, 10, 6,
+   4, 2 (CELL lines: any group's density is the mean of its cells', all cells having the same counts) */
+#define NCT 7
+static const int cthrv[NCT] = {1 << 20, 20, 15, 10, 6, 4, 2};
+static double *CD[NCT], CNn[NCT];
+static void cell_measure(const u64 *cm) {
+  u64 mk[NCT][W];
+  for (int t = 0; t < NCT; t++) { for (int w = 0; w < W; w++) mk[t][w] = 0;
+    for (int l = 0; l < NL; l++) if (pop[l] <= cthrv[t]) mk[t][l >> 6] |= 1ULL << (l & 63);
+    for (int w = 0; w < W; w++) { mk[t][w] &= cm[w]; CNn[t] += __builtin_popcountll(mk[t][w]); } }
+  for (int i = 0; i < n; i++) { const u64 *x = a + (size_t)i * W;
+    for (int t = 0; t < NCT; t++) { double c = 0; for (int w = 0; w < W; w++) c += __builtin_popcountll(x[w] & mk[t][w]); CD[t][i] += c; } }
+}
 /* face births and deaths per generation, keyed by the face's population the generation before; a birth is split by
    how many of the newborn's three neighbours below (two in layer 1, one in layer 2) were alive the generation before */
 static int fbl[NL][7], ppop[NL], *below, nbelow[1024];
@@ -324,6 +337,7 @@ static void layer_init(void) {
   below = malloc(sizeof(int) * 3 * A);
   for (int i = 0; i < A; i++) { nbelow[i] = 0; for (int j = 0; j < 12; j++) { int c = nb[12 * i + j]; if (c < n && (dep0[c] == 1 || dep0[c] == 2)) below[3 * i + nbelow[i]++] = c; } }
   for (int l = 0; l < NL; l++) ppop[l] = -1;
+  for (int t = 0; t < NCT; t++) { CD[t] = calloc(n, 8); CNn[t] = 0; }
   Ng = calloc(A + 1, 8);
 }
 static void layer_accum(int l, int counted) {   /* after observe(); every group counted */
@@ -355,6 +369,10 @@ static void cond_measure(const u64 *cm) {   /* cm: counted lanes; after observe(
           CMf[set][0][m] += __builtin_popcountll(q & ch); CMf[set][1][m] += __builtin_popcountll(q & ch & low[w]); } } } }
 }
 static void layer_report(void) {
+  printf("CELLN :"); for (int t = 0; t < NCT; t++) printf(" %.0f", CNn[t]); printf("   (hull-generations counted: all, face <= 20, 15, 10, 6, 4, 2)\n");
+  for (int i = 0; i < n; i++) { printf("CELL %d %d %d %d %d %d :", i, co[3 * i], co[3 * i + 1], co[3 * i + 2], dep0[i], dmo[i]);
+    for (int t = 0; t < NCT; t++) printf(" %.5f", CNn[t] ? CD[t][i] / CNn[t] : -1.0);
+    printf("\n"); }
   { const char *nm[3] = {"core1", "core2", "full1"};
     for (int s_ = 0; s_ < 3; s_++) { printf("CONDM %s : P(alive | m live face neighbours), all / face pop <= 10 :", nm[s_]);
       for (int m = 0; m < 3; m++) if (CMn[s_][0][m] > 0) printf(" m%d %.5f (%.3e) / %.5f (%.3e)", m, CMa[s_][0][m] / CMn[s_][0][m], CMn[s_][0][m],
@@ -466,7 +484,7 @@ int main(int argc, char **argv) {
     step(); if (fullrep) noise_full(); else if (M && !frozen) noise_random(M); observe();
     if (layers) { for (int q = 0; q < ng; q++) count_group(q); face_births();
       u64 cm[W]; for (int w = 0; w < W; w++) cm[w] = 0; for (int l = 0; l < NL; l++) if (g >= T0 && age[l] + 1 > T0) cm[l >> 6] |= 1ULL << (l & 63);
-      cond_measure(cm); }
+      cond_measure(cm); cell_measure(cm); }
     if (dump) { static uint8_t buf[2 * NL]; for (int l = 0; l < NL; l++) { buf[l] = (uint8_t)pop[l]; buf[NL + l] = (uint8_t)((od[l >> 6] >> (l & 63)) & 1); } fwrite(buf, 1, 2 * NL, dump); }
     for (int l = 0; l < NL; l++) {
       age[l]++;
