@@ -170,8 +170,10 @@ def main():
         f.write('def T : List (List ℕ) := %s\n\n' % ('[' + ', '.join('[' + ', '.join(map(str, l)) + ']' for l in T) + ']'))
         f.write('def data : Data := ⟨%d, %d, %d, %d, G, C, T⟩\n\n' % (dc.N1, dc.D1, dc.N2, dc.D2))
         f.write('/-- the %d automorphisms of the tables, with their actions on states -/\n' % len(G))
-        f.write('def gens : List (List ℕ × Tree) := [%s]\n\n' % ', '.join(
-            '([%s], Tree.build %d (act [%s]) 0)' % (', '.join(map(str, g)), A, ', '.join(map(str, g))) for g in G))
+        for gi, g in enumerate(G):
+            f.write('def g%d : List ℕ × Tree := ([%s], Tree.build %d (act [%s]) 0)\n' % (
+                gi, ', '.join(map(str, g)), A, ', '.join(map(str, g))))
+        f.write('\ndef gens : List (List ℕ × Tree) := [%s]\n\n' % ', '.join('g%d' % gi for gi in range(len(G))))
         f.write('def Vup : Tree := %s\n\n' % dc.tree(Vup))
         f.write('def Vlo : Tree := %s\n\n' % dc.tree(Vlo))
         f.write('def Gs : Tree := %s\n\n' % dc.tree(Gs))
@@ -188,6 +190,13 @@ def main():
                k=max(1, int(float(b_s)) + 1), h_lo=dc.dec_str(1 - Fraction(lam_s), 16, False),
                h_hi=dc.dec_str(1 - Fraction(mu_s), 16, True))
     sub['pk'] = ') ^ %d' % sub['k']
+    sub['symthms'] = ''.join(
+        'theorem sym%d : data.symOK %s.A g%d.1 g%d.2 = true := by decide +kernel\n'
+        'theorem inv%d : invOK %s.A g%d.2 Vup = true ∧ invOK %s.A g%d.2 Vlo = true ∧ invOK %s.A g%d.2 Gs = true :=\n'
+        '  ⟨by decide +kernel, by decide +kernel, by decide +kernel⟩\n'
+        % (j, F, j, j, j, F, j, F, j, F, j) for j in range(len(G)))
+    sub['symlist'] = ', '.join('sym%d' % j for j in range(len(G)))
+    sub['invlist'] = ', '.join('inv%d' % j for j in range(len(G)))
     thm = os.path.join(HERE, 'mathlib', 'GumpMath', 'Dice%s.lean' % name)
     with open(thm, 'w') as f:
         f.write(TEMPLATE % sub)
@@ -213,10 +222,7 @@ namespace %(N)sData
 open Data
 
 theorem tab : data.tabOK %(F)s = true := by decide +kernel
-theorem syms : gens.all (fun g => data.symOK %(F)s.A g.1 g.2) = true := by decide +kernel
-theorem invs : gens.all (fun g => invOK %(F)s.A g.2 Vup && invOK %(F)s.A g.2 Vlo && invOK %(F)s.A g.2 Gs) = true := by
-  decide +kernel
-theorem reps : repsOK %(F)s.A gens Wg Wr Rm = true := by decide +kernel
+%(symthms)stheorem reps : repsOK %(F)s.A gens Wg Wr Rm = true := by decide +kernel
 theorem up : marked %(F)s.A Rm (data.rowLe %(F)s.A (data.Dt %(F)s.A) Lup Mup Vup Vup) = true := by decide +kernel
 theorem gs : marked %(F)s.A Rm (data.rowLe %(F)s.A (data.Dt %(F)s.A) Kg Ng Gs Vup) = true := by decide +kernel
 theorem lo : marked %(F)s.A Rm (data.rowLo %(F)s.A (data.Dt %(F)s.A) Llo Mlo Vlo) = true := by decide +kernel
@@ -230,10 +236,11 @@ theorem hρ1 : ρ1 = ((data.n1 : ℚ) / data.d1) := by norm_num [ρ1, data]
 theorem hρ2 : ρ2 = ((data.n2 : ℚ) / data.d2) := by norm_num [ρ2, data]
 
 theorem hsym : ∀ g ∈ gens, data.symOK %(F)s.A g.1 g.2 = true := by
-  have := syms; rw [List.all_eq_true] at this; exact this
+  simp only [gens, List.forall_mem_cons, List.forall_mem_nil, and_true]
+  exact ⟨%(symlist)s⟩
 theorem hinv : ∀ g ∈ gens, invOK %(F)s.A g.2 Vup = true ∧ invOK %(F)s.A g.2 Vlo = true ∧ invOK %(F)s.A g.2 Gs = true := by
-  have := invs; rw [List.all_eq_true] at this
-  intro g hg; have := this g hg; simp only [Bool.and_eq_true] at this; exact ⟨this.1.1, this.1.2, this.2⟩
+  simp only [gens, List.forall_mem_cons, List.forall_mem_nil, and_true]
+  exact ⟨%(invlist)s⟩
 
 theorem iup : ∀ x, (%(F)s.P ((data.n1 : ℚ) / data.d1) ((data.n2 : ℚ) / data.d2) *ᵥ vec Vup %(F)s.A) x ≤ ((Lup : ℚ) / Mup) * vec Vup %(F)s.A x :=
   data.ineq_up_of_reps %(F)s tab gens Wg Wr Rm hsym Vup Vup (fun g hg => (hinv g hg).1)

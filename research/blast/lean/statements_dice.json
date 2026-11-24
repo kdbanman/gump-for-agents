@@ -45,7 +45,7 @@
    [
     "torus113_bust",
     "README claim 4: wrapped (1,1),(0,3), bust share 0.9369 (qsd.c halffall_share K=6: a fall of ≥ ⌈A/2⌉ cells in one generation among the last 6 transitions).",
-    "bustShare 6 μ λ ∈ (0.936852, 0.936854) for every QSD with λ > 0. bustShare is defined as 1 - μ·noBust 6 / (λ^5 (1-λ)); that this is the share of the death flux is the stationarity argument in DiceExit.lean's header, in prose, not formalised."
+    "bustShare 6 μ λ ∈ (0.936852, 0.936853) for every QSD with λ > 0. bustShare is defined as 1 - μ·noBust 6 / (λ^5 (1-λ)); that this is the share of the death flux is the stationarity argument in DiceExit.lean's header, in prose, not formalised."
    ],
    [
     "hull3_bust",
@@ -71,6 +71,11 @@
     "lntau_le_all",
     "THEOREMS.md: ε_max = 2.509 at (0.44, 0.42).",
     "ln τ < 2.5095·A for every QSD of every such face."
+   ],
+   [
+    "lntau_le_regular",
+    "THEOREMS.md Theorem 1, sharpened (not in the source): a finite local inequality that bounds every wrapped face at once.",
+    "For every face with all its coins that is regular (six neighbour slots per cell, each cell in six slots: every wrapped face; `regular` is checked here for the tori (1,0),(0,3), (1,1),(0,3), (2,0),(0,2) only, not proved for the general torus), ln τ < 1.9228·A for every QSD (δ₁ = 0.1462 from a weight 152/125 on every live-dead edge; the weights cancel)."
    ]
   ]
  }

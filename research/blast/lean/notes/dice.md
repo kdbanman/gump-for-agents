@@ -94,6 +94,20 @@ face and every strip, every size) and every 0 ≤ ρ1, ρ2 ≤ 1: `survival_le_a
 ln τ < 2.5095·A at (0.44, 0.42). Says less than THEOREMS.md Theorem 1: the middle term E_μ[E] (Jensen) is not
 formalised, and hull faces are not covered (their corners have two coins; true there too, not formalised for all R).
 
+**A sharper Theorem 1 from a finite certificate that bounds an infinite family** (`DiceBound2.lean`). The question
+"what inequality lets a finite face bound an infinite family" has, on the upper side, this answer: a *local*
+inequality whose error terms cancel globally. Put a weight w = 152/125 on every slot between a live and a dead cell
+(a live cell with k live neighbours carries w^(6−k), a dead one w^(−k)). On a regular face (six neighbour slots per
+cell and each cell in six slots: every wrapped face) the live→dead and dead→live slots are equally many
+(`up_sum_eq_down_sum`, from Σ_i k_i = 6·(live cells)), so the weights cancel in P(x, ∅) = Π_i d_i(x), and each
+weighted factor is ≥ δ₁ = 0.1462 (`weighted_cell`, 14 cases decided by the kernel). Hence P(x, ∅) ≥ δ₁^A for every
+state of every regular face of every size: `survival_le_regular`, and `lntau_le_regular`: **ln τ < 1.9228·A**
+(against 2.5095·A; the brute-force maximum of E(x)/A on the tori of 9–12 cells is 1.52–1.82 [measured], so the
+local certificate is within 6–25% of the worst state). Says less than "every wrapped face": `Face.regular` is a
+hypothesis, checked by the kernel for the tori (1,0),(0,3), (1,1),(0,3), (2,0),(0,2); the general torus lemma
+(six slots per cell, in-degree six, for every H, K, D) is not formalised. The lower side of the price (ln τ ≥ c·A,
+B2) is not touched.
+
 **Both exits at 9 cells** (`DiceExit.lean`, `DiceTorus113Exit.lean`, `DiceHull3Exit.lean`; `dice_exit.py`). The bust,
 as `qsd.c` defines it (`halffall_share`): the last K = 6 transitions before the death (the death included) contain
 a fall of at least ⌈A/2⌉ = 5 cells in one generation. `Face.noBust K x` = P_x(T = K and no such fall) (a recursion

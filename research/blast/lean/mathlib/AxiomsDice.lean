@@ -4,6 +4,7 @@ import GumpMath.DiceTorus113
 import GumpMath.DiceStrip13
 import GumpMath.DicePatch13
 import GumpMath.DiceBound
+import GumpMath.DiceBound2
 import GumpMath.DiceHull3Exit
 import GumpMath.DiceTorus113Exit
 open Gump.Dice
@@ -20,6 +21,9 @@ open Gump.Dice
 #print axioms survival_le_all
 #print axioms qsd_le_all
 #print axioms lntau_le_all
+#print axioms survival_le_regular
+#print axioms lntau_le_regular
+#print axioms regular_torus202
 #print axioms hull3_bust
 #print axioms torus113_bust
 #print axioms Data.lifetime_of_cert
