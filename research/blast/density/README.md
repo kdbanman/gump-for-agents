@@ -303,7 +303,11 @@ cells at 45 cells and 45 of 63 at 63 cells (the rest of layer 1 lies on another 
   are tiny here because the life is so steep in p; seed scatter not measured). A face over independent coins of
   density 0.385 has gump's ln τ at 45 and at 63 cells, so the same slope in A between them (3.815 over 18 cells,
   0.212 a cell). The steepness grows with the face (49 and 74 per unit p, 1.09 and 1.17 per cell), as it should if
-  ln τ ≈ A λ(p) + const. An 84-cell row at p = 0.385 tests the next size: R84_LINE
+  ln τ ≈ A λ(p) + const. An 84-cell row at p = 0.385 (`R13_fullDO1_p0.385`, R = 13, 5 × 10⁶
+  generations, only 45 deaths: lives there outlast the run) gives ln τ = 17.857 ± 0.149 against gump's 18.141 ±
+  0.005 (`research/blast/noisy/README.md`; all faces, ties included): **Δ = −0.28 ± 0.15**, 1.9 σ low. With a slope near
+  100 per unit p at that size this is p\*(84) ≈ 0.388 ± 0.002: consistent with the one density at 2 σ, not decided.
+  From one cell that face dies 45 times in 46.
 - **The face over a fully independent support is near a threshold [measured at 45 cells].** With DO = 1, Δ = −3.25,
   −3.92, −1.75, −0.49, −0.24, +0.26, +0.73 at p = 0.25, 0.30, 0.35, 0.375, 0.38, 0.39, 0.40: below 0.35 the whole hull
   dies within a few thousand generations (longest life 1,000–6,000; at 0.25 the faces hold 3 cells on average), and
