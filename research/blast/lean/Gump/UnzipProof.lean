@@ -439,6 +439,7 @@ theorem unzip_law_sharp : UnzipLawSharp := by
     exact absurd this (by decide)
 
 /-- **The unzip law** as push 8 states it (from generation 4k + 8). -/
-theorem unzip_law : UnzipLaw := unzipLawSharp_imp unzip_law_sharp
+theorem unzip_law : UnzipLaw :=
+  unzipLawSharp_imp unzip_law_sharp
 
 end Gump.Unzip
