@@ -210,6 +210,37 @@ def cond_check(R, DW, M, trials=40):
     return None
 
 
+def frozen_check(R, DW, p, gens=300, swap=False):
+    """frozen coins: each lane is a soup, then the cells of N are set once to coins of bias p and held: the stepper must
+    equal the oracle with the cells of N clamped to those values after every step; the share alive of N is p."""
+    lib = ctypes.CDLL(so)
+    lib.set_coin.argtypes = [ctypes.c_int, ctypes.c_double]
+    n, A, co = geometry(lib, R, DW, 3)
+    for d in range(1, 30): lib.set_coin(d, p)
+    lib.v_frozen_init(); lib.v_seed(99); lib.v_clear()
+    nN = lib.v_nN(); Nc = np.zeros(nN, np.int32); lib.v_ncells(Nc.ctypes.data_as(VP))
+    for lane in range(512): lib.v_soup(lane)
+    H = 2 * (R + 3); c0 = H // 2; m = oracle.masks(H); ix = tuple((co + c0).T)
+    if swap:
+        i = n // 2; lib.v_swap(i, 5, int((lib.v_nb(i, 5) + 7) % n))
+    lanes = [0, 200, 511]; xs = []; held = []; buf = np.zeros(n, np.uint8); tot = 0
+    for lane in range(512):
+        lib.v_get(lane, buf.ctypes.data_as(VP)); tot += buf[Nc].sum()
+        if lane in lanes:
+            x = np.zeros((H, H, H), np.int8); x[ix] = buf; xs.append(x); held.append(buf[Nc].copy())
+    f = tot / (512 * nN)
+    if abs(f - p) > 5 * np.sqrt(p * (1 - p) / (512 * nN)):
+        return f'share alive of N {f:.4f}, bias {p}'
+    for g in range(1, gens + 1):
+        lib.v_step()
+        for k, lane in enumerate(lanes):
+            y = oracle.step(xs[k], m); yv = y[ix].copy(); yv[Nc] = held[k]; y[:] = 0; y[ix] = yv; xs[k] = y
+            lib.v_get(lane, buf.ctypes.data_as(VP))
+            if not (buf == yv).all():
+                return f'state differs at generation {g}, lane {lane}'
+    return None
+
+
 def brute(exe_, R, seed, gens, M, DW, extra=None, env=None):
     cmd = [exe_, str(R), 'brute', str(seed), str(gens), str(M), str(DW), '3'] + ([extra] if extra else [])
     e = dict(os.environ); e.update(env or {})
@@ -293,6 +324,8 @@ report_neg('2. coins of bias 0.6 read as 0.5', coin_check(11, 1, 256, {d: 0.6 fo
 report('2. shuffled coin, source = the whole layer', shuffle_check(11, 1, 256, 0))
 report('2. shuffled coin, source = the layer\'s core', shuffle_check(11, 1, 256, 1))
 report('2. conditioned coins (bias by the number of live face neighbours), face all dead and all alive', cond_check(11, 1, 256))
+report('2. frozen coins (bias 0.42): the oracle with the cells of N held', frozen_check(11, 1, 0.42))
+report_neg('2. frozen coins, one neighbour swapped', frozen_check(11, 1, 0.42, 100, True))
 cases = [(11, 1201, 20000, 256, 1), (11, 1202, 20000, 128, 2), (11, 1206, 20000, 64, 6), (9, 901, 30000, 16, 6), (11, 5, 20000, 0, 1)]
 for R, seed, gens, M, DW in cases:
     a = first_line(brute(nzexe, R, seed, gens, M, DW)); b = first_line(brute(exe, R, seed, gens, M, DW))

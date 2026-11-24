@@ -9,6 +9,8 @@
 2. shuffled coin, source = the whole layer: OK
 2. shuffled coin, source = the layer's core: OK
 2. conditioned coins (bias by the number of live face neighbours), face all dead and all alive: OK
+2. frozen coins (bias 0.42): the oracle with the cells of N held: OK
+2. frozen coins, one neighbour swapped (negative control): fails as it must: state differs at generation 1, lane 511
 3. same BRUTE line as nz.c: R 11 seed 1201 gens 20000 M 256 DW 1: OK
 3. same BRUTE line as nz.c: R 11 seed 1202 gens 20000 M 128 DW 2: OK
 3. same BRUTE line as nz.c: R 11 seed 1206 gens 20000 M 64 DW 6: OK

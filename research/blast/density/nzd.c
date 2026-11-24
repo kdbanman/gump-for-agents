@@ -375,6 +375,8 @@ void v_clear(void) { memset(a, 0, (size_t)(n + 1) * W * 8); memset(b, 0, (size_t
 void v_set(int lane, const uint8_t *cells) { for (int i = 0; i < n; i++) { u64 *p = a + (size_t)i * W + (lane >> 6); *p = (*p & ~(1ULL << (lane & 63))) | ((u64)(cells[i] & 1) << (lane & 63)); } }
 void v_get(int lane, uint8_t *cells) { for (int i = 0; i < n; i++) cells[i] = (a[(size_t)i * W + (lane >> 6)] >> (lane & 63)) & 1; }
 void v_step(void) { step(); observe(); }
+void v_frozen_init(void) { frozen = 1; frz = aligned_alloc(64, (size_t)nN * W * 8 + 64); memset(frz, 0, (size_t)nN * W * 8); }
+void v_soup(int lane) { lane_soup(lane); }
 void v_noise(int M) { noise_random(M); }
 void v_seed(unsigned long long s) { sm = s * 0x2545F4914F6CDD1DULL + 7; sm2 = s * 0x9E3779B97F4A7C15ULL + 99991; }
 int v_pop(int lane) { return pop[lane]; }

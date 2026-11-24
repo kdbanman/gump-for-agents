@@ -61,7 +61,8 @@ print()
 gumps = [t for t in P if t.startswith('gump') and P[t][2][0]['A'] == 63]
 if gumps:
     print('EXCURSIONS: d ln f_k (descents to <= k from >= H, per hull-generation) and d ln P_k (share of them that die) against gump;')
-    print('            -(d ln f_k + d ln P_k) = d ln tau. Errors from counts (Poisson on N_k, binomial on D_k / N_k).')
+    print('            -(d ln f_k + d ln P_k) = d ln tau. Errors (at k = 1, 4, 15) from counts: Poisson on N_k, binomial on D_k / N_k;')
+    print('            descents cluster in time, so the error of d ln f_k is understated.')
     def agg(rs):
         E = sum(r['E'] for r in rs); N = defaultdict(int); D = defaultdict(int)
         for r in rs:
@@ -79,6 +80,7 @@ if gumps:
             if N[k] == 0 or D[k] == 0:
                 continue
             dlf = math.log(N[k] / E) - math.log(gN[k] / gE); dlp = math.log(D[k] / N[k]) - math.log(gD[k] / gN[k])
-            ep = math.sqrt(1 / D[k] + 1 / gD[k]); ef = math.sqrt(1 / N[k] + 1 / gN[k])
-            out.append(f'k{k}: {dlf:+.3f}/{dlp:+.3f}')
+            Pk, gPk = D[k] / N[k], gD[k] / gN[k]
+            ep = math.sqrt((1 - Pk) / D[k] + (1 - gPk) / gD[k]); ef = math.sqrt(1 / N[k] + 1 / gN[k])
+            out.append(f'k{k}: {dlf:+.3f}/{dlp:+.3f}' + (f'(+-{ef:.3f}/{ep:.3f})' if k in (1, 4, 15) else ''))
         print(f'  {tag:24s} ' + ' '.join(out))
