@@ -291,6 +291,31 @@ def full_check(R, DW, biases, gens=200, trials=30, read_as=None):
     return None
 
 
+def clust_check(R, DW, p, c, trials=40, read_c=None):
+    """clustered full replacement: the share alive of N is p; two replaced cells of the same depth agree with
+    probability c + (1 - c)(p^2 + (1-p)^2), of different depths p^2 + (1-p)^2 (independent)."""
+    lib = ctypes.CDLL(so)
+    lib.set_coin.argtypes = [ctypes.c_int, ctypes.c_double]; lib.v_set_clust.argtypes = [ctypes.c_double]
+    n, A, co = geometry(lib, R, DW, 3)
+    for d in range(1, 30): lib.set_coin(d, p)
+    lib.v_set_clust(c); lib.v_seed(1357)
+    nN = lib.v_nN(); Nc = np.zeros(nN, np.int32); lib.v_ncells(Nc.ctypes.data_as(VP))
+    dep = (R - co @ SIG[0]) // 2; buf = np.zeros(n, np.uint8); X = []
+    for t in range(trials):
+        lib.v_clear(); lib.v_noise_full()
+        for lane in range(0, 512, 4):
+            lib.v_get(lane, buf.ctypes.data_as(VP)); X.append(buf[Nc].copy())
+    X = np.array(X, float); f = X.mean()
+    lib.v_set_clust(0.0)
+    if abs(f - p) > 5 * np.sqrt(p * (1 - p) / X.size): return f'share alive {f:.4f}, bias {p}'
+    d0 = dep[Nc]; i1 = np.where(d0 == 1)[0]; i2 = np.where(d0 == 2)[0]
+    same = (X[:, i1[0]] == X[:, i1[1]]).mean(); cross = (X[:, i1[0]] == X[:, i2[0]]).mean()
+    q = p * p + (1 - p) * (1 - p); cc = c if read_c is None else read_c; want = cc + (1 - cc) * q; sd = np.sqrt(want * (1 - want) / len(X))
+    if abs(same - want) > 5 * sd: return f'same depth agree {same:.4f}, expected {want:.4f} +- {sd:.4f}'
+    if abs(cross - q) > 5 * np.sqrt(q * (1 - q) / len(X)): return f'different depths agree {cross:.4f}, independent {q:.4f}'
+    return None
+
+
 def brute(exe_, R, seed, gens, M, DW, extra=None, env=None):
     cmd = [exe_, str(R), 'brute', str(seed), str(gens), str(M), str(DW), '3'] + ([extra] if extra else [])
     e = dict(os.environ); e.update(env or {})
@@ -379,6 +404,8 @@ report_neg('2. frozen coins, one neighbour swapped', frozen_check(11, 1, 0.42, 1
 report('2. full replacement (R = 11, d = 1; biases 0.19, 0.3, 0.5 by depth)', full_check(11, 1, {1: 0.19, 2: 0.3, '*': 0.5}))
 report('2. full replacement at R = 9', full_check(9, 1, {'*': 0.19}))
 report_neg('2. full replacement of bias 0.21 checked as 0.19', full_check(11, 1, {'*': 0.21}, gens=0, read_as={'*': 0.19}))
+report('2. clustered full replacement (p 0.3, c 0.3)', clust_check(11, 1, 0.3, 0.3))
+report_neg('2. clustered full replacement c 0.3 checked as independent', clust_check(11, 1, 0.3, 0.3, read_c=0.0))
 cases = [(11, 1201, 20000, 256, 1), (11, 1202, 20000, 128, 2), (11, 1206, 20000, 64, 6), (9, 901, 30000, 16, 6), (11, 5, 20000, 0, 1)]
 for R, seed, gens, M, DW in cases:
     a = first_line(brute(nzexe, R, seed, gens, M, DW)); b = first_line(brute(exe, R, seed, gens, M, DW))

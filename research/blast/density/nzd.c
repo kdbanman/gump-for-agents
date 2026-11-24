@@ -62,7 +62,9 @@ static u64 cctab[MAXD][4]; static double ccb[MAXD][4]; static int *fnb, *nfnb;
 static int ckind[MAXD]; static u64 cthr[MAXD]; static double cbias[MAXD]; static int *srcs[MAXD], nsrc[MAXD];
 static int general = 0, frozen = 0, srccore = 0;
 static int allfair = -1, allthr = -1;
-static int fullrep = 0;      /* NZD_FULL=1: full replacement, every cell of N a fresh coin of its bias every generation */     /* caches of the noise loop's form; reset whenever a coin changes */
+static int fullrep = 0; static u64 clthr = 0;   /* NZD_CLUST=c (full replacement only): per depth, lane and generation, with
+   probability c every replaced cell of that depth takes one common coin; otherwise each its own (density unchanged,
+   correlation c between two replaced cells of the same depth) */      /* NZD_FULL=1: full replacement, every cell of N a fresh coin of its bias every generation */     /* caches of the noise loop's form; reset whenever a coin changes */
 
 int geom_init(int R_, int dw, int dov) {
   R = R_; DW = dw; DO = dov;
@@ -175,8 +177,16 @@ static inline u64 coin(int lane, int cell, uint32_t v) {
 /* Full replacement: after every step each cell of N, in every lane, is set to a fresh coin of its depth's bias
    (a fair depth: bias 1/2), independent of everything; a word of 64 lanes is made bit-serially from 16 words of sm2:
    r <- b_i ? (z | r) : (z & r) over the bits b_i of round(p 2^16), least significant first, so P(r = 1) = that / 2^16. */
+static inline u64 bword(u64 thr) {   /* 64 independent bits, each 1 with probability thr / 2^16 */
+  if (thr >= 65536) return ~0ULL;
+  u64 r = 0; for (int i = 0; i < 16; i++) { u64 z = rnd2(); r = ((thr >> i) & 1) ? (z | r) : (z & r); } return r;
+}
 static void noise_full(void) {
+  static u64 cmask[MAXD][W], ccoin[MAXD][W];
+  if (clthr) for (int d = 0; d < MAXD; d++) { int any = 0; for (int j = 0; j < nN && !any; j++) any = dep0[Ncell[j]] == d; if (!any) continue;
+    u64 thr = ckind[d] == 1 ? cthr[d] : 32768; for (int w = 0; w < W; w++) { cmask[d][w] = bword(clthr); ccoin[d][w] = bword(thr); } }
   for (int j = 0; j < nN; j++) { int c = Ncell[j], d = dep0[c]; u64 thr = ckind[d] == 1 ? cthr[d] : 32768;
+    if (clthr) { u64 *x = a + (size_t)c * W; for (int w = 0; w < W; w++) { u64 ind = bword(thr); x[w] = (cmask[d][w] & ccoin[d][w]) | (~cmask[d][w] & ind); } continue; }
     if (ckind[d] == 2 || ckind[d] == 4) { fprintf(stderr, "full replacement takes plain biases only\n"); exit(1); }
     u64 *x = a + (size_t)c * W;
     for (int w = 0; w < W; w++) {
@@ -403,6 +413,7 @@ void v_frozen_init(void) { frozen = 1; frz = aligned_alloc(64, (size_t)nN * W * 
 void v_soup(int lane) { lane_soup(lane); }
 void v_noise(int M) { noise_random(M); }
 void v_noise_full(void) { noise_full(); }
+void v_set_clust(double c) { clthr = (u64)floor(c * 65536.0 + 0.5); }
 void v_seed(unsigned long long s) { sm = s * 0x2545F4914F6CDD1DULL + 7; sm2 = s * 0x9E3779B97F4A7C15ULL + 99991; }
 int v_pop(int lane) { return pop[lane]; }
 int v_od(int lane) { return (od[lane >> 6] >> (lane & 63)) & 1; }
@@ -434,6 +445,7 @@ int main(int argc, char **argv) {
   if (getenv("NZD_SRC") && !strcmp(getenv("NZD_SRC"), "core")) srccore = 1;
   if (getenv("NZD_FROZEN")) frozen = atoi(getenv("NZD_FROZEN"));
   if (getenv("NZD_FULL")) fullrep = atoi(getenv("NZD_FULL"));
+  if (getenv("NZD_CLUST")) { clthr = (u64)floor(atof(getenv("NZD_CLUST")) * 65536.0 + 0.5); if (!fullrep) { fprintf(stderr, "NZD_CLUST needs NZD_FULL\n"); return 2; } }
   if (fullrep && frozen) { fprintf(stderr, "full and frozen exclude each other\n"); return 2; }
   int layers = getenv("NZD_LAYERS") ? atoi(getenv("NZD_LAYERS")) : 0;
   long gens = atol(argv[4]); int M = atoi(argv[5]);
@@ -481,7 +493,7 @@ int main(int argc, char **argv) {
   if (Dany) printf(" lntau_any8 %.4f +- %.4f", log(8 * E / Dany), 1 / sqrt((double)Dany));
   if (n0) printf(" lntau_watched %.4f +- %.4f", log(E / n0), 1 / sqrt((double)n0));
   printf(" settled %ld longest_life %ld\n", nsettled, maxage);
-  printf("BIAS seed %llu general %d frozen %d full %d src %s :", (unsigned long long)seed0, general, frozen, fullrep, srccore ? "core" : "layer");
+  printf("BIAS seed %llu general %d frozen %d full %d clust %.5f src %s :", (unsigned long long)seed0, general, frozen, fullrep, clthr / 65536.0, srccore ? "core" : "layer");
   for (int d = DW; d <= R; d++) { int any = 0; for (int j = 0; j < nN; j++) if (dep0[Ncell[j]] == d) any++; if (!any) continue;
     if (ckind[d] == 2) printf(" %d(%d):s", d, any); else if (ckind[d] == 4) printf(" %d(%d):c%.4f/%.4f/%.4f", d, any, ccb[d][0], ccb[d][1], ccb[d][2]); else printf(" %d(%d):%.5f", d, any, cbias[d]); }
   printf("\n");
