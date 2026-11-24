@@ -1,12 +1,12 @@
 # The catalogue's "for every N" laws in Lean (tape files)
 
-Lean arm, 2026-11-24, 11:16–13:15 UTC, 13:16–14:25 UTC and 14:32–15:45 UTC. Files: `Gump/TapeBase.lean`, `Gump/Tape.lean`, `Gump/TapeSignals.lean`
+Lean arm, 2026-11-24, 11:16–13:15 UTC, 13:16–14:25 UTC and 14:32–15:50 UTC. Files: `Gump/TapeBase.lean`, `Gump/Tape.lean`, `Gump/TapeSignals.lean`
 (+ `TapeSignalsData.lean`), `Gump/Line.lean` (+ `LineData.lean`), `Gump/Clock.lean` (+ `ClockData.lean`),
 `Gump/Unzip.lean`, `Gump/UnzipProof.lean`, `Gump/Call.lean` (+ `CallData.lean`), `Gump/CallProof.lean`,
 `Gump/CallBox.lean`, `Gump/CallLine.lean`, `Gump/CallUnion.lean` (+ `CallUnionData.lean`), `Gump/CallUnionLocal.lean`,
-`Gump/ClockLit.lean` (+ `ClockLitData.lean`), `Gump/ClockLitFirst.lean`, `Gump/ClockLitOdd.lean`, `Gump/LineBeam.lean` (+ `LineBeamData.lean`), `Gump/ClockReader.lean`, `Gump/CallReader.lean` (+ `CallReaderData.lean`);
+`Gump/ClockLit.lean` (+ `ClockLitData.lean`), `Gump/ClockLitFirst.lean`, `Gump/ClockLitOdd.lean`, `Gump/LineBeam.lean` (+ `LineBeamData.lean`), `Gump/ClockReader.lean`, `Gump/CallReader.lean` (+ `CallReaderData.lean`), `Gump/LineDivider.lean` (+ `LineDividerData.lean`);
 `AxiomsTape.lean`; scripts `tape_lib.py`, `tape_line.py`, `tape_signals.py`, `tape_clock.py`, `tape_call.py`,
-`tape_statements_check.py`, `tape_unzip.py`, `tape_call_front.py`, `tape_callunion.py`, `tape_lit.py`, `tape_beam.py`, `tape_reader.py`; rows in `statements_tape.json`. Every result below is in the **kernel tier**: no
+`tape_statements_check.py`, `tape_unzip.py`, `tape_call_front.py`, `tape_callunion.py`, `tape_lit.py`, `tape_beam.py`, `tape_reader.py`, `tape_divider.py`; rows in `statements_tape.json`. Every result below is in the **kernel tier**: no
 `native_decide` anywhere, every base run is `decide +kernel` on `Gump.Bits`' stepper, and every theorem in
 `AxiomsTape.lean` rests on at most `propext`, `Classical.choice`, `Quot.sound`. Nothing here is refereed.
 
@@ -24,6 +24,7 @@ Lean arm, 2026-11-24, 11:16–13:15 UTC, 13:16–14:25 UTC and 14:32–15:45 UTC
 | 7 | the beam: period exactly 4 for every N ≥ 1 (§21, `prove_beam.py`) | `Beam.beam_period` | **proved** (third session) |
 | 8 | capL of the clock eats every word and remembers nothing (§15, `prove_reader.py`) | `Clock.reader_run`, `reader_step` | **proved**, every word (third session) |
 | 9 | the call line's left cap (call9.json) eats every word (REVIEW-signals-9 §3, left open (ii)) | `Reader.reader9_run`, `reader_run_gen` | **proved**, every word (third session) |
+| 10 | the divider: period exactly 8 from generation 2N − 3 for every N ≥ 8 (§21b, `prove_divider.py`) | `Divider.divider_period` | **proved** (third session) |
 
 ### Headline statements, verbatim
 
@@ -44,6 +45,10 @@ theorem call_law : CallLaw
 theorem clockOf_period (N : Nat) (hN : 1 ≤ N) :
     run (clockOf N) (4 * N + 2) = clockOf N ∧ (∀ k, 0 < k → k < 4 * N + 2 → run (clockOf N) k ≠ clockOf N) ∧ …
 theorem reader_run (w : Int → Letter) : ∀ n : Nat, run (readerC w) (2 * n) = readerC (fun u => w (u + n))
+theorem divider_period (N : Nat) (hN : 8 ≤ N) :
+    run (divC N) (2 * N - 3 + 8) = run (divC N) (2 * N - 3) ∧
+    (∀ k, 0 < k → k < 8 → run (divC N) (2 * N - 3 + k) ≠ run (divC N) (2 * N - 3)) ∧
+    run (divC N) (2 * N - 4 + 8) ≠ run (divC N) (2 * N - 4)
 theorem beam_period (N : Nat) (hN : 1 ≤ N) :
     run (beam N) 4 = beam N ∧ ∀ k, 0 < k → k < 4 → run (beam N) k ≠ beam N
 theorem lit_enters_at (N : Nat) (h6 : 6 ≤ N) :
@@ -261,9 +266,11 @@ Read for laws stated for every size or every word and not yet in Lean: `research
    catalogue's L3 answer as a theorem for every N. Done: `beam_period` (taken first in time, being the cheapest:
    the line's gluing with no delay).
 4. **The divider** (§21b, `prove_divider.py`: period exactly 8 from generation 2N − 3 for every N ≥ 8): the first
-   emitter of a non-constant word. Not done; the method is `Line.lean`'s (the delayed chart L on the left, the
-   gun and its oscillator in the right chart, base S(14, 3) over 2N0 + 56 generations, which fits the 64-box), with
-   period 8 and the preperiod 2N − 3 in place of 4 and 2N.
+   emitter of a non-constant word. Done: `divider_period` (`Gump/LineDivider.lean`), `Line.lean`'s induction with the
+   oscillator in the right chart: `S N m` has period 8 from 2N − 3, "not period 4" at every later generation (seen
+   right of the seam, so it moves one unit per step), "not periodic from 2N − 4" (seen left of it), the window and
+   the rest; base S 14 3 (37 generations in the box) and N = 8 .. 13 directly. A return after k < 8 would give one
+   after 4, since k·a ≡ 4 (mod 8) for some a (`S_facts`).
 5. **The meetings** (§31; REVIEW-signals-6 §3): exactly one meeting per ordered pair of opposite kinds (a
    translation argument on the infinite train), and the four outcomes for ever (U–K0 both vanish; E–K0 a puncher;
    E–H, U–H wire B between two rigid edges, `glue6.py`). Not done: the reduction needs a superposition lemma for

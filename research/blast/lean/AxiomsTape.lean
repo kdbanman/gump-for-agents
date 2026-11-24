@@ -15,6 +15,7 @@ import Gump.ClockReader
 import Gump.CallReader
 import Gump.ClockLitFirst
 import Gump.ClockLitOdd
+import Gump.LineDivider
 open Gump Gump.Tape
 #print axioms glue_run
 #print axioms run_shiftC
@@ -121,3 +122,10 @@ open Gump Gump.Tape
 #print axioms Gump.Clock.lit_odd_entry
 #print axioms Gump.Clock.lit_enters_at
 #print axioms Gump.Clock.lit_clock_exact
+#print axioms Gump.Divider.S_succ
+#print axioms Gump.Divider.baseCheck_ok
+#print axioms Gump.Divider.S_base
+#print axioms Gump.Divider.S_all
+#print axioms Gump.Divider.directOK_ok
+#print axioms Gump.Divider.S_facts
+#print axioms Gump.Divider.divider_period

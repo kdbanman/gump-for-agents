@@ -156,6 +156,11 @@
     "lit_enters_at",
     "(PI's brief, third task) one cell lights the clock of N units into the cycle `clockOf N`, matched at generation N − 2 with `clockY (N − 6)`, at no earlier generation; the owner's journal (2026-11-15, 10:30) on the 4N + 2 clock as a theorem from a single cell.",
     "Same, for every N ≥ 6: the state at N − 2 is a state of the cycle (even N: `clockY (N − 6)` at generation 2(N − 6) + 3, `lit_enters`; odd N: at 2(N − 6) + 2, `lit_odd_entry`, three local one-generation kernel checks against base times 7, 9, 11), and no earlier state is (`lit_first`). `lit_clock_exact`: from N − 2 on, exact period 4N + 2. N ≤ 5: `lit_clock_small` (from max(N − 2, 0); minimality there not claimed)."
+   ],
+   [
+    "divider_period",
+    "§21b, `prove_divider.py`: the divider (line-C(N) and the oscillator `osc` of `objects/divider-C8.json`) has period exactly 8 from generation 2N − 3 for every N ≥ 8.",
+    "Same, for every N ≥ 8: the state at 2N − 3 returns after 8 generations and after no fewer, and the state at 2N − 4 does not return after 8 (so it is on no cycle: the preperiod is exactly 2N − 3). Proved by the source's (and `Line.lean`'s) induction N → N + 1 with the oscillator in the right chart (`S_succ`), from the kernel base S 14 3 (`baseCheck_ok`, 37 generations) and N = 8 .. 13 directly (`directOK_ok`). capA, the wire unit and the gun are asserted equal to line-C's by `tape_divider.py`, which also checks the periods on the oracle for N = 8 .. 16. N = 3 .. 7 (direct runs in the catalogue) are not covered."
    ]
   ]
  }
