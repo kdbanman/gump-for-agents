@@ -5,7 +5,6 @@ Solver session, 2026-11-24 (from 11:16 UTC). Question (open problem 9 (r)): fair
 13.633 ± 0.001). Coins differ from the layer they replace in density (0.5 against gump's ≈ 0.42) and in being
 uncorrelated with the face. Which one does it?
 
-(Account in progress; results below are filled in as rows finish.)
 
 ## Files
 
@@ -40,3 +39,31 @@ uncorrelated with the face. Which one does it?
 
 A biased coin is a comparison of 16 bits of a second random stream with round(p 2¹⁶): its bias is that integer / 2¹⁶
 (printed). The main stream (number, squares and order of the darts, the soups) is the one nz.c uses whatever the bias.
+
+## Gump's own layers under the watched face [measured]
+
+`NZD_LAYERS=1 nzd 11 brute 1 4000000 0 1 3` (gump, R = 11, 2.04 × 10⁹ hull-generations; `data/layers/gump_R11_s1_4M.txt`).
+"core k" = the cells at depth k under the watched face and ≥ 3 under every other face = **the cells a dart replaces**
+(9, 9, 18, 18, 21 cells at k = 1 … 5; 57 at k ≥ 6); "full k" = the whole layer (63, 75, 75, 81, 81 cells). Face
+population: mean 31.25 of 63; "low" = at most 10 (a third of the mean; 3.4 × 10⁻⁴ of the time) or at most 6 (5 × 10⁻⁵).
+
+| layer | all | face ≤ 20 | face ≤ 15 | face ≤ 10 | face ≤ 6 | face ≤ 4 | face ≤ 2 |
+|---|---|---|---|---|---|---|---|
+| core 1 (replaced) | 0.4301 | 0.393 | 0.388 | **0.3836** | 0.3919 | 0.401 | 0.417 |
+| core 2 | 0.4094 | 0.405 | 0.415 | **0.4280** | 0.4391 | 0.443 | 0.445 |
+| core 3 | 0.4149 | 0.415 | 0.418 | 0.4205 | 0.4196 | 0.418 | 0.414 |
+| core 4 | 0.4166 | 0.417 | 0.418 | 0.4184 | 0.4179 | 0.417 | 0.418 |
+| core 5 | 0.4157 | 0.416 | 0.416 | 0.4160 | 0.4157 | 0.415 | 0.414 |
+| core ≥ 6 | 0.4157 | 0.416 | 0.416 | 0.4158 | 0.4160 | 0.416 | 0.415 |
+| full 1 | 0.4411 | 0.374 | 0.355 | 0.3425 | 0.3432 | 0.347 | 0.357 |
+| full 2 | 0.4571 | 0.443 | 0.445 | 0.4494 | 0.4542 | 0.457 | 0.459 |
+
+- **Only layer 1 fades with its face**, and not much where it is replaced: the core of layer 1 goes from 0.430 to 0.38
+  when the face is low; the whole of layer 1 from 0.44 to 0.34. Layer 2's core *rises* (0.41 → 0.43–0.44), deeper
+  layers do not move (to ± 0.005). Coins at 0.5 are denser than every replaced layer in every state of the face.
+- Lagged correlation (`LAG` lines) between the face's population and the layer's: full layer 1 +0.375 at lag 0, and
+  the layer leads: corr(layer at t − L, face at t) = +0.30 at L = 1–2, +0.17 at 4, +0.09 at 8, against +0.09, +0.08, +0.09,
+  +0.06 with the face leading; the replaced core of layer 1 only +0.106 at lag
+  0 and ≤ 0.05 after; core 2 +0.04; deeper ones < 0.03. The face itself: +0.52 at lag 1, +0.21 at 4, +0.09 at 8.
+- Not checked: the deep densities per depth (6, 7, 8 are pooled as "core ≥ 6"); the errors of these densities are not
+  computed (correlated samples); a 20,000-generation run on another seed (5) agrees to ± 0.005 at face ≤ 10.
