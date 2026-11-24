@@ -36,6 +36,9 @@ open Gump Gump.Tape
 #print axioms Gump.Clock.clock_cycle
 #print axioms Gump.Clock.lit_clock_small
 #print axioms Gump.Clock.clock_every_length
+#print axioms Gump.Clock.clockOf_period
+#print axioms Gump.Clock.X0_lit
+#print axioms Gump.Clock.clockY_zero_lit
 #print axioms Gump.Unzip.tape_eq_hcfg
 #print axioms Gump.Unzip.hex_local
 #print axioms Gump.Unzip.storeWinOK_ok

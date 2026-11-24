@@ -12,7 +12,7 @@ Units of the wire family of pushes 7 to 9 are hex letters: the stators (0,1,2), 
 `UnzipLaw` (push 8's statement): wire B with the stretch d^k f on units 0 .. k; at an even generation remove the
 stator (0,1,2) of unit −1; then at every even generation t ≥ 4k + 8 the whole state is plain wire B carrying exactly
 k units of wire C two units apart, the leading one at unit 2 − t/2. `UnzipLawSharp` is the review's form: from
-2k + 6 on, and not at 2k + 4. Both are stated, not proved: see `notes/tape.md` for the base facts that remain.
+2k + 6 on, and not at 2k + 4. Both are proved in `Gump/UnzipProof.lean` (`unzip_law`, `unzip_law_sharp`).
 -/
 import Gump.TapeSignals
 import Gump.Tape

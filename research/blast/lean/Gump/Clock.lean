@@ -488,3 +488,71 @@ theorem clock_every_length (N : Nat) (hN : 1 ≤ N) :
     · exact ⟨_, lit_spec _ _ _ (by decide) l5⟩
 
 end Gump.Clock
+
+namespace Gump.Clock
+open Gump Gump.Tape Gump.Bits
+
+/-- **The clock of N units, named**: for N ≤ 5 the lit clock (capL, N units of wire C, capR, the cell (1,0,4) of
+unit N / 2) at generation max(N − 2, 0); for N = 6 + j the surgery's cycle `clockY j`, the cycle of the lit clock of
+six units with j units of wire inserted at unit 3. (That `clockY j` is a state of the lit clock of 6 + j units is
+not proved here.) -/
+def clockOf (N : Nat) : Config := if N ≤ 5 then run (lcfg (litList N)) (N - 2) else clockY (N - 6)
+
+/-- **The named clock of every length** has exact period 4N + 2 (no smaller period) and lies in the units
+−4 .. N + 3 and a bounded tube. This is the form of `clock_every_length` that names its object. -/
+theorem clockOf_period (N : Nat) (hN : 1 ≤ N) :
+    run (clockOf N) (4 * N + 2) = clockOf N ∧ (∀ k, 0 < k → k < 4 * N + 2 → run (clockOf N) k ≠ clockOf N) ∧
+      ∀ q, clockOf N q = true → -4 ≤ unitOf q ∧ unitOf q ≤ N + 3 ∧ -32 ≤ q.y ∧ q.y < 32 ∧
+        -64 ≤ q.x + q.z ∧ q.x + q.z < 64 := by
+  unfold clockOf
+  split
+  · rename_i h5
+    obtain ⟨l1, l2, l3, l4, l5⟩ := litCheck_ok
+    rcases (show N = 1 ∨ N = 2 ∨ N = 3 ∨ N = 4 ∨ N = 5 by omega) with rfl | rfl | rfl | rfl | rfl
+    · exact lit_spec _ _ _ (by decide) l1
+    · exact lit_spec _ _ _ (by decide) l2
+    · exact lit_spec _ _ _ (by decide) l3
+    · exact lit_spec _ _ _ (by decide) l4
+    · exact lit_spec _ _ _ (by decide) l5
+  · rename_i h5
+    obtain ⟨j, rfl⟩ : ∃ j, N = 6 + j := ⟨N - 6, by omega⟩
+    rw [show 6 + j - 6 = j by omega]
+    exact clock_cycle j
+
+end Gump.Clock
+
+namespace Gump.Clock
+open Gump Gump.Tape Gump.Bits
+
+/-- The lit clock of six units, run 41 generations by the kernel, is the base state X0. -/
+def baseIsLit : Bool :=
+  ((litList 6).map (· + frame)).all inBox &&
+    match advance (ofList ((litList 6).map (· + frame))) 41 with
+    | some T => T == ofList (X0.map (· + frame))
+    | none => false
+
+theorem baseIsLit_ok : baseIsLit = true := by decide +kernel
+
+/-- **The base of the surgery is the lit clock**: X0 is the state of the lit clock of six units at generation 41,
+so `clockY 0 = clockOf 6` is the lit clock's state at generation 53. -/
+theorem X0_lit : run (lcfg (litList 6)) 41 = lcfg X0 := by
+  have h := baseIsLit_ok
+  simp only [baseIsLit, Bool.and_eq_true] at h
+  obtain ⟨hb, h⟩ := h
+  split at h
+  · rename_i T hT
+    obtain ⟨a1, a2⟩ := advance_spec 41 _ T hT
+    have hT' : T = ofList (X0.map (· + frame)) := eq_of_beq h
+    funext q
+    rw [← run_lcfg_map_add _ frame_even 41 q, ← bcfg_ofList _ hb, run_bcfg_of_core a1, ← a2, hT',
+      bcfg_ofList _ (by have := bc.1; exact this), lcfg_map_add]
+  · simp at h
+
+theorem clockY_zero_lit : clockY 0 = run (lcfg (litList 6)) 53 := by
+  funext q
+  simp only [clockY, surg]
+  have hc : cidx 3 0 q = 0 := by simp only [cidx]; omega
+  rw [hc, show -(0 : Int) = 0 from rfl, shiftPt_zero, chart_zero, Xb, show 53 = 41 + 12 from rfl, run_add, X0_lit]
+  rfl
+
+end Gump.Clock

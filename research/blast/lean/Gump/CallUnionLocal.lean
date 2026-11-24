@@ -455,7 +455,7 @@ theorem call_law_a (k : Nat) (hk : 1 ≤ k) : ∀ t, run (callStart k) t = fun p
 /-- **The call law, whole** ( section 3): for every k ≥ 1, (a) at every
 generation the state is the disjoint union of V_k and the free line, and (b) from generation 2k + 34 on V_k is plain
 wire B carrying exactly k pulses two units apart. -/
-theorem call_law : CallLaw := fun k hk =>
-  ⟨fun t => ⟨call_law_a k hk t, V_Lf_disjoint k t⟩, call_law_b k hk⟩
+theorem call_law : CallLaw :=
+  fun k hk => ⟨fun t => ⟨call_law_a k hk t, V_Lf_disjoint k t⟩, call_law_b k hk⟩
 
 end Gump.Call

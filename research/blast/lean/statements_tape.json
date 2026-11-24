@@ -19,7 +19,7 @@
    ],
    [
     "line_period_four",
-    "§21 in the form of `Gump.Signals.lineC_N_period_four` (N = 2, 3, 12, 13).",
+    "§21 in the form of `Gump.Signals.lineC_2_period_four`, `lineC_3_period_four`, `lineC_12_period_four`, `lineC_13_period_four` (N = 2, 3, 12, 13).",
     "Same as `line_orbit`, specialised: period 4 from 2N, no smaller, not from 2N − 1."
    ],
    [
@@ -40,7 +40,7 @@
    [
     "glue_run",
     "The gluing step of §11, §21, push 8 and `REVIEW-signals-9.md` §3: two orbits that agree on the units m, m + 1, one obeying the rule on units ≤ m and the other on units > m, glue to an orbit.",
-    "Same, with a fixed seam (the moving seam of push 8 and the call law is not formalised)."
+    "Same, with a fixed seam; the moving seam is `glue_run_moving` (its own row)."
    ],
    [
     "orbit_classify",
@@ -50,7 +50,7 @@
    [
     "clock_every_length",
     "§11: a clock of period exactly 4N + 2 exists for every N ≥ 1 (`prove_clock.py`; REVIEW-signals-2 row 1).",
-    "Same, with the oscillator's support bounded (units −4 .. N + 3, |y| < 32, |x + z| < 64). For N ≥ 6 it is the source's surgery cycle; that the one-cell ignition leads into it is not proved (nor by the source)."
+    "**Less than the claim**: an existential that does not name the clock (referee ref-tape D1: the lit clocks of 1 and 2 units side by side satisfy it for N = 7). The theorem that names the object is `clockOf_period`. Kept unchanged."
    ],
    [
     "clock_cycle",
@@ -86,6 +86,31 @@
     "call_law_b",
     "`research/audit/REVIEW-signals-9.md` §3 (b) and P1 of its proof (`proof9.py` parts D, E): for every k ≥ 1, at every even t ≥ 2k + 34, V_k(t) (the store wire alone, e1 = (1,2,0) of the crossing unit made live at generation 29) is plain wire B carrying exactly k units b at units c + 3 − (t − 28)/2 + 2j, j < k.",
     "Same, on the whole lattice with the infinite store wire, c = 35 as in call9.json; the second conjunct of `Gump.Call.CallLaw`. Proved by the time induction of the unzip law (front `f b 9`), not by the review's seam path. Part (a) of the call law (X_k = V_k ⊔ Lf) is not proved."
+   ],
+   [
+    "clockOf_period",
+    "§11: a clock of period exactly 4N + 2 for every N ≥ 1, as a named object.",
+    "`clockOf N` is the lit clock (capL + N units + capR + one cell) at generation max(N − 2, 0) for N ≤ 5, and the surgery's cycle `clockY (N − 6)` for N ≥ 6: exact period 4N + 2, support in units −4 .. N + 3. That `clockY j` is a state of the lit clock of 6 + j units is not proved (measured by the referee for j ≤ 6)."
+   ],
+   [
+    "line_rest",
+    "`REVIEW-signals-9.md` §3 and `proof9.py` part B: the free call line (with the CALL) is at rest from generation 42.",
+    "Same: `Lf (2n) = lcfg line` for n ≥ 21 (`LineRest`), by the kernel on the 128 × 128 × 16 box of `Gump/CallBox.lean`, whose stepper `Gump.Call.Box.bstep_spec` is proved equal to `Gump.step`."
+   ],
+   [
+    "call_law_a",
+    "`REVIEW-signals-9.md` §3 (a): X_k(t) = V_k(t) ⊔ Lf(t) at every generation, for every k ≥ 1.",
+    "Same (disjointness in `V_Lf_disjoint`): supports by `confinement`/`hull`, the union law off the 44-cell interaction set by `step_or`, and at it by kernel checks at every generation (store, start, `VW` words, all 256 tape words for t ≥ 44)."
+   ],
+   [
+    "call_law",
+    "`REVIEW-signals-9.md` §3, the whole call law: (a) and (b) for every k ≥ 1.",
+    "Same: `CallLaw` (Gump/Call.lean) proved. The review's \"what is left\" (ii)–(iv) (the finite cell, other seed places, \"at no earlier generation\") are not covered."
+   ],
+   [
+    "X0_lit",
+    "(referee ref-tape's observation) the surgery's base X0 is a state of the catalogue's lit clock.",
+    "Same: the lit clock of six units at generation 41 is X0, so `clockY 0` is its state at generation 53 (`clockY_zero_lit`). For j ≥ 1 that `clockY j` is a state of the lit clock of 6 + j units is not proved."
    ]
   ]
  }
