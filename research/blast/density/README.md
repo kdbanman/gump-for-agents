@@ -446,6 +446,16 @@ given the watched face has ≤ 20, 15, 10, 6, 4, 2 cells; a group's density is t
 the thresholds, and the bias strings below. The brute path is unchanged (`validate.py 1200` passes; the rows ran on
 `nzd_prod4`, commit 44ce0cc).
 
+**In brief.** (1) The coincidence is an accident: the cells the DO = 1 coins replace in layer 1 thin, in gump, to
+0.357 (45 cells) and 0.367 (63 cells), not 0.385; only the 9-cell core at 63 cells at one threshold hits 0.384. (2)
+**Four real layers make a face die at gump's rate and in gump's way**: with every cell from depth 4 on a fresh coin at
+gump's own mean density there, Δ ln τ, the frequency and deadliness of dips and the death from one cell are gump's
+to ± 0.02 / ± 0.03, at 45 and 63 cells, on the hull (both columns) and on the wrapped face; with three real layers the
+face lives 0.15–0.30 longer. (3) At 84 cells coins alone at 0.385 give Δ = −0.165 ± 0.043 (559 deaths): p\* creeps up
+(≈ 0.387). (4) On the wrapped face, one real layer over coins: p\* = 0.3550 (45 cells), 0.3659 (63 cells), the way of
+dying again not gump's (death from one cell 99.7–99.9% against 86–87%), and gump's layer under a low wrapped face is
+far thinner (0.30, 0.12). A match of rates is not a match of mechanism; the four-layer skin matches both.
+
 ### 1. The coincidence p\* ≈ gump's support at its thinnest: an accident [measured]
 
 `NZD_LAYERS=1 nzd 9 brute 9901 2000000 0 1 3` and `nzd 11 brute 9911 1000000 0 1 3` (gump; `data/layers/lay3_gump_R9_s9901.txt`,
