@@ -226,8 +226,9 @@ All [proved], standard three axioms (`AxiomsDice.lean`), each module built alone
   floor-division identity, with H, D variables; `omega` cannot do it (it handles division by constants only). The
   proof plan: decode/encode lemmas for `abCell`/`coordA`/`coordB` (omega, division by 2), an offset table per
   orientation, the two lattice lemmas from `Int.add_mul_emod_self`/`Int.add_mul_ediv_right`, then the
-  v ↦ −v bijection. Estimated 1.5–2 hours; not started. `lntau_le_regular` still holds only where `regular` is
-  checked (three tori).
+  v ↦ −v bijection. Estimated 1.5–2 hours; not started. `lntau_le_regular` holds where `regular` is checked by
+  the kernel: the three tori of `DiceBound2.lean` and, added (`DiceRegular.lean`), (1,0),(0,4), (1,1),(0,4),
+  (1,0),(0,5), (1,1),(0,5), (1,0),(0,6), (1,1),(0,6), (2,0),(0,3), (3,0),(0,3) (`lntau_le_torus303`: 27 cells).
 - The 12-cell torus: skipped, as the brief allowed (no build was attempted under the 4 GB rule).
 
 Reproduce: `cd research/blast/lean/mathlib && lake build GumpMath.DiceFlux` (then DiceHull, DiceBound3,

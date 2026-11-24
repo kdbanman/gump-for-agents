@@ -11,6 +11,7 @@ import GumpMath.DiceFlux
 import GumpMath.DiceHull
 import GumpMath.DiceBound3
 import GumpMath.DiceHullAll
+import GumpMath.DiceRegular
 open Gump.Dice
 #print axioms hull3_lifetime
 #print axioms hull3_tau
@@ -48,3 +49,5 @@ open Gump.Dice
 #print axioms Face.hull_balanced
 #print axioms Face.hull_type
 #print axioms lntau_le_hull_all
+#print axioms regular_torus303
+#print axioms lntau_le_torus303
