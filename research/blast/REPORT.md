@@ -50,6 +50,14 @@ section).**
   closed faces show the same. At what size the hull's marginal price comes down is not known.
 - **The 120-cell tube is 24.5086 ± 0.0169, below every forecast, this report's included.** A tube's line bends
   (0.2023, 0.2013, 0.1957 per cell from 84 to 120 cells) and the night's fitted tube law is refuted.
+  **Corrected 2026-11-24 (the lead's notebook entry of 2026-11-20, from the card session's own correction; read,
+  not recomputed here): the drop is not confirmed.** The card session's CPU code reads 24.594 ± 0.040 at 120
+  cells, on the straight line through 84 to 108 cells and on this report's forecasts (24.56 ± 0.03, 24.60 ± 0.07).
+  The 126- and 132-cell tubes read 25.757 ± 0.032 and 26.906 ± 0.058 (one code), above this report's forecasts
+  for them (25.66 ± 0.06, 26.78 ± 0.13). "Below every forecast" and "the night's fitted tube law is refuted" are
+  withdrawn until the card's longer chain reports; what survives is a gentle fall of the slope (0.1979 ± 0.0011
+  from 108 cells up, with the two 120-cell values pooled). Seeds at 126 cells scatter more than counting allows,
+  which nobody understands yet.
 - **The 135-cell hull face is still not decided.** A second sampler (gump on the whole hull, coin replacements at
   a low rate deep under the watched face) is exact at zero noise and matches brute force at 45 and 63 cells. Its
   blind test at 108 cells reads 23.422 ± 0.025, 23.228 ± 0.119 and 23.368 ± 0.065 at noise rates 1/16, 1/32, 1/64
@@ -160,6 +168,10 @@ corrected.**
 Not checked by the referee: the fits, the reading of the extra 0.05, triangles and strips, the radius-29 run.
 
 ### 13:21 UTC. The 120-cell tube: below every forecast, and the bend goes on
+
+**Read this entry with the correction of 2026-11-24 in the short version: the card's 120-cell value is not
+reproduced by its second code (24.594 ± 0.040), and the statements below that rest on 24.5086 alone (the chord
+0.1957, "refuted", the scores of the forecasts as missed) are withdrawn until the card's longer chain reports.**
 
 The card's final value for the loop-12 tube of 120 cells is **24.5086 ± 0.0169** (eight seeds, 3,494 face deaths,
 no firewalls; another session's measurement, read from its branch: `git show

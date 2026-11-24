@@ -74,7 +74,7 @@ after its own check; the PI never merges it.
   without warning: after every milestone bring this file up to date ("State"), and within 60,000 tokens of the
   threshold do it at once.
 
-## State (overwritten; last written 20:30 UTC 2026-11-19)
+## State (overwritten; last written 11:10 UTC 2026-11-24)
 
 - **Open again, on the owner's word of about 17:50 UTC** (quoted above): Lean, at full ambition, and in-depth
   discussion on pull request 39. Before that the owner had closed the blast (14:55 UTC).
@@ -120,6 +120,24 @@ after its own check; the PI never merges it.
   offers to either side: coins at the replaced layer's own density (open problem 9 (r); forecasts frozen in
   `noisy/PREDICTIONS.md` block 4; not run; first item for the blast's CPU, design in `noisy/README.md`). The PI's
   reply is the fourteenth comment. The Lean pass and a review of `strips/` stay deferred by the lead.
+- **2026-11-24, 11:10 UTC: THE LAST-DAY BLAST IS RUNNING.** Usage at 11:06: Fable 0.87, all-model 0.54; stop at
+  0.96 or 0.90 (the owner, 18:22 UTC on the 18th). The Fable headroom is small and a cold start of this session
+  costs about a point (its context is large and the cache lasts an hour), so: **Opus subagents only, launched
+  together in the foreground so that they return in one turn; their hand-backs short, their full reports in
+  files; a second wave whose first agent is an integrator.** Shared Lean files need no edits by agents:
+  `check.sh` builds every `Gump/*.lean` and `mathlib/GumpMath/*.lean`, runs every `Axioms*.lean`
+  (`AxiomsNative.lean` is the second tier, for base runs by `native_decide` in `*Native.lean` only), and
+  `statements.py` merges `statements_*.json`.
+  Wave 1 (Opus, xhigh): `dice` (the first lifetime theorem: the 9-cell hull triangle of the one-layer dice
+  surrogate with a certified two-sided rate; then more faces; `lean/mathlib/GumpMath/Dice*.lean`), `tape` (the
+  tape theorem and the gun's line for every N; `lean/Gump/Tape*.lean`), `chain` (the blast's theorems for an
+  abstract killed chain: Theorem 1's bound, the tilt identity, Lemma R; `lean/mathlib/GumpMath/Chain*.lean`),
+  `density` (open problem 9 (r): coins at the replaced layer's own density; `research/blast/density/`; forecasts
+  in `noisy/PREDICTIONS.md` block 4), `ref-lean` (the referee of every Lean statement; `research/blast/ref-lean/`).
+  **Owed when they return:** read each `REPORT-agent.md`, launch the integrator (README table, STATEMENTS, REPORT
+  entry, a draft comment for the lead in a file), then check, commit by path, push, post the comment, tell the
+  owner. Also new on `main` (merged in): the 120-cell tube's drop is not confirmed (the lead's notebook,
+  2026-11-20); `REPORT.md` and block 7 are corrected for it.
 - **Nothing is in flight** (22:16 UTC). `diag3.sh` ended: on minus off at 84 cells is -0.001 +- 0.014 (1,150 and
   1,040 replications), so the odd sweeps are cleared; written into `REPORT.md` and `noisy/README.md` and named to
   the lead as the third answer commit. Until 2026-11-24 11:00 UTC: answer the lead on the pull request (poll a
