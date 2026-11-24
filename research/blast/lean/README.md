@@ -137,6 +137,10 @@ chain, with Perron–Frobenius built here because Mathlib has none):
 |---|---|---|---|
 | **Every hull face, no hypothesis**: `Lemma0F (hull R)` by a general proof for every R with A > 0, hence the dominant law unique among λ > 0, positive on every living state, decay at exactly λ, ln τ = Σ c_i, ln τ < 2.2165·A, survFrom = `Face.survival`, equal prices along every table automorphism | `hull_lemma0`, `hull_full_every` (`descent`, `enterT`, `walk_all`, `grow`, `step_TZ`, `step_U`, `aliveF_u`, `kc_le_four`, `stepN_mask`) | `LinkHullGen.lean` | no |
 | **The triangle's six symmetries on every hull face**: the rotation and the reflection are table automorphisms for every R; equal prices along them | `aut_general`, `rot_aut`, `refl_aut`, `hull_prices_sym` | `LinkHullSym.lean` | no |
+| **Superposition**: configurations farther apart than their light cones reach run independently; along a wire, two modifications of any background on either side of a seam run as their own runs glued | `run_or_far`, `superpose_units` | `Gump/TapeSuper.lean` | no |
+| **Meetings (§31), one per pair**: an up-signal and a down-signal at distance d + 2n are, after 2n generations, the pair at distance d moved n units | `Signals.pair_run`, `pair_step` | `Gump/TapeMeet.lean` | no |
+| **U meets K0: both vanish**, from every distance 3 + 2n: the plain train exactly from generation 2n + 4 | `Signals.meet_U_K0` | `Gump/TapeMeet.lean` | no |
+| **The fronts of §31, for ever, from every distance**: U–H and E–H give wire B between a lower edge running down and an upper edge running up; E–K0 gives the holed train behind an upward puncher; from generation 2n + g four generations move the configuration two units down below a seam and two units up above it, the medium holding at the seam (E–H's upper edge carries a three-unit inclusion that U–H's has not: the table's "the same two edges" is corrected) | `Signals.meet_UH`, `meet_EH`, `meet_EK`, `stateUH`/`EH`/`EK`, `rigid_front` | `Gump/TapeMeetFront.lean`, `TapeMeetFronts.lean`, `TapeMeetData.lean` (`tape_meet.py`) | no |
 
 ### What is not proved (as of 2026-11-24)
 

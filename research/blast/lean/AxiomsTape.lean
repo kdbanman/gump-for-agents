@@ -16,6 +16,10 @@ import Gump.CallReader
 import Gump.ClockLitFirst
 import Gump.ClockLitOdd
 import Gump.LineDivider
+import Gump.TapeSuper
+import Gump.TapeMeet
+import Gump.TapeMeetFront
+import Gump.TapeMeetFronts
 open Gump Gump.Tape
 #print axioms glue_run
 #print axioms run_shiftC
@@ -129,3 +133,30 @@ open Gump Gump.Tape
 #print axioms Gump.Divider.directOK_ok
 #print axioms Gump.Divider.S_facts
 #print axioms Gump.Divider.divider_period
+#print axioms Gump.run_or_far
+#print axioms Gump.superpose_units
+#print axioms Gump.Tape.Signals.pair_step
+#print axioms Gump.Tape.Signals.pair_run
+#print axioms Gump.Tape.Signals.checkUK0_ok
+#print axioms Gump.Tape.Signals.meet_U_K0
+#print axioms Gump.Tape.Signals.rigid_front
+#print axioms Gump.Tape.Signals.wireB_step
+#print axioms Gump.Tape.Signals.stepCheck_spec
+#print axioms Gump.Tape.Signals.front_xor
+#print axioms Gump.Tape.Signals.front_of_facts
+#print axioms Gump.Tape.Signals.front_of_facts_med
+#print axioms Gump.Tape.Signals.chainUH_ok
+#print axioms Gump.Tape.Signals.factsUH_ok
+#print axioms Gump.Tape.Signals.frontUH
+#print axioms Gump.Tape.Signals.stateUH
+#print axioms Gump.Tape.Signals.meet_UH
+#print axioms Gump.Tape.Signals.chainEH_ok
+#print axioms Gump.Tape.Signals.factsEH_ok
+#print axioms Gump.Tape.Signals.frontEH
+#print axioms Gump.Tape.Signals.stateEH
+#print axioms Gump.Tape.Signals.meet_EH
+#print axioms Gump.Tape.Signals.chainEK_ok
+#print axioms Gump.Tape.Signals.factsEK_ok
+#print axioms Gump.Tape.Signals.frontEK
+#print axioms Gump.Tape.Signals.stateEK
+#print axioms Gump.Tape.Signals.meet_EK

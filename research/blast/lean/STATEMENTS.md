@@ -1935,3 +1935,66 @@ theorem divider_period (N : Nat) (hN : 8 ≤ N) : run (divC N) (2 * N - 3 + 8) =
 
 - **Meant to be:** §21b, `prove_divider.py`: the divider (line-C(N) and the oscillator `osc` of `objects/divider-C8.json`) has period exactly 8 from generation 2N − 3 for every N ≥ 8.
 - **Difference:** Same, for every N ≥ 8: the state at 2N − 3 returns after 8 generations and after no fewer, and the state at 2N − 4 does not return after 8 (so it is on no cycle: the preperiod is exactly 2N − 3). Proved by the source's (and `Line.lean`'s) induction N → N + 1 with the oscillator in the right chart (`S_succ`), from the kernel base S 14 3 (`baseCheck_ok`, 37 generations) and N = 8 .. 13 directly (`directOK_ok`). capA, the wire unit and the gun are asserted equal to line-C's by `tape_divider.py`, which also checks the periods on the oracle for N = 8 .. 16. N = 3 .. 7 (direct runs in the catalogue) are not covered.
+
+### `run_or_far` (`Gump/TapeSuper.lean`)
+
+```lean
+theorem run_or_far (c₁ c₂ : Config) (n : Nat) (h : ∀ p q, c₁ p = true → c₂ q = true → ¬ Near (4 * n) p q) : run (fun p => c₁ p || c₂ p) n = fun p => run c₁ n p || run c₂ n p
+```
+
+- **Meant to be:** (PI's brief, fourth task) superposition: two configurations whose supports are farther apart than the light cone reaches in n generations evolve independently for n generations.
+- **Difference:** Same, on the whole lattice, from `light_cone` alone: if no live cell of c₁ is within max-norm distance 4n of a live cell of c₂, the run of their union for n generations is the union of their runs.
+
+### `superpose_units` (`Gump/TapeSuper.lean`)
+
+```lean
+theorem superpose_units (X Y Z : Config) (a b m : Int) (n : Nat) (hY : ∀ q, a ≤ unitOf q → Y q = X q) (hZ : ∀ q, unitOf q ≤ b → Z q = X q) (hm1 : a + n ≤ m + 1) (hm2 : m + n ≤ b) : run (glue m Y Z) n = glue m (run Y n) (run Z n)
+```
+
+- **Meant to be:** (the same, along a wire and on a background) two modifications of a background X, one on the units < a and one on the units > b, run independently while their light cones do not meet.
+- **Difference:** Same: if Y = X on the units ≥ a and Z = X on the units ≤ b, then for any seam a + n − 1 ≤ m ≤ b − n, n generations of Y-on-the-units-≤-m glued to Z-beyond are the runs of Y and Z glued at m. Any background, not only an orbit.
+
+### `pair_run` (`Gump/TapeMeet.lean`)
+
+```lean
+theorem pair_run (A B : Kind) (hA : A.dir = 1) (hB : B.dir = -1) (a b : Int) (ha : a % 2 = A.par % 2) (hb : b % 2 = B.par % 2) (hab : a + A.top + 3 ≤ b) : ∀ n : Nat, run (pair A B a (b + 2 * n)) (2 * n) = shiftC n (pair A B a b)
+```
+
+- **Meant to be:** §31: each ordered pair of kinds moving in opposite directions has exactly one meeting (up to translation and time), because two generations lower the distance by 2.
+- **Difference:** Same, for every pair of an up-signal and a down-signal of the nine (dir +1, −1): `pair A B a (b + 2n)` (train(1) with A at a and B at b + 2n) is after 2n generations `pair A B a b` moved n units, whenever b − a ≥ top(A) + 3. Proved by `superpose_units` for each double step (`pair_step`).
+
+### `meet_U_K0` (`Gump/TapeMeet.lean`)
+
+```lean
+theorem meet_U_K0 (a : Int) (ha : a % 2 = 1) (n t : Nat) (ht : 4 ≤ t) : run (pair .U .K0 a (a + 3 + 2 * n)) (2 * n + t) = train (1 + 2 * n + t)
+```
+
+- **Meant to be:** §31 table: U meets K0: both vanish (the plain train, exactly, 20 generations after the start at offset 19).
+- **Difference:** Same, from every distance 3 + 2n (n ≥ 0; offset 19 is n = 8): from generation 2n + 4 on the configuration is exactly train(1 + t). Base: one kernel run at distance 3 (`checkUK0_ok`).
+
+### `meet_UH` (`Gump/TapeMeetFronts.lean`)
+
+```lean
+theorem meet_UH (n t : Nat) (ht : 12 ≤ t) : run (pair .U .H 1 (5 + 2 * n)) (2 * n + t + 4) = front (4 + n) (run (pair .U .H 1 (5 + 2 * n)) (2 * n + t)) ∧ ∀ q, 4 + n - 2 ≤ unitOf q → unitOf q ≤ 4 + n + 3 → run (pair .U .H 1 (5 + 2 * n)) (2 * n + t) q = wireB (t) q
+```
+
+- **Meant to be:** §31 table: U meets H: the stream turns into wire B between two edges, the lower running down with the stream, the upper running up and turning every rake into wire B.
+- **Difference:** Same, exactly and for ever, from every distance 4 + 2n: from generation 2n + 12 on, four generations move the configuration two units down at and below unit 4 + n and two units up above it (`front`), and the units 2 + n .. 7 + n hold wire B (`wireB`); the states at 2n + 12 .. 2n + 16 are the kernel's (`stateUH`). The law: `rigid_front` (the chart argument as a theorem); the base chain by `chainUH_ok`, `factsUH_ok`.
+
+### `meet_EH` (`Gump/TapeMeetFronts.lean`)
+
+```lean
+theorem meet_EH (n t : Nat) (ht : 22 ≤ t) : run (pair .E .H 0 (5 + 2 * n)) (2 * n + t + 4) = front (1 + n) (run (pair .E .H 0 (5 + 2 * n)) (2 * n + t)) ∧ ∀ q, 1 + n - 2 ≤ unitOf q → unitOf q ≤ 1 + n + 3 → run (pair .E .H 0 (5 + 2 * n)) (2 * n + t) q = wireB (t) q
+```
+
+- **Meant to be:** §31 table: E meets H: the stream turns into wire B between two edges ("U meets H: the same: wire B between the same two edges").
+- **Difference:** Same law, from every distance 5 + 2n, from generation 2n + 22 (seam 1 + n, wire B on units n − 1 .. n + 4). **Correction to the table**: the edges are not the same as U–H's. The lower edges agree, but E–H's upper edge carries for ever a three-unit inclusion (two altered units around one unit of plain train) four units below the top of the wire-B region, moving up with the edge (`tape_meet.py`; `explore` of the classification at t = 12 .. 30). The section's note that E–H's edge is "wider" at generation 56 is this inclusion.
+
+### `meet_EK` (`Gump/TapeMeetFronts.lean`)
+
+```lean
+theorem meet_EK (n t : Nat) (ht : 12 ≤ t) : run (pair .E .K0 0 (4 + 2 * n)) (2 * n + t + 4) = front (1 + n) (run (pair .E .K0 0 (4 + 2 * n)) (2 * n + t)) ∧ ∀ q, 1 + n - 2 ≤ unitOf q → unitOf q ≤ 1 + n + 3 → run (pair .E .K0 0 (4 + 2 * n)) (2 * n + t) q = shiftC n (medC medEK (t)) q
+```
+
+- **Meant to be:** §31 table: E meets K0: E becomes a puncher; K0 is gone; an edge runs up behind which every rake has lost its hole cell (the train xor H at every odd unit).
+- **Difference:** Same, from every distance 4 + 2n, from generation 2n + 12: the front law at the seam 1 + n, with the medium on the units n − 1 .. n + 4 the holed train (`medEK`: train(1) with H at every odd unit, its unit at each phase; `tape_meet.py` checks it is that orbit, period 4, two-unit periodic). The lower edge of the holed region is the lowest H, which runs down with the stream.
