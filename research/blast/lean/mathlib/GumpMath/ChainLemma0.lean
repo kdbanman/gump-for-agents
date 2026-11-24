@@ -159,7 +159,7 @@ def P (x y : Finset V) : ℝ := ∏ i, (if i ∈ y then G.a i x else 1 - G.a i x
 /-- The cells that can be alive next. -/
 noncomputable def M (x : Finset V) : Finset V := univ.filter (fun i => 0 < G.a i x)
 
-theorem P_nonneg (x y : Finset V) : 0 ≤ G.P x y :=
+theorem kernel_nonneg (x y : Finset V) : 0 ≤ G.P x y :=
   prod_nonneg (fun i _ => by
     split_ifs
     · exact G.nonneg i x
@@ -195,7 +195,7 @@ theorem supp (x y : Finset V) : 0 < G.P x y ↔ y ⊆ G.M x := by
 noncomputable def toSubsetChain : SubsetChain V where
   P := G.P
   M := G.M
-  nonneg := G.P_nonneg
+  nonneg := G.kernel_nonneg
   total := G.total
   supp := G.supp
 
@@ -211,7 +211,7 @@ noncomputable def localDeath : G.toSubsetChain.killed.LocalDeath V where
   prod := G.death_eq
 
 /-- **Theorem 2 for every product kernel** (every face of the surrogate, wrapped or rimmed). -/
-theorem tilt_identity [Nonempty V] :
+theorem tilt_identity_product [Nonempty V] :
     ∃ μ lam, G.toSubsetChain.killed.IsQSD μ lam ∧
       Real.log (G.toSubsetChain.killed.lifetime μ) =
         ∫ s in (0:ℝ)..1, tiltMean μ G.localDeath.energy s G.localDeath.energy ∧
