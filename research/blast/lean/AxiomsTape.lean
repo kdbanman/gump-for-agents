@@ -4,6 +4,7 @@ Classical.choice, Quot.sound. -/
 import Gump.Tape
 import Gump.Line
 import Gump.TapeSignals
+import Gump.Clock
 open Gump Gump.Tape
 #print axioms glue_run
 #print axioms run_shiftC
@@ -23,3 +24,11 @@ open Gump Gump.Tape
 #print axioms Gump.Tape.Signals.sigCheck_ok
 #print axioms Gump.Tape.Signals.signal_step
 #print axioms Gump.Tape.Signals.signal_run
+#print axioms Gump.Clock.surg_step
+#print axioms Gump.Clock.chartA
+#print axioms Gump.Clock.chartB
+#print axioms Gump.Clock.baseCheck_ok
+#print axioms Gump.Clock.litCheck_ok
+#print axioms Gump.Clock.clock_cycle
+#print axioms Gump.Clock.lit_clock_small
+#print axioms Gump.Clock.clock_every_length

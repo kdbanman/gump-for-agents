@@ -14,7 +14,7 @@ The Lean file stores X0 = X(t0) with t0 = tb' - 5 = -7. Checks, with tau the mov
   B3  X(ta + 1) = X(ta - 3) on units <= m + 1;   B4  X(tb + 1) = X(tb - 3) on units >= m - 1;
   B5  X(s) = X(tR) on units m - 1 .. m + 1 only for s = tR in a period;
   S   every X(s) lies in the units -4 .. N0 + 3.
-Test the proof does not need: the surgery Y_j (README section 11; c_i as Gump.Clock.chart) for j = 1 .. 6 is
+Test the proof does not need: the surgery Y_j (README section 11; c_i as Gump.Clock.chart) for j = 1 .. 4 is
 an oracle orbit of exact period 4(N0 + j) + 2 from T0 = tR, and the lit clock of N0 + j units falls into it.
 Lit clocks N = 1 .. 5: from generation max(N - 2, 0) an oscillator of exact period 4N + 2 (oracle).
 """
@@ -32,6 +32,12 @@ tb1 = tb - p
 t0 = tb1 - 5
 INF = 10 ** 6
 ok = True
+# the unit of wire C in Lean (Gump/Tape.lean, cellsOf .C) must be the JSON's unit
+import re
+from tape_lib import HERE
+mC = re.search(r'\| \.C => (\[.*?\])', open(f'{HERE}/Gump/Tape.lean').read()).group(1)
+assert sorted(tuple(int(v) for v in t) for t in re.findall(r'⟨(-?\d+), (-?\d+), (-?\d+)⟩', mC)) == sorted(U), 'cellsOf .C'
+assert IGN == (1, 0, 4)
 
 
 def report(name, good):
@@ -87,7 +93,13 @@ def Y(j, t):
     return frozenset(s)
 
 
-for j in range(1, 7):
+for N in range(1, N0):
+    mu = max(N - 2, 0)
+    P = 4 * N + 2
+    ol = orbit(lit(N), mu + P)
+    report(f'L   lit clock N = {N}: from generation {mu} an oscillator of exact period {P}',
+           ol[mu + P] == ol[mu] and all(ol[mu + k] != ol[mu] for k in range(1, P)))
+for j in range(1, 5):
     N = N0 + j
     P = 4 * N + 2
     ys = [Y(j, tR + k) for k in range(P + 1)]
@@ -97,12 +109,6 @@ for j in range(1, 7):
     hit = ys[0] in ol[2 * N + 10:]
     report(f'Y   j = {j}: the surgery from T0 = tR is the oracle orbit for one period, of exact period {P}; the lit clock of {N} units falls into it', good and hit)
 
-for N in range(1, N0):
-    mu = max(N - 2, 0)
-    P = 4 * N + 2
-    ol = orbit(lit(N), mu + P)
-    report(f'L   lit clock N = {N}: from generation {mu} an oscillator of exact period {P}',
-           ol[mu + P] == ol[mu] and all(ol[mu + k] != ol[mu] for k in range(1, P)))
 if not ok:
     print('SOME CHECKS FAILED', file=sys.stderr)
     sys.exit(1)
