@@ -270,6 +270,10 @@ the scan 0.199 ± 0.007); the READING is partly broken: the ordering by low-face
 chain), "layer leads by 1–2 generations" is not supported (peak at lag 0; Granger layer → face), "a fifth" depends on
 the matching (a third on realized density), p* is a coin bias not a support density, consecutive seeds share the
 coin stream. Sent to `density` to fold into its third task. For my REPORT entry: state only what both codes give.
+`chain` fourth hand-back (5e8aa76), now idle: `cellsOK_hull R`, `hull_theorems R` (every hull face, no hypothesis:
+dominant law, tilt identity, ln τ < 2.2165·A, `survFrom = Face.survival`); uniqueness on hull faces is
+`hull_full_sym R` under the one hypothesis `Lemma0F (hull R)`, kernel-proved for R = 1, 3, …, 13 (unrefereed).
+In flight at 15:50: tape (third task), density (third task). Next: when `tape` returns, launch the integrator.
 
 **13:15 UTC 2026-11-24.** `chain` handed back (notes: `lean/notes/chain.md`, last commit 23163ec; 15 `Chain*.lean`
 modules, 82 headline theorems, `check.sh --mathlib` passed at 13:10). `ref-lean` handed back earlier (repairs in

@@ -467,3 +467,60 @@ threshold, lands on p\* (0.3844); at 45 cells the core's minimum is 0.390 and it
 coincidence does not survive**: it compares the coins with a group they mostly do not replace, at one threshold, at one
 size. (Not checked: errors of these conditional densities; they rest on 3 × 10³ to 2 × 10⁷ correlated hull-generations
 depending on threshold and size. The 63-cell values agree with the 4 M-generation group run of part 1 to 0.002.)
+
+---
+
+## 2026-11-24, corrections after the referee (`research/blast/ref-density/REVIEW.md`, commit 07d2708)
+
+The referee reproduced the rows with its own code and seeds (gump 13.632 ± 0.014; fair +0.653 ± 0.020; mean density
++0.535 ± 0.026; core copy −0.445 ± 0.020; layer copy −0.183 ± 0.018; zero of the scan 0.199 ± 0.007; d = 2 mean
+density +0.303, 2.0 σ above mine). Its defects are in the reading. The earlier sentences stay above as written; these
+corrections replace them where they conflict.
+
+1. **The mechanism's ordering fails [corrected].** Part 1's "The variable that orders the chains", "the four annealed
+   chains are in the same order by this low-face density as by their lives", the LOW10 paragraph's "Same density, no
+   fading: +0.463" read as a mechanism, and "What this says about what kills a face": withdrawn as a mechanism. The
+   referee's chain that copies from the whole layer has the replaced layer-1 core at 0.386 under a low face (my own
+   `LAYER` diagnostic on its run: 0.3858; gump 0.3838), is *less* clustered than gump (1.65 against 1.81 of binomial)
+   and denser in layer 2, and lives 0.18 shorter; the p = 0.2 chain is thinner under a low face than gump (0.354 after
+   the darts, the referee's run) and lives as long, and the p = 0.1 chain (0.311) outlives the core copy (0.348). **What survives [measured]:**
+   the numbers of the support table; the conversion of supply into births is the same in every chain measured; the
+   coins act along the whole descent and hardly at the last cell (P₁ within ± 0.02 of 0.77 at ε = 1/4, with a drift
+   along the scan of at most 0.03 of Δ ln τ, as the referee notes); at full replacement, clustering at fixed density
+   shortens the life (third task, measured cleanly there). **What does not:** that the low-face density, or the
+   clustering, of the replaced core orders or sets the life. What sets it is open.
+2. **"Layer 1 leads the face by one to two generations" [corrected].** The cross-correlation of the whole layer 1 with
+   the face peaks at lag 0 (+0.375 against +0.296 at lags 1 and 2); nothing leads in the sense of a displaced peak.
+   The asymmetry is directional and points from the layer to the face (the referee's Granger comparison: the layer's
+   past adds +0.038 to the explained share of the face's variance, the face's past adds +0.007 to the layer's). The
+   loop sentence ("when the face thins, layer 1's cells lose their face neighbours and thin too, which removes the
+   supply") put the strong arrow where the data have the weak one. The replaced core carries little of either.
+3. **"Density is a fifth to a quarter of the effect" [corrected: it depends on what is matched].** Along fair → coins
+   at gump's mean density it is 0.146 ± 0.020 (a fifth). But coins at gump's mean density make a denser support than
+   gump's: the rule-made density of the replaced cells is +0.010 above gump's at depths 1–4 (the referee). Matched on
+   the realized density of the replaced core (the LOW10 chain: 0.428 after the darts against gump's 0.430), the share
+   is 0.678 − 0.463 = 0.215 ± 0.019, about a third. Both are attributions along one path, not properties of the chain.
+4. **p\* is a coin bias, not a support density [corrected].** At ε = 1/4 the p = 0.2 chain's replaced core reads 0.40
+   after the darts (0.456 before; the referee). "For its face, gump's own layers are worth independent coins of
+   density 0.19, less than half their own density" is withdrawn; what stands is "coins of bias 0.19, refreshing 22% of
+   the replaced cells per generation, give gump's life". Every density quoted for a noisy chain in part 1 is read
+   **after the darts** (`step(); noise; observe()`): the state the next step reads, a mix of the generation's fresh
+   coins and rule-made cells. At full replacement (second and third tasks) every replaced cell is a coin when it is
+   read, so there **the replaced cells' density equals the coin bias** and p\* is a density of those cells; the
+   cells not replaced are rule-made. "An independent bath of gump's density overestimates the life by 0.53" was darts
+   at ε = 1/4, not a bath; the bath is the third task's skin row A, d = 1 (below).
+5. **"Random placement is not what helps; independence from the face is" [corrected].** The copy rows add a
+   correlation gump does not have (a voter move among the replaced cells; within-population variance 2.10 against
+   1.80 in the referee's core copy), so they do not isolate independence from the face; and the conditioned coins,
+   which depend on the face, keep +0.45 to +0.50. What coins remove is not a cell's correlation with the face above it
+   alone; the layer's memory and the correlations among replaced and unreplaced cells are open candidates.
+6. **Seeds shared the coin stream [corrected in the program].** The second stream started at seed · G + 99991, G its
+   own increment, so seed s + 1's coins were seed s's shifted by one word (`research/blast/ref-density/seedstream.py`).
+   Part 1's "two seeds that agree to 0.001" (5111, 5112; 5121, 5122) were not independent replications in their
+   coins (their darts were; the referee's independent code agrees with the values), and all biased and
+   full-replacement rows up to commit 315062c draw their coins from offsets of one sequence (each row is a valid
+   sample of its chain; rows are not independent of one another in their coins). From commit 7c64966 the second
+   stream starts from a hash of the seed (`NZD_OLDSTREAM=1` restores the old start for the earlier rows);
+   `validate.py` checks it: the coin fields of seeds 5000 and 5001 at p = 0.385 agree on 0.528 of cells (independent:
+   0.526), 0.619 with the old start (the negative control). In the third task the 84-cell chunks are pooled only from
+   the fixed binary, and the one repeated row (skin A, d = 4, 63 cells) uses it.
