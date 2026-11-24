@@ -195,6 +195,18 @@ Last-day blast, wave 1 (Opus, started 11:20 UTC 2026-11-24; they run in the back
 when it ends, hand-backs of 30 lines at most, full reports in the files named in State): dice ab2a647cc91d04eeb ·
 tape a0b7dfd013c31f0bd · chain a825b151b0cb2660a · density a672d9caa1fd19096 · ref-lean acb72a1d1903a988d.
 
+Wave 2 (Opus): ref-chain a7d485bc698b4b1c4 (started 13:15 UTC, referee of `chain`'s Lean files, two hours at most,
+writes `research/blast/ref-chain/REVIEW.md`).
+
+**13:15 UTC 2026-11-24.** `chain` handed back (notes: `lean/notes/chain.md`, last commit 23163ec; 15 `Chain*.lean`
+modules, 82 headline theorems, `check.sh --mathlib` passed at 13:10). `ref-lean` handed back earlier (repairs in
+1763630). Still running: dice, tape, density (to about 14:20). Usage at 13:03: Fable 0.89, all-model 0.60. The
+container has 4 cores and was at load 8: launch nothing heavy until the wave-1 agents end. Planned next, in this
+order: (1) when `dice` returns, a link agent instantiating `chain`'s theorems on `Gump.Dice.Face.P` (plan in
+`notes/chain.md`, "Instantiation plan"); (2) a referee for `tape` and `dice`; (3) if cores are free, a sampler that
+moves the initial state, for the 135-cell hull face; (4) an integrator for the README table, REPORT entry and a
+draft comment for the lead; then my own check, commits by path, push, the comment on PR 39, the owner.
+
 split-slab a6cf747f951a40794 · split-hull a3569cf285a0ef651 · tube1d aa106621bb873fec2 · anatomy a94ca87ca9da97616 ·
 rim ab5a56882ea42ba61 · image ab0b5ef769471d467 · model ad6a0e85503ffe25e · rigour a2335f9a30eb2ed29 · ref-anatomy
 af7880128daa2f79e · boom a2dbcc30895945c85 · ref-hull a3624c82c86099e8a · ref-proofs acbbdf05e14446ed9 · toy
