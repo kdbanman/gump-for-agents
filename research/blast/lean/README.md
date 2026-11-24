@@ -135,12 +135,12 @@ chain, with Perron–Frobenius built here because Mathlib has none):
 
 | statement | Lean name | file | refereed |
 |---|---|---|---|
-| **Every hull face, no hypothesis**: `Lemma0F (hull R)` by a general proof for every R with A > 0, hence the dominant law unique among λ > 0, positive on every living state, decay at exactly λ, ln τ = Σ c_i, ln τ < 2.2165·A, survFrom = `Face.survival`, equal prices along every table automorphism | `hull_lemma0`, `hull_full_every` (`descent`, `enterT`, `walk_all`, `grow`, `step_TZ`, `step_U`, `aliveF_u`, `kc_le_four`, `stepN_mask`) | `LinkHullGen.lean` | no |
-| **The triangle's six symmetries on every hull face**: the rotation and the reflection are table automorphisms for every R; equal prices along them | `aut_general`, `rot_aut`, `refl_aut`, `hull_prices_sym` | `LinkHullSym.lean` | no |
-| **Superposition**: configurations farther apart than their light cones reach run independently; along a wire, two modifications of any background on either side of a seam run as their own runs glued | `run_or_far`, `superpose_units` | `Gump/TapeSuper.lean` | no |
-| **Meetings (§31), one per pair**: an up-signal and a down-signal at distance d + 2n are, after 2n generations, the pair at distance d moved n units | `Signals.pair_run`, `pair_step` | `Gump/TapeMeet.lean` | no |
-| **U meets K0: both vanish**, from every distance 3 + 2n: the plain train exactly from generation 2n + 4 | `Signals.meet_U_K0` | `Gump/TapeMeet.lean` | no |
-| **The fronts of §31, for ever, from every distance**: U–H and E–H give wire B between a lower edge running down and an upper edge running up; E–K0 gives the holed train behind an upward puncher; from generation 2n + g four generations move the configuration two units down below a seam and two units up above it, the medium holding at the seam (E–H's upper edge carries a three-unit inclusion that U–H's has not: the table's "the same two edges" is corrected) | `Signals.meet_UH`, `meet_EH`, `meet_EK`, `stateUH`/`EH`/`EK`, `rigid_front` | `Gump/TapeMeetFront.lean`, `TapeMeetFronts.lean`, `TapeMeetData.lean` (`tape_meet.py`) | no |
+| **Every hull face, no hypothesis**: `Lemma0F (hull R)` by a general proof for every R with A > 0, hence the dominant law unique among λ > 0, positive on every living state, decay at exactly λ, ln τ = Σ c_i, ln τ < 2.2165·A, survFrom = `Face.survival`, equal prices along every table automorphism | `hull_lemma0`, `hull_full_every` (`descent`, `enterT`, `walk_all`, `grow`, `step_TZ`, `step_U`, `aliveF_u`, `kc_le_four`, `stepN_mask`) | `LinkHullGen.lean` | `ref-chain`, fifth review |
+| **The triangle's six symmetries on every hull face**: the rotation and the reflection are table automorphisms for every R; equal prices along them | `aut_general`, `rot_aut`, `refl_aut`, `hull_prices_sym` | `LinkHullSym.lean` | `ref-chain`, fifth review |
+| **Superposition**: configurations farther apart than their light cones reach run independently; along a wire, two modifications of any background on either side of a seam run as their own runs glued | `run_or_far`, `superpose_units` | `Gump/TapeSuper.lean` | `ref-tape`, fourth review |
+| **Meetings (§31), one per pair**: an up-signal and a down-signal at distance d + 2n are, after 2n generations, the pair at distance d moved n units | `Signals.pair_run`, `pair_step` | `Gump/TapeMeet.lean` | `ref-tape`, fourth review |
+| **U meets K0: both vanish**, from every distance 3 + 2n: the plain train exactly from generation 2n + 4 | `Signals.meet_U_K0` | `Gump/TapeMeet.lean` | `ref-tape`, fourth review |
+| **The fronts of §31, for ever, from every distance**: U–H and E–H give wire B between a lower edge running down and an upper edge running up; E–K0 gives the holed train behind an upward puncher; from generation 2n + g four generations move the configuration two units down below a seam and two units up above it, the medium holding at the seam (E–H's upper edge carries a three-unit inclusion that U–H's has not: the table's "the same two edges" is corrected) | `Signals.meet_UH`, `meet_EH`, `meet_EK`, `stateUH`/`EH`/`EK`, `rigid_front` | `Gump/TapeMeetFront.lean`, `TapeMeetFronts.lean`, `TapeMeetData.lean` (`tape_meet.py`) | `ref-tape`, fourth review |
 
 ### What is not proved (as of 2026-11-24)
 
@@ -155,7 +155,10 @@ chain, with Perron–Frobenius built here because Mathlib has none):
 - **λ intervals beyond the five 9-cell faces.** The 12-cell certificate was generated (with the 48-element symmetry
   reduction, `DiceSym.lean`) but its build was killed at 12 GB in one declaration and ran over 25 minutes split; it is
   not committed. 15 and 18 cells need the transfer product of `qsd.c` with a correctness proof, not written.
-- **The meetings of signals** (§31; REVIEW-signals-6 §3): they need a superposition lemma for two far-apart signals
+- ~~The meetings of signals~~ **proved after the integration** (`run_or_far`, `Signals.pair_run`, `meet_U_K0`, `meet_UH`,
+  `meet_EH`, `meet_EK`; table above; refereed, `ref-tape` fourth review). Still not covered: same-direction pairs, the K3
+  meetings, fronts at other placements (they follow from `pair_shift` but are not stated). When this list was first
+  written the entry read: (§31; REVIEW-signals-6 §3): they need a superposition lemma for two far-apart signals
   and outcome runs wider than the 64-box (the 128-box of `CallBox` or a moving window). Also not covered: the finite
   cell during a call, other seed places, "at no earlier generation" for the call law; that the nine signals are all
   of the train's rigid signals is not claimed.
