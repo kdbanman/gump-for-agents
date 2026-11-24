@@ -2,11 +2,13 @@
 
 Agent `chain` (Lean arm, theory), 2026-11-24, 11:16 UTC onwards. Source: `research/blast/rigour/THEOREMS.md`,
 its referee `research/blast/ref-proofs/REVIEW.md`, the seam identity of `research/blast/image/README.md`.
-Files (all new, all mine): `research/blast/lean/mathlib/GumpMath/Chain*.lean` (13 modules),
+Files (all new, all mine): `research/blast/lean/mathlib/GumpMath/Chain*.lean` (16 modules: Tilt, Perron, Exist,
+Lemma0, Coins, Routes, Seam, SSM, Price, Inst, TiltLimit, Bits, Kagome, Torus, Rate),
 `research/blast/lean/mathlib/AxiomsChain.lean`, `research/blast/lean/statements_chain.json`, this note.
 
 Every theorem below compiles with no `sorry`, no `native_decide`, and `#print axioms` gives
-`[propext, Classical.choice, Quot.sound]` for each (`AxiomsChain.lean`, 54 lines). `sh research/blast/lean/check.sh
+`[propext, Classical.choice, Quot.sound]` for each (`AxiomsChain.lean`; `Kagome.window_iff` needs only
+`[propext, Quot.sound]`). `sh research/blast/lean/check.sh
 --mathlib` passes. Nothing here imports `GumpMath/Dice*.lean`; every theorem is proved from stated hypotheses on a
 finite killed Markov chain, and the section *Instantiation plan* says how the concrete surrogate meets them.
 
@@ -59,7 +61,7 @@ orbit, the "one price per orientation" clause).
 **Differentiability of the top eigenvalue is not needed**, and was not built: the paper's tilt is a tilt of μ, not of
 the matrix, and Z(s) = ∑_x μ(x) e^{−sE(x)} is a finite sum of exponentials.
 
-## Theorem 1, Lemma 0, Lemma R: done; Lemma 0's geometry is a hypothesis
+## Theorem 1, Lemma 0, Lemma R: done, Lemma 0 with its geometry on every wrapped face
 
 - `KilledChain.upper_bound`: log τ ≤ E_μ[E] ≤ ε_max·A, for any chain with local factors and any QSD.
 - The constant (`ChainCoins.lean`): `threeCoins_death_ge` (a cell with coins (2,1) and k ≤ 6 dies with probability
@@ -86,8 +88,20 @@ the matrix, and Z(s) = ∑_x μ(x) e^{−sE(x)} is a finite sum of exponentials.
   live Y neighbour; no cell has more than four live neighbours, since no Z cell is alive); the same with Z cells
   gives Q ± e2. Since e1, e2 generate T, four generations per round reach the X cells over all of T.
   `kagome_one_price`: for that unique law, c_i depends only on the orientation of i and
-  log τ = |T|·(c_X + c_Y + c_Z) (translations act on states and cells, `price_invariant`).
+  log τ = |T|·(c_X + c_Y + c_Z) (translations act on states and cells, `price_invariant`). `kagome_rotation`: if T
+  has an automorphism R with R e1 = −e2, R e2 = e1 − e2 (the rotation (x,y,z) ↦ (y,z,x) of the layer), then
+  c_X = c_Y = c_Z: one price per cell (`nbrs_rot_perm`: the rotation permutes each neighbour list).
+  `kagome_upper_bound`: Theorem 1 with its constant on this layer.
   The neighbour lists were checked against `reference/oracle.py`'s `offsets` by a script (below), not in Lean.
+- **Every wrapped face (H,K),(0,D) literally** (`ChainTorus.lean`): `Torus H K D = ℤ²/⟨(H,K),(0,D)⟩`,
+  `torus_finite` (H, D > 0), `torus_generated`, then `wrapped_lemma0`, `wrapped_one_price`, `wrapped_upper_bound`,
+  `wrapped_rotation` (invariance as (K, −H−K), (D, −D) ∈ Λ), and the example `torus_2_0_2_one_price` (the 12-cell
+  torus of `exact.csv`: unique QSD, ln τ = 12·c).
+- The rate (`ChainRate.lean`): `decay_bounds` (from every state x of the living class, (m/M)λ^t ≤ P_x(T > t) and
+  P_x(T > t+1) ≤ (M/m)λ^t, m ≤ w ≤ M the Perron column vector; every QSD with λ > 0 has this λ), and
+  `lifetime_from_bounds` ((m/M)/(1−λ) ≤ E_x T ≤ 1 + (M/m)/(1−λ)): the QSD rate is the decay rate from every start,
+  and a lifetime measured from any start is τ up to the factor M/m (not bounded here; a path argument gives only
+  ln(M/m) = O(A)).
 - Lemma R (`ChainRoutes.lean`): `routes_first` (d log τ/dA = ∑ p_r c_r), `routes_second` (d/dA ∑ p c = −∑ p (c − c̄)²
   + ∑ p c′), `log_odds`, `routes_concave` (constant prices ⇒ concave log τ, any number of routes),
   `two_routes_step` (the referee's exact discrete step c_s − log(1 − p(1 − e^{−(c_b − c_s)}))).
@@ -140,6 +154,18 @@ not obstruct it.
 
 ## Instantiation plan (for `GumpMath/Dice*.lean`)
 
+**Update: most of this plan is now done here, in the other agent's shape** (`ChainBits.lean`): `bitP A a` is
+`Gump.Dice.Face.P` over ℝ for any a; `bitP_row` (the rows sum to 1: `sum_bits`, induction over the top bit),
+`bitP_zero`, `bitP_pos_iff`; `aliveProbR` is `Gump.Dice.aliveProb` transcribed over ℝ, with
+`one_sub_aliveProbR_three`/`_two` identifying 1 − aliveProb with `death3`/`death2`; and `bit_surrogate` gives
+Theorems 1 and 2 for every face whose cells have coins (2,1) and k ≤ 6, or (2,0) and k ≤ 2; `bit_one_class` gives
+Lemma 0's uniqueness on bit masks from a state u where every cell can be alive and reachability of u. What remains
+for the instantiation, in a later step that may import both: (1) `(F.P ρ1 ρ2 x y : ℝ) = bitP F.A (fun x i =>
+aliveProbR ρ1 ρ2 (F.m1 i) (F.m2 i) (F.k x i) (x.testBit i)) x y` by `push_cast` (and `bin` against `binR`);
+(2) the per-face facts on `m1`, `m2`, `k` by `decide`; (3) for Lemma 0 on their torus faces, either the
+reachability hypothesis of `bit_one_class` per face, or a bijection to my kagome model carrying `nb` to `nbrs`.
+The table below is the original plan.
+
 The other agent's chain (`Gump.Dice.Face.P ρ1 ρ2 : Matrix (Fin (2^A)) (Fin (2^A)) ℚ`, states as bit masks, the empty
 face 0 absorbing, a_i(x) = `aliveProb ρ1 ρ2 (m1 i) (m2 i) (k x i) (testBit x i)`) is exactly the shape of
 `ChainInst.lean`. With S = Fin (2^A), o = 0, P = its matrix cast to ℝ, V = Fin A:
@@ -169,7 +195,7 @@ explicit list of states (each a subset of M of the previous), checked by `decide
   `torus H K D` (cells as a list of 3D points, `nb` from `Gump.nbrs` and `red`) is this model is not proved: it
   needs a bijection between its cell indices and Orient × ℤ²/⟨(H,K),(0,D)⟩ carrying `nb` to `nbrs` (per face by
   `decide`, or once by a geometric proof about `red`). For hull faces and strips (not wrapped) uniqueness remains
-  unproved, in Lean as in the source. The rotation by 2π/3 (c_X = c_Y = c_Z on equilateral tori) is not formalised.
+  unproved, in Lean as in the source.
 - **(SSM) is not proved, and as stated it is probably false** (judgment below).
 - **The existence of the price per cell, unconditionally.** Proved: existence and a two-sided interval
   [(a_n − C′)/n, (a_n + C)/n] from one face, under gluing inequalities with defects (`ChainPrice.lean`:
@@ -181,7 +207,8 @@ explicit list of states (each a subset of M of the previous), checked by `decide
   can lengthen life, and conditioning on survival is a global event that does not factorise over bands, which is why
   the seam identity (a statement about soup-started histories) does not give it.
 - Not built because not needed: perturbation theory of the top eigenvalue; that Wielandt's eigenvalue is the spectral
-  radius; convergence to the QSD from an arbitrary start.
+  radius; convergence in law to the QSD from an arbitrary start (only the decay rate, `decay_bounds`).
+- A bound on the Perron vector's spread M/m that would make ln E_x T = ln τ + O(1): not proved.
 
 ## Judgment on (SSM), with reasons, and the first step
 
@@ -206,8 +233,9 @@ n + 1 tilted means, jump or no jump.
 ## Bearing on the owner's questions
 
 The tilt identity is now a theorem in Lean at full generality: the lifetime of every face of the surrogate is
-exactly a sum of local costs (`tilt_identity`, `ProductKernel.tilt_identity_product`), and the price of a cell
-depends only on its orbit (`price_invariant`). The new observation: the measured "two kinds of face at one tilt"
+exactly a sum of local costs (`tilt_identity`, `ProductKernel.tilt_identity_product`, `bit_surrogate`), and on every
+wrapped face the quasi-stationary law is unique and the price of a cell depends only on its orientation
+(`wrapped_lemma0`, `wrapped_one_price`), one price per cell on rotation-invariant tori (`wrapped_rotation`). The new observation: the measured "two kinds of face at one tilt"
 does not stop the price from existing. `price_of_pointwise` shows a jump along the tilt is harmless to the
 existence and universality of the price per cell; what would make the prices of rimmed and wrapped faces differ is
 a different pointwise limit of the per-cell tilted energy, not the jump itself.
@@ -216,7 +244,8 @@ a different pointwise limit of the per-cell tilted energy, not the jump itself.
 
     export PATH=$HOME/.elan/bin:$PATH; cd research/blast/lean/mathlib
     lake build GumpMath.ChainTilt GumpMath.ChainPerron GumpMath.ChainExist GumpMath.ChainLemma0 GumpMath.ChainCoins \
-      GumpMath.ChainRoutes GumpMath.ChainSeam GumpMath.ChainSSM GumpMath.ChainPrice GumpMath.ChainInst GumpMath.ChainTiltLimit
+      GumpMath.ChainRoutes GumpMath.ChainSeam GumpMath.ChainSSM GumpMath.ChainPrice GumpMath.ChainInst \
+      GumpMath.ChainTiltLimit GumpMath.ChainBits GumpMath.ChainKagome GumpMath.ChainTorus GumpMath.ChainRate
     lake env lean AxiomsChain.lean            # every line: [propext, Classical.choice, Quot.sound]
     cd ../../../.. && sh research/blast/lean/check.sh --mathlib
     python3 research/blast/lean/statements.py # merges statements_chain.json (rewrites STATEMENTS.md)
@@ -250,6 +279,11 @@ Dobrushin's coefficient (the judgment above; 1 s):
 - No second reader has gone through these Lean statements against the source; the rows of `statements_chain.json`
   are my reading. In particular `Face.r` is an arbitrary number per cell: the source's r_i (largest isomorphic ball,
   coin counts included) is not formalised, so (b) and (c) take their geometric inputs as hypotheses.
-- The instantiation plan was not carried out: no theorem here is about the other agent's `Gump.Dice.Face.P`. That
-  its a_i matches `death3`/`death2` is a claim about two definitions read side by side, not checked by Lean.
+- No theorem here is about the other agent's `Gump.Dice.Face.P` itself: `bitP` and `aliveProbR` are transcriptions
+  of its `P` and `aliveProb` made by reading `DiceDef.lean`, not checked against them by Lean (the instantiation
+  step would check them by `push_cast`).
+- The kagome model's identification with `geom.py`'s tori rests on the coordinates (a, b) of `geom.py`'s `ab_cell`
+  as transcribed in `DiceDef.lean` (`abCell`) and on the offsets check above; that `Torus H K D` with e1, e2 is the
+  torus of `geom.py torus H K D` (period lattice (H,K),(0,D) in the basis E1, E2) is read from its README, not
+  proved.
 - The Dobrushin numbers are from the script above only (no second code).
