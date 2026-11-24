@@ -10,6 +10,7 @@ import GumpMath.ChainPrice
 import GumpMath.ChainInst
 import GumpMath.ChainTiltLimit
 import GumpMath.ChainBits
+import GumpMath.ChainKagome
 open Gump.Chain
 -- Theorem 2 (the tilt identity) and its analytic core
 #print axioms neg_log_Z_one
@@ -84,3 +85,9 @@ open Gump.Chain
 #print axioms Bits.one_sub_aliveProbR_two
 #print axioms Bits.bit_surrogate
 #print axioms Bits.bit_one_class
+-- Lemma 0 in full on the kagome layer (every wrapped face)
+#print axioms Kagome.window_iff
+#print axioms Kagome.M_uX
+#print axioms Kagome.singleton_reach
+#print axioms Kagome.grow_iter_univ
+#print axioms Kagome.kagome_lemma0
