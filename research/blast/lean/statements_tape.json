@@ -120,7 +120,7 @@
    [
     "lit_enters",
     "§11 and the owner's journal (2026-11-15, 10:30): one cell lights the clock of N units into the cycle `clockOf N`; matched at generation N − 2 with `clockY (N − 6)`.",
-    "For even N: at generation N − 2 exactly (2 · mmax N = N − 2), the state of `clockOf N` at generation 2(N − 6) + 3, i.e. `Y_{N−6}` at surgery time 2(N − 6) + 8 (`FL_entry`). For odd N the theorem matches at N − 1 (2 · mmax N = N − 1), one generation after the measured entry N − 2: generation N − 2 is odd and not a hex word, so it is not proved. That no earlier generation is on the cycle is not proved here."
+    "For even N: at generation N − 2 exactly (2 · mmax N = N − 2), the state of `clockOf N` at generation 2(N − 6) + 3, i.e. `Y_{N−6}` at surgery time 2(N − 6) + 8 (`FL_entry`). For odd N this theorem matches at N − 1 (2 · mmax N = N − 1); the match at N − 2 is `lit_odd_entry` (ClockLitOdd), and the whole claim with \"at no earlier generation\" is `lit_enters_at`."
    ],
    [
     "lit_clock",
@@ -150,7 +150,12 @@
    [
     "lit_first",
     "(PI's brief, third task) \"at no earlier generation\": the lit clock of N units is on no state of the cycle of `clockOf N` before generation N − 2.",
-    "Same, for every N ≥ 6: even N by the left end at N − 3 (`lit_first_even`), odd N by the right end at N − 3 (`lit_first_odd`: C, f, C, capR is the right end of no base state; the left end would not do, it is that of base times 11, 15, 19, 23). With `lit_clock` the entry is exactly N − 2 for even N; for odd N it is N − 2 or N − 1 (the state at N − 2 is measured on the cycle, not proved)."
+    "Same, for every N ≥ 6: even N by the left end at N − 3 (`lit_first_even`), odd N by the right end at N − 3 (`lit_first_odd`: C, f, C, capR is the right end of no base state; the left end would not do, it is that of base times 11, 15, 19, 23). With `lit_enters_at` the entry is exactly N − 2 for every N ≥ 6."
+   ],
+   [
+    "lit_enters_at",
+    "(PI's brief, third task) one cell lights the clock of N units into the cycle `clockOf N`, matched at generation N − 2 with `clockY (N − 6)`, at no earlier generation; the owner's journal (2026-11-15, 10:30) on the 4N + 2 clock as a theorem from a single cell.",
+    "Same, for every N ≥ 6: the state at N − 2 is a state of the cycle (even N: `clockY (N − 6)` at generation 2(N − 6) + 3, `lit_enters`; odd N: at 2(N − 6) + 2, `lit_odd_entry`, three local one-generation kernel checks against base times 7, 9, 11), and no earlier state is (`lit_first`). `lit_clock_exact`: from N − 2 on, exact period 4N + 2. N ≤ 5: `lit_clock_small` (from max(N − 2, 0); minimality there not claimed)."
    ]
   ]
  }

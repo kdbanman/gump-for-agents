@@ -4,7 +4,7 @@ Lean arm, 2026-11-24, 11:16–13:15 UTC, 13:16–14:25 UTC and 14:32–16:30 UTC
 (+ `TapeSignalsData.lean`), `Gump/Line.lean` (+ `LineData.lean`), `Gump/Clock.lean` (+ `ClockData.lean`),
 `Gump/Unzip.lean`, `Gump/UnzipProof.lean`, `Gump/Call.lean` (+ `CallData.lean`), `Gump/CallProof.lean`,
 `Gump/CallBox.lean`, `Gump/CallLine.lean`, `Gump/CallUnion.lean` (+ `CallUnionData.lean`), `Gump/CallUnionLocal.lean`,
-`Gump/ClockLit.lean` (+ `ClockLitData.lean`), `Gump/ClockLitFirst.lean`, `Gump/LineBeam.lean` (+ `LineBeamData.lean`), `Gump/ClockReader.lean`, `Gump/CallReader.lean` (+ `CallReaderData.lean`);
+`Gump/ClockLit.lean` (+ `ClockLitData.lean`), `Gump/ClockLitFirst.lean`, `Gump/ClockLitOdd.lean`, `Gump/LineBeam.lean` (+ `LineBeamData.lean`), `Gump/ClockReader.lean`, `Gump/CallReader.lean` (+ `CallReaderData.lean`);
 `AxiomsTape.lean`; scripts `tape_lib.py`, `tape_line.py`, `tape_signals.py`, `tape_clock.py`, `tape_call.py`,
 `tape_statements_check.py`, `tape_unzip.py`, `tape_call_front.py`, `tape_callunion.py`, `tape_lit.py`, `tape_beam.py`, `tape_reader.py`; rows in `statements_tape.json`. Every result below is in the **kernel tier**: no
 `native_decide` anywhere, every base run is `decide +kernel` on `Gump.Bits`' stepper, and every theorem in
@@ -15,7 +15,7 @@ Lean arm, 2026-11-24, 11:16–13:15 UTC, 13:16–14:25 UTC and 14:32–16:30 UTC
 | # | law (source) | Lean | status |
 |---|---|---|---|
 | 1 | the tape: every word over {B, C} moves one unit per 2 generations (§10; REVIEW-signals-2 row 5; REVIEW-signals-9 §3 A) | `Tape.tape_run`, `tape_local_run` | **proved**, whole lattice, every word |
-| 2 | a clock of every length: period exactly 4N + 2 for every N ≥ 1 (§11, `prove_clock.py`) | `Clock.clockOf_period` (named), `clock_cycle`, `lit_clock_small`, `X0_lit`; `clock_every_length` (existential, says less) | **proved** for the named cycle, and (third session) **from a single cell for every N**: `ClockLit.lit_clock`, `lit_enters`, `lit_word`; at no earlier generation than N − 2: `lit_first` |
+| 2 | a clock of every length: period exactly 4N + 2 for every N ≥ 1 (§11, `prove_clock.py`) | `Clock.clockOf_period` (named), `clock_cycle`, `lit_clock_small`, `X0_lit`; `clock_every_length` (existential, says less) | **proved** for the named cycle, and (third session) **from a single cell for every N**: `ClockLit.lit_clock`, `lit_enters`, `lit_word`; entering exactly at generation N − 2: `lit_enters_at`, `lit_clock_exact` |
 | 3 | the gun's line: period exactly 4 from generation 2N, every N ≥ 2 (§21, `prove_line.py`) | `Line.line_orbit`, `line_period_four` | **proved, stronger**: preperiod exactly 2N |
 | 4 | nine rigid signals on the rake train (§30–35, `prove_echo.py`, `sig6.py`) | `Tape.Signals.signal_run`, `train_step`, `train_shift` | **proved**, every place, every time |
 | 5 | the unzip law (push 8 §5, `prove_unzip8.py`; REVIEW-signals-8 §3) | `Unzip.unzip_law`, `unzip_law_sharp` | **proved**, both the push's bound and the review's sharp one, by a new argument |
@@ -46,6 +46,9 @@ theorem clockOf_period (N : Nat) (hN : 1 ≤ N) :
 theorem reader_run (w : Int → Letter) : ∀ n : Nat, run (readerC w) (2 * n) = readerC (fun u => w (u + n))
 theorem beam_period (N : Nat) (hN : 1 ≤ N) :
     run (beam N) 4 = beam N ∧ ∀ k, 0 < k → k < 4 → run (beam N) k ≠ beam N
+theorem lit_enters_at (N : Nat) (h6 : 6 ≤ N) :
+    (∃ s, run (lcfg (litList N)) (N - 2) = run (clockOf N) s) ∧
+    ∀ g, g < N - 2 → ∀ k, run (lcfg (litList N)) g ≠ run (clockOf N) k
 theorem lit_word (N : Nat) (h6 : 6 ≤ N) : ∀ m, m ≤ mmax N → run (lcfg (litList N)) (2 * m) = ucfg (FL N m)
 theorem lit_enters (N : Nat) (h6 : 6 ≤ N) :
     run (lcfg (litList N)) (2 * mmax N) = run (clockOf N) (2 * (N - 6) + 3)
@@ -199,7 +202,7 @@ one unit per double step, so the train spreads at both ends.
 - `lit_clock`: from `litEntry N` on, every state of the lit clock is on the cycle of `clockOf N` and has exact
   period 4N + 2 (`exact_period_run`: the states of an exact-period orbit have that exact period); N ≤ 5 is
   `clockOf`'s definition.
-- **At no earlier generation** (`Gump/ClockLitFirst.lean`, `lit_first`): for every N ≥ 6 no state before generation
+- **At no earlier generation** (`Gump/ClockLitFirst.lean`, `Gump/ClockLitOdd.lean`, `lit_first`): for every N ≥ 6 no state before generation
   N − 2 is any state of the cycle. It is enough to show the state at N − 3 is not (a later state of an orbit that met
   the cycle is on it). Every state of the cycle shows on its units ≤ 3 a state of the base (chart 0), and on its units
   ≥ N − 3, moved back N − 6 units, the units ≥ 3 of a state of the base (chart j) (`cycle_left`, `cycle_right`). Even
@@ -208,7 +211,13 @@ one unit per double step, so the train spreads at both ends.
   the base's at times 11, 15, 19, 23, so the witness is the right end instead: at N − 3 (an even generation for odd
   N, so a word) the units ≥ N − 3 are C, f, C, capR, the right end of no base state (`firstCheckR_ok`).
   `lit_enters_exact`: for even N the entry is exactly N − 2.
-- What it does not say: for odd N, that the state at generation N − 2 is on the cycle (measured; Lean has N − 1).
+- **Odd N at N − 2** (`Gump/ClockLitOdd.lean`, `lit_odd_entry`): generation N − 2 is odd for odd N, one generation
+  after the word `FL N (mmax N − 1)`. At surgery time 2j + 7 chart i shows base time 9 or 11 by the parity of j − i and
+  chart j shows 7 (`chart_odd`, omega), and one generation of the word matches the base there on three local pieces
+  (`oddCheck_ok`): the left end (capL C B C B C → Xb 9 on the units ≤ 3), a three-unit window of the wire in each
+  parity (C B C → Xb 9, B C B → Xb 11 on unit 3), the right end (B C f C capR → Xb 7 on the units ≥ 3). So the state
+  at N − 2 is `clockOf N` at generation 2(N − 6) + 2. `lit_enters_at`: for every N ≥ 6 the lit clock is on the cycle
+  at generation N − 2 and at no earlier one; `lit_clock_exact`: from then on, exact period 4N + 2.
 
 ## The beam (third session)
 
@@ -247,10 +256,9 @@ call (the call line crosses the cell; the cap is reached by the train only once 
   clocks of 1 and 2 units side by side satisfy it for N = 7. `clockOf_period` names the object: the lit clock at
   generation max(N − 2, 0) for N ≤ 5, the surgery's cycle `clockY (N − 6)` for N ≥ 6. `X0_lit` proves the base X0 is
   the lit clock of six units at generation 41, so `clockOf 6` is the lit clock's state at 53 (`clockY_zero_lit`).
-- The lit clock from one cell (third session, `Gump/ClockLit.lean`, `Gump/ClockLitFirst.lean`): proved for every N,
-  and no state before generation N − 2 is on the cycle (`lit_first`). For odd N the match is proved at generation
-  N − 1 (`2 * mmax N`), one generation after the measured entry N − 2, because generation N − 2 is odd and its state
-  is not a word of hex letters; so for odd N the entry is N − 2 or N − 1 in Lean.
+- The lit clock from one cell (third session, `Gump/ClockLit*.lean`): proved for every N, entering the cycle exactly
+  at generation N − 2 for every N ≥ 6 (`lit_enters_at`); for N ≤ 5 from max(N − 2, 0) (`lit_clock_small`, minimality
+  not claimed there).
 - `line_orbit` is about line-C exactly as in the JSON (capA and gun of that file), not about other caps or guns.
 - Nine signals: that these are all the rigid signals of the train is not claimed.
 - `glue_run_moving` and `Call.pulses_at` are proved but not used by any headline proof.
@@ -270,8 +278,8 @@ call (the call line crosses the cell; the cap is reached by the train only once 
 The journal's 10:30 entry of 2026-11-15 ("a clock (a wire between two caps, period 4N + 2 for N units of wire)") and
 its correction (the clock stands, its proof rebuilt by a reviewer): the clock of every length is now checked by
 Lean's kernel, and since the third session as the journal has it, from a single cell: one added cell lights the
-clock of N units, for every N, into an oscillator of exact period 4N + 2 (`lit_clock`), and it gets there no earlier
-than generation N − 2 (`lit_first`; exactly N − 2 for even N). The transient is itself a
+clock of N units, for every N, into an oscillator of exact period 4N + 2 (`lit_clock`), and for N ≥ 6 it reaches
+the cycle exactly at generation N − 2 (`lit_enters_at`), as measured to N = 400. The transient is itself a
 small picture: the cell is a rake that runs to the right cap shedding pulses that run left, the train widening at
 both ends; when
 the rake reaches the cap the clock is on its cycle. Also checked by the kernel: the tape that the signals rest on, the gun's line, the train's nine signals, push 8's

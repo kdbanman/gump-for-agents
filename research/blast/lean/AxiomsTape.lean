@@ -14,6 +14,7 @@ import Gump.LineBeam
 import Gump.ClockReader
 import Gump.CallReader
 import Gump.ClockLitFirst
+import Gump.ClockLitOdd
 open Gump Gump.Tape
 #print axioms glue_run
 #print axioms run_shiftC
@@ -115,3 +116,8 @@ open Gump Gump.Tape
 #print axioms Gump.Clock.cycle_right
 #print axioms Gump.Clock.lit_first_odd
 #print axioms Gump.Clock.lit_first
+#print axioms Gump.Clock.chart_odd
+#print axioms Gump.Clock.oddCheck_ok
+#print axioms Gump.Clock.lit_odd_entry
+#print axioms Gump.Clock.lit_enters_at
+#print axioms Gump.Clock.lit_clock_exact
