@@ -61,6 +61,16 @@
     "patch13_full",
     "rigour/README.md claim 3 and THEOREMS.md (Lemma 0, Theorems 1, 2) for the face (patch 1 3): its quasi-stationary law exists, is unique and charges every living state; ln τ = 1.8804189341…; ln τ is a sum of per-cell prices.",
     "One theorem about Gump.Dice.Face.P at (0.44, 0.42): the dominant QSD is unique among λ > 0 and positive on every living state; 0.8474738060566295030 ≤ λ ≤ 0.8474738060566295031 (the dice agent's certificate) and 1.8804189341 < ln τ < 1.8804189342; survival from every state that can survive is between (m/M)λ^t and (M/m)λ^(t−1); ln τ = Σ_i c_i with c_i the price of cell i's own death probability 1 − F.a x i; equal prices within the classes {0,8}, {1,7}, {2,6}, {3,5}, {4}. τ = E_μ T is defined through the killed chain's survival sums."
+   ],
+   [
+    "face_unique",
+    "(the assembly without a certified λ) Lemma 0, the decay rate and the tilt identity for a face.",
+    "As face_lifetime without the λ interval; the certificate is given as functions (trees for 12 cells)."
+   ],
+   [
+    "torus202_full",
+    "rigour/README.md claim 3 and THEOREMS.md (Lemma 0, Theorem 2: one price per cell on a rotation-invariant torus) for the 12-cell torus (2,0),(0,2).",
+    "For Gump.Dice.Face.P at (0.44, 0.42): unique QSD among λ > 0, positive on every living state, all twelve prices equal, ln τ = 12·c, ln τ < 1.9228·12 (the dice agent's lntau_le_regular), the decay rate from every start. No certified interval for λ (the dice agent's 12-cell certificate was not built); the tables are mine, checked by Data.tabOK against Face.nb."
    ]
   ]
  }

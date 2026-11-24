@@ -2,6 +2,8 @@ import GumpMath.LinkBridge
 import GumpMath.LinkUnique
 import GumpMath.LinkSym
 import GumpMath.LinkFaces
+import GumpMath.LinkNoCert
+import GumpMath.LinkTorus202
 import GumpMath.LinkHull3Sym
 import GumpMath.LinkTorus103Sym
 import GumpMath.LinkTorus113Sym
@@ -40,3 +42,9 @@ open Gump.Link
 #print axioms Patch13.patch13_link
 #print axioms Patch13.patch13_prices
 #print axioms Patch13.patch13_full
+-- the 12-cell torus (2,0),(0,2), without a certified λ
+#print axioms face_classF
+#print axioms face_unique
+#print axioms Torus202.tab
+#print axioms Torus202.price_all
+#print axioms Torus202.torus202_full
