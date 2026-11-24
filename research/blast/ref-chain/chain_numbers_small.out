@@ -1,0 +1,24 @@
+== torus (1,0),(0,1): A = 3, rho = (0.44, 0.42);  power iteration 13 steps, |mu Q - lam mu| = 2.8e-17, lam = 0.756441856992913, 1 - lam - h = -1.4e-16
+   ln tau = 1.412399584646
+   tilt identity: int_0^1 <E>_s ds - ln tau = -4.4e-16;  max increase of <E>_s on 2001 points = -5.8e-04 (<= 0 means antitone)
+   <E>_1 = 0.588528 <= ln tau = 1.412400 <= <E>_0 = E_mu E = 2.213975 (= 0.7380 per cell) <= eps_max A = 7.5284;  max eps_i(x) = 1.704364, eps_max = 2.509462
+   prices: sum c_i - ln tau = 0.0e+00;  spread within an orientation = 0.0e+00;  c_X, c_Y, c_Z = 0.4707998615, 0.4707998615, 0.4707998615;  ln tau / A = 0.4707998615; rotation-invariant: True
+   |T| (c_X+c_Y+c_Z) - ln tau = 0.0e+00;  all c_i in [0, eps_max]: True
+   Lemma 0: class of u = all-X has 6 of 7 living states; states that can survive = 6; class == can-survive: True;  Q u y > 0 for all y: True;  Q u u = 2.940e-01;  surely-dying living states: ['111']
+   junk QSD: point mass on state 7: |delta Q - 0 delta| = 0.0e+00, its tau = 1/d = 1.000, ln tau = 0.000
+== torus (1,1),(0,1): A = 3, rho = (0.44, 0.42);  power iteration 13 steps, |mu Q - lam mu| = 2.8e-17, lam = 0.756441856992913, 1 - lam - h = -1.4e-16
+   ln tau = 1.412399584646
+   tilt identity: int_0^1 <E>_s ds - ln tau = -4.4e-16;  max increase of <E>_s on 2001 points = -5.8e-04 (<= 0 means antitone)
+   <E>_1 = 0.588528 <= ln tau = 1.412400 <= <E>_0 = E_mu E = 2.213975 (= 0.7380 per cell) <= eps_max A = 7.5284;  max eps_i(x) = 1.704364, eps_max = 2.509462
+   prices: sum c_i - ln tau = 0.0e+00;  spread within an orientation = 0.0e+00;  c_X, c_Y, c_Z = 0.4707998615, 0.4707998615, 0.4707998615;  ln tau / A = 0.4707998615; rotation-invariant: True
+   |T| (c_X+c_Y+c_Z) - ln tau = 0.0e+00;  all c_i in [0, eps_max]: True
+   Lemma 0: class of u = all-X has 6 of 7 living states; states that can survive = 6; class == can-survive: True;  Q u y > 0 for all y: True;  Q u u = 2.940e-01;  surely-dying living states: ['111']
+   junk QSD: point mass on state 7: |delta Q - 0 delta| = 0.0e+00, its tau = 1/d = 1.000, ln tau = 0.000
+== torus (1,0),(0,2): A = 6, rho = (0.44, 0.42);  power iteration 57 steps, |mu Q - lam mu| = 4.8e-16, lam = 0.912984096590843, 1 - lam - h = 4.2e-17
+   ln tau = 2.441664379227
+   tilt identity: int_0^1 <E>_s ds - ln tau = 0.0e+00;  max increase of <E>_s on 2001 points = -5.3e-04 (<= 0 means antitone)
+   <E>_1 = 1.469539 <= ln tau = 2.441664 <= <E>_0 = E_mu E = 4.357582 (= 0.7263 per cell) <= eps_max A = 15.0568;  max eps_i(x) = 2.509462, eps_max = 2.509462
+   prices: sum c_i - ln tau = -4.4e-16;  spread within an orientation = 1.1e-16;  c_X, c_Y, c_Z = 0.3542173446, 0.3542173446, 0.5123975003;  ln tau / A = 0.4069440632; rotation-invariant: False
+   |T| (c_X+c_Y+c_Z) - ln tau = 0.0e+00;  all c_i in [0, eps_max]: True
+   Lemma 0: class of u = all-X has 62 of 63 living states; states that can survive = 62; class == can-survive: True;  Q u y > 0 for all y: True;  Q u u = 8.641e-02;  surely-dying living states: ['111111']
+   junk QSD: point mass on state 63: |delta Q - 0 delta| = 0.0e+00, its tau = 1/d = 1.000, ln tau = 0.000
