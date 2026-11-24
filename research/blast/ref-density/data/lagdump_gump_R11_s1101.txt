@@ -1,0 +1,2 @@
+300000 generations x 64 lanes
+cross-correlation corr(X(t-L), Y(t)), L = 0..8

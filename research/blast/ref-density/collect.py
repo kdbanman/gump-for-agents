@@ -50,10 +50,12 @@ def mine(path):
     desc = {int(k): (float(a), float(b)) for k, a, b in re.findall(r"^DESC (\d+) desc (\S+) died (\S+)", t, re.M)}
     r["desc"] = desc
     r["dens"] = {f"{k}{n}": float(v) for k, n, v in re.findall(r"^DENS (core|full) (\d+) n \d+ (\S+)", t, re.M)}
+    mn = re.search(r"^DENS core 1 n (\d+)", t, re.M)
+    r["n1"] = int(mn.group(1)) if mn else 9
     mpost = re.search(r"^DENS core1 after darts.* (\S+)$", t, re.M)
     if mpost:
         r["post"] = float(mpost.group(1))
-    byf = {int(f): (float(n), float(c1), float(l1)) for f, n, c1, l1 in re.findall(r"^BYF (\d+) n (\S+) core1 (\S+) full1 (\S+)", t, re.M)}
+    byf = {int(f): (float(n), float(c1), float(l1), float(v)) for f, n, c1, l1, v in re.findall(r"^BYF (\d+) n (\S+) core1 (\S+) full1 (\S+) core1var (\S+)", t, re.M)}
     r["byf"] = byf
     r["byfpost"] = {int(f): (float(n), float(c)) for f, n, c in re.findall(r"^BYFPOST (\d+) n (\S+) core1 (\S+)", t, re.M)}
     fm = re.search(r"^FACE mean (\S+) sd (\S+)", t, re.M)
@@ -128,13 +130,16 @@ def main():
         lo, n = low_density(r, 10, 1)
         lo4, n4 = low_density(r, 4, 1)
         lf, _ = low_density(r, 10, 2)
+        vw = sum(v[0] * v[3] for f, v in r["byf"].items() if 1 <= f <= 10)
+        vb = sum(v[0] * r["n1"] * v[1] * (1 - v[1]) for f, v in r["byf"].items() if 1 <= f <= 10)
+        lo = (lo, vw / vb if vb else float("nan"))
         post_lo = ""
         if r.get("byfpost"):
             nn = sum(v[0] for f, v in r["byfpost"].items() if f <= 10)
             ss = sum(v[0] * v[1] for f, v in r["byfpost"].items() if f <= 10)
             post_lo = f" after darts {r.get('post', float('nan')):.4f} (F<=10: {ss / nn:.4f})" if nn else ""
         print(f"  {tag:26s} P1 {P[1]:.3f} +- {eP1:.3f}  P2 {P.get(2, 0):.3f} P4 {P.get(4, 0):.3f} P8 {P.get(8, 0):.4f} P15 {P.get(15, 0):.5f} | "
-              f"core1 {r['dens'].get('core1', 0):.4f} F<=10 {lo:.4f} (F<=4 {lo4:.4f}; n {n:.0f}) full1 {r['dens'].get('full1', 0):.4f} F<=10 {lf:.4f}{post_lo}")
+              f"core1 {r['dens'].get('core1', 0):.4f} F<=10 {lo[0]:.4f} (F<=4 {lo4:.4f}; n {n:.0f}; var/binom within F, 1<=F<=10: {lo[1]:.2f}) full1 {r['dens'].get('full1', 0):.4f} F<=10 {lf:.4f}{post_lo}")
     if g:
         print("\nExcursion split against my gump (ln tau = -ln f_k - ln P_k): d ln f_k for k = 15, 4, 1 and d ln P_1, d ln P_4")
         for tag, r in rows.items():
