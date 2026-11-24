@@ -238,3 +238,118 @@ inhabitants, junk lifetime), `RefChainSSM.lean` (the objection completed), `gen_
 `routes_check.py`, `emax_bound.py`, `names_check.py`, and their `.out` files; `reelab.log`. Lean: `cd research/blast/lean/mathlib && lake env lean
 /home/user/gump-for-agents/research/blast/ref-chain/<File>.lean`; Python: `OMP_NUM_THREADS=1 python3
 research/blast/ref-chain/<script>.py` from the repository root (each script finds `reference/oracle.py` itself).
+
+---
+
+## Second review (2026-11-24, after the chain agent's repairs f32bb82 and the Link modules 9fde4a9)
+
+Refereed: the repaired `Chain*.lean` (now 16 modules with `ChainSharp.lean`), the 17 `Link*.lean` modules,
+`notes/link.md`, `statements_link.json`, `AxiomsLink.lean`. Nothing in the shared tree was rebuilt; my files load the
+built `.olean`s through `lake env lean`, one process at a time, each under 0.6 GB of anonymous memory
+(watched; a full kernel re-run of a reachability check exceeded 3 GB and was stopped, see (3)).
+
+**Verdict.** D1–D7 are closed in the statements, not only in the rows. The Link theorems (`hull3_full`,
+`torus103_full`, `torus113_full`, `strip13_full`, `patch13_full`, `torus202_full`) say what their rows say, about
+`Gump.Dice.Face.P` itself, and every number and every asserted equality of prices agrees with my own code. I found no
+new defect of substance; three small qualifications are below.
+
+### (1) The seven defects, re-attacked
+
+- **D1 closed.** `bit_surrogate` (ChainBits.lean l. 129–145) now names the factor: `L.dc i x = 1 − aliveProbR (cell i)`.
+  My `lumped` factorisation (`RefChainVacuity.lean`) no longer meets the statement (its factors are not those).
+- **D2 closed.** `IsDominantQSD` (ChainExist.lean l. 29–34): a QSD with λ ≥ λ′ for every QSD (ν, λ′), λ ≥ Q u u,
+  P_x(T > t) ≤ C_ε(λ + ε)^t for all x, and ≥ λ^t for some x at each t. [proved: Lean] `RefChainLink.lean`:
+  on every wrapped face a dominant law has λ > 0 (`dominant_lam_pos`) and is therefore the unique physical law
+  (`dominant_is_physical`); the λ = 0 point mass on the all-alive state is **not** dominant (`junk_not_dominant`);
+  in general the dominant λ is unique (`dominant_lam_unique`, from `max` alone) and so is τ (`dominant_lifetime_unique`).
+  Nothing in the structure is trivially true; where Q = 0 every law is dominant, with λ = 0 and τ = 1, which is right.
+  Qualification (minor): the notes say "not proved: that this λ is the spectral radius"; `decay_up` and `decay_lo`
+  together give λ = ρ(Q) at once on paper (‖Q^t‖_∞ = max_x P_x(T > t) and Gelfand's formula). The law μ itself is
+  unique only where Lemma 0 is proved; on a reducible face prices of a dominant law could depend on the choice.
+  My old `junk_tilt_identity_product` still compiles (it is about `tilt_identity` for any QSD, which is still true)
+  but no existential theorem is met by it any more.
+- **D3 closed**: `torus_card` (|T| = HD for H, D > 0), `wrapped_one_price_HD`, `torus_2_0_2_twelve`.
+- **D4 closed**: `price_of_ae` (my statement, taken over). **D6 closed**: `lifetime_from_bounds_K` proves r < 1 from (K).
+- **D5 closed**: the section "places where the source needed more" is gone from `notes/chain.md`.
+- **D7 closed**: the `price_invariant` row is corrected; `kagome_sharp_bound` (ChainSharp.lean) proves my paper bound,
+  ln τ ≤ 2.2412·A for every QSD on the kagome layer (rightly marked "not for hull faces"; and not yet a theorem about
+  `Face.P` on tori, as `notes/link.md` says, since the bijection between the dice cell lists and `Orient × Torus` is
+  not formalised — my `kagome_check.py` is the numerical evidence for it).
+- My `RefChainVacuity.lean` and `RefChainSSM.lean` still compile against the new modules.
+
+### (2) `hull3_full` and its siblings, clause by clause
+
+- `chain F hd` is `ofStochastic (fun x y => ((F.P ρ1 ρ2 x y : ℚ) : ℝ)) F.empty …` (LinkBridge.lean l. 103): the killed
+  chain of `Face.P` itself at `F.empty = ⟨0, _⟩` (DiceBound.lean l. 58). `extend` puts 0 at the empty state and is
+  harmless (`toDice` proves the dice agent's `IsQSD`, whose `empty` field requires exactly that).
+- Uniqueness is over all `(chain F).IsQSD ν λ′` with λ′ > 0, on the living states `{x // x ≠ F.empty}`: the right
+  quantifier and space. `CanSurvive x` = ∃ y, Q x y > 0; `survFrom t x` = ((Q^t)·1)(x) = Σ_{living y} (Q^t)(x, y)
+  = P_x(T > t) for the killed chain (its identification with the dice agent's `Face.survival` is not stated, as the
+  notes say). The decay clause is two-sided and about that quantity.
+- `L` is `localDeath (hull 3) sdens (cellsOK_of_tab …)` (checked `rfl` in `RefChainLink.lean`); the densities are
+  ρ1 = 11/25, ρ2 = 21/50 (`rfl`).
+- [measured] `link_numbers.py` (faces built from DiceDef's cell lists, `red` and `coin`, with neighbours and coins
+  from the oracle's offsets, not from the dice tables; `link_numbers.out`):
+
+| face | λ (float64) | ln τ | prices c_i | classes asserted | classes of equal c_i |
+|---|---|---|---|---|---|
+| hull 3 | 0.91656736559488 | 2.483715746334 | corners 0.0481050722, others 0.3899000883 | {0,3,8}, rest | the same |
+| torus (1,0),(0,3) | 0.96640992756960 | 3.393524719052 | 0.3797575033 ×6, 0.3716598997 ×3 | {0,1,3,4,6,7}, {2,5,8} | the same |
+| torus (1,1),(0,3) | 0.93243239359285 | 2.694626605944 | 0.2994029562 ×9 | one | one |
+| strip 1×3 | 0.93912167365926 | 2.798878056925 | 0.2774035020 ×6, 0.3781523483 ×3 | {0,2,3,5,6,8}, {1,4,7} | the same |
+| patch 1×3 | 0.84747380605665 | 1.880418934121 | 0.19133, 0.19529, 0.11279, 0.27277, 0.33605 (mirror pairs) | {0,8},{1,7},{2,6},{3,5},{4} | the same |
+| torus (2,0),(0,2) | 0.98134864699392 | 3.981836588281 | 0.3318197157 ×12 | one | one |
+
+  Every equality the theorems assert holds (to 10⁻¹¹), and every class is exactly as coarse as the numerics allow
+  (no two cells in different classes have equal prices). In extended precision (`link_lambda_ld.py`, numpy
+  longdouble, exact rational alive probabilities) λ agrees with the five 19-digit certified intervals to
+  0–2·10⁻¹⁸, i.e. to the precision of the arithmetic; the 19th digit is the dice agent's certificate's, not
+  re-derived here. The certificates' u (207, 10, 3, 14, 73; 7 on the 12-cell torus) make every cell alive-able and
+  lead to every living state in one step; every state that can survive reaches u (largest distance 3, 2, 2, 3, 4; 2);
+  the states that die surely are none on the hull, strip and patch, the full face on the tori; 4,094 of 4,095 living
+  states can survive on the 12-cell torus. All as the notes' table says.
+
+### (3) The certificates and the symmetry checks
+
+Soundness is by construction: `Data.tabOK_spec` turns a passing table check into equality with `Face.nb`, `Face.m1`,
+`Face.m2` and `aliveNum` for every cell; `reachOK` requires, for every state that can survive, a successor allowed by
+the support (`stepD`, tied to `Face.P` by `Q_pos_iff`) and a strictly smaller `dist`; `symOK` requires σ to permute
+the neighbour multisets and coin counts and the state action to move bits accordingly. A passing check implies what
+is used. [proved: Lean] `RefChainLink.lean`: the kernel **rejects** a certificate with one wrong next state (492 → 493:
+cell 0 dead with no live neighbour cannot be born), one wrong distance, a cell permutation that swaps a corner with a
+rim cell, a true symmetry σ0 paired with the state action of σ1, a coin table with one entry changed, and a neighbour
+table with one list changed (each `= false` by `decide +kernel`; the true certificate passes). The wrong next state
+was placed near the top of the table so that the kernel meets it after 19 rows: a run through all 512 rows of the
+hull-3 check exceeded 3 GB of anonymous memory and was stopped. The five `Link<Face>Sym.lean` sources are newer than
+their oleans (rewritten after the build, content as committed): I re-elaborated all five from source, 0 errors,
+19–45 s each, ≤ 0.56 GB.
+
+### (4) Which faces satisfy the hypotheses
+
+`face_theorems` needs `CellsOK` (coins (2,1), or (2,0) with at most two neighbours); `face_theorems_allcoins` covers
+every face whose `coin` is constantly true (every `torus`, `strip`, `patch`). [measured] `cellsok_check.py`: every hull
+face `hull R`, R = 1, 3, …, 15 (3 to 108 cells), satisfies `CellsOK` (three corners (2,0) with 2 neighbours; rim
+cells (2,1) with 4; interior (2,1) with 6); even R give no cells. For general R it is not proved in Lean (the notes
+say so; per face it is `cellsD` by the kernel).
+
+### (5) Hygiene
+
+[proved: Lean] `LinkAxiomSweep.lean` (`LinkAxiomSweep.out`): `collectAxioms` over all **1,078 constants** of the
+16 Chain and 17 Link modules (779 theorems): only propext, Classical.choice, Quot.sound; no declared axiom, no
+opaque, no `sorryAx`; the only unsafe/implemented_by constants are the three compiler artefacts of the first review.
+No `sorry`, `native_decide`, `admit`, `axiom`, `implemented_by`, `opaque` in any `Link*.lean` or `ChainSharp.lean`
+(`set_option maxRecDepth 100000` only). Every name in `statements_link.json` (14), `AxiomsLink.lean` (35),
+`statements_chain.json` (72) and `AxiomsChain.lean` (98) resolves to exactly one constant (`link_names.txt`). The
+Link rows are honest, including what is not proved (no certified λ on the 12-cell torus; Lemma 0 for `Face.P` only face
+by face; `survFrom` vs `Face.survival`).
+
+### Not checked (second review)
+
+The 19th digit of the λ intervals (dice agent's certificates, not re-derived); a complete kernel re-run of any
+reachability certificate (memory); `LinkTorus202.lean`'s tables and trees beyond what its own `decide +kernel` checks
+(its prices and support were checked numerically above); the dice agent's `lntau_le_regular` and `regular_torus202`;
+`CellsOK` for hull faces beyond 108 cells; the generator scripts (not in the repository; nothing they compute is
+trusted by the kernel).
+
+Files added: `link_numbers.py`, `link_lambda_ld.py`, `cellsok_check.py` (with `.out`), `RefChainLink.lean`
+(`RefChainLink.out`), `LinkAxiomSweep.lean` (`LinkAxiomSweep.out`, `link_names.txt`).
