@@ -286,6 +286,19 @@ placeholder; score block 6; commit by path; push; post the comment on PR 39 with
 State above.
 `ref-tape` third review clean (90494b6): one prose slip (base times 4, 8, 12, 16 in Lean's `Xb` convention, not
 "11, 15, 19, 23"), sent to the integrator.
+`ref-chain` fourth review clean (dd5715b). **Integrator back at 16:00 UTC** (96d5011, 27794f3 lean; 0170ac3 blast):
+`check.sh --mathlib` 193 s and `--long` 331 s both pass (52 core and 73 Mathlib modules; 187 + 221 axiom lines;
+1,307 catalogue objects certified); `statements.py --check` now in `check.sh`; lean README, blast README, REPORT
+entry "The last-day blast (2026-11-24)" with two short-version bullets, `pi/COMMENT-DRAFT.md`. I read the entry and
+the draft, fixed three leftover slips and one wording (d9d6134 lean, ecf542f blast), `check.sh --mathlib` passes.
+16:05: `chain` resumed (`Lemma0F (hull R)` for every R by a general proof, and the two symmetries; two hours);
+`tape` resumed (the meetings of §31 with a superposition lemma; two hours). Both append rows to `lean/README.md`
+under "Added after the integration (2026-11-24)" and may regenerate `STATEMENTS.md`.
+**Owed:** when `density` returns: fill the placeholder in REPORT.md ("The density agent's third task"), score block
+6, then post `pi/COMMENT-DRAFT.md` on PR 39 (drop its sentence about the `ClockLitFirst` header, now fixed; add the
+third task and that chain and tape are still on two extensions), tell the owner. When chain and tape return: a
+short referee pass each (resume ref-chain, ref-tape), a REPORT addendum, final `check.sh --mathlib --long`.
+Stop everything at Fable 0.96 or all-model 0.90 (15:01: 0.91 / 0.67).
 
 **13:15 UTC 2026-11-24.** `chain` handed back (notes: `lean/notes/chain.md`, last commit 23163ec; 15 `Chain*.lean`
 modules, 82 headline theorems, `check.sh --mathlib` passed at 13:10). `ref-lean` handed back earlier (repairs in
