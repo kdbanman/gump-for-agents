@@ -87,7 +87,8 @@ sample gives about ± 0.0005 for the face-≤-10 densities. The lag table is fro
 **The chain against nzd.c at R = 9 (45 cells), same settings, my seeds for both programs** (`r9_*` rows): gump
 9.823 ± 0.010 against 9.817 ± 0.010 (+0.4σ); fair d = 1 (M = 64, B = 256) 10.081 ± 0.011 against 10.085 ± 0.011
 (−0.3σ); core copy, two seeds each, 9.645 ± 0.006 against 9.655 ± 0.007 (−1.1σ); p = 0.2, 9.840 ± 0.010 against
-9.832 ± 0.010 (+0.6σ). P₁ agrees in every pair (0.764–0.778).
+9.832 ± 0.010 (+0.6σ). P₁ agrees in every pair (0.764–0.778; my first two R = 9 rows count descents from ≥ 16,
+later ones and nzd from round(45/4) = 11).
 
 **Fair coins, the one row that was ever in tension.** My first seed read 14.264 ± 0.025 (−1.6σ), its excess deaths
 in P₁ (0.785 ± 0.009 against 0.761), not in the descent rates (Δ ln f₁ −0.657 against −0.654). nzd.c run by me at
@@ -195,7 +196,30 @@ R = 9 agrees). The eight-face values agree too (mine 13.802 ± 0.007, theirs 13.
 
 ## Forecasts, scored (`PREDICTIONS.md`, committed before each row)
 
-PENDING-SCORES
+| # | forecast | P | outcome |
+|---|---|---:|---|
+| 1 | gump baseline within 3σ | 0.95 | **hit** (−0.1σ) |
+| 2 | fair d = 1 | 0.85 | **hit** (−1.0σ pooled; first seed −1.6σ) |
+| 3 | mean density d = 1 | 0.80 | **hit** (+0.1σ) |
+| 4 | copy from the replaced cells | 0.65 | **hit** (−0.5σ) |
+| 5 | p = 0.1 | 0.80 | **hit** (−0.2σ) |
+| 6 | p = 0.2 | 0.80 | **hit** (−1.2σ) |
+| 7 | sign change between 0.1 and 0.2, p* ≈ 0.19 | 0.80 | **hit** (0.199 ± 0.007) |
+| 8 | core-1 density, all time | seen | 0.4301 = 0.4301 |
+| 9 | core-1 density, face ≤ 10 | 0.85 | **hit** (0.3843 against 0.3836) |
+| 10 | P₁ the same with and without coins (± 0.02) | 0.75 | **hit, barely**: 0.762–0.790 against gump's 0.766; p = 0.1 is +0.024 |
+| 11 | lag correlations as stated | 0.70 | **hit** (to the third decimal) |
+| 12 | R = 9 chain against nzd.c | 0.90 | **hit** (all four pairs within 1.1σ) |
+| — | conjecture: the lag asymmetry is from different autocorrelations, not a lead | 0.60 | **half wrong**: no lead in the peak sense, but the asymmetry is directional (Granger), not only autocorrelation |
+| — | the mean-density chain's replaced core sits above 0.435 all time | 0.70 | **hit** (0.4405 rule-made, 0.438 after the darts) |
+| 13 | copy from the whole layer | 0.80 | **hit** (−1.3σ) |
+| 14 | the ordering by low-face density survives a fifth chain | 0.60 | **miss** (0.386, gump's density, Δ −0.20) |
+| 15 | LOW10 d = 1 | 0.80 | **hit** (−0.5σ) |
+| 16 | mean density d = 2 | 0.80 | PENDING-S16 |
+| 17 | the p = 0.2 chain's support above 0.35 after the darts (informed by R = 9) | 0.80 | **hit** (0.399) |
+| 18 | fair d = 2 | 0.80 | PENDING-S18 |
+| 19 | mean density, ε = 1/16 | 0.80 | PENDING-S19 |
+| 20 | my second fair seed lands above the first | 0.65 | **hit** (14.324 against 14.264) |
 
 ## Not checked
 
