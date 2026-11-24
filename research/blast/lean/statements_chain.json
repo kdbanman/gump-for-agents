@@ -256,6 +256,11 @@
     "price_of_pointwise",
     "(new; replaces (SSM) in Theorem 3 (d)) the price per cell from a bulk limit at each tilt.",
     "New and weaker than (SSM): if ⟨E⟩_{s,G_n}/A_n → f(s) for every s ∈ (0,1] (no rate, no uniformity in s, no locality; jumps of f allowed), then ln τ/A → ∫₀¹ f. Two families have one price when their pointwise limits agree."
+   ],
+   [
+    "SSM.einf_continuousOn",
+    "REVIEW.md A2.3 (the referee's argument): a jump of e_∞ makes (SSM) false, since every finite face's curve is continuous.",
+    "Same, as a theorem: (SSM) on a family with arbitrarily small error terms forces e_∞ continuous on [0,1]."
    ]
   ]
  },

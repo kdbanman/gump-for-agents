@@ -109,4 +109,34 @@ theorem price_of_pointwise (F : ℕ → Face) (emax : ℝ) (hA : ∀ n, 0 < (F n
     rw [Set.uIoc_of_le zero_le_one] at hs
     exact hlim s hs
 
+/-- **(SSM) forbids a jump along the tilt.**  If (SSM) holds for a family containing faces and cells with
+arbitrarily small error term K e^{-r_i/ξ} + K₀/A (large balls in large faces), then e_∞ is a uniform limit of the
+continuous curves s ↦ ⟨ε_i⟩_{s,G}, hence continuous on [0, 1].  So a jump of the limiting tilted energy (two kinds
+of face coexisting at one tilt, as measured by the referee) refutes (SSM) for that family. -/
+theorem SSM.einf_continuousOn {ι : Type*} {F : ι → Face} {einf : ℝ → ℝ} {K ξ K0 : ℝ}
+    (h : SSM F einf K ξ K0)
+    (hlarge : ∀ δ > 0, ∃ g, ∃ i : (F g).V, K * exp (-((F g).r i / ξ)) + K0 / (F g).area < δ) :
+    ContinuousOn einf (Set.Icc 0 1) := by
+  rw [Metric.continuousOn_iff]
+  intro b hb ε hε
+  obtain ⟨g, i, hgi⟩ := hlarge (ε / 3) (by positivity)
+  have hc : Continuous (fun s => (F g).localMean i s) := continuous_tiltMean (F g).qsd.isProb _ _
+  obtain ⟨δ, hδ, hδb⟩ := Metric.continuous_iff.1 hc b (ε / 3) (by positivity)
+  refine ⟨δ, hδ, fun a ha hab => ?_⟩
+  have h1 := h g i a ha
+  have h2 := h g i b hb
+  have h3 := hδb a hab
+  rw [Real.dist_eq] at h3 ⊢
+  calc |einf a - einf b|
+      = |(einf a - (F g).localMean i a) + ((F g).localMean i a - (F g).localMean i b) +
+          ((F g).localMean i b - einf b)| := by ring_nf
+    _ ≤ |einf a - (F g).localMean i a| + |(F g).localMean i a - (F g).localMean i b| +
+          |(F g).localMean i b - einf b| := abs_add_three _ _ _
+    _ < ε / 3 + ε / 3 + ε / 3 := by
+        rw [abs_sub_comm (einf a)]
+        have := h1.trans_lt hgi
+        have := h2.trans_lt hgi
+        linarith
+    _ = ε := by ring
+
 end Gump.Chain

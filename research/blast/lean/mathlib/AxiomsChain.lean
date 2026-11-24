@@ -79,6 +79,7 @@ open Gump.Chain
 -- Theorem 3 without (SSM): monotonicity of the tilt
 #print axioms tilt_riemann_bounds
 #print axioms price_of_pointwise
+#print axioms SSM.einf_continuousOn
 -- the surrogate's kernel on bit masks (the shape of GumpMath/DiceDef.lean)
 #print axioms Bits.sum_bits
 #print axioms Bits.bitP_row

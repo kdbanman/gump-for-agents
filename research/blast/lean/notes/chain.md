@@ -2,7 +2,7 @@
 
 Agent `chain` (Lean arm, theory), 2026-11-24, 11:16 UTC onwards. Source: `research/blast/rigour/THEOREMS.md`,
 its referee `research/blast/ref-proofs/REVIEW.md`, the seam identity of `research/blast/image/README.md`.
-Files (all new, all mine): `research/blast/lean/mathlib/GumpMath/Chain*.lean` (16 modules: Tilt, Perron, Exist,
+Files (all new, all mine): `research/blast/lean/mathlib/GumpMath/Chain*.lean` (15 modules: Tilt, Perron, Exist,
 Lemma0, Coins, Routes, Seam, SSM, Price, Inst, TiltLimit, Bits, Kagome, Torus, Rate),
 `research/blast/lean/mathlib/AxiomsChain.lean`, `research/blast/lean/statements_chain.json`, this note.
 
@@ -130,7 +130,8 @@ log τ ≤ (1/n)∑_{k=0}^{n−1}⟨E⟩_{k/n} on every face, width ≤ ε_max A
 s ∈ (0,1] — at any rate, not uniformly, with no spatial locality, and with jumps of f allowed — then
 log τ/A → ∫₀¹ f. So Theorem 3 (d)'s "one price for rimmed and wrapped faces" follows from the two families having the
 same pointwise limit of the per-cell tilted energy; a first-order jump along the tilt (the referee's two humps) does
-not obstruct it.
+not obstruct it. Conversely `SSM.einf_continuousOn` makes the referee's objection a theorem: (SSM) on a family with
+arbitrarily small error terms forces e_∞ to be continuous on [0,1], so a jump of the limit curve refutes (SSM).
 
 ## Places where the source needed more than it said
 
