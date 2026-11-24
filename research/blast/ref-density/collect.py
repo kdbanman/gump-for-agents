@@ -29,6 +29,12 @@ GUMP = 13.633
 
 def mine(path):
     t = open(path).read()
+    if "\nBEGIN " in t:                       # periodic full reports: use the last complete one
+        last = t.rfind("\nBEGIN ")
+        if "\nEND " not in t[last:]:
+            prev = t.rfind("\nBEGIN ", 0, last)
+            last = prev if prev >= 0 else last
+        t = t[last:]
     m = re.search(r"^RESULT .* expo (\S+) deaths (\S+) lntau (\S+) err (\S+) deaths_any8 (\S+) maxage (\S+)", t, re.M)
     if not m:
         m2 = re.findall(r"^CKPT (\d+) expo (\S+) deaths (\S+) lntau (\S+) err (\S+) any (\S+)", t, re.M)
@@ -75,9 +81,13 @@ def low_density(r, thr=10, key=1):
 
 def main():
     rows = {}
-    for p in sorted(glob.glob(os.path.join(D, "*.txt"))):
-        tag = os.path.basename(p)[:-4]
+    for p in sorted(glob.glob(os.path.join(D, "*.txt")) + glob.glob(os.path.join(D, "*.txt.part"))):
+        tag = os.path.basename(p).replace(".txt.part", "").replace(".txt", "")
+        if p.endswith(".part") and os.path.exists(p[:-5]):
+            continue
         r = mine(p)
+        if r and p.endswith(".part"):
+            r["inprog"] = True
         if r:
             rows[tag] = r
     g = rows.get("gump_R11_s1001")
@@ -87,7 +97,7 @@ def main():
             continue
         key = re.sub(r"_s\d+$", "", tag)
         th = THEIRS.get(key)
-        part = f" (partial, gen {r['part']})" if r["part"] else ""
+        part = f" (partial, gen {r['part']})" if r["part"] else (" (in progress)" if r.get("inprog") else "")
         dg = f"{r['lt'] - g['lt']:+.3f} +- {math.hypot(r['er'], g['er']):.3f}" if g and tag != "gump_R11_s1001" else ""
         if th:
             z = (r["lt"] - th[0]) / math.hypot(r["er"], th[1])
@@ -125,6 +135,23 @@ def main():
             post_lo = f" after darts {r.get('post', float('nan')):.4f} (F<=10: {ss / nn:.4f})" if nn else ""
         print(f"  {tag:26s} P1 {P[1]:.3f} +- {eP1:.3f}  P2 {P.get(2, 0):.3f} P4 {P.get(4, 0):.3f} P8 {P.get(8, 0):.4f} P15 {P.get(15, 0):.5f} | "
               f"core1 {r['dens'].get('core1', 0):.4f} F<=10 {lo:.4f} (F<=4 {lo4:.4f}; n {n:.0f}) full1 {r['dens'].get('full1', 0):.4f} F<=10 {lf:.4f}{post_lo}")
+    if g:
+        print("\nExcursion split against my gump (ln tau = -ln f_k - ln P_k): d ln f_k for k = 15, 4, 1 and d ln P_1, d ln P_4")
+        for tag, r in rows.items():
+            if tag.startswith("r9_") or tag == "gump_R11_s1001" or not r["desc"].get(1, (0,))[0]:
+                continue
+            f = lambda rr, k: rr["desc"][k][0] / rr["E"]
+            P = lambda rr, k: rr["desc"][k][1] / rr["desc"][k][0]
+            eP1 = math.sqrt((1 - P(r, 1)) / r["desc"][1][1] + (1 - P(g, 1)) / g["desc"][1][1])
+            print(f"  {tag:26s} dln f15 {math.log(f(r, 15) / f(g, 15)):+.3f}  dln f4 {math.log(f(r, 4) / f(g, 4)):+.3f}  dln f1 {math.log(f(r, 1) / f(g, 1)):+.3f}"
+                  f"  dln P1 {math.log(P(r, 1) / P(g, 1)):+.3f} +- {eP1:.3f}  dln P4 {math.log(P(r, 4) / P(g, 4)):+.3f}"
+                  + (f"  face mean {r['face'][0]:.2f} sd {r['face'][1]:.2f}" if 'face' in r else ""))
+        print("\nDensities (all time, after the step, before darts) against my gump: core 1..3, full 1..2")
+        for tag, r in rows.items():
+            if tag.startswith("r9_"):
+                continue
+            print(f"  {tag:26s} " + " ".join(f"{k} {r['dens'].get(k, float('nan')):.4f}" for k in ("core1", "core2", "core3", "core4", "full1", "full2"))
+                  + f"  core1 after darts {r.get('post', float('nan')):.4f}" + (f"  face {r['face'][0]:.2f}" if 'face' in r else ""))
     for tag, r in rows.items():
         if r["lag"]:
             print(f"\nLAG (Pearson, L = 0..8) {tag}")

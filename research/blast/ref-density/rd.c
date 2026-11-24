@@ -43,6 +43,7 @@
  *   rd R validate SEED GENS             no noise, no re-seeding, prints lanes 0..2 (hex, cell order) each gen
  *   rd R cells                          prints the cell table
  *   rd R run SEED GENS M D0 COIN [LAGGENS] [CKPT]
+ *   env RD_DUMP=FILE: per generation, lanes 0..63: face population, full-1 and core-1 live counts, min(age,255) (uint8)
  *   env RD_NEGCTL=1: one neighbour of axis-0 cells replaced by the edge-sharing coplanar face (negative control)
  */
 #include <stdio.h>
@@ -265,6 +266,8 @@ int main(int argc, char **argv) {
     double lag[7][9][6]; memset(lag, 0, sizeof lag);
     static int hF[LANES][9], hL[LANES][9], hC[LANES][9];
     long maxage = 0;
+    FILE *dump = getenv("RD_DUMP") ? fopen(getenv("RD_DUMP"), "wb") : 0;  /* lanes 0..63: F, full1, core1, min(age,255) per gen (needs LAGGENS >= gens) */
+    static unsigned char drec[64 * 4];
     for (long g = 1; g <= gens; g++) {
         step();
         u64 cnt[W], emp[W], wdead[W];
@@ -319,8 +322,10 @@ int main(int argc, char **argv) {
                     for (int p = 0; p < 7; p++) { double *A = lag[p][Lg]; A[0] += 1; A[1] += xs[p]; A[2] += ys[p]; A[3] += xs[p] * xs[p]; A[4] += ys[p] * ys[p]; A[5] += xs[p] * ys[p]; }
                 }
             }
+            if (dump && l < 64) { drec[4 * l] = f; drec[4 * l + 1] = dolag ? L1[l] : 255; drec[4 * l + 2] = dolag ? C1[l] : 255; drec[4 * l + 3] = age[l] > 255 ? 255 : age[l]; }
             if (ended) { soup(l); age[l] = 0; armed[l] = 0; minlev[l] = 99; }
         }
+        if (dump) fwrite(drec, 1, sizeof drec, dump);
         /* darts */
         if (M > 0) for (int l = 0; l < LANES; l++) {
             if (age[l] == 0) continue;
@@ -340,26 +345,30 @@ int main(int argc, char **argv) {
         }
         if (g % ckpt == 0 || g == gens) {
             printf("CKPT %ld expo %.0f deaths %.0f lntau %.4f err %.4f any %.0f\n", g, expo, deaths, log(expo / deaths), 1 / sqrt(deaths), deaths_any);
+            printf("BEGIN %ld\n", g);
+            long gens_done = g; (void)gens_done;
+        printf("RESULT R %d M %d B %d D0 %d coin %s seed %llu gens %ld expo %.0f deaths %.0f lntau %.4f err %.4f deaths_any8 %.0f maxage %ld\n",
+               R, M, B, D0, coin, (unsigned long long)seed, g, expo, deaths, log(expo / deaths), 1 / sqrt(deaths), deaths_any, maxage);
+        { double s = 0, s2 = 0, n = 0; for (int f = 0; f < 200; f++) { n += fhist[f]; s += f * fhist[f]; s2 += (double)f * f * fhist[f]; }
+          printf("FACE mean %.4f sd %.4f\n", s / n, sqrt(s2 / n - (s / n) * (s / n))); }
+        for (int k = 1; k <= 8 && k <= R; k++) printf("DENS core %d n %d %.5f\n", k, ncore[k], ncore[k] ? dens_core[k] / (expo * ncore[k]) : 0);
+        for (int k = 1; k <= 3; k++) printf("DENS full %d n %d %.5f\n", k, nfull[k], dens_full[k] / (expo * nfull[k]));
+        printf("DENS core1 after darts (lanes 0 mod 8) %.5f\n", post_core1 / (post_n * ncore1));
+        for (int f = 1; f <= 20; f++) if (byf_pn[f] > 0) printf("BYFPOST %d n %.0f core1 %.5f\n", f, byf_pn[f], byf_pc1[f] / (byf_pn[f] * ncore1));
+        for (int f = 0; f <= 20; f++) if (byf_n[f] > 0) printf("BYF %d n %.0f core1 %.5f full1 %.5f core1var %.5f\n", f, byf_n[f], byf_c1[f] / (byf_n[f] * ncore1), byf_l1[f] / (byf_n[f] * nfull1), byf_c1sq[f] / byf_n[f] - pow(byf_c1[f] / byf_n[f], 2));
+        for (int k = 0; k <= 15; k++) printf("DESC %d desc %.0f died %.0f cut %.0f\n", k, desc[k], died[k], cut[k]);
+        if (laggens) {
+            const char *nm[7] = {"full1->F", "F->full1", "core1->F", "F->core1", "F->F", "full1->full1", "core1->core1"};
+            for (int p = 0; p < 7; p++) { printf("LAG %s", nm[p]);
+                for (int Lg = 0; Lg <= 8; Lg++) { double *A = lag[p][Lg], n = A[0];
+                    double cov = A[5] / n - A[1] / n * A[2] / n, vx = A[3] / n - pow(A[1] / n, 2), vy = A[4] / n - pow(A[2] / n, 2);
+                    printf(" %+.4f", cov / sqrt(vx * vy)); }
+                printf("\n"); }
+        }
+            printf("END %ld\n", g);
             fflush(stdout);
         }
     }
-    printf("RESULT R %d M %d B %d D0 %d coin %s seed %llu gens %ld expo %.0f deaths %.0f lntau %.4f err %.4f deaths_any8 %.0f maxage %ld\n",
-           R, M, B, D0, coin, (unsigned long long)seed, gens, expo, deaths, log(expo / deaths), 1 / sqrt(deaths), deaths_any, maxage);
-    { double s = 0, s2 = 0, n = 0; for (int f = 0; f < 200; f++) { n += fhist[f]; s += f * fhist[f]; s2 += (double)f * f * fhist[f]; }
-      printf("FACE mean %.4f sd %.4f\n", s / n, sqrt(s2 / n - (s / n) * (s / n))); }
-    for (int k = 1; k <= 8 && k <= R; k++) printf("DENS core %d n %d %.5f\n", k, ncore[k], ncore[k] ? dens_core[k] / (expo * ncore[k]) : 0);
-    for (int k = 1; k <= 3; k++) printf("DENS full %d n %d %.5f\n", k, nfull[k], dens_full[k] / (expo * nfull[k]));
-    printf("DENS core1 after darts (lanes 0 mod 8) %.5f\n", post_core1 / (post_n * ncore1));
-    for (int f = 1; f <= 20; f++) if (byf_pn[f] > 0) printf("BYFPOST %d n %.0f core1 %.5f\n", f, byf_pn[f], byf_pc1[f] / (byf_pn[f] * ncore1));
-    for (int f = 0; f <= 20; f++) if (byf_n[f] > 0) printf("BYF %d n %.0f core1 %.5f full1 %.5f core1var %.5f\n", f, byf_n[f], byf_c1[f] / (byf_n[f] * ncore1), byf_l1[f] / (byf_n[f] * nfull1), byf_c1sq[f] / byf_n[f] - pow(byf_c1[f] / byf_n[f], 2));
-    for (int k = 0; k <= 15; k++) printf("DESC %d desc %.0f died %.0f cut %.0f\n", k, desc[k], died[k], cut[k]);
-    if (laggens) {
-        const char *nm[7] = {"full1->F", "F->full1", "core1->F", "F->core1", "F->F", "full1->full1", "core1->core1"};
-        for (int p = 0; p < 7; p++) { printf("LAG %s", nm[p]);
-            for (int Lg = 0; Lg <= 8; Lg++) { double *A = lag[p][Lg], n = A[0];
-                double cov = A[5] / n - A[1] / n * A[2] / n, vx = A[3] / n - pow(A[1] / n, 2), vy = A[4] / n - pow(A[2] / n, 2);
-                printf(" %+.4f", cov / sqrt(vx * vy)); }
-            printf("\n"); }
-    }
+    if (dump) fclose(dump);
     return 0;
 }
