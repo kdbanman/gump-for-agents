@@ -115,6 +115,7 @@ open Gump.Chain
 #print axioms KilledChain.pow_entry_mono
 #print axioms price_of_ae
 #print axioms SSM.toIntSSM'
+#print axioms SSM.toIntSSM_of_small
 #print axioms SSM.tilt_limit
 #print axioms jump_refutes_SSM
 #print axioms KilledChain.lifetime_from_bounds_K

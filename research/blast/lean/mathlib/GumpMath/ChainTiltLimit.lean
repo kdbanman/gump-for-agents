@@ -262,6 +262,13 @@ theorem SSM.toIntSSM' {ι : Type*} {F : ι → Face} {einf : ℝ → ℝ} {K ξ 
     IntSSM F (∫ s in (0:ℝ)..1, einf s) K ξ K0 :=
   h.toIntSSM ((SSM.einf_continuousOn h hlarge).intervalIntegrable_of_Icc zero_le_one)
 
+/-- The same, under a name the statement table can find. -/
+theorem SSM.toIntSSM_of_small {ι : Type*} {F : ι → Face} {einf : ℝ → ℝ} {K ξ K0 : ℝ}
+    (h : SSM F einf K ξ K0)
+    (hlarge : ∀ δ > 0, ∃ g, ∃ i : (F g).V, K * exp (-((F g).r i / ξ)) + K0 / (F g).area < δ) :
+    IntSSM F (∫ s in (0:ℝ)..1, einf s) K ξ K0 :=
+  SSM.toIntSSM' h hlarge
+
 /-- **Under (SSM) the per-cell tilted energy converges to e_∞ at every tilt** (referee's `SSM.tilt_limit`). -/
 theorem SSM.tilt_limit {F : ℕ → Face} {einf : ℝ → ℝ} {K ξ K0 : ℝ} (h : SSM F einf K ξ K0)
     (hA : Tendsto (fun n => ((F n).area : ℝ)) atTop atTop)

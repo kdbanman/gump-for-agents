@@ -240,7 +240,7 @@
    [
     "SSM.toIntSSM",
     "Theorem 3's hypothesis (SSM), uniform in s ∈ [0,1], with the referee's K₀/A.",
-    "Needs e_∞ integrable; redundant for every family with arbitrarily small error terms (SSM.toIntSSM')."
+    "Needs e_∞ integrable; redundant for every family with arbitrarily small error terms (SSM.toIntSSM_of_small)."
    ],
    [
     "thm3b",
@@ -283,9 +283,9 @@
     "ln τ/A → ∫₀¹f from convergence of ⟨E⟩_{s,G_n}/A_n for almost every s ∈ (0,1]: a first-order jump costs nothing even if the finite curves do not converge at the jump point."
    ],
    [
-    "SSM.toIntSSM'",
+    "SSM.toIntSSM_of_small",
     "(taken over from the referee) (SSM) gives IntSSM with no integrability hypothesis.",
-    "For families with arbitrarily small error terms."
+    "For families with arbitrarily small error terms. (Lean also has it under the referee's name SSM.toIntSSM'.)"
    ],
    [
     "SSM.tilt_limit",
