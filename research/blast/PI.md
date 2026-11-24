@@ -233,6 +233,12 @@ integrator.
 the clock for N ≥ 7. Resumed a third time (clock lighting for every N, then the catalogue's next laws of its choice;
 two hours). `ref-tape` (ae67c18db5283c79c) resumed for a second review of the call law (a), the new box and the
 clock repair (50 minutes).
+`ref-tape` second review back (203a828): no new defect; call law, new box, `zone_cover`, `clockOf_period` stand.
+`dice` second hand-back (6f70d2d): `flux_share` (bust share = share of the death flux), `Face.torus_regular` for
+every torus so `lntau_le_torus` < 1.9228·A on every wrapped face, `lntau_le_hull_all` < 2.2165·A on every hull face;
+12 cells not attempted. `dice` is resting (not resumed). Note: the dice surrogate gives each cell its own dice; gump
+over a layer of coins shares each coin between two face cells, so `Face.P` is not gump's step over i.i.d. support
+(only the one-cell marginals agree); the noisy hull at ε = 1 is the shared-coin chain.
 
 **13:15 UTC 2026-11-24.** `chain` handed back (notes: `lean/notes/chain.md`, last commit 23163ec; 15 `Chain*.lean`
 modules, 82 headline theorems, `check.sh --mathlib` passed at 13:10). `ref-lean` handed back earlier (repairs in

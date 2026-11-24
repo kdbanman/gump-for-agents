@@ -4,6 +4,8 @@ hypothesis `∀ q, F.coin q = true` of `lntau_le_all` on the hull (false: a poin
   cd research/blast/lean/mathlib && lake env lean /home/user/gump-for-agents/research/blast/ref-dice/Regular.lean
 -/
 import GumpMath.DiceBound2
+import GumpMath.DiceSym
+import GumpMath.DiceHull3Data
 open Gump Gump.Dice Finset
 
 def regB (F : Face) : Bool :=
@@ -30,3 +32,12 @@ def dumpNb (name : String) (F : Face) : IO Unit := do
 #eval dumpNb "patch 3 2" (patch 3 2)
 #eval dumpNb "hull 5" (hull 5)
 #eval dumpNb "hull 7" (hull 7)
+
+-- DiceSym's checker on the hull-3 tables: the 3-fold rotation (x,y,z) -> (y,z,x) of the face must pass, a swap of a
+-- corner with an edge cell and a swap of two cells with equal coins but different neighbours must fail
+def rot : List ℕ := [3, 5, 7, 8, 2, 6, 1, 4, 0]
+def swapCE : List ℕ := [1, 0, 2, 3, 4, 5, 6, 7, 8]
+def swapEE : List ℕ := [0, 2, 1, 3, 4, 5, 6, 7, 8]
+#eval [rot, swapCE, swapEE].map fun σ => Gump.Dice.Hull3Data.data.symOK 9 σ (Tree.build 9 (act σ) 0)
+-- is the committed upper vector invariant under the rotation? (needed before the orbit reduction could use it)
+#eval Data.invOK 9 (Tree.build 9 (act rot) 0) Gump.Dice.Hull3Data.Vup
