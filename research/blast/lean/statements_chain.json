@@ -1,0 +1,65 @@
+[
+ {"section": "Theorem 2, the tilt identity, for a finite killed chain (rigour/THEOREMS.md; mathlib/GumpMath/Chain*.lean)",
+  "rows": [
+   ["tilt_identity", "THEOREMS.md, Theorem 2: for S(G) under (K), with μ_s ∝ μ e^{-sE}: ln τ = ∫₀¹⟨E⟩_s ds = Σ_i c_i, c_i = ∫₀¹⟨ε_i⟩_s ds; s ↦ ⟨E⟩_s is non-increasing, so ⟨E⟩₁ ≤ ln τ ≤ ⟨E⟩₀.", "Stronger in scope: any finite killed chain whose one-step death probability is a product of local factors in (0, 1] (that is (K) with the product kernel), and any quasi-stationary law μ (a probability row vector with μQ = λμ). τ is defined as Σ_t P_μ(T > t) with P_μ(T > t) = Σ_y (μQ^t)_y; the path space is not constructed. The surrogate enters by instantiation (tilt_identity_product)."],
+   ["neg_log_Z_one", "the analytic core of Theorem 2 (the referee's reading (i)): -ln E_μ e^{-E} = ∫₀¹ ⟨E⟩_s ds for any probability vector and any real E.", "Same. Z(s) is a finite sum of exponentials: no eigenvalue perturbation theory is needed."],
+   ["IsQSD.lifetime_eq", "Lemma 0 / Theorem 2's proof: τ = E_μ T = 1/h with h = Σ μ d = 1 - λ.", "Same, with E_μ T := Σ_t P_μ(T > t); IsQSD.survival_eq gives P_μ(T > t) = λ^t."],
+   ["IsQSD.last_living_law", "Theorem 2: μ₁(x) = μ(x) d(x)/h is the law of the last living state X_{T-1} under P_μ.", "Same, with P_μ(X_{T-1} = x) written as Σ_t P_μ(X_t = x) d(x)."],
+   ["price_mem", "Theorem 2: c_i ∈ [0, ε_max].", "Same."],
+   ["exists_qsd", "(used silently by Theorem 2 on hull faces and strips, where Lemma 0 is not proved) a quasi-stationary law exists.", "New: every finite killed chain on a nonempty set has one (weak Perron theorem, by perturbation to a positive matrix and compactness)."],
+   ["tilt_identity_exists", "Theorem 2 on every face, wrapped or rimmed.", "Existence of μ included; uniqueness is not claimed where Lemma 0 is not available."],
+   ["tilt_identity_product", "Theorem 2 for S(G): the surrogate's kernel is a product over cells with (K).", "For every product kernel P(x, y) = Π_i (a_i(x) if i ∈ y else 1 - a_i(x)) with 0 ≤ a_i < 1. The surrogate's a_i (coins and B45/S345) is supplied by the instantiation; ChainCoins.lean has the one-cell law."],
+   ["price_invariant", "Theorem 2: on a wrapped face c_i depends only on the orientation of i; c_X = c_Y = c_Z on tori invariant under the rotation by 2π/3.", "For any permutation g of states preserving Q and π of cells carrying the local factors along, given that the quasi-stationary law with λ > 0 is unique (Lemma 0). That translations act transitively on each orientation is not formalised."]
+  ]},
+ {"section": "Perron–Frobenius, built here (Mathlib has none)",
+  "rows": [
+   ["exists_pos_eigenvector", "(the brief) a positive eigenvector of an irreducible non-negative matrix on a finite set.", "Same, with a non-negative eigenvalue (Wielandt's proof). That this eigenvalue is the spectral radius is not proved; left_eigenvalue_eq shows every probability row eigenvector has it."],
+   ["left_eigen_unique", "Darroch–Seneta's ingredient: the quasi-stationary law of an irreducible chain is unique.", "Same: two probability row eigenvectors of an irreducible non-negative matrix are equal and have the same eigenvalue."],
+   ["qsd_exists_unique", "Lemma 0 ⇒ the quasi-stationary law μ is unique and charges every non-empty state.", "Uniqueness among laws with λ > 0. With λ = 0 allowed, the point mass at a state that dies surely (the all-alive wrapped face) is also a solution of μQ = λμ: the source's statement needs λ > 0, which the usual definition of a QSD (P_μ(T > t) > 0) contains silently."]
+  ]},
+ {"section": "Theorem 1, the upper bound, with its constant",
+  "rows": [
+   ["upper_bound", "THEOREMS.md, Theorem 1: ln τ ≤ E_μ[E] ≤ ε_max · A.", "Same, for any finite killed chain with local death factors and any quasi-stationary law."],
+   ["threeCoins_death_ge", "Theorem 1: with three coins ε_max = -ln min(ρ1²ρ2, (1-ρ1)²(1-ρ2)): every death of a cell needs b = 0 or b = 3.", "Same, for every state of the cell and k ≤ 6 live in-layer neighbours."],
+   ["twoCoins_death_ge", "(K) on hull faces: the corners have coins (2,0) and two neighbours.", "The same bound holds for them (k ≤ 2)."],
+   ["upper_bound_coins", "Theorem 1 with its constant, for every face.", "Hypothesis: every local factor is at least the smallest atom, which the two lemmas above give for the surrogate's cells."],
+   ["emax_main", "Theorem 1: ε_max = 2.509 at (0.44, 0.42).", "Proved ε_max ≤ 2.51. The exact value -ln(0.44²·0.42) = 2.50946… exceeds the printed 2.509, which is its truncation; ln τ ≤ 2.509·A is true of the surrogate but not by this argument."],
+   ["emax_fair", "Theorem 1: ε_max = 2.079 at (½, ½).", "Proved ε_max ≤ 2.08 (the exact value is ln 8)."]
+  ]},
+ {"section": "Lemma 0, one living class",
+  "rows": [
+   ["lemma0", "THEOREMS.md, Lemma 0: on a wrapped face Q is irreducible and aperiodic on L, every state outside L dies surely, every state is reachable from L.", "The geometric steps of the proof are hypotheses: (2) singletons communicate, (3) a state u with M(u) = V, (4) u reachable from a singleton. Step (1) is the hypothesis of SubsetChain, proved for product kernels (ProductKernel.supp)."],
+   ["lemma0_qsd", "Lemma 0: the quasi-stationary law is unique and charges every non-empty state.", "Among laws with λ > 0 (see qsd_exists_unique)."],
+   ["death_pos", "(K) in the form used by Lemma 0's proof: from every state the face is empty one generation later with positive probability.", "Follows from step (1) (∅ ⊆ M(x))."]
+  ]},
+ {"section": "Lemma R, routes",
+  "rows": [
+   ["routes_first", "Lemma R: d ln τ/dA = Σ_r p_r c_r.", "Same, for any finite partition into differentiable positive rates with h_r' = -c_r h_r."],
+   ["routes_second", "Lemma R: d² ln τ/dA² = -Var_p(c) + Σ_r p_r c_r'.", "Same, as the derivative of Σ p c."],
+   ["log_odds", "Lemma R: for two routes d ln(p₁/p₂)/dA = c₂ - c₁.", "Same."],
+   ["routes_concave", "Lemma R: two routes each exactly exponential in A give a concave ln τ.", "Any finite number of exponential routes."],
+   ["two_routes_step", "Lemma R's discrete form, as corrected by the referee (REVIEW.md A3): ln τ(D+1) - ln τ(D) = c_s - ln(1 - p(D)(1 - e^{-(c_b - c_s)})).", "Same; the source's c_s + p(c_b - c_s) is not this."]
+  ]},
+ {"section": "The seam identity (blast/image)",
+  "rows": [
+   ["seam_identity", "image/README.md: a torus is its cover conditioned on the seam's whole history recurring one loop along, divided by how likely that is: P_T(s₀..s_{m-1}) = P_C(s₀..s_{m-1}, s_m = s₀)/[π(s₀) Z].", "The finite-K exact form, with (F^L)(s₀, s₀)/Tr F^N in place of π(s₀)·const, for F ≥ 0 and a cover a whole number of loops long. The factorisation of the history weight into a transfer matrix on bands two graph steps thick, and the cover having the same F, are the hypothesis (the ring weight), not derived from gump's rule."],
+   ["seam_identity_obs", "(★): P_T(pattern on W) = P_C(pattern on W) · E_C[Q | pattern on W] / Z, for windows in the seam.", "For the mean of any observable of the torus's cut configuration."],
+   ["seam_sharp", "REVIEW.md B, the sharp form for K = 2: P_C(seam = s₀, rest = s₁, image = s₀) = P_T(s₀, s₁) · P_T(seam = s₀).", "Under Tr F^m = Tr F^{2m} = 1 (the referee's Z = 1 for a deterministic rule from a normalised soup), which is assumed, not derived."],
+   ["cover_marginal", "image/README.md, \"comparing the two products term by term\".", "Same (Chapman–Kolmogorov, sum_pathF)."],
+   ["coverW_eq_ringL", "(the modelling step) the cover's weight cut at the seam and its image is the product of F round the ring.", "Same."]
+  ]},
+ {"section": "Theorem 3, conditional on (SSM)",
+  "rows": [
+   ["thm3a", "THEOREMS.md, Theorem 3 (a): under (SSM), |ln τ(G) - c_∞ A| ≤ K Σ_i e^{-r_i/ξ}.", "With the referee's repair (an additive K₀), and from the integrated hypothesis IntSSM (|c_i(G) - c_∞| ≤ K e^{-r_i/ξ} + K₀/A), which is all the proof uses and which (SSM) implies (SSM.toIntSSM). r_i is any number attached to each cell."],
+   ["SSM.toIntSSM", "Theorem 3's hypothesis (SSM), uniform in s ∈ [0,1], with the referee's K₀/A.", "Needs e_∞ integrable on [0, 1], which the source's c_∞ = ∫₀¹ e_∞ assumes silently."],
+   ["thm3b", "Theorem 3 (b): wrapped faces with shortest loop ℓ: |ln τ - c_∞ A| ≤ K A e^{-(ℓ-2)/2ξ}.", "Plus K₀; the geometric fact r_i ≥ (ℓ - 2)/2 is the hypothesis."],
+   ["thm3c", "Theorem 3 (c): polygons: |ln τ - c_∞ A| ≤ K Σ_r n_r e^{-r/ξ} ≤ K′·(rim length).", "Plus K₀; with integer distances and at most C·R cells at each distance as hypotheses, K′ = K C/(1 - e^{-1/ξ})."],
+   ["thm3d", "Theorem 3 (d): along a sequence with rim/A → 0 and ℓ → ∞, ln τ / A → c_∞, the same number for rimmed and wrapped faces.", "Stated with A → ∞ and Σ_i e^{-r_i/ξ} = o(A) as the hypotheses."]
+  ]},
+ {"section": "The price per cell (conditional on gluing inequalities)",
+  "rows": [
+   ["price_exists_of_sub", "(README climb, line 6) the price per cell exists.", "Conditional: under a(m+n) ≤ a(m) + a(n) + C with a ≥ 0 (Fekete); then p ≤ (a n + C)/n for every n. The inequality is not proved for the surrogate."],
+   ["price_exists_of_super", "the same from the other side.", "Conditional: under a(m+n) ≥ a(m) + a(n) - C′ and a n ≤ M n; then p ≥ (a n - C′)/n. The inequality is the lower bound B2 in another form and is not proved."],
+   ["price_interval", "(README climb, line 6) a proved interval for the price from certified finite faces.", "Conditional on both gluing inequalities: p ∈ [(a n - C′)/n, (a n + C)/n] for every n ≥ 1."]
+  ]}
+]
