@@ -239,6 +239,11 @@ every torus so `lntau_le_torus` < 1.9228·A on every wrapped face, `lntau_le_hul
 12 cells not attempted. `dice` is resting (not resumed). Note: the dice surrogate gives each cell its own dice; gump
 over a layer of coins shares each coin between two face cells, so `Face.P` is not gump's step over i.i.d. support
 (only the one-cell marginals agree); the noisy hull at ε = 1 is the shared-coin chain.
+`chain` handed back the link (9fde4a9; `notes/link.md`): `hull3_full` (`LinkFaces.lean`: existence, uniqueness,
+19-digit λ, ln τ in (2.4837157463, 2.4837157464), named per-cell prices, price classes, two-sided decay) and the same
+for four more 9-cell faces; `torus202_full` (12 cells, no λ interval). Resumed a last time (commit the generators,
+`survFrom` = `Face.survival`, the general torus bijection; 90 minutes). `ref-chain` (a7d485bc698b4b1c4) resumed for
+a second review of the repairs and the Link modules (60 minutes).
 
 **13:15 UTC 2026-11-24.** `chain` handed back (notes: `lean/notes/chain.md`, last commit 23163ec; 15 `Chain*.lean`
 modules, 82 headline theorems, `check.sh --mathlib` passed at 13:10). `ref-lean` handed back earlier (repairs in

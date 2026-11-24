@@ -273,11 +273,11 @@ file repeats its settings; M = 256 at R = 11 and 64 at R = 9 for ε = 1/4, 64 an
 | replaced | 45 cells | 63 cells |
 |---|---|---|
 | darts, ε = 1/16 (q = 0.061 a cell and generation) | 0.16 ± 0.03 (slope 0.23 ± 0.07; rows p = 0.1, 0.2, 0.3) | **0.173 ± 0.010** (slope 0.88 ± 0.10; 0.1, 0.2, 0.3) |
-| darts, ε = 1/4 (q = 0.221) | **0.180 ± 0.006** (slope 0.93 ± 0.07; 0.1 … 0.3, six rows) | **0.191 ± 0.003** (slope 5 ± 1; 0.175, 0.2E4_225) |
+| darts, ε = 1/4 (q = 0.221) | **0.180 ± 0.006** (slope 0.93 ± 0.07; 0.1 … 0.3, six rows) | **0.191 ± 0.003** (slope 5 ± 1; 0.175, 0.2) |
 | full replacement (q = 1) | **0.266 ± 0.002** (slope 4.0 ± 0.3; 0.26 … 0.31, five rows) | **0.316 ± 0.001** (slope 11 ± 1; 0.30, 0.317, 0.32) |
-| full replacement, noise region also at depth ≥ 1 under the other faces (DO = 1) | **0.3848 ± 0.0001** (slope 49 ± 1; 0.38, 0.39) | DO1_63 |
+| full replacement, noise region also at depth ≥ 1 under the other faces (DO = 1) | **0.3848 ± 0.0001** (slope 49 ± 1; 0.38, 0.39) | **0.3854 ± 0.0002** (slope 74 ± 3; 0.38, 0.39) |
 
-Rows near each zero have 4,400–21,000 deaths (63 cells: 4.4–7.2 × 10³; 45 cells: 0.9–2.1 × 10⁴). The replaced core under
+Rows near each zero have 1,750–7,150 deaths at 63 cells and 9,000–21,000 at 45 cells. The replaced core under
 the watched face is 3 cells in each of layers 1 and 2 at 45 cells, 9 at 63 cells; with DO = 1 it is 30 of layer 1's 45
 cells at 45 cells and 45 of 63 at 63 cells (the rest of layer 1 lies on another face: the hull's edges).
 
@@ -297,6 +297,13 @@ cells at 45 cells and 45 of 63 at 63 cells (the rest of layer 1 lies on another 
   0.44 and 0.46 overall, 0.34 and 0.45 under a low face; part 1). At 45 cells the replaced core is a smaller share of
   the face's support than at 63 cells (3 of 45 cells against 9 of 63 in layer 1), which is one reason the
   full-replacement p\* differs between the sizes (DO = 1 replaces 2/3 of layer 1 at both).
+- **With nearly the whole support replaced, one density serves both sizes [measured].** DO = 1 puts every cell that is
+  not on one of the eight faces under full replacement (876 − 366 = 510 cells at 63 cells, 264 at 45): p\* =
+  0.3848 ± 0.0001 at 45 cells and **0.3854 ± 0.0002 at 63 cells**, equal to 0.0006 (2.7 σ of the counting errors, which
+  are tiny here because the life is so steep in p; seed scatter not measured). A face over independent coins of
+  density 0.385 has gump's ln τ at 45 and at 63 cells, so the same slope in A between them (3.815 over 18 cells,
+  0.212 a cell). The steepness grows with the face (49 and 74 per unit p, 1.09 and 1.17 per cell), as it should if
+  ln τ ≈ A λ(p) + const. An 84-cell row at p = 0.385 tests the next size: R84_LINE
 - **The face over a fully independent support is near a threshold [measured at 45 cells].** With DO = 1, Δ = −3.25,
   −3.92, −1.75, −0.49, −0.24, +0.26, +0.73 at p = 0.25, 0.30, 0.35, 0.375, 0.38, 0.39, 0.40: below 0.35 the whole hull
   dies within a few thousand generations (longest life 1,000–6,000; at 0.25 the faces hold 3 cells on average), and
@@ -322,6 +329,14 @@ face dies with probability 0.81 (gump: 0.77).** The same at 45 cells (`R9_full_p
 Δ ln P_4 = +0.144, Δ ln P_1 = +0.028 ± 0.005. Reading [conjectured]: in gump many of the face's dips are shared with its
 support (part 1: the layer fades with the face and leads it), and a dip driven by the support is undone when the
 support recovers; over independent coins a dip is the face's own, rarer, and harder to undo.
+
+**With the whole support replaced (DO = 1) the difference is far larger [measured]:** at 63 cells, between p = 0.38
+(Δ = −0.40) and 0.39 (+0.34), Δ ln f_15 = −1.77 and −2.11, Δ ln P_15 = +2.18 and +1.78, Δ ln P_1 = +0.235 ± 0.006 and
++0.224 ± 0.007; at 45 cells (0.38, 0.39) Δ ln P_1 = +0.221, +0.218 ± 0.003. **Over independent coins of the equivalent
+density a face that has fallen to one cell dies 96–98% of the time, against gump's 77%,** and dips below 16 cells are
+6 to 8 times rarer while each is 6 to 9 times deadlier. The face is also fuller (mean 34.7 of 63 against 31.25, spread
+5.0 against 5.2; at 45 cells 24.2 against 21.6). The rate is matched at both sizes by one density; the way of dying is
+not matched at all.
 
 ### Clustering at fixed density (item 5) [measured]
 
