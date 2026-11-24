@@ -144,9 +144,9 @@ chain, with Perron–Frobenius built here because Mathlib has none):
   defects, `price_exists_of_sub`; or pointwise convergence of the per-cell tilted energy, `price_of_pointwise`); no
   gluing inequality is known for the surrogate. **No lower bound** ln τ ≥ c·A (B2 of `THEOREMS.md`) for any infinite
   family; the upper bounds above are all there is, and they sit well above the truth.
-- **Uniqueness on hull faces beyond R = 13**: `Lemma0F (hull R)` and the triangle's automorphisms are kernel-checked
-  face by face up to 84 cells (a module for R = 15, 17 passed 10 GB of memory and was stopped). The general proof is
-  the formalisation of the certificate's uniform construction (`notes/link.md`, "where the general proof stops").
+- ~~Uniqueness on hull faces beyond R = 13~~ **proved after the integration**: `HullGen.hull_lemma0` gives `Lemma0F (hull R)`
+  for every R with A > 0 by a general argument, so `hull_full_every` has no hypothesis, and `rot_aut`, `refl_aut` give the
+  triangle's symmetries for every R (table "Added after the integration" above; refereed, `ref-chain` fifth review).
   Uniqueness on strips is not proved.
 - **λ intervals beyond the five 9-cell faces.** The 12-cell certificate was generated (with the 48-element symmetry
   reduction, `DiceSym.lean`) but its build was killed at 12 GB in one declaration and ran over 25 minutes split; it is
