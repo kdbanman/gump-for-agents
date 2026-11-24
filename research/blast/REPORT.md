@@ -50,6 +50,14 @@ section).**
   closed faces show the same. At what size the hull's marginal price comes down is not known.
 - **The 120-cell tube is 24.5086 ± 0.0169, below every forecast, this report's included.** A tube's line bends
   (0.2023, 0.2013, 0.1957 per cell from 84 to 120 cells) and the night's fitted tube law is refuted.
+  **Corrected 2026-11-24 (the lead's notebook entry of 2026-11-20, from the card session's own correction; read,
+  not recomputed here): the drop is not confirmed.** The card session's CPU code reads 24.594 ± 0.040 at 120
+  cells, on the straight line through 84 to 108 cells and on this report's forecasts (24.56 ± 0.03, 24.60 ± 0.07).
+  The 126- and 132-cell tubes read 25.757 ± 0.032 and 26.906 ± 0.058 (one code), above this report's forecasts
+  for them (25.66 ± 0.06, 26.78 ± 0.13). "Below every forecast" and "the night's fitted tube law is refuted" are
+  withdrawn until the card's longer chain reports; what survives is a gentle fall of the slope (0.1979 ± 0.0011
+  from 108 cells up, with the two 120-cell values pooled). Seeds at 126 cells scatter more than counting allows,
+  which nobody understands yet.
 - **The 135-cell hull face is still not decided.** A second sampler (gump on the whole hull, coin replacements at
   a low rate deep under the watched face) is exact at zero noise and matches brute force at 45 and 63 cells. Its
   blind test at 108 cells reads 23.422 ± 0.025, 23.228 ± 0.119 and 23.368 ± 0.065 at noise rates 1/16, 1/32, 1/64
@@ -60,11 +68,36 @@ section).**
   at 108 cells; it does not reach the 135-cell face. The extrapolations stand at 29.20 to 29.22 ± 0.03, against
   29.230 and 29.163.
 - **Noise under a face lengthens its life, and only the near layers matter** (63 cells, coins at rate 1/4 from
-  depth d down): nothing at d = 6, +0.02 at 5, +0.05 at 4, +0.10 at 3, +0.30 at 2, +0.67 at 1 (in ln τ, each
-  ± 0.012 to 0.016; one code, one seed a row). The lead's rebuild has the d = 6 null at 45, 63 and 84 cells.
+  depth d down; two codes, this session's and the lead's rebuild, agreeing row by row): pooled, +0.003, +0.023,
+  +0.040, +0.112, +0.315, +0.670 in ln τ for d = 6 … 1 (each ± 0.008 to 0.011). The two layers a face cell touches
+  carry five sixths of it. Why fair coins lengthen a life is not settled; the control (coins at the replaced
+  layer's own density) was run on 2026-11-24 (below), and coins of low density, or coins that copy the layer,
+  shorten it.
 - New small facts: thin strips and narrow tubes are cut across by firewalls before a face dies; a tetrahedron of
   gump has no steady state (its corners are shaved off); the 18-cell hull face lives 4.855 ± 0.015 and is too
   small to belong to the family.
+
+**What the last-day blast added (2026-11-24; details in the entry at the end of this report).**
+
+- **Lean: the first theorems about a lifetime, and the catalogue's laws for every N, checked by the kernel and
+  refereed.** On the one-layer dice surrogate (private coins under each cell, not gump's shared ones): the 9-cell
+  hull triangle's ln τ lies in (2.4837157463, 2.4837157464), with four more 9-cell faces; both exits at 9 cells;
+  ln τ < 2.2165·A on every hull face and < 1.9228·A on every wrapped face; the quasi-stationary law is
+  unique on every wrapped face (one price per orientation) and on every hull face. In core Lean: the
+  tape theorem, the gun's line, the clock from a single cell (exact period 4N + 2, on its cycle exactly from
+  generation N − 2 for N ≥ 6), nine signals, the unzip and call laws, the readers, the beam, the divider. Not proved: the
+  limit of the price per cell and any lower bound.
+- **Open problem 9 (r), why coins lengthen a face's life** (63 cells; two codes agree within 2σ on every number). Coins at
+  each replaced layer's own mean density keep +0.53 of the fair coins' +0.65 to +0.68 at d = 1; coins that copy
+  the layer's current state shorten the life (−0.43 to −0.45, −0.17 to −0.18); the gain vanishes at a coin bias of 0.19–0.20. The
+  proposed mechanism (lives ordered by the support's density under a low face, the layer leading the face) does
+  not survive the referee. One code, unrefereed: the equivalent coin bias is not a constant (0.16 to 0.385 by
+  replacement and size); with every cell not on a face a fresh coin every generation, 0.385 gives gump's life at
+  45 and 63 cells but not at 84 (−0.165 ± 0.043), and there the face dies differently. **A skin four layers
+  thick decides the rate**: with every cell from depth 4 down a fresh coin at gump's own density every generation,
+  the 45- and 63-cell faces die at gump's rate (+0.004 ± 0.007, +0.016 ± 0.012; a second code: +0.007 ± 0.004,
+  +0.013 ± 0.018) and in gump's way to within 1% (death from one cell the same; dips 0.2–0.5% more frequent and as
+  much less deadly); with three real layers they live 0.17 and 0.30 longer. Not measured beyond 63 cells.
 
 ## Second phase (after the usage reset at 11:00 UTC): additions, newest last
 
@@ -158,6 +191,10 @@ corrected.**
 Not checked by the referee: the fits, the reading of the extra 0.05, triangles and strips, the radius-29 run.
 
 ### 13:21 UTC. The 120-cell tube: below every forecast, and the bend goes on
+
+**Read this entry with the correction of 2026-11-24 in the short version: the card's 120-cell value is not
+reproduced by its second code (24.594 ± 0.040), and the statements below that rest on 24.5086 alone (the chord
+0.1957, "refuted", the scores of the forecasts as missed) are withdrawn until the card's longer chain reports.**
 
 The card's final value for the loop-12 tube of 120 cells is **24.5086 ± 0.0169** (eight seeds, 3,494 face deaths,
 no firewalls; another session's measurement, read from its branch: `git show
@@ -305,6 +342,22 @@ a wide face and a tube at 84 cells). Read by the PI at 16:40 UTC; nothing below 
 - Not checked by the audit (its section 9): anything above 84 cells on gump; `rim/`, `split-hull/`, `ref-hull/`,
   the dice chains and their samplers; and the whole of the second phase above, which it predates.
 
+### 18:07 UTC. Gump in Lean: the first theorems are machine-checked (`lean/`; unrefereed)
+
+On the owner's word of about 17:50 UTC ("go ahead and install lean, and start work in its direction"). Lean 4.36.0.
+- [proved, machine-checked] In core Lean, no Mathlib: the lattice and the rule; **T1** (layer histogram); "a dead
+  sealed set stays dead whatever happens elsewhere" and "unions of sealed sets are sealed" (the opening of **T6**);
+  **T2** (octahedral confinement) and the diagonal hull; **T3** (firewall), both halves; **T4** (closed slabs). No
+  `sorry`; axioms `propext`, `Classical.choice`, `Quot.sound` only. T2 and T3 are two instances of the sealed-set
+  lemma. Reproduce: `sh research/blast/lean/check.sh`.
+- [measured] The Lean rule is gump: run by a stepper that evaluates the verified `step`, it prints the four 2012
+  closed-cube logs in `reference/golden/` line for line (side 11 through its 4,218 generations, with `--long`) and
+  equals `reference/oracle.py` state for state on three soups for 60 generations; a corrupted state is caught.
+- The aim and the climb are in `lean/README.md`: every theorem of the project checked, and the measured laws
+  turned into theorems, the face law with its constant included.
+Not checked: no second agent has read the Lean statements against `docs/AUTOMATON.md`; that the stepper misses no
+birth is argued, not yet proved in Lean.
+
 ### 19:37 UTC. The noisy hull's sampler under the review's questions: the tail, the families, the odd sweeps (`noisy/`; the lead's rebuild is still to report)
 
 Asked by the lead on pull request 39. Rows: `research/blast/noisy/data/runs_diag/` (from `sh research/blast/noisy/diag.sh`).
@@ -364,9 +417,15 @@ the median; those carry 8% of the summed rate; the ε = 1/16 sample met none.
 
   Coins under a face lengthen its life, never shorten it. The two layers a face cell touches (T1: two
   neighbours one layer down, one neighbour two layers down) carry +0.37 and +0.20; each layer below adds about
-  0.7 of the one above it (+0.047, +0.035, +0.024), and the sixth is at the noise. [conjectured] That is the same
+  0.7 of the one above it (+0.047, +0.035, +0.024), and the sixth is at the noise. **Corrected 2026-11-19 by the
+  lead's repeat on a second code and other seeds** (`sh research/audit/blastnoisy/depth.sh`; its rows agree with
+  these, χ² 7.1 on 6): pooled, the layers add +0.355 ± 0.015, +0.203 ± 0.013, +0.072 ± 0.012, +0.017 ± 0.012,
+  +0.020 ± 0.012 from the first down, so "0.7 of the one above" was this seed; the ratios are 0.57, 0.35, then
+  noise. What stands: the two layers a face cell touches carry five sixths of the effect, the third a tenth,
+  the fourth and fifth together +0.04 ± 0.02. [conjectured] That is the same
   sign and size as the night's dice chain's offset (coins everywhere under six layers: +0.024 at 63 cells), and it
-  says what a surrogate under a face must get right: the first two layers exactly, the next three approximately.
+  says what a surrogate under a face must get right: two layers exactly, the third roughly, and below that it
+  hardly matters.
 Not checked: the depth series has one code and one seed a row, and the region's size changes with d (57 to 132
 cells); the 84-cell brute force at ε = 1/16 (block 3, item 1) has not been run by anyone; no second seeds.
 
@@ -752,3 +811,257 @@ does the 2D relative, where the prices come out the other way round.
 And one identity nobody had asked for: in a long living tube, the chance that a stretch of it is empty at this
 instant is the death rate of a closed tube of that length, up to a constant. The dead tube is already there,
 momentarily, inside the living one.
+
+## The last-day blast (2026-11-24)
+
+On the owner's word for a last day from 11:00 UTC 2026-11-24 (`PI.md`). Agents: `dice`, `tape`, `chain` (Lean),
+`density` (open problem 9 (r)); referees `ref-lean`, `ref-tape`, `ref-dice`, `ref-chain`, `ref-density`, each with
+its own code from `reference/oracle.py`. The Lean account is `lean/README.md` (table, what is not proved, the climb)
+with `lean/notes/{tape,dice,chain,link}.md` and `lean/STATEMENTS.md` (205 rows, each Lean statement verbatim beside
+its source sentence); the reviews are `ref-*/REVIEW.md`.
+
+### Lean: what is now a theorem [proved, checked by Lean's kernel]
+
+Reproduce everything: `sh research/blast/lean/check.sh --mathlib` and `sh research/blast/lean/check.sh --long`
+(results at the end of this entry). Kernel tier only: no `sorry`, no `native_decide`, no axiom beyond `propext`,
+`Classical.choice`, `Quot.sound`. Every file below was read by a referee against its source and attacked; no
+referee broke a theorem.
+
+- **The catalogue's laws, for every N** (core Lean, `lean/Gump/`; refereed by `ref-tape`, three reviews). The tape
+  theorem: every word over {B, C} moves one unit per two generations, on the whole lattice (`tape_run`,
+  `Tape.lean`). The gun's line: period exactly 4 and preperiod exactly 2N for every N ≥ 2 (`Line.line_orbit`,
+  `Line.lean`). A clock of every length, exact period 4N + 2 (`Clock.clockOf_period`, `Clock.lean`), and **the clock
+  from a single cell**: one added cell lights the clock of N units into that oscillator for every N, on the cycle at
+  generation N − 2 and at no earlier one for N ≥ 6 (`Clock.lit_clock`, `lit_enters_at`, `lit_clock_exact`;
+  `ClockLit.lean`, `ClockLitOdd.lean`, `ClockLitFirst.lean`). The nine rigid signals of the rake train
+  (`Tape.Signals.signal_run`, `TapeSignals.lean`). The unzip law in its sharp form, final from 2k + 6 and not at
+  2k + 4 (`Unzip.unzip_law_sharp`, `UnzipProof.lean`, by a new argument: a front of fixed shape sweeping the
+  stretch). The call law of push 9, both parts, for every k (`Call.call_law`, `CallUnionLocal.lean` and four more
+  `Call*.lean`). The two readers: the clock's left cap, and the call line's (a different cap), each eat every word
+  and keep no trace (`Clock.reader_run`, `Reader.reader9_run`). The beam, period exactly 4 for every N
+  (`Beam.beam_period`). The divider, period exactly 8 from generation 2N − 3 for every N ≥ 8
+  (`Divider.divider_period`; on the oracle N = 3 … 7 obey the same law, so N ≥ 8 is the proof's limit). On the
+  oracle, the referee confirmed the clock for N = 6 … 30, the beam for N = 1 … 20 and 30, the divider for N = 8 … 20,
+  24, 30 (`python3 research/blast/ref-tape/rt_third.py dump2.txt dump3.txt`).
+- **The first lifetime theorems** (`lean/mathlib/GumpMath/Dice*.lean`; refereed by `ref-dice`, two reviews;
+  `DiceMean.lean` by `ref-chain`'s fourth). On the one-layer dice surrogate, defined in Lean as a killed chain
+  (`Face.P`; the referee's own kernel from the oracle equals it on all 1,310,720 entries of the five 9-cell faces):
+  for every quasi-stationary law of the 9-cell hull triangle, λ is in a 19-digit interval and
+  **ln τ ∈ (2.4837157463, 2.4837157464)** (`hull3_tau`, `DiceHull3.lean`), and the same for four more 9-cell faces
+  (tori (1,0),(0,3), (1,1),(0,3), strip 1×3, patch 1×3). **Both exits at 9 cells**: of the death flux, the bust
+  carries 0.936852–0.936853 on the torus (1,1),(0,3) and 0.017017–0.017018 on the hull triangle
+  (`torus113_bust_flux`, `hull3_bust_flux`, `DiceFlux.lean`; the share among deaths from the quasi-stationary law,
+  not among all deaths from a fixed start). **Theorem 1 at every size**: ln τ < 2.2165·A on every hull face
+  (`lntau_le_hull_all`, `DiceHullAll.lean`), < 1.9228·A on every wrapped face (`lntau_le_torus`,
+  `DiceTorusReg.lean`), < 2.5095·A on every face with all its coins; true with room (1.9228 is 4.1 to 6.4 times
+  ln τ/A on tori up to 12 cells, `ref-dice/review2.py d`). τ = E_μT = 1/(1 − λ) (`qsd_mean`, `DiceMean.lean`, the
+  referee's proof taken over).
+- **The chain theory** (`lean/mathlib/GumpMath/Chain*.lean`, 16 modules, `rigour/THEOREMS.md` on an abstract
+  finite killed chain, with Perron–Frobenius built since Mathlib has none; refereed by `ref-chain`). The tilt
+  identity, ln τ = ∫₀¹⟨E⟩_s ds = Σ_i c_i (`tilt_identity`, `ChainTilt.lean`); a dominant quasi-stationary law on every
+  finite killed chain (`exists_qsd`); Theorem 1 (`upper_bound_coins`, 2.51·A; `kagome_sharp_bound`, 2.2412·A on
+  wrapped faces); Lemma 0 with its geometry on every wrapped face (H,K),(0,D), one price per orientation, ln τ =
+  HD(c_X + c_Y + c_Z), one price per cell on rotation-invariant tori (`wrapped_lemma0`, `wrapped_one_price_HD`,
+  `wrapped_rotation_HD`, `ChainTorus.lean`); the rate from every start (`decay_bounds`); Lemma R; the seam identity
+  (its modelling step a hypothesis); Theorem 3 as an implication from (SSM); and a weaker hypothesis proved sufficient
+  for one price: convergence, at almost every tilt, of the per-cell tilted energy, a jump along the tilt allowed
+  (`price_of_pointwise`; `price_of_ae`, the referee's).
+- **The link: those theorems for `Face.P` itself** (`lean/mathlib/GumpMath/Link*.lean`; refereed by `ref-chain`,
+  second to fourth reviews). On the five 9-cell faces, one theorem each puts it all together: the dominant law is the
+  only one with λ > 0, ln τ to ten digits, ln τ = Σ_i c_i with each cell's own death probability as its factor, equal
+  prices within the classes of table automorphisms, two-sided decay at λ (`hull3_full`, `LinkFaces.lean`;
+  `hull3_complete`, `LinkSurv.lean`, adds the dice bounds and survFrom = `Face.survival`). On the hull triangle the
+  referee's per-cell prices are **0.0481050722 at the three corners and 0.3899000883 at the other six**, invariant
+  under the six symmetries and summing to ln τ = 2.4837 [measured, `ref-chain/link_numbers.py`, second review; fourth
+  review]. The 12-cell torus (2,0),(0,2): unique law, all twelve prices equal (`torus202_full`, no λ interval).
+  **Every wrapped face**, no hypothesis (`wrapped_full_all`, `wrapped_area`, `LinkWrappedAll.lean`,
+  `LinkWrappedArea.lean`). **Every hull face**: dominant law, tilt identity, ln τ < 2.2165·A (`hull_theorems`,
+  `LinkHull.lean`), and uniqueness with equal prices along every table automorphism under one hypothesis,
+  `Lemma0F (hull R)` (`hull_full_sym`, `LinkFaceAut.lean`), which is kernel-proved for R = 1, 3, …, 13 (3 to 84
+  cells, `LinkHullCert.lean`; the referee regenerated the certificates byte for byte from tables it built from the
+  oracle). `hull R` has no cells for even R, so "every R" means every R with A > 0, as the rows say. **Later the same day (after this was written): proved for every R by a general argument, `HullGen.hull_lemma0` and `hull_full_every` (`LinkHullGen.lean`), with the rotation and reflection as automorphisms for every R (`rot_aut`, `refl_aut`, `hull_prices_sym`, `LinkHullSym.lean`); refereed clean (`ref-chain/REVIEW.md`, fifth review: unconditional, elaborates at R = 21 with no certificate; the construction's steps hold on oracle-built hulls R = 3…13).**
+- **Added after the integration: the meetings of signals** (core Lean; `Gump/TapeSuper.lean`, `TapeMeet*.lean`;
+  refereed, `ref-tape` fourth review). Superposition from the light cone alone: configurations more than 4n apart
+  in max norm run independently for n generations (`Gump.run_or_far`; tight at n = 1 on the oracle), and along a
+  wire on any background (`superpose_units`). One meeting per pair of opposite signals (`Signals.pair_run`); U
+  meets K0 and both vanish, the plain train exactly from generation 2n + 4 from every distance 3 + 2n
+  (`meet_U_K0`); the three fronts for ever from every distance (`meet_UH`, `meet_EH`, `meet_EK`, `rigid_front`).
+  **A correction to the catalogue:** §31's table says U–H gives "the same: wire B between the same two edges" as
+  E–H; the lower edges are the same, but E–H's upper edge carries a three-unit defect just below its four topmost
+  units of wire B and U–H's does not (the referee decided it on the oracle from the catalogue's objects at three
+  distances each: the corrected row is right). Not covered: same-direction pairs, the K3 meetings, E–K0's medium
+  on the oracle (only its front recurrence was checked by the referee).
+- **Referees' defects and repairs** (details in `lean/README.md`, "Refereed on 2026-11-24"). `ref-chain`: seven, the
+  main ones in what statements left existential (an unnamed local factorisation that let all prices but one be zero; "some
+  QSD" admitting the λ = 0 point mass; |T| = HD), repaired and closed by its second review. `ref-tape`: an
+  existential clock that two short clocks side by side satisfy (repaired, `clockOf_period`), `STATEMENTS.md` stale
+  with `check.sh` blind to it (repaired here: `statements.py --check`), stale prose, and one base-time convention
+  (corrected in the row and notes; the header comment of `Gump/ClockLitFirst.lean` still gives 11, 15, 19, 23,
+  counted from X0, where Lean's `Xb` has 4, 8, 12, 16). `ref-dice`: a cited lemma that did not exist (the referee
+  proved it), the bust share as the flux's only through prose (now `flux_share`), wording; two late text slips
+  corrected here.
+- **Not proved.** The limit of the price per cell (only under gluing inequalities or pointwise convergence, neither
+  known for the surrogate) and any lower bound ln τ ≥ c·A (B2). (Uniqueness on hull faces beyond R = 13 stood here when the entry was first written; it was proved for every R later the same day, see the link paragraph above.) λ intervals beyond the five 9-cell faces (the 12-cell certificate exists; its build did not
+  finish). (The meetings of signals, §31, stood here and were proved later the same day, see above.) And the surrogate is not gump: it gives each cell private coins, and from
+  the full 9-cell hull face its one-step law differs by total variation 0.33 from gump's over shared coins
+  [measured exactly, `PYTHONPATH=reference python3 research/blast/ref-dice/shared.py`]; 12 of the 15 cells beneath that
+  face lie on the hull's other faces.
+
+### Open problem 9 (r): why coins lengthen a face's life (`density/`, refereed by `ref-density/`)
+
+63-cell hull face (R = 11), coins at depth ≥ d under the watched face at rate ε = 1/4 (22% of the replaced cells
+refreshed a generation); Δ = ln τ − 13.633. **What both codes give** [measured; the agent's `nzd.c`, `python3
+research/blast/density/collect.py`; the referee's `rd.c`, written from the oracle and the prose, `python3
+research/blast/ref-density/collect.py`; table in `ref-density/REVIEW.md`]:
+
+| row (d = 1 unless noted) | `density` | `ref-density` |
+|---|---|---|
+| gump, ln τ | 13.633 ± 0.001 | 13.632 ± 0.014 |
+| fair coins | +0.678 ± 0.016 | +0.653 ± 0.020 (two seeds) |
+| coins at each replaced layer's mean density | +0.532 ± 0.011 | +0.535 ± 0.026 |
+| coins at the layer's density under a low face (LOW10) | +0.463 ± 0.010 | +0.448 ± 0.029 |
+| each coin copies a random replaced cell's current state | −0.434 ± 0.013 | −0.445 ± 0.020 |
+| … a random cell of the whole layer | −0.169 ± 0.011 | −0.183 ± 0.018 (two seeds) |
+| every depth at bias p = 0.1 / 0.2 | −0.322 ± 0.022 / +0.043 ± 0.024 | −0.327 ± 0.024 / +0.002 ± 0.023 |
+| zero of the scan (linear, 0.1–0.2) | 0.188 ± 0.007 | 0.199 ± 0.007 |
+| mean density, d = 2 / fair, d = 2 | +0.244 ± 0.013 / +0.332 ± 0.014 | +0.303 ± 0.027 / +0.338 ± 0.028 |
+| mean density, ε = 1/16 | +0.164 ± 0.013 | +0.197 ± 0.026 |
+| gump's replaced core of layer 1: all time / face ≤ 10 cells | 0.4301 / 0.3836 | 0.4301 / 0.3843 |
+| gump: a descent from ≥ 16 to ≤ 1 cell ends in death | 0.771 ± 0.004 | 0.766 ± 0.005 |
+
+Every row agrees within 2σ (the farthest, mean density at d = 2, +2.0σ); at 45 cells the two programs agree in four
+pairs within 1.1σ. **The referee's corrections to the reading** [`ref-density/REVIEW.md`, defects 1, 2, 3, 5]:
+1. **The ordering by the support's density under a low face fails.** Copying from the whole layer gives gump's
+   low-face density (0.386 against 0.384; the agent's own program agrees, 0.3858) and less clustering, yet lives
+   0.18 less (7.8σ); the scan chains at p = 0.1 and 0.2 are thinner there (0.311, 0.354) than the core copy (0.348)
+   or near it, yet live 0.12 and 0.45 longer.
+2. **"The layer leads the face" is not supported.** The cross-correlation of layer 1 with the face peaks at lag 0
+   (+0.375 against +0.296 at lags 1 and 2). The asymmetry is real and runs layer → face (Granger: the layer's past
+   raises the explained share of the face's variance from 0.279 to 0.317, the face's past the layer's from 0.053 to
+   0.060), the reverse of the loop it was quoted for (`python3 research/blast/ref-density/lagdump.py`).
+3. **"Density accounts for a fifth" depends on the matching.** Coins at gump's mean density hold up a denser support
+   than gump's (+0.010 to +0.011 at every replaced depth); on the chain matched to gump's realized density (LOW10)
+   the part due to density is 0.215 ± 0.019 (the agent's rows) or 0.205 ± 0.035 (the referee's) of the fair coins' +0.65 to +0.68: about a third.
+4. **p* is a coin bias, not a support density.** The chain at p = 0.2, which lives as gump does, has its replaced
+   core of layer 1 at 0.399 after the darts and 0.456 before (gump 0.430): sparse coins make the rule fill in.
+Also: the layer densities of the noisy chains are read after the darts (defect 7), and adjacent seeds shared one
+coin stream (defect 8; their darts are independent).
+
+**The second task, one code, one seed a row, unrefereed** [measured; `python3 research/blast/density/zeros.py`,
+`python3 research/blast/density/collect.py`; rows in `density/data/rows/`]:
+- **p\* is not a constant.** The coin bias that gives gump's life:
+
+  | replaced | 45 cells | 63 cells |
+  |---|---|---|
+  | darts, ε = 1/16 | 0.16 ± 0.03 | 0.173 ± 0.010 |
+  | darts, ε = 1/4 | 0.180 ± 0.006 | 0.191 ± 0.003 |
+  | every replaced cell fresh every generation (under the face's middle) | 0.266 ± 0.002 | 0.316 ± 0.001 |
+  | … and every cell not on a face (DO = 1) | 0.3848 ± 0.0001 | 0.3854 ± 0.0002 |
+
+- **On coins alone 0.385 matches gump at 45 and 63 cells**: at p = 0.385 itself Δ = +0.009 ± 0.007 and
+  −0.028 ± 0.020 (`R9_fullDO1_p0.385`, `fullDO1_p0.385`); **at 84 cells one row reads −0.28 ± 0.15** (45 deaths,
+  `R13_fullDO1_p0.385`), undecided. Below p ≈ 0.35 a hull on coins alone dies within a few thousand generations
+  (45 cells).
+- **The face dies differently there.** At DO = 1 and the equivalent density a face that has fallen to one cell dies
+  96–98% of the time (gump 77%); dips below 16 cells are 6 to 8 times rarer and each 6 to 9 times deadlier; the
+  face is fuller (34.7 of 63 against 31.25). The rate is matched; the way of dying is not.
+- **Clustering shortens the life at fixed density** (full replacement, one common coin per depth with probability
+  c): c = 0.1 costs 0.290 ± 0.020 at 63 cells (p = 0.32) and 0.056 ± 0.015 at 45 (p = 0.27); c = 0.3 costs
+  0.170 ± 0.015 at 45.
+
+**The PI's forecasts** (`noisy/PREDICTIONS.md`). Block 4 (frozen 2026-11-19, before any run; scored from one code,
+the first three outcomes since reproduced by the referee): matched-density gain at d = 1 ≥ 0.40, 70%, true (Brier
+0.09); at d = 2 ≥ 0.18, 65%, true (0.12); coins at a third of the layer's density still lengthen the life, 55%,
+false (0.30); no density between 0.2 and 0.8 shortens it, 80%, provisionally true (0.04; the p = 0.8 row since reads
++1.109 ± 0.041, 0.6 not run). Block 5 (frozen 13:55 UTC): p\*(1/16) within 0.03 of p\*(1/4), 60%, true (0.16);
+p\*(full) below 0.17, 55%, **false and in the wrong direction** (0.30): the PI reasoned that more replacement means
+a larger gain to cancel and so a lower p\*, and the opposite happens; p\*(full) within 0.04 of 0.19, 35%, false
+(0.12); the 45-cell p\* within 0.03 of the 63-cell one, 55%, true (0.20); one full-replacement density giving the
+45-cell life within 0.15, 35%, false as specified (0.12; true with every cell not on a face a coin, a setting not
+forecast). Block 6 (frozen 15:04 UTC, before the third task) is scored in the next section.
+
+### The density agent's third task: a skin four layers thick (`density/README.md`, third-task sections; commit 2d67675)
+
+One code (`nzd.c`, its coin stream repaired after the referee's defect 8 and re-validated), one seed a row unless
+said; forecasts committed before the runs (the agent's at 7a84d46, the PI's block 6). The d = 3 and d = 4 rows have
+since been reproduced by the referee's code (below); the rest is one code.
+`python3 research/blast/density/skin.py` prints the table.
+
+- [measured] **Four real layers give gump's rate and gump's way of dying.** Every cell at depth ≥ d under the
+  watched face (column A) or under every face (column B) is a fresh coin every generation at gump's own mean density
+  for that depth; Δ = ln τ − gump's:
+
+  | real layers kept (d) | 45 cells, A | 45 cells, B | 63 cells, A | 63 cells, B |
+  |---|---|---|---|---|
+  | 1 (the face alone) | +0.564 ± 0.009 | +2.338 ± 0.020 | +1.186 ± 0.037 | +3.530 ± 0.118 |
+  | 2 | +0.342 ± 0.008 | +0.884 ± 0.010 | +0.694 ± 0.029 | +1.439 ± 0.041 |
+  | 3 | +0.169 ± 0.008 | (= A) | +0.295 ± 0.023 | (= A) |
+  | **4** | **+0.004 ± 0.007** | −0.006 ± 0.007 | **+0.016 ± 0.012** (two seeds) | +0.016 ± 0.020 |
+  | 5, 6 | | | +0.027 ± 0.021, +0.010 ± 0.020 | −0.012 ± 0.020 (d = 5) |
+
+  From d = 4 on the eight rows average +0.003 ± 0.004, and the excursions match gump's too: the frequency of dips
+  below a quarter of the face within 0.005 in the logarithm, their deadliness within 0.024, death from one cell
+  0.763–0.785 against gump's 0.770. With three real layers the face lives longer (0.17, 0.30, the excess growing
+  with the face), mostly through less deadly dips. Only with the face alone over coins under every face does death
+  from one cell change (0.88–0.92). The wrapped face agrees (a new slab stepper, bit-exact against the oracle on a
+  covering torus): four real layers +0.003 ± 0.005 (45 cells), +0.029 ± 0.023 (63); three, +0.15 and +0.25.
+- [conjectured] **The reading.** The rate at which a face of gump dies, and the way it dies, are properties of the
+  face and the three layers under it over a memoryless, uncorrelated bath at gump's density: a finite-depth object,
+  and a finite Markov chain for each face. That it holds at larger faces is not measured (the excess at three
+  layers grows with the face, so a small excess at four that also grows is not excluded: at 63 cells the six rows
+  with d ≥ 4 average +0.013 ± 0.008).
+- [measured] **The 0.385 coincidence is an accident.** The coins of the "every cell not on a face" chain replace
+  cells whose own density in gump, at its lowest over the face thresholds, is 0.357 (45 cells) and 0.367 (63), not
+  0.385; only the 9-cell core at 63 cells with the threshold "face ≤ 10" lands on 0.384 (0.390 at 45 cells). On the
+  wrapped face p\* is 0.3550 ± 0.0002 and 0.3659 ± 0.0004 at 45 and 63 cells against a layer density under a low
+  face of 0.12 and 0.30.
+- [measured] **On coins alone one density does not hold a third size.** 84 cells at p = 0.385: Δ = −0.165 ± 0.043
+  (559 deaths in 14 chunks on the repaired stream; the three older chunks agree). So p\* creeps up with the face
+  (about 0.3867 at 84 cells if the steepness keeps growing with the face, which is conjectured).
+- [measured] The agent folded the referee's corrections into a dated section of its README (earlier sentences kept
+  and marked), and its coin stream now starts from a hash of the seed (`validate.py` passes, the old start kept as
+  a negative control).
+- **The PI's block 6** (frozen before the runs; `noisy/PREDICTIONS.md`): the 45-cell layer's minimum within 0.005
+  of 0.385, 45%, false; the 84-cell row below −0.10, 70%, true; at 63 cells, column A: Δ(1) > 2, 75%, **false**
+  (+1.19; true only under every face); Δ(2) in (0.3, 1.5), 55%, true; |Δ(3)| < 0.15, 45%, false (+0.30);
+  |Δ(4)| < 0.05, 45%, true; the way of dying is gump's at the first d that matches, 60%, true.
+- [measured, second code] **The referee reproduced the d = 3 and d = 4 rows** (`ref-density/REVIEW.md`, "Second
+  review", commit e233230; its own `rd.c` with a full-replacement mode validated against the oracle, its own seeds
+  and its own measurement of gump's densities by depth, equal to the agent's biases to 10⁻⁴). Δ against its own
+  gump, the agent's in brackets: 45 cells d = 3 +0.169 ± 0.005 (+0.169), **d = 4 +0.007 ± 0.004** (+0.004); 63 cells
+  d = 3 +0.311 ± 0.024 (+0.295), **d = 4 +0.013 ± 0.018** (+0.016). **No tuning**: with every bias moved by −0.01 or
+  +0.01 the 45-cell d = 4 row reads +0.003 and +0.001 ± 0.004 (63 cells, +0.01: +0.019 ± 0.021), so the bath's
+  density below three real layers hardly matters. **"In gump's way" holds to 1%, not exactly**: death from one cell
+  is gump's (0.771 against 0.772 at 45 cells, 0.770 against 0.769 at 63), but at d = 4 the face dips more often by
+  0.46% at 45 cells (11 σ, in all three bias rows and in the agent's own row) and 0.16% at 63 (3 σ), each dip less
+  deadly by about as much, so the life does not move. The agent's bound "within 0.005" is right; "as often as in
+  gump" would say more than is measured. The agent's skin rows made before its coin-stream repair share coins
+  between rows; the referee's independent rows agree.
+- Not checked: column B, d = 1, 2, 5, 6 and the wrapped face on a second code; 84-cell skin rows; skins with darts instead of full
+  replacement or at face-conditioned densities; whether d = 4 is a threshold or a decay that falls under the errors
+  there; the slab's death and excursion bookkeeping beyond the stepper; the 45-cell wrapped face's mean population
+  with the skin is 22.7 against gump's 21.4, which the agent does not understand.
+
+### What was not checked
+
+- **Lean.** The proofs are the kernel's; the referees read statements and attacked them with their own code, and did
+  not rebuild (they loaded the built oleans). The internal zone and base checks of the catalogue laws were not
+  re-derived by anyone (`ref-tape`); the tape agent's and the dice agent's Python generators were not read by their
+  referees (the kernel checks what they write). No λ interval beyond 9 cells; prices on hull faces beyond 9 cells not
+  computed by anyone (hull 5 has 18 cells); the catalogue laws on the oracle only to N = 30 and k = 20.
+- **Density, first task** (`ref-density`, "Not checked"): the conditioned coins (+0.497, +0.446), frozen coins
+  (+1.18), the scan at 0.3, 0.4, 0.7, errors of the layer densities (correlated samples), a full bath, the
+  decomposition's other order, 84 cells.
+- **Density, second task**: everything is one code and one seed a row; the scatter between seeds of the steep DO = 1
+  rows (where 0.0002 in p\* rests on counting alone) is not measured; rows below p ≈ 0.35 at DO = 1 are not
+  stationary rates; the dart process at ε = 1, clustering at ε = 1/4 or of gump's own (local) kind, and 84 cells
+  beyond one row were not run.
+- **This entry** was written by an integrator from the notes and reviews named in it; no number in it was recomputed
+  here except the `check.sh` runs below.
+
+**The check, run for this entry** (2026-11-24, in the shared tree with most modules built and nothing else
+building): `sh research/blast/lean/check.sh --mathlib`, 193 s from 15:48:40 UTC, then `sh research/blast/lean/check.sh
+--long`, 331 s from 15:53:16 UTC. Both end `lean: all checks passed`. 52 core and 73 Mathlib modules; 187 headline
+theorems printed by `#print axioms` in the core package, 221 in the Mathlib package, none beyond `propext`,
+`Classical.choice`, `Quot.sound`; `STATEMENTS.md` current (205 rows, now enforced by the check); the 2012 logs of
+sides 8 to 11 identical; the differential test passed; 1,307 of 1,307 catalogue objects certified. Not a fresh clone.

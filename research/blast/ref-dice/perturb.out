@@ -1,0 +1,16 @@
+(true, true, true, true)
+false
+some 1
+false
+false
+some 300
+some 204
+(true, true)
+false
+(false, false, false)
+false
+/home/user/gump-for-agents/research/blast/ref-dice/Perturb.lean:53:52: error: Tactic `decide` proved that the proposition
+  dataT.tabOK (hull 3) = true
+is false
+/home/user/gump-for-agents/research/blast/ref-dice/Perturb.lean:54:63: error: unsolved goals
+⊢ False

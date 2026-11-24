@@ -1,0 +1,6 @@
+slab (1, 4, 21): 600 generations x 3 lanes against the oracle on its cover: ALL EQUAL
+slab (1, 4, 21): negative control (one neighbour swapped): fails as it must: state differs at generation 3, lane 0 (21 sites)
+slab (1, 4, 15): 600 generations x 3 lanes against the oracle on its cover: ALL EQUAL
+slab (1, 4, 15): negative control (one neighbour swapped): fails as it must: state differs at generation 1, lane 0 (15 sites)
+coins (layers >= 1 at 0.37): OK
+VALIDATION PASSED

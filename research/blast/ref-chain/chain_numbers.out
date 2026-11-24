@@ -1,0 +1,91 @@
+
+== torus (1,1),(0,3): A = 9, rho = (0.44, 0.42);  power iteration 85 steps, |mu Q - lam mu| = 4.9e-16, lam = 0.932432393592846, 1 - lam - h = 6.7e-16
+   ln tau = 2.694626605944   (exact.csv 2.694626605944, diff 3.7e-13)
+   tilt identity: int_0^1 <E>_s ds - ln tau = -4.4e-15;  max increase of <E>_s on 2001 points = -3.4e-04 (<= 0 means antitone)
+   <E>_1 = 0.825554 <= ln tau = 2.694627 <= <E>_0 = E_mu E = 9.019624 (= 1.0022 per cell) <= eps_max A = 22.5852;  max eps_i(x) = 2.509462, eps_max = 2.509462
+   prices: sum c_i - ln tau = -3.6e-15;  spread within an orientation = 5.6e-17;  c_X, c_Y, c_Z = 0.2994029562, 0.2994029562, 0.2994029562;  ln tau / A = 0.2994029562; rotation-invariant: True
+   |T| (c_X+c_Y+c_Z) - ln tau = -3.6e-15;  all c_i in [0, eps_max]: True
+   Lemma 0: class of u = all-X has 510 of 511 living states; states that can survive = 510; class == can-survive: True;  Q u y > 0 for all y: True;  Q u u = 2.540e-02;  surely-dying living states: ['111111111']
+   junk QSD: point mass on state 511: |delta Q - 0 delta| = 0.0e+00, its tau = 1/d = 1.000, ln tau = 0.000
+   mu > 0 everywhere: True  (min 4.69e-04);  
+   |lam_2 / lam_1| = 0.8082
+   Riemann n =  1: 0.825554 <= 2.694627 <= 9.019624: True;  width 8.194070 = (<E>_0-<E>_1)/n 8.194070 <= eps_max A/n 22.5852
+   Riemann n =  2: 1.230339 <= 2.694627 <= 5.327375: True;  width 4.097035 = (<E>_0-<E>_1)/n 4.097035 <= eps_max A/n 11.2926
+   Riemann n =  4: 1.791822 <= 2.694627 <= 3.840340: True;  width 2.048518 = (<E>_0-<E>_1)/n 2.048518 <= eps_max A/n 5.6463
+   Riemann n =  8: 2.211885 <= 2.694627 <= 3.236144: True;  width 1.024259 = (<E>_0-<E>_1)/n 1.024259 <= eps_max A/n 2.8231
+   Riemann n = 16: 2.445871 <= 2.694627 <= 2.958001: True;  width 0.512129 = (<E>_0-<E>_1)/n 0.512129 <= eps_max A/n 1.4116
+   decay_bounds: Perron eigenvalue of the class block r = 0.932432393592848 (QSD lam - r = -1.6e-15); m/M = 0.1030;  min over t<400, x of P_x(T>t) - (m/M) r^t = 3.51e-14 (>= 0);  max of P_x(T>t+1) - (M/m) r^t = -6.30e-12 (<= 0)
+   lifetime_from_bounds: 1.525 <= E_x T in [3.616, 19.866] <= 144.645: True;  tau = 1/h = 14.800; E_x T from the all-X state = 15.543
+
+== torus (1,0),(0,3): A = 9, rho = (0.44, 0.42);  power iteration 64 steps, |mu Q - lam mu| = 4.6e-16, lam = 0.966409927569595, 1 - lam - h = -3.2e-16
+   ln tau = 3.393524719052   (exact.csv 3.393524719052, diff -3.2e-13)
+   tilt identity: int_0^1 <E>_s ds - ln tau = -2.2e-15;  max increase of <E>_s on 2001 points = -6.9e-04 (<= 0 means antitone)
+   <E>_1 = 1.423406 <= ln tau = 3.393525 <= <E>_0 = E_mu E = 7.188240 (= 0.7987 per cell) <= eps_max A = 22.5852;  max eps_i(x) = 2.509462, eps_max = 2.509462
+   prices: sum c_i - ln tau = -2.2e-15;  spread within an orientation = 1.7e-16;  c_X, c_Y, c_Z = 0.3797575033, 0.3797575033, 0.3716598997;  ln tau / A = 0.3770583021; rotation-invariant: False
+   |T| (c_X+c_Y+c_Z) - ln tau = -2.2e-15;  all c_i in [0, eps_max]: True
+   Lemma 0: class of u = all-X has 510 of 511 living states; states that can survive = 510; class == can-survive: True;  Q u y > 0 for all y: True;  Q u u = 2.540e-02;  surely-dying living states: ['111111111']
+   junk QSD: point mass on state 511: |delta Q - 0 delta| = 0.0e+00, its tau = 1/d = 1.000, ln tau = 0.000
+   mu > 0 everywhere: True  (min 1.54e-04);  
+   |lam_2 / lam_1| = 0.6613
+   Riemann n =  1: 1.423406 <= 3.393525 <= 7.188240: True;  width 5.764834 = (<E>_0-<E>_1)/n 5.764834 <= eps_max A/n 22.5852
+   Riemann n =  2: 2.149807 <= 3.393525 <= 5.032224: True;  width 2.882417 = (<E>_0-<E>_1)/n 2.882417 <= eps_max A/n 11.2926
+   Riemann n =  4: 2.720656 <= 3.393525 <= 4.161865: True;  width 1.441209 = (<E>_0-<E>_1)/n 1.441209 <= eps_max A/n 5.6463
+   Riemann n =  8: 3.045078 <= 3.393525 <= 3.765682: True;  width 0.720604 = (<E>_0-<E>_1)/n 0.720604 <= eps_max A/n 2.8231
+   Riemann n = 16: 3.216333 <= 3.393525 <= 3.576635: True;  width 0.360302 = (<E>_0-<E>_1)/n 0.360302 <= eps_max A/n 1.4116
+   decay_bounds: Perron eigenvalue of the class block r = 0.966409927569593 (QSD lam - r = 1.8e-15); m/M = 0.3321;  min over t<400, x of P_x(T>t) - (m/M) r^t = 4.59e-08 (>= 0);  max of P_x(T>t+1) - (M/m) r^t = -2.32e-06 (<= 0)
+   lifetime_from_bounds: 9.885 <= E_x T in [12.109, 32.918] <= 90.657: True;  tau = 1/h = 29.771; E_x T from the all-X state = 31.791
+
+== torus (2,0),(0,2): A = 12, rho = (0.44, 0.42);  power iteration 58 steps, |mu Q - lam mu| = 5.1e-16, lam = 0.981348646993921, 1 - lam - h = -4.1e-15
+   ln tau = 3.981836588281   (exact.csv 3.981836588280, diff 6.9e-13)
+   tilt identity: int_0^1 <E>_s ds - ln tau = -4.9e-15;  max increase of <E>_s on 2001 points = -6.2e-04 (<= 0 means antitone)
+   <E>_1 = 1.370166 <= ln tau = 3.981837 <= <E>_0 = E_mu E = 10.077165 (= 0.8398 per cell) <= eps_max A = 30.1135;  max eps_i(x) = 2.509462, eps_max = 2.509462
+   prices: sum c_i - ln tau = -4.0e-15;  spread within an orientation = 1.7e-16;  c_X, c_Y, c_Z = 0.3318197157, 0.3318197157, 0.3318197157;  ln tau / A = 0.3318197157; rotation-invariant: True
+   |T| (c_X+c_Y+c_Z) - ln tau = -4.4e-15;  all c_i in [0, eps_max]: True
+   Lemma 0: class of u = all-X has 4094 of 4095 living states; states that can survive = 4094; class == can-survive: True;  Q u y > 0 for all y: True;  Q u u = 7.467e-03;  surely-dying living states: ['111111111111']
+   junk QSD: point mass on state 4095: |delta Q - 0 delta| = 0.0e+00, its tau = 1/d = 1.000, ln tau = 0.000
+   mu > 0 everywhere: True  (min 5.97e-05);  
+   Riemann n =  1: 1.370166 <= 3.981837 <= 10.077165: True;  width 8.706998 = (<E>_0-<E>_1)/n 8.706998 <= eps_max A/n 30.1135
+   Riemann n =  2: 2.162711 <= 3.981837 <= 6.516211: True;  width 4.353499 = (<E>_0-<E>_1)/n 4.353499 <= eps_max A/n 15.0568
+   Riemann n =  4: 2.973756 <= 3.981837 <= 5.150505: True;  width 2.176750 = (<E>_0-<E>_1)/n 2.176750 <= eps_max A/n 7.5284
+   Riemann n =  8: 3.457601 <= 3.981837 <= 4.545976: True;  width 1.088375 = (<E>_0-<E>_1)/n 1.088375 <= eps_max A/n 3.7642
+   Riemann n = 16: 3.714722 <= 3.981837 <= 4.258909: True;  width 0.544187 = (<E>_0-<E>_1)/n 0.544187 <= eps_max A/n 1.8821
+   decay_bounds: Perron eigenvalue of the class block r = 0.981348646993908 (QSD lam - r = 1.3e-14); m/M = 0.2256;  min over t<400, x of P_x(T>t) - (m/M) r^t = 1.11e-05 (>= 0);  max of P_x(T>t+1) - (M/m) r^t = -1.84e-03 (<= 0)
+   lifetime_from_bounds: 12.094 <= E_x T in [14.770, 58.139] <= 238.687: True;  tau = 1/h = 53.615; E_x T from the all-X state = 56.935
+
+== torus (1,1),(0,4): A = 12, rho = (0.44, 0.42);  power iteration 49 steps, |mu Q - lam mu| = 3.7e-16, lam = 0.975567324893204, 1 - lam - h = -2.6e-15
+   ln tau = 3.711833898815   (exact.csv 3.711833898815, diff -2.7e-15)
+   tilt identity: int_0^1 <E>_s ds - ln tau = -6.2e-15;  max increase of <E>_s on 2001 points = -5.0e-04 (<= 0 means antitone)
+   <E>_1 = 1.123936 <= ln tau = 3.711834 <= <E>_0 = E_mu E = 10.908440 (= 0.9090 per cell) <= eps_max A = 30.1135;  max eps_i(x) = 2.509462, eps_max = 2.509462
+   prices: sum c_i - ln tau = -5.8e-15;  spread within an orientation = 1.1e-16;  c_X, c_Y, c_Z = 0.3319304932, 0.2980139908, 0.2980139908;  ln tau / A = 0.3093194916; rotation-invariant: False
+   |T| (c_X+c_Y+c_Z) - ln tau = -5.8e-15;  all c_i in [0, eps_max]: True
+   Lemma 0: class of u = all-X has 4094 of 4095 living states; states that can survive = 4094; class == can-survive: True;  Q u y > 0 for all y: True;  Q u u = 7.467e-03;  surely-dying living states: ['111111111111']
+   junk QSD: point mass on state 4095: |delta Q - 0 delta| = 0.0e+00, its tau = 1/d = 1.000, ln tau = 0.000
+   mu > 0 everywhere: True  (min 5.89e-05);  
+   Riemann n =  1: 1.123936 <= 3.711834 <= 10.908440: True;  width 9.784504 = (<E>_0-<E>_1)/n 9.784504 <= eps_max A/n 30.1135
+   Riemann n =  2: 1.783722 <= 3.711834 <= 6.675974: True;  width 4.892252 = (<E>_0-<E>_1)/n 4.892252 <= eps_max A/n 15.0568
+   Riemann n =  4: 2.597353 <= 3.711834 <= 5.043479: True;  width 2.446126 = (<E>_0-<E>_1)/n 2.446126 <= eps_max A/n 7.5284
+   Riemann n =  8: 3.127182 <= 3.711834 <= 4.350245: True;  width 1.223063 = (<E>_0-<E>_1)/n 1.223063 <= eps_max A/n 3.7642
+   Riemann n = 16: 3.412772 <= 3.711834 <= 4.024303: True;  width 0.611531 = (<E>_0-<E>_1)/n 0.611531 <= eps_max A/n 1.8821
+   decay_bounds: Perron eigenvalue of the class block r = 0.975567324893196 (QSD lam - r = 8.2e-15); m/M = 0.1149;  min over t<400, x of P_x(T>t) - (m/M) r^t = 7.37e-07 (>= 0);  max of P_x(T>t+1) - (M/m) r^t = -3.93e-04 (<= 0)
+   lifetime_from_bounds: 4.702 <= E_x T in [6.775, 45.610] <= 357.272: True;  tau = 1/h = 40.929; E_x T from the all-X state = 43.010
+
+== torus (1,0),(0,4): A = 12, rho = (0.44, 0.42);  power iteration 74 steps, |mu Q - lam mu| = 4.5e-16, lam = 0.983965496443544, 1 - lam - h = -7.0e-16
+   ln tau = 4.133012406313   (exact.csv 4.133012406313, diff -2.7e-13)
+   tilt identity: int_0^1 <E>_s ds - ln tau = 0.0e+00;  max increase of <E>_s on 2001 points = -8.0e-04 (<= 0 means antitone)
+   <E>_1 = 1.631737 <= ln tau = 4.133012 <= <E>_0 = E_mu E = 9.100280 (= 0.7584 per cell) <= eps_max A = 30.1135;  max eps_i(x) = 2.509462, eps_max = 2.509462
+   prices: sum c_i - ln tau = 0.0e+00;  spread within an orientation = 5.0e-16;  c_X, c_Y, c_Z = 0.3502671110, 0.3502671110, 0.3327188796;  ln tau / A = 0.3444177005; rotation-invariant: False
+   |T| (c_X+c_Y+c_Z) - ln tau = 0.0e+00;  all c_i in [0, eps_max]: True
+   Lemma 0: class of u = all-X has 4094 of 4095 living states; states that can survive = 4094; class == can-survive: True;  Q u y > 0 for all y: True;  Q u u = 7.467e-03;  surely-dying living states: ['111111111111']
+   junk QSD: point mass on state 4095: |delta Q - 0 delta| = 0.0e+00, its tau = 1/d = 1.000, ln tau = 0.000
+   mu > 0 everywhere: True  (min 1.94e-05);  
+   Riemann n =  1: 1.631737 <= 4.133012 <= 9.100280: True;  width 7.468542 = (<E>_0-<E>_1)/n 7.468542 <= eps_max A/n 30.1135
+   Riemann n =  2: 2.540757 <= 4.133012 <= 6.275028: True;  width 3.734271 = (<E>_0-<E>_1)/n 3.734271 <= eps_max A/n 15.0568
+   Riemann n =  4: 3.266704 <= 4.133012 <= 5.133840: True;  width 1.867136 = (<E>_0-<E>_1)/n 1.867136 <= eps_max A/n 7.5284
+   Riemann n =  8: 3.682959 <= 4.133012 <= 4.616526: True;  width 0.933568 = (<E>_0-<E>_1)/n 0.933568 <= eps_max A/n 3.7642
+   Riemann n = 16: 3.903798 <= 4.133012 <= 4.370582: True;  width 0.466784 = (<E>_0-<E>_1)/n 0.466784 <= eps_max A/n 1.8821
+   decay_bounds: Perron eigenvalue of the class block r = 0.983965496443540 (QSD lam - r = 3.4e-15); m/M = 0.3006;  min over t<400, x of P_x(T>t) - (m/M) r^t = 3.44e-05 (>= 0);  max of P_x(T>t+1) - (M/m) r^t = -3.59e-03 (<= 0)
+   lifetime_from_bounds: 18.745 <= E_x T in [21.401, 66.638] <= 208.492: True;  tau = 1/h = 62.366; E_x T from the all-X state = 65.615
+
+   price_compare n=2: |ln tau/A - ln tau'/A'| = 0.02250 <= delta + w/n = 0.06927 + 0.81538/2 = 0.47696: True
+   price_compare n=4: |ln tau/A - ln tau'/A'| = 0.02250 <= delta + w/n = 0.06927 + 0.81538/4 = 0.27312: True
+   price_compare n=8: |ln tau/A - ln tau'/A'| = 0.02250 <= delta + w/n = 0.06927 + 0.81538/8 = 0.17119: True

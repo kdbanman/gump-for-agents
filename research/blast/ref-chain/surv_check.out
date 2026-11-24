@@ -1,0 +1,3 @@
+full face (state 511): min_t P(T>t)/lam_lo^t = 1.0000 at t = 0  (claimed >= 0.72)
+over all living starts: min_t,x P_x(T>t)/lam_lo^t = 0.0012 at (t, x) = (81, 1)  (0.72 holds for every start: False)
+max_t,x P_x(T>t)/lam_hi^t = 1.6315 at (t, x) = (3000, 246)  (claimed <= 1384)

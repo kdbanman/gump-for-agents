@@ -1,0 +1,248 @@
+# Referee report: the tape files of the Lean arm (`research/blast/lean/`, arm `tape`)
+
+*Referee `ref-tape`, 2026-11-24, about 13:10 to 14:10 UTC. I examined commit `6be19d4` ("lean: tape report, cold
+check.sh timing"). Files committed later (`Gump/CallBox.lean`, commit `8d201ea`) and untracked files
+(`Gump/CallUnionData.lean`, `tape_callunion.py`) are outside this review. Everything below can be rerun from the
+scripts in this directory. Logs are in `logs/`, bulk output in `research/scratch/blast/ref-tape/`. I wrote every
+check from `reference/oracle.py`, the catalogue's JSON files and its prose. None of the tape agent's scripts was run
+or imported.*
+
+**Verdict.** I did not break any of the theorems. The Lean objects are the catalogue's objects, cell for cell:
+119 comparisons, the tape's letters, the line, the clock, the train, the nine signals, the store wire and the call
+line. The catalogue's laws hold on the oracle well beyond the base cases, with their sharp boundaries. The line
+has preperiod exactly 2N for N = 2…14, 20 and 31. The unzip is final exactly from 2k + 6 for k = 1…20. The call's
+part (b) holds exactly from 2k + 34 for k = 1…10, and part (a) holds on the whole torus. The bit-level checkers
+reject a false claim built on the stepper's wrong answer at the edge of its box. No constant in the 13 tape modules
+or their dependencies rests on anything beyond `propext`, `Classical.choice` and `Quot.sound`. `check.sh` passes on
+a clean copy.
+
+The defects are the following. One headline, `clock_every_length`, says less than its row: it is an existential
+that does not name the clock, and two short clocks side by side also satisfy it. `STATEMENTS.md` at `6be19d4` lacks
+8 of the 17 tape rows. Three passages of prose are stale.
+
+## 1. Defects, ranked by how much they matter
+
+| # | defect | where | how to see it |
+|---|---|---|---|
+| D1 | **`clock_every_length` says less than its row.** The statement is `∃ c, run c (4N+2) = c ∧ (∀ k, 0<k<4N+2 → run c k ≠ c) ∧ supp c ⊆ {units −4..N+3, \|y\|<32, \|x+z\|<64}`. Nothing ties `c` to capL, N units of wire C and capR. Any oscillator of exact period 4N + 2 inside a tube N + 8 units long satisfies it. **[measured]** The lit clocks of 1 and of 2 units, side by side (the second moved by (0,16,0), 81 cells), form an oscillator of exact period 30 = 4·7 + 2. Every one of its states lies inside the tube that `clock_every_length 7` allows. So that statement does not distinguish the clock of 7 units from two clocks of 1 and 2 units. The period is minimal, not merely a period. The row (`statements_tape.json`) says "Same, with the oscillator's support bounded … For N ≥ 6 it is the source's surgery cycle". The second sentence describes the proof, not the statement. `notes/tape.md` ("Not checked") does disclose that the statement does not identify the object. The theorem that does name the object is `clock_cycle` (`clockY j`, Clock.lean:330, 366). | `Gump/Clock.lean:475`; row `clock_every_length` | `python3 rt_dyn.py twoclocks` (0.3 s) |
+| D2 | **`STATEMENTS.md` is stale at `6be19d4`.** It holds 9 of the 17 tape rows of `statements_tape.json`. Missing are `clock_every_length`, `clock_cycle`, `lit_clock_small`, `unzip_law_sharp`, `unzip_law`, `stretch_stands`, `glue_run_moving` and `call_law_b`: the clock, the unzip law and the call law. Rerunning `statements.py` on the commit's sources adds them, together with 74 rows of other arms. Nothing in `check.sh` detects a stale table. | `research/blast/lean/STATEMENTS.md` | `git show 6be19d4:research/blast/lean/STATEMENTS.md \| grep -c clock_every_length` gives 0. The regenerated copy is in `research/scratch/blast/ref-tape/stmt/` (`python3 statements.py` there). |
+| D3 | **Stale or inexact prose.** (i) The row `glue_run` says "the moving seam of push 8 and the call law is not formalised", but `glue_run_moving` is proved (Unzip.lean:204) and has its own row. (ii) The header of `Gump/Unzip.lean` (line 15) says the unzip laws are "both stated, not proved", but both are proved in `UnzipProof.lean`. (iii) The row `line_period_four` cites `Gump.Signals.lineC_N_period_four`. No such constant exists: it is schematic for `lineC_{2,3,12,13}_period_four` in `Gump/Signals.lean`. | as named | `lake env lean RtAxioms.lean`: "name lineC_N_period_four: 0 constant(s)" |
+
+These are the only defects. The following are observations, not defects. Each is disclosed by the author.
+
+- `clock_cycle` is about `clockY j`, the surgery built on the base state X0. That X0 and `clockY j` are states of
+  the catalogue's lit clock is not proved in Lean. Here they are **[measured]**: X0 is the oracle state of the lit
+  clock of 6 units at generation 41, and for j = 0…6 `clockY j` is exactly one state of the oracle cycle of the
+  lit clock of 6 + j units.
+- `call_law_b` concerns V_k, the store wire alone with e1 forced at generation 29. Part (a) of the call law, which
+  says that V_k is what the wire does under the line, is stated (`CallLaw`) and not proved. The row says so. On the
+  oracle, (a) holds for k = 1…10 at every generation 0…2k + 38 on the whole torus.
+
+## 2. Verdict for each law
+
+"Same" means the Lean statement says what its row says and what its source says. Each object check compares the
+Lean definition, evaluated by `#eval` (`RtDump.lean`), with the object that `rt_objects.py` builds from the JSON
+files (`rt_compare.py`).
+
+| law (Lean) | verdict | objects | behaviour on the oracle (beyond the base cases) |
+|---|---|---|---|
+| `tape_run`, `tape_local_run`, `tape_run_shift`, `wire_two` | **same** for `tape_run`, on the whole lattice for every word. `tape_local_run` says more: its hypothesis is agreement on a stretch. | `cellsOf B`, `cellsOf C` are wire C's unit of `line-C.json`/`clock-C.json` and wire B's unit read off `tape-BC.json` at all of its B's. `tape w` for a test word on units −6…8, all points of the box: equal (75 cells). Negative units included, so `unitOf` = ⌊x/2⌋ as the catalogue has it. | 9 random words on rings of 40, 37 and 23 units, whole torus, every even generation up to 90 (more than two laps): the state at 2n is the word shifted by n. Negative control fails as it should. `tape_local_run`: 3 random words on units 0…39 with random cells on units −6…−1 and 40…45 (about 700 cells; about 1,000 live cells outside the word at generation 20). For n = 0…10, units 2n…39 − 2n are exactly the word shifted by n. |
+| `line_orbit`, `line_period_four`, `S_succ` | **same as the row; more than the source.** The right-hand side is exact for every s and every p > 0, so the preperiod is exactly 2N and the period exactly 4. `orbit_classify`'s three facts suffice: if the state at s < 2N returned after p, the state at 2N − 1 would return after 4p and equal the state at 2N + 3. I checked that on paper, and the kernel checked it. | `lineList N` is capA + N units + gun moved N, as in the `note` of `line-C.json`, for N = 2, 3, 4, 5, 7, 12, 20 and 31. | N = 2…14, 20, 31: X(2N+4) = X(2N), X(2N+2) ≠ X(2N), X(2N+3) ≠ X(2N−1), and the whole table "X(s+p) = X(s) iff s ≥ 2N and 4 ∣ p" for s ≤ 2N + 10, 1 ≤ p ≤ 12. |
+| `clock_every_length` | **less** (D1). | see `clock_cycle` | |
+| `clock_cycle`, `surg_step`, `chartA`, `chartB` | **same** as the source's surgery: exact period 26 + 4j, and the support. `chartA` and `chartB` hold for every j, i and t in one period window, which is all `surg_run` needs. | X0 = oracle(lit clock of 6 units, generation 41). `clockY j`, evaluated with Lean's own `chart` and `cidx` through the kernel-proved identity `Xb_frame`, is one state of the lit clock's cycle for N = 6 + j, j = 0…6. | Lit clock of N = 6…13 and 20 units: exact period 4N + 2 from generation N − 2, and generation N − 3 is not on the cycle. |
+| `lit_clock_small` | **same** as the row (N = 1…5; "not periodic earlier" not claimed). | `litList N` = capL + N units + capR moved N + (1,0,4) moved ⌊N/2⌋ units (`verify_clock.py`'s convention), for N = 1…12. | Also entry exactly at max(N − 2, 0) and support in units −4…N + 3 for N = 1…5. |
+| `train_step`, `train_shift` | **same**, on the whole lattice. | `trainBase t par` = the oracle train (rake5 on even units, rakef on odd units at generation 0, ring of 16 units) at generations 0…3. `train t` (ucfg) on units −4…5 equals the oracle train. | The line of 30 units, generations 60…63: units 4…24 are exactly this train at the matching phase. So it is the line's stream. |
+| `signal_run` | **same**: every lowest unit of the kind's parity, every n. | The nine kinds' parity, direction and cells equal `sig6.py`'s `SIGS` (read with `ast`). | Each kind at three places, on a ring of 48 units, whole torus, n = 0…48 (one full lap): train(1+2n) ⊕ the signal moved dir·n. Negative control: moved the wrong way, it fails. |
+| `unzip_law_sharp`, `unzip_law` | **same** (the "not at 2k + 4" of REVIEW-signals-8 §3 is the Lean's ≠ with the expected final state). Even generations only, as in the source. Nothing is said about odd ones (2k + 5 is odd). | `hexCells h` for all 16 letters equals cell8.json's stators and sites. `store k` and `countRead k` (stator (0,1,2) of unit −1 removed) on units −5…k + 5, and `tape (pulses k (−3))`, equal for k = 1, 2, 3, 5. | k = 1…20: the state at 2n is `tape (pulses k (2−n))` **exactly** for n ≥ k + 3 (checked n = 1…k + 7). Only units whose light cone sees one copy of the stretch are compared, i.e. units −1−2n…k + 2n, the whole torus in y, z. |
+| `stretch_stands`, `hex_local` | **same** (infinite wire; the finite cell is not covered, as the row says). | as above | k = 1…12 and 20: every even generation 0…40 equals the start, and generation 1 differs. |
+| `glue_run`, `glue_run_moving`, `orbit_classify` | **same** (lemmas). The row `glue_run` is stale (D3). | | |
+| `call_law_b` | **same** as REVIEW-signals-9 §3 (b), for V_k. Part (a) is not proved (disclosed). | `storeAt k` (d^k f on units 36…36+k), the 162 cells of the line (`call9.json` run 0 `extra`), the two CALL cells (run 0 ops[3]), e1 = (71, 2, −70) and cross = 35: equal. | k = 1…10, rings of L = max(76, 4k + 48) units (76 to 88), torus (2L, 104, 2L). (a) X_k = V_k ⊔ Lf and the two are disjoint, whole torus, every generation 0…2k + 38. Not vacuous: the birth of e1 at 29 is needed. (b) V_k(2n) is the k pulses at c + 3 − (n − 14) **exactly** for n ≥ k + 17 (checked n = k + 14…k + 19). The free line is at rest (= `line`) at every even generation from 42. |
+| `pieceCheck_spec`, `forcedCheck_spec`, `bstep_spec` | **sound as stated** (§3). | | |
+
+Statement details I checked, all fine:
+
+- Every `Config` equality is a function equality on all of ℤ³, non-cells included. Every object here holds cells
+  only (asserted when the oracle loads them), so nothing is trivially unequal at s = 0.
+- Natural-number subtraction is harmless where it occurs: 2N − 1 with N ≥ 2, μ − 1 with μ ≥ 1, N − 2 in
+  `lit_clock_small` (= max(N − 2, 0)).
+- Every `%` on `Int` is `emod`, with the parities and guards as meant.
+- The quantifiers are in the right order: `line_orbit` takes ∀ N ≥ 2 ∀ s ∀ p > 0, and `UnzipLawSharp` takes
+  ∀ k ≥ 1 (∀ n ≥ k+3 …) ∧ ≠ at k + 2.
+- No hypothesis is vacuous.
+
+## 3. The bit-level checker
+
+`bstep_spec` (Bits.lean:379, unchanged since the snapshot that `ref-lean` refereed) is a whole-lattice equality,
+`bcfg (bstep S) = step (bcfg S)`, for every S inside the core [−12, 44)³. Each checker carries its core test into
+its spec:
+
+- `agree` and `coreRun` check every intermediate state.
+- `pieceCheck` is `coreRun` on the piece for k steps plus `eqOn` on the unit mask (units −8…23 of the box).
+- `forcedCheck` checks the start in the core and three more steps after the forced cell.
+
+The specs then transfer the result to the infinite configuration on units lo…hi. The hypotheses ask for agreement
+on lo − k…hi + k, and that range lies inside the piece. This is the light cone, with the box translated by an even
+vector. I read every use in the headline proofs: the train (3-unit pieces), the signals (11-unit pieces, signal
+inside units lo + 2…hi − 2 and its image inside lo…hi), the tape windows, the zones and the start of the call. Each
+satisfies the side conditions, and the kernel checked them.
+
+**Attempted false certificate** (`RtCert.lean`, all `decide +kernel`). Take the cube still life centred at
+(−14, 0, 0). It lies in the box but not in the interior. `bstep` kills its face (−15, 0, 0): the unchecked stepper
+is wrong at the edge. The false claim "one generation removes that face" was put to `pieceCheck`, `oscCert` and
+`forcedCheck`. **All three reject it.** The true claim at the edge is rejected too, so the checkers are conservative
+there. Moved into the core, the true claim is accepted and the false one is rejected. I found no way to make a
+checker accept something false. Its spec is a kernel-checked theorem, so the only remaining route would be an
+unsound kernel.
+
+## 4. Hygiene
+
+- **grep** of the 13 tape modules and `AxiomsTape.lean` for `sorry`, `admit`, `native_decide`, `axiom`, `unsafe`,
+  `implemented_by`, `extern`, `opaque`, `partial`, `macro`, `elab`, `syntax`, `instance`, `ofReduceBool`:
+  - nothing beyond `deriving DecidableEq` (derived, not hand-written);
+  - 14 `set_option maxHeartbeats … in`, which raise a resource limit and do not weaken checking.
+  - The lakefile has no options.
+- **Axioms of every constant** (`RtAxioms.lean`, `Lean.collectAxioms`): 2,074 constants declared in the 13 tape
+  modules and 795 constants of their `Gump` dependencies. None goes beyond the three standard axioms. None is an
+  `axiom` or `opaque`. The axiom sets seen in the tape modules are {} 296, {propext} 218, {propext, Quot.sound}
+  1,233 and {propext, Classical.choice, Quot.sound} 327. The controls in `RtCert.lean` show that the tool sees
+  `sorry` (`sorryAx`) and `native_decide` (`…native_decide.ax_1_1`).
+- **Names.** Every name in `AxiomsTape.lean` resolves, since `check.sh` runs that file. Every row name of
+  `statements_tape.json` resolves to exactly one constant, and so do the brief's names: `train_shift`,
+  `surg_step`, `chartA`, `chartB`, `hex_local`, `pieceCheck_spec`, `forcedCheck_spec`, `CallLaw`,
+  `UnzipLawSharp`, `LineRest`. The one exception is the schematic `lineC_N_period_four` (D3).
+- **Rows.** Each row's "difference from the source" is honest except `clock_every_length` (D1) and `glue_run`
+  (D3). `lit_clock_small`, `stretch_stands` and `call_law_b` state their restrictions.
+- **`check.sh` on a clean copy** (`git archive 6be19d4` of `research/blast/lean`, `reference`, without `.lake` and
+  `mathlib/`, under `research/scratch/blast/ref-tape/copy/`): passes, building 82 jobs, with 118 headline theorems,
+  the 2012 logs of sides 8, 9 and 10, and 3 soups × 60 generations. It took 331 s on one core (`taskset -c 3`,
+  `nice 10`, load about 10). Log: `logs/check_clean.log`.
+
+## 5. Not checked
+
+- **The proofs themselves.** The kernel checked them. I read proofs only where a statement's meaning depended on
+  them: `orbit_classify`, the specs, `lit_spec` and `clock_cycle`'s support.
+- **The tape agent's scripts** (`tape_*.py`), its `*Data.lean` generators, and its claim that the scripts
+  regenerate the data files. I compared the data files with the JSON files directly instead.
+- **Sizes beyond those listed:**
+  - the line beyond N = 31;
+  - the clock beyond N = 20 (`clockY` beyond j = 6);
+  - the unzip beyond k = 20;
+  - the call beyond k = 10 and beyond generation 2k + 38;
+  - signals beyond a ring of 48 units and 96 generations.
+  The oracle runs for the unzip, the train, the signals and the call are rings on the array torus. For the unzip
+  and the call's (b), only units whose light cone meets a single copy of the defect are compared: L > k + 4n + 1
+  for the unzip, and L > 4k + 44 and L > 3k + 42 for the call. The call's (a) is checked on the whole torus. Near
+  the crossing (units c − 1…c + 3, where the review shows the two parts can interact) that is the infinite run for
+  t ≤ 2k + 38, because L > 3k + 40.
+- **Not tested on the oracle:** whether `pieceCheck` and `forcedCheck` accept every true claim. Only soundness
+  matters for the theorems.
+- **The finite objects of pushes 8 and 9** (caps, cells). The Lean does not claim them.
+- **The Mathlib package and every file outside the tape list.** Commits after `6be19d4`.
+
+## 6. Reproduce
+
+Run these from `research/blast/ref-tape/`, against a built copy (see §4) at `C = research/scratch/blast/ref-tape/copy/research/blast/lean`:
+
+| what | command | time |
+|---|---|---|
+| Lean objects to cell sets | `cd $C && lake env lean <here>/RtDump.lean > dump.txt` | 4 s |
+| compare with the catalogue (119 PASS) | `python3 rt_compare.py dump.txt` (negative control: 5 mutations of the dump, 5 FAIL, `logs/compare_mutated.log`) | 2 s |
+| oracle: tape / local / line / clock / two clocks / train / signals / stands | `python3 rt_dyn.py tape` (and `local`, `line`, `clock`, `twoclocks`, `train`, `signals`, `stands`) | 0.3–11 s each |
+| oracle: unzip k = 1…10, 11…20 | `python3 rt_dyn.py unzip`, `python3 rt_dyn.py unzip 11-20` | 2 s, 15 s |
+| oracle: call k = 1…10 | `python3 rt_dyn.py call 1-10` (`call` alone: k = 1…5) | 65 s |
+| axiom sweep and names | `cd $C && lake env lean <here>/RtAxioms.lean` | 12 s |
+| false certificate at the box edge, audit controls | `cd $C && lake env lean <here>/RtCert.lean` | 2 s |
+
+Files: `rt_lib.py` holds `oracle.step` on an edge-asserted box and on a ring torus; it contains no other stepper.
+`rt_objects.py` builds the catalogue's objects from the JSON files. The other scripts are named above.
+
+## Second review (2026-11-24, 14:31 to 14:50 UTC): the call law whole, the second box, the clock named
+
+*Examined: the tape files at `ba36f77`. The files I read are byte-identical in the working tree at `9cde231`.*
+
+- **New modules:** `Gump/CallBox.lean`, `CallLine.lean`, `CallUnion.lean`, `CallUnionData.lean`,
+  `CallUnionLocal.lean`.
+- **Changed:** the additions to `Clock.lean`, the Unzip header, `AxiomsTape.lean` and the rows.
+- `Gump/Call.lean` (the definition `CallLaw`) is unchanged since `6be19d4`.
+- The PI asked me not to build, so my Lean files ran with `lake env lean` against the shared tree's `.olean`s,
+  which are newer than their sources.
+
+**Verdict.** I found no new defect, and the first review's D1 and D3 are repaired. In detail:
+
+- **`call_law : CallLaw`** says what REVIEW-signals-9 §3 says, parts (a) and (b), for the objects of `call9.json`.
+- **`Gump.Call.Box.bstep_spec`** ties the second box to `Gump.step` on the whole lattice. Its checkers reject a
+  false claim at three edges.
+- **`zone_cover`** is complete, and its 44 cells are exactly the cells whose closed neighbourhood meets both
+  supports.
+- **`clockOf_period`** names an object for every N, with exact period 4N + 2. The two-clocks object does not
+  satisfy it.
+- **Axioms:** none beyond the standard three in 2,549 constants.
+
+| question | finding | command |
+|---|---|---|
+| (1) `CallLaw` against the source and the objects | `CallLaw` = ∀ k ≥ 1, (∀ t, run (callStart k) t = V k t ∪ Lf t, disjoint) ∧ (b), word for word REVIEW-signals-9 §3 (a), (b). `call_law` proves it (CallUnionLocal.lean:458) from `call_law_a` and `call_law_b`. `line_rest` proves `LineRest`. **Objects:** `callStart 1` and `callStart 3` (360 cells each: store wire on units 8…46, the line and the CALL) equal call9.json's. `Lf t`, read by `#eval` through the kernel-proved `Lf_frame` on the new box, equals the oracle run of line + CALL at every t = 0…46. That run is `line` at 42 and 44 and not at 43, so `Lf` is the catalogue's free line. `V` was compared in the first review and is unchanged. **Oracle:** (a) on the whole torus and (b) exactly from n = k + 17 now hold for k = 1…10, **14 and 20** (rings of 104 and 128 units, every generation to 2k + 38). As the row says, the review's "what is left" (ii)–(iv) is not covered: the finite cell, other seed places, and "no earlier generation". | `RtDump2.lean` (6 min under load), `python3 rt_second.py dump2.txt` (48 s), `python3 rt_dyn.py call 14-14`, `… call 20-20` (38 s, 75 s) |
+| (2) the second box | `bstep_spec` (CallBox.lean:246) is the whole-lattice `Box.bcfg (Box.bstep S) = step (Box.bcfg S)` for S in the core [−12, 108)² × [−12, −4). Its z-range is only 8 doubled units. The line moved by `lineFrame` lies at z ∈ [−10, −6], and `lineCheck` asks `boxCoreRun LS 45`, so every state the proofs read is in the core. The oracle run also stays in the core (checked). **Edges:** cubes with faces outside the interior at z = −15, at z = −1 and −2, and at x = 110 and 111. `Box.bstep` keeps only their interior faces, which is wrong because the cube is a still life. `Box.inCore` is false for all three. A `lineCheck`-style claim (`boxCoreRun` + `boxEqOn`) of the false successor is rejected for each. In the core the cube is stepped correctly, the true claim is accepted and a false one rejected. `LC`, the union check, uses the first box `Gump.Bits`, which the first review attacked. | `lake env lean RtCert2.lean` (all `decide +kernel`, 2 s) |
+| (3) `zone_cover` | It is a theorem for every cell: if the closed neighbourhood meets HV and HL, the cell is in `zoneZ`. HV (the wire's tube) and HL (the line's hull) are proved supports: `V_HV` from `confinement` on four diagonals, `Lf_HL` from `hull`. Off Z, `step_or` gives the union law; at non-cells `step` is false. **Independent checks:** (i) The brute-force set of cells whose closed neighbourhood meets my transcription of HV and HL, over the whole box that holds HL + 2, is exactly `zoneZ` (44 = 44). (ii) HL's eight bounds are exactly the diagonal hull of line + CALL. (iii) On the oracle, V_k stays in HV at every generation (k = 1, 3, 10) and Lf in HL (t ≤ 46). (iv) The cells whose closed neighbourhood actually holds live cells of both V_k(t) and Lf(t) number 12–13 and all lie in Z. So there is no interaction outside the 44 cells. The union law at those 44 cells is the kernel's `local_union`: store, start, `VW` words, and all 256 tape words on units 32…39 for t ≥ 44, at both parities. I did not re-derive it. | `python3 rt_second.py dump2.txt` |
+| (4) `clockOf_period` | `clockOf N` is the lit clock at generation max(N − 2, 0) for N ≤ 5 and `clockY (N − 6)` for N ≥ 6. The statement gives exact (minimal) period 4N + 2 and the support, so it names its object: D1 is repaired. The two-clocks object is not `clockOf 7`, nor any state of the lit clock of 7 units. **Oracle, N = 1…20:** `clockOf N` is exactly one state of the lit clock's cycle (N ≤ 5: the state at max(N − 2, 0)) and has exact period 4N + 2. For N ≥ 7, "`clockOf N` is on the lit clock's orbit" is still measured, not proved; `X0_lit` and `clockY_zero_lit` prove it for N = 6. The rows say so. `clock_every_length` is kept; its row now says "Less", as it should. | `python3 rt_second.py dump2.txt` |
+| (5) axioms | 2,549 constants in the 18 tape modules (the 5 new ones: 133 + 71 + 68 + 4 + 187) plus 795 dependency constants: none beyond `propext`, `Classical.choice` and `Quot.sound`, and none is an `axiom` or `opaque`. All 16 names the PI listed resolve, `bstep_spec` in both boxes. **grep of the 5 new modules:** no `sorry`, `native_decide`, `set_option` or `extern`. There are two `Decidable` instances (`HV`, `HL`, CallUnion.lean:27, 34), derived by `unfold; infer_instance`. A `Decidable` value carries its proof, so with no `native_decide` such an instance cannot make a false statement provable. | `lake env lean RtAxioms2.lean` (36 s) |
+
+**Not checked in this round:**
+- A fresh-clone `check.sh` at `ba36f77` (the PI asked for no build).
+- `tape_callunion.py`, which generated `CallUnionData.lean`. Its `zoneZ` matches my brute force; I did not recompute
+  `zoneNZ` or the snapshots `lineSnap` separately. Their tie to `Lf` is the kernel's `lineCheck`, and my comparison
+  of `Lf` with the oracle covers them.
+- The internal steps of `local_union`.
+- k beyond 20 for the call law, and N beyond 20 for the clock.
+
+## Third review (2026-11-24, 15:47 to 16:00 UTC): the clock from one cell, the readers, the beam, the divider
+
+*Examined: commit `40520c7`. `Gump/` in the working tree is byte-identical to it. My Lean files ran with
+`lake env lean` against the shared tree's `.olean`s (no build).*
+
+**Verdict.** I found no defect in a statement or an object.
+
+- The objects equal the catalogue's: 48 object comparisons, all PASS.
+- The oracle agrees with every claim, at every size I tried.
+- Axioms: none beyond the standard three, in 3,556 constants.
+
+There is one inexactness in the prose, about the convention for base times.
+
+| question | finding | command |
+|---|---|---|
+| (1) the clock from one cell | **Start.** The start is `litList N`: capL + N units of wire C + capR moved N + (1,0,4) of unit ⌊N/2⌋. It equals clock-C.json's single-cell lighting, as in `verify_clock.py`, for N = 1…30 (N = 1–12 in the first review, 13–30 here). **Statement.** `lit_enters_at N` (N ≥ 6) says (∃ s, lit(N−2) = run (clockOf N) s) ∧ ∀ g < N − 2, ∀ k, lit(g) ≠ run (clockOf N) k. That is a statement about the named `clockOf N` and its whole orbit. "No earlier" is quantified over **every** earlier generation and every state of the cycle. `lit_clock_exact`: from N − 2 on, exact (minimal) period 4N + 2. `lit_clock` (every N ≥ 1, from `litEntry N`, which is N − 1 for odd N ≥ 6, as its row says): on the cycle, with exact period. For N ≤ 5 the entry time is not claimed minimal; the row says so. **Oracle, N = 6…30:** the lit clock is periodic from N − 2 with exact period 4N + 2. Generation N − 3 is not on the cycle. `clockOf N` (evaluated in Lean through `Xb_frame`, N = 6…30) is exactly one state of that cycle. **The remark about odd N** is confirmed: at N − 3 the left end (units ≤ 2) equals four base states, and the right end equals none. For even N it is the other way round: the left end equals no base state and the right end equals one. So each parity needs the witness it uses. **Prose inexactness:** in Lean's convention (`Xb s`, the one the notes use for "Xb 8", "Xb 10" and tR = 5) the four base times are **4, 8, 12, 16**, not "11, 15, 19, 23". Those are the generations s + 7 counted from X0 (`Xb_nat`). This affects `ClockLitFirst.lean`'s header, `notes/tape.md` and the row `lit_first`, and no theorem. | `RtDump3.lean` (5 s), `python3 rt_third.py dump2.txt dump3.txt` (33 s) |
+| (2) the readers | **Objects.** `readerC w` is clock-C.json's capL on the units < 0 plus `tape w` on the units ≥ 0. `readerCall w` is call9.json's `capL` (18 cells, units 0…3) plus the tape from unit 4. Both are equal cell for cell for a test word. **Statements:** whole-lattice equalities at every even generation, for every word. They say more than `prove_reader.py`'s finite automaton, and as much as §15's sentence. **Oracle:** each cap with a word of 64 letters (all B, and C densities 0.3, 0.5, 0.9), every even generation 0…40. On every unit the cut end of the finite word cannot reach, the state is the cap and the word moved on, cell for cell. **What `reader9_run` answers:** REVIEW-signals-9's open point (ii) asked whether the third push's reader theorem covers the call line's cap. It does not (the cap is different), but the same law is now a theorem for that cap: it eats any word, so it takes a train of any length, on a semi-infinite store wire. **What it does not cover:** the finite cell (right cap, finite wire), the call line crossing the cell while the train passes, and the gluing of `call_law`'s V_k to the cap. The row says this. | as above |
+| (3) the beam and the divider | **Beam.** `beamList N` equals the note of beam-5f.json (left + b0/b1 + R_even/R_odd moved N) for N = 1…12. `beam_period`: exact period 4 (minimal) from generation 0, every N ≥ 1. Oracle N = 1…20 and 30: exact period 4. **Divider.** `divList N` = line-C(N) + `osc` moved N, as in divider-C8.json's note, for N = 3…20. `divider_period` (N ≥ 8) states: period 8 at 2N − 3, minimal, and the state at 2N − 4 does not return after 8. That is exact preperiod 2N − 3. Check on paper: if the state at 2N − 4 returned after some p, then 8 ∣ p, because the orbit from 2N − 3 has exact period 8; it would then also return after 8. Oracle, N = 8…20, 24, 30: preperiod exactly 2N − 3, period 8. **The uncovered N = 3…7 [measured]:** the same law holds, with preperiod 3, 5, 7, 9, 11 = 2N − 3 and period 8. So the restriction N ≥ 8 is the proof's (and the source's), not the automaton's. | as above |
+| (4) axioms, names, rows | **Axioms:** 3,556 constants in the 29 tape modules (the 11 new ones: ClockLit 380, ClockLitData 4, ClockLitFirst 91, ClockLitOdd 134, ClockReader 48, CallReader 70, CallReaderData 3, LineBeam 96, LineBeamData 7, LineDivider 172, LineDividerData 2) and 795 dependency constants. None goes beyond `propext`, `Classical.choice`, `Quot.sound`; no `axiom` or `opaque`. **grep:** no `sorry`, `native_decide`, `extern` or instances; only `set_option maxHeartbeats`. **Names:** all 15 headline names resolve, and all 12 are in `AxiomsTape.lean`. `S_succ` now names two constants (`Line.S_succ`, `Divider.S_succ`). The row `S_succ` still means Line's, because `statements.py` takes the first file in sorted order. **Rows:** honest, including "N = 3…7 not covered" (divider), "minimality not claimed for N ≤ 5" (lit clock) and "the finite cell not covered" (reader9). The one exception is the base-time convention under (1). | `lake env lean RtAxioms3.lean` (16 s) |
+
+**Not checked:**
+- The internal steps: `zonesLit_ok`, `smallOK_ok`, `oddCheck_ok`, `baseLitCheck_ok`, the zone checks of the readers,
+  the divider's `S` structure.
+- The agent's scripts `tape_lit.py`, `tape_beam.py`, `tape_reader.py`, `tape_divider.py`.
+- `check.sh` at `40520c7`: the integrator is running it.
+- Sizes beyond the lit clock to N = 30, the beam to 30 and the divider to 30, and words beyond the 8 random words of
+  64 letters.
+
+## Fourth review (2026-11-24, 17:01 to 17:20 UTC): superposition and the meetings of §31
+
+*Examined: commit `c6c8e82`. Its `Gump/` equals the working tree. The `.olean`s are newer than their sources, and
+nothing was built.*
+
+**Verdict.** I found no defect in any statement or object.
+
+- **The finding is confirmed.** The catalogue's row "U meets H: the same: wire B between the same two edges" is
+  right for the lower edge and wrong for the upper one. The tape agent's corrected row is right.
+- **Axioms:** none beyond the standard three, in 3,824 constants.
+
+| question | finding | command |
+|---|---|---|
+| (1) superposition | **`run_or_far`** assumes ∀ p q, c₁ p → c₂ q → ¬ Near (4n) p q: every live point of c₁ and every live point of c₂ are more than 4n apart in max norm. It concludes run (c₁ ∪ c₂) n = run c₁ n ∪ run c₂ n pointwise on the whole lattice. There is no hidden disjointness assumption: the hypothesis itself excludes overlap, since distance 0 ≤ 4n. **The norm and distance are right.** Every neighbour offset has max norm 2 in doubled coordinates, so one cell's influence spreads 2n in n generations (`light_cone`). Two influences can meet only if the cells are within 4n of each other, by the triangle inequality, which is what the proof uses. **On the oracle:** at n = 1 the bound is tight: random patterns whose closest cells are exactly 4 apart do interact in one generation. At 4n + 1, no trial interacted, for n = 1, 2, 3. At n = 2 a 90 s random search found interactions only at distances 2 and 4, none at 5…8. So the 4n bound is sufficient, which is all the theorem claims, and is not seen to be tight beyond n = 1. **`superpose_units`:** Y = X on the units ≥ a, Z = X on the units ≤ b, and a + n ≤ m + 1, m + n ≤ b. By the unit light cone (n generations read n units), the glued run is the glue of the runs, on any background. Correct by reading, and the kernel checked it. | `python3 rt_fourth.py super` (2 min), `… super2` (90 s) |
+| (2) the meetings | **Start objects.** `pair A B a b` = train(1) ⊕ sig A a ⊕ sig B b, which is §31's set-up: "at train phase 1 each signal sits on units of one parity". The train and the nine signals were shown equal to the catalogue's in the first review. **Parity.** The distance's parity is forced by the kinds' parities (U, H odd; E, K0 even), so U–H and E–K0 only meet at even distances and E–H, U–K0 only at odd ones. There is no "other parity" for a given pair: a signal of the other parity is another kind (H at an even unit is E). **Oracle, rings of 160 units, generations to 120:** U–K0 at distances 3, 9 and 19 is exactly the plain train from 2n + 4 (to 2n + 40), and not yet at 2n + 3. U–H (distances 4, 14), E–H (5, 15) and E–K0 (4, 14): X(t + 4) = `front (m) (X t)` at every t from the stated 2n + g to 116, with m as stated. This is the front transcribed by output position: output units ≤ m hold the state moved two units down, units > m two up. For U–H and E–H the six seam units hold wire B at the stated phase (`wireB`). A seam 3 units off fails (negative control). The recurrence fails a few generations before the stated start. Its first generation is not sharp (it holds from about 2n + 10 for U–H), and the theorems do not claim it is. E–K0's medium `medEK` I did not transcribe, only the front recurrence. | `python3 rt_fourth.py meet` (57 s) |
+| (3) **the finding** | **The tape agent is right, and the catalogue's row is wrong for the upper edge.** Unit pictures at generations 97…100 of U–H (distances 4, 12, 22) and E–H (5, 13, 23), from the catalogue's train and signals: `.` = plain train, `o` = wire B, `#` = neither. **Lower edges:** identical in all six runs at all four generations (`#.oooo…` / `#..ooo…`). **Upper edges:** U–H is clean wire B up to its top. E–H carries `#.#` or `##.` (two altered units around one unit of plain train, alternating with the phase) directly below its four topmost units of wire B, for example `…oooooo#.#oooo….` at generation 100. This holds at every distance and moves with the edge. That is the tape agent's `X.X` exactly. The catalogue's own note in §31 ("the edge of E-meets-H is wider … one unit 6 units below its upper edge is not yet wire B") is this inclusion seen at one generation, so the table row contradicts the catalogue's own note. | `python3 rt_fourth.py edges` (27 s; pictures in `logs/fourth_edges.log`) |
+| (4) axioms, names, rows | **Axioms:** 3,824 constants in the 34 tape modules (new: TapeSuper 9, TapeMeet 65, TapeMeetData 48, TapeMeetFront 89, TapeMeetFronts 57) plus 795 dependency constants, none beyond the standard three. **grep:** no `sorry`, `native_decide`, `set_option`, instances or `extern` in the new modules. **Names:** the 11 names resolve, and all are in `AxiomsTape.lean`. **Rows:** honest. `meet_EH`'s row carries the correction, `meet_EK`'s says the medium is checked by the agent's script, and "Not covered" lists the same-direction pairs, words of holes and K3. The base-time convention I flagged in the third review is now corrected in the notes. | `lake env lean RtAxioms4.lean` (20 s) |
+
+**Not checked:**
+- `medEK` and the kernel's states `dUH`, `dEH`, `dEK` as cell lists. They enter only through the front recurrence,
+  which I checked on the oracle.
+- The meetings beyond generation 120 on the ring and distances beyond 23.
+- The agent's `tape_meet.py`.
+- A constructed example of interaction at exactly 4n for n ≥ 2.

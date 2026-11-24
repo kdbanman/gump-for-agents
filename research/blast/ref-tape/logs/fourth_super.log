@@ -1,0 +1,8 @@
+PASS n=1: two patterns exactly 4n = 4 apart (max norm) that interact within 1 generations: found, trial 2 (29 and 30 cells); at 4n + 1 apart no interaction in any trial
+FAIL n=2: two patterns exactly 4n = 8 apart (max norm) that interact within 2 generations: none found in the time; at 4n + 1 apart no interaction in any trial
+PASS n=3: two patterns exactly 4n = 12 apart (max norm) that interact within 3 generations: none found in the time; at 4n + 1 apart no interaction in any trial
+SOME CHECKS FAILED
+
+real	2m0.184s
+user	1m56.101s
+sys	0m3.217s

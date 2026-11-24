@@ -1,0 +1,23 @@
+1. brute force
+   hull 1: Lemma0F True (u = 3);  top eigenvalue 0.336479001941 with multiplicity 1
+   hull 3: Lemma0F True (u = 207);  top eigenvalue 0.916567365595 with multiplicity 1
+   torus 1 0 3: Lemma0F True (u = 10);  top eigenvalue 0.966409927570 with multiplicity 1
+   strip 1 3: Lemma0F True (u = 14);  top eigenvalue 0.939121673659 with multiplicity 1
+   patch 1 3: Lemma0F True (u = 73);  top eigenvalue 0.847473806057 with multiplicity 1
+2. a face with two QSDs: cells (1,0,0) and (21,-10,-10) of the layer x+y+z = 1, no neighbours, coins (2,1)
+   Lemma0F False (candidate u = 3);  Q = [[0.081312, 0.0, 0.0], [0.0, 0.081312, 0.0], [0.0747, 0.0747, 0.006612]];  top eigenvalue 0.081312 = rho1^2 rho2 = 0.081312, multiplicity 2: delta_(0) and delta_(1) are both QSDs with lambda > 0
+3. LinkHullCert certificates on my tables
+   hull 3 (9 cells): certificate passes on my tables: True;  with the growth path's first step removed: False
+   hull 5 (18 cells): certificate passes on my tables: True;  with the growth path's first step removed: False
+   hull 7 (30 cells): certificate passes on my tables: True;  with the growth path's first step removed: False
+   hull 9 (45 cells): certificate passes on my tables: True;  with the growth path's first step removed: False
+   hull 11 (63 cells): certificate passes on my tables: True;  with the growth path's first step removed: False
+   hull 13 (84 cells): certificate passes on my tables: True;  with the growth path's first step removed: False
+   hull 3 rot: autOK on my tables True;  equals the map (y,z,x): True
+   hull 3 refl: autOK on my tables True;  equals the map (y,x,z): True
+   hull 13 rot: autOK on my tables True;  equals the map (y,z,x): True
+   hull 13 refl: autOK on my tables True;  equals the map (y,x,z): True
+4. cell counts: {0: 0, 1: 3, 2: 0, 3: 9, 4: 0, 5: 18, 6: 0, 7: 30, 8: 0, 9: 45, 10: 0, 11: 63, 12: 0, 13: 84, 14: 0, 15: 108}
+5. prices on hull 3 along the rotation and reflection
+   max |c_(rot i) - c_i| = 1.1e-16, max |c_(refl i) - c_i| = 1.1e-16
+   group generated: 6 elements; orbits [(0, 3, 8), (1, 2, 4, 5, 6, 7)];  prices per orbit: [0.0481050722, 0.3899000883]

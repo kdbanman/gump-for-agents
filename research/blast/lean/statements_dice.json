@@ -1,0 +1,132 @@
+[
+ {
+  "section": "The dice surrogate's lifetime: kernel-checked certificates (rigour/README.md, THEOREMS.md; mathlib/GumpMath/Dice*.lean)",
+  "rows": [
+   [
+    "hull3_lifetime",
+    "rigour/README.md claim 3: the 9-cell hull triangle R = 3 at (0.44, 0.42), ln τ = 2.4837157463 (h = 8.3432634405e-02, dense.py and qsd.c).",
+    "Weaker than the README's number in one respect and different in kind: it pins the decay rate λ to 19 digits for every t, but its constants are loose (the true sup over t of P_x(T > t)/λ^t is about 1.63, against the stated 1384; ref-dice REVIEW.md). ln τ itself is hull3_tau. The chain is `Face.P` of DiceDef.lean (tied to dense.py by dice_tie.py and, exactly, by the referee's kernel)."
+   ],
+   [
+    "hull3_tau",
+    "the same row: ln τ = 2.4837157463, τ := E_μ T = 1/h for the quasi-stationary law μ.",
+    "For every quasi-stationary law (μ, λ) (IsQSD: a probability vector on the non-empty states with μQ = λμ), 0.9165673655948901373 ≤ λ ≤ 0.9165673655948901374 and 2.4837157463 < -ln(1-λ) < 2.4837157464. Existence and uniqueness of μ (Lemma 0) are not proved here; the statement is vacuous if no QSD exists."
+   ],
+   [
+    "torus103_tau",
+    "README claim 3: wrapped face (1,0),(0,3), ln τ = 3.3935247191.",
+    "3.3935247190 < ln τ < 3.3935247191 for every QSD with λ > 0 (a QSD with λ = 0 exists here: the point mass on the full face, which dies surely)."
+   ],
+   [
+    "torus113_tau",
+    "README claim 3: wrapped face (1,1),(0,3), ln τ = 2.6946266059.",
+    "2.6946266059 < ln τ < 2.6946266060, every QSD with λ > 0."
+   ],
+   [
+    "strip13_tau",
+    "README claim 3: free strip 1×3, ln τ = 2.7988780569.",
+    "2.7988780569 < ln τ < 2.7988780570, every QSD."
+   ],
+   [
+    "patch13_tau",
+    "README claim 3: patch 1×3, ln τ = 1.8804189341.",
+    "Bounds as stated in the theorem, every QSD."
+   ],
+   [
+    "torus113_lifetime",
+    "the survival form for the wrapped face (1,1),(0,3).",
+    "Lower bound from the state with the cells of orientation x alive (the full face dies surely); the upper bound from t+1 on, for every state."
+   ]
+  ]
+ },
+ {
+  "section": "Both exits at 9 cells (rigour/README.md claim 4; mathlib/GumpMath/DiceExit*.lean)",
+  "rows": [
+   [
+    "torus113_bust",
+    "README claim 4: wrapped (1,1),(0,3), bust share 0.9369 (qsd.c halffall_share K=6: a fall of ≥ ⌈A/2⌉ cells in one generation among the last 6 transitions).",
+    "bustShare 6 μ λ ∈ (0.936852, 0.936853) for every QSD with λ > 0. bustShare is defined as 1 - μ·noBust 6 / (λ^5 (1-λ)); that this is the share of the death flux is the stationarity argument in DiceExit.lean's header, in prose, not formalised (it is now a theorem in path form: `flux_share`, `torus113_bust_flux`). The share is the stationary share of the death flux (deaths from the quasi-stationary law), not the share of all deaths from a fixed start (on this torus, from state 73, that share is 0.934, ref-dice second review)."
+   ],
+   [
+    "hull3_bust",
+    "README claim 4: triangle R = 3, bust share 0.0170: a rimmed face dies by the fade.",
+    "bustShare 6 ∈ (0.017017, 0.017018) for every QSD; same caveat. The share is the stationary share of the death flux (deaths from the quasi-stationary law), not the share of all deaths from a fixed start (from the full hull face it is about 0.152, ref-dice)."
+   ]
+  ]
+ },
+ {
+  "section": "Theorem 1 for every size (rigour/THEOREMS.md Theorem 1; mathlib/GumpMath/DiceBound.lean)",
+  "rows": [
+   [
+    "survival_le_all",
+    "THEOREMS.md Theorem 1 (B1): ln τ ≤ ε_max·A, ε_max = -ln min(ρ1²ρ2, (1-ρ1)²(1-ρ2)).",
+    "Survival form, for every face whose points beneath all carry coins (every wrapped face and strip, every size) and all densities in [0,1]: P_x(T > t) ≤ (1 - δ₀^A)^t. The middle term E_μ[E] (Jensen) is not formalised; hull faces (corners with two coins) are not covered."
+   ],
+   [
+    "qsd_le_all",
+    "the same, eigenvalue form.",
+    "λ ≤ 1 - δ₀^A for every QSD."
+   ],
+   [
+    "lntau_le_all",
+    "THEOREMS.md: ε_max = 2.509 at (0.44, 0.42).",
+    "ln τ < 2.5095·A for every QSD of every such face."
+   ],
+   [
+    "lntau_le_regular",
+    "THEOREMS.md Theorem 1, sharpened (not in the source): a finite local inequality that bounds every wrapped face at once.",
+    "For every face with all its coins that is regular (six neighbour slots per cell, each cell in six slots: every wrapped face; `regular` is checked here for the tori (1,0),(0,3), (1,1),(0,3), (2,0),(0,2) only, not proved for the general torus), ln τ < 1.9228·A for every QSD (δ₁ = 0.1462 from a weight 152/125 on every live-dead edge; the weights cancel)."
+   ]
+  ]
+ },
+ {
+  "section": "Second task, 2026-11-24 14:00–15:30 UTC: the exits as path statements; Theorem 1 on every hull face (mathlib/GumpMath/DiceFlux.lean, DiceHull.lean, DiceBound3.lean, DiceHullAll.lean)",
+  "rows": [
+   [
+    "flux_share",
+    "rigour/README.md claim 4 and qsd.c halffall_share: the share of the quasi-stationary death flux whose last K transitions contain a fall of at least half the face.",
+    "Path form, every generation: for every QSD (μ, λ) with 0 < λ < 1, K ≥ 1, m ≥ 0, P_μ(T = m+K, bust in the last K) / P_μ(T = m+K) = bustShare K μ λ, with paths summed explicitly (pathE: every list of m+K states with the product of its transition probabilities). Replaces the prose step of DiceExit.lean. The sum over all generations is not formed (every generation has the same ratio). The share is the stationary share of the death flux (deaths from the quasi-stationary law), not the share of all deaths from a fixed start (from the full hull face it is about 0.152, ref-dice)."
+   ],
+   [
+    "death_flux",
+    "From the QSD the death time is geometric: P_μ(T = n+1) = λ^n (1-λ).",
+    "Same, on the explicit path sum."
+   ],
+   [
+    "hull3_bust_flux",
+    "README claim 4: triangle R = 3, bust share 0.0170 (a rimmed face dies by the fade).",
+    "For every QSD and every generation m+6, the path share is in (0.017017, 0.017018). The share is the stationary share of the death flux (deaths from the quasi-stationary law), not the share of all deaths from a fixed start (from the full hull face it is about 0.152, ref-dice)."
+   ],
+   [
+    "torus113_bust_flux",
+    "README claim 4: wrapped (1,1),(0,3), bust share 0.9369.",
+    "For every QSD with λ > 0 and every generation m+6, in (0.936852, 0.936853). The share is the stationary share of the death flux (deaths from the quasi-stationary law), not the share of all deaths from a fixed start (on this torus the full face dies surely; from state 73 the share of all deaths is 0.934, ref-dice)."
+   ],
+   [
+    "lntau_le_hull",
+    "THEOREMS.md Theorem 1 (B1) on hull faces, whose corners have two coins.",
+    "Every R: ln τ < 2.5095·A for every QSD of hull R (hull_cells: corners have coins (2,0) and degree ≤ 2, every other cell (2,1)); survival_le_hull for every state and t."
+   ],
+   [
+    "lntau_le_hull_all",
+    "The weighted local inequality applied to hull faces (not in the source).",
+    "Every R: ln τ < 2.2165·A for every QSD of hull R (weight 1341/1000 on live–dead slots; hull_balanced and hull_type: degrees 6/4/2 with coins (2,1)/(2,1)/(2,0), proved for every R; type_check by the kernel)."
+   ],
+   [
+    "torus_regular",
+    "(needed for the weighted bound on wrapped faces) every wrapped face has six neighbour slots per cell and every cell is in six slots.",
+    "Every torus H K D with H, D > 0 (Face.regular), from the reduction modulo the period lattice (Tr_shift, Tr_sub, Tr_id) and the symmetry red_symm."
+   ],
+   [
+    "lntau_le_torus",
+    "The weighted local inequality on wrapped faces (not in the source).",
+    "Every wrapped face (H, D > 0): ln τ < 1.9228·A for every QSD. Replaces the per-face checks of DiceRegular.lean."
+   ],
+   [
+    "qsd_mean",
+    "rigour/README.md: τ := E_μ T = 1/h, h = 1 − λ, for the quasi-stationary law μ.",
+    "Same, as Σ_t P_μ(T > t) = 1/(1 − λ) for every QSD with 0 ≤ λ < 1 on any face whose ∅ is absorbing (qsd_survival: P_μ(T > t) = λ^t). Proved by the referee ref-dice (QsdSurvival.lean, 003cb73), taken over in DiceMean.lean; qsd_mean_all, hull3_mean, qsd_mean_hull instantiate it."
+   ]
+  ]
+ }
+]

@@ -1,0 +1,288 @@
+Dice modules: [(GumpMath.DiceTorus113, 33),
+ (GumpMath.DiceTorus113Data, 17),
+ (GumpMath.DiceHull3Exit, 23),
+ (GumpMath.DiceBound2, 38),
+ (GumpMath.DiceStrip13, 27),
+ (GumpMath.DiceSym, 38),
+ (GumpMath.DiceHull3, 27),
+ (GumpMath.DiceTorusReg, 96),
+ (GumpMath.DiceTorus103, 33),
+ (GumpMath.DiceHull, 324),
+ (GumpMath.DiceCert, 161),
+ (GumpMath.DiceStrip13Data, 14),
+ (GumpMath.DiceLife, 50),
+ (GumpMath.DiceReal, 21),
+ (GumpMath.DiceHull3ExitData, 13),
+ (GumpMath.DiceTorus113ExitData, 13),
+ (GumpMath.DiceExit, 56),
+ (GumpMath.DiceFlux, 92),
+ (GumpMath.DiceTorus113Exit, 23),
+ (GumpMath.DiceBound, 45),
+ (GumpMath.DiceBound3, 51),
+ (GumpMath.DicePatch13, 27),
+ (GumpMath.DiceTorus103Data, 17),
+ (GumpMath.DiceRegular, 33),
+ (GumpMath.DiceHull3Data, 14),
+ (GumpMath.DiceHullAll, 459),
+ (GumpMath.DicePatch13Data, 14),
+ (GumpMath.DiceDef, 49)]
+1470 theorems, 325 definitions, 13 other constants; axiom sets seen: [([propext, Quot.sound], 667),
+ ([propext], 209),
+ ([], 263),
+ ([propext, Classical.choice, Quot.sound], 669)]
+UNSAFE/PARTIAL DEF: Gump.Dice.Face.noBust._unsafe_rec in GumpMath.DiceExit
+UNSAFE/PARTIAL DEF: Gump.Dice.Face.pathWeight._unsafe_rec in GumpMath.DiceFlux
+UNSAFE/PARTIAL DEF: Gump.Dice.Tree.get._unsafe_rec in GumpMath.DiceCert
+UNSAFE/PARTIAL DEF: Gump.Dice.Face.Nm._unsafe_rec in GumpMath.DiceFlux
+UNSAFE/PARTIAL DEF: Gump.Dice.Tree.eval._unsafe_rec in GumpMath.DiceCert
+UNSAFE/PARTIAL DEF: Gump.Dice.Face.Dm._unsafe_rec in GumpMath.DiceFlux
+UNSAFE/PARTIAL DEF: Gump.Dice.Data.allRows._unsafe_rec in GumpMath.DiceCert
+UNSAFE/PARTIAL DEF: Gump.Dice.Tree.build._unsafe_rec in GumpMath.DiceSym
+UNSAFE/PARTIAL DEF: Gump.Dice.Tree.mask._unsafe_rec in GumpMath.DiceExit
+UNSAFE/PARTIAL DEF: Gump.Dice.Tree.ctorIdx._impl in GumpMath.DiceCert
+UNSAFE/PARTIAL DEF: Gump.Dice.Face.noFallAll._unsafe_rec in GumpMath.DiceFlux
+UNSAFE/PARTIAL DEF: Gump.Dice.Face.dies._unsafe_rec in GumpMath.DiceFlux
+IMPLEMENTED_BY: Gump.Dice.Tree.ctorIdx
+13 findings (declared axioms, opaques, unsafe, implemented_by, extern, nonstandard axioms)
+hull3_lifetime : ∀ (t : ℕ),
+  0.72 * 0.9165673655948901373 ^ t ≤ (hull 3).survival ρ1 ρ2 t (hull 3).full ∧
+    ∀ (x : Fin (2 ^ (hull 3).A)), (hull 3).survival ρ1 ρ2 t x ≤ 1384 * 0.9165673655948901374 ^ t
+hull3_tau : ∀ (μ : Fin (2 ^ (hull 3).A) → ℝ) (lam : ℝ),
+  IsQSD (hull 3) ρ1 ρ2 μ lam →
+    0.9165673655948901373 ≤ lam ∧
+      lam ≤ 0.9165673655948901374 ∧ 2.4837157463 < -Real.log (1 - lam) ∧ -Real.log (1 - lam) < 2.4837157464
+torus103_lifetime : ∀ (t : ℕ),
+  0.96 * 0.9664099275695942426 ^ t ≤ (torus 1 0 3).survival ρ1 ρ2 t ⟨73, ⋯⟩ ∧
+    ∀ (x : Fin (2 ^ (torus 1 0 3).A)), (torus 1 0 3).survival ρ1 ρ2 (t + 1) x ≤ 3.07 * 0.9664099275695942427 ^ (t + 1)
+torus103_tau : ∀ (μ : Fin (2 ^ (torus 1 0 3).A) → ℝ) (lam : ℝ),
+  IsQSD (torus 1 0 3) ρ1 ρ2 μ lam →
+    0 < lam →
+      0.9664099275695942426 ≤ lam ∧
+        lam ≤ 0.9664099275695942427 ∧ 3.3935247190 < -Real.log (1 - lam) ∧ -Real.log (1 - lam) < 3.3935247191
+torus113_lifetime : ∀ (t : ℕ),
+  0.71 * 0.9324323935928482210 ^ t ≤ (torus 1 1 3).survival ρ1 ρ2 t ⟨73, ⋯⟩ ∧
+    ∀ (x : Fin (2 ^ (torus 1 1 3).A)), (torus 1 1 3).survival ρ1 ρ2 (t + 1) x ≤ 9.86 * 0.9324323935928482211 ^ (t + 1)
+torus113_tau : ∀ (μ : Fin (2 ^ (torus 1 1 3).A) → ℝ) (lam : ℝ),
+  IsQSD (torus 1 1 3) ρ1 ρ2 μ lam →
+    0 < lam →
+      0.9324323935928482210 ≤ lam ∧
+        lam ≤ 0.9324323935928482211 ∧ 2.6946266059 < -Real.log (1 - lam) ∧ -Real.log (1 - lam) < 2.6946266060
+strip13_lifetime : ∀ (t : ℕ),
+  0.97 * 0.9391216736592712685 ^ t ≤ (strip 1 3).survival ρ1 ρ2 t (strip 1 3).full ∧
+    ∀ (x : Fin (2 ^ (strip 1 3).A)), (strip 1 3).survival ρ1 ρ2 t x ≤ 512 * 0.9391216736592712686 ^ t
+strip13_tau : ∀ (μ : Fin (2 ^ (strip 1 3).A) → ℝ) (lam : ℝ),
+  IsQSD (strip 1 3) ρ1 ρ2 μ lam →
+    0.9391216736592712685 ≤ lam ∧
+      lam ≤ 0.9391216736592712686 ∧ 2.7988780569 < -Real.log (1 - lam) ∧ -Real.log (1 - lam) < 2.7988780570
+patch13_lifetime : ∀ (t : ℕ),
+  0.99 * 0.8474738060566295030 ^ t ≤ (patch 1 3).survival ρ1 ρ2 t (patch 1 3).full ∧
+    ∀ (x : Fin (2 ^ (patch 1 3).A)), (patch 1 3).survival ρ1 ρ2 t x ≤ 1731 * 0.8474738060566295031 ^ t
+patch13_tau : ∀ (μ : Fin (2 ^ (patch 1 3).A) → ℝ) (lam : ℝ),
+  IsQSD (patch 1 3) ρ1 ρ2 μ lam →
+    0.8474738060566295030 ≤ lam ∧
+      lam ≤ 0.8474738060566295031 ∧ 1.8804189341 < -Real.log (1 - lam) ∧ -Real.log (1 - lam) < 1.8804189342
+survival_le_all : ∀ (F : Face) (ρ1 ρ2 : ℚ),
+  0 ≤ ρ1 →
+    ρ1 ≤ 1 →
+      0 ≤ ρ2 →
+        ρ2 ≤ 1 →
+          (∀ (q : Gump.Pt), F.coin q = true) →
+            ∀ (t : ℕ) (x : Fin (2 ^ F.A)), F.survival ρ1 ρ2 t x ≤ (1 - delta0 ρ1 ρ2 ^ F.A) ^ t
+qsd_le_all : ∀ (F : Face) (ρ1 ρ2 : ℚ),
+  0 ≤ ρ1 →
+    ρ1 ≤ 1 →
+      0 ≤ ρ2 →
+        ρ2 ≤ 1 →
+          (∀ (q : Gump.Pt), F.coin q = true) →
+            ∀ (μ : Fin (2 ^ F.A) → ℝ) (lam : ℝ), IsQSD F ρ1 ρ2 μ lam → lam ≤ 1 - ↑(delta0 ρ1 ρ2 ^ F.A)
+lntau_le_all : ∀ (F : Face),
+  (∀ (q : Gump.Pt), F.coin q = true) →
+    ∀ (μ : Fin (2 ^ F.A) → ℝ) (lam : ℝ), IsQSD F ρ1 ρ2 μ lam → 0 < F.A → -Real.log (1 - lam) < 2.5095 * ↑F.A
+survival_le_regular : ∀ (F : Face),
+  (∀ (q : Gump.Pt), F.coin q = true) →
+    F.regular → ∀ (t : ℕ) (x : Fin (2 ^ F.A)), F.survival ρ1 ρ2 t x ≤ (1 - delta1 ^ F.A) ^ t
+lntau_le_regular : ∀ (F : Face),
+  (∀ (q : Gump.Pt), F.coin q = true) →
+    F.regular → ∀ (μ : Fin (2 ^ F.A) → ℝ) (lam : ℝ), IsQSD F ρ1 ρ2 μ lam → 0 < F.A → -Real.log (1 - lam) < 1.9228 * ↑F.A
+regular_torus202 : (torus 2 0 2).regular
+hull3_bust : ∀ (μ : Fin (2 ^ (hull 3).A) → ℝ) (lam : ℝ),
+  IsQSD (hull 3) ρ1 ρ2 μ lam → 17017e-6 < (hull 3).bustShare ρ1 ρ2 6 μ lam ∧ (hull 3).bustShare ρ1 ρ2 6 μ lam < 17018e-6
+torus113_bust : ∀ (μ : Fin (2 ^ (torus 1 1 3).A) → ℝ) (lam : ℝ),
+  IsQSD (torus 1 1 3) ρ1 ρ2 μ lam →
+    0 < lam → 0.936852 < (torus 1 1 3).bustShare ρ1 ρ2 6 μ lam ∧ (torus 1 1 3).bustShare ρ1 ρ2 6 μ lam < 0.936853
+Data.lifetime_of_cert : ∀ (c : Data) (F : Face) (Vu Vl : Gump.Dice.Tree) (Lu Mu Ll Ml vmin vmax wmax : ℕ),
+  c.tabOK F = true →
+    Data.allRows (c.rowUp F.A (c.Dt F.A) Lu Mu Vu) (2 ^ F.A) = true →
+      Data.allRows (c.rowLo F.A (c.Dt F.A) Ll Ml Vl) (2 ^ F.A) = true →
+        Data.vecOK Vu F.A vmin vmax = true →
+          Data.vecOK Vl F.A 0 wmax = true →
+            0 < Mu →
+              0 < Ml →
+                0 < vmin →
+                  0 < wmax →
+                    ∀ (t : ℕ),
+                      (∀ (x : Fin (2 ^ F.A)),
+                          Data.vec Vl F.A x / ↑wmax * (↑Ll / ↑Ml) ^ t ≤
+                            F.survival (↑c.n1 / ↑c.d1) (↑c.n2 / ↑c.d2) t x) ∧
+                        ∀ (x : Fin (2 ^ F.A)),
+                          F.survival (↑c.n1 / ↑c.d1) (↑c.n2 / ↑c.d2) t x ≤ ↑vmax / ↑vmin * (↑Lu / ↑Mu) ^ t
+Data.survival_up_sure : ∀ (c : Data) (F : Face) (V Gs : Gump.Dice.Tree) (L M K N vmin vmax : ℕ),
+  c.tabOK F = true →
+    Data.allRows (c.rowUp F.A (c.Dt F.A) L M V) (2 ^ F.A) = true →
+      Data.allRows (c.rowLe F.A (c.Dt F.A) K N Gs V) (2 ^ F.A) = true →
+        Data.vecOK2 V Gs F.A vmin vmax = true →
+          0 < M →
+            0 < N →
+              0 < vmin →
+                0 < L →
+                  ∀ (t : ℕ) (x : Fin (2 ^ F.A)),
+                    F.survival (↑c.n1 / ↑c.d1) (↑c.n2 / ↑c.d2) (t + 1) x ≤
+                      (↑vmax / ↑vmin + ↑K / ↑N * ↑vmax / (↑L / ↑M)) * (↑L / ↑M) ^ (t + 1)
+Data.qsd_bounds : ∀ (c : Data) (F : Face) (Vu Vl : Gump.Dice.Tree) (Lu Mu Ll Ml vmin vmax wmin wmax : ℕ),
+  c.tabOK F = true →
+    Data.allRows (c.rowUp F.A (c.Dt F.A) Lu Mu Vu) (2 ^ F.A) = true →
+      Data.allRows (c.rowLo F.A (c.Dt F.A) Ll Ml Vl) (2 ^ F.A) = true →
+        Data.vecOK Vu F.A vmin vmax = true →
+          Data.vecOK Vl F.A wmin wmax = true →
+            0 < Mu →
+              0 < Ml →
+                0 < vmin →
+                  0 < wmin →
+                    ∀ (μ : Fin (2 ^ F.A) → ℝ) (lam : ℝ),
+                      IsQSD F (↑c.n1 / ↑c.d1) (↑c.n2 / ↑c.d2) μ lam → ↑↑Ll / ↑Ml ≤ lam ∧ lam ≤ ↑↑Lu / ↑Mu
+Data.qsd_lo_sure : ∀ (c : Data) (F : Face) (Vl : Gump.Dice.Tree) (Ll Ml wmax : ℕ),
+  c.tabOK F = true →
+    Data.allRows (c.rowLo F.A (c.Dt F.A) Ll Ml Vl) (2 ^ F.A) = true →
+      Data.vecOK Vl F.A 0 wmax = true →
+        c.sureOK Vl F.A = true →
+          0 < Ml →
+            ∀ (μ : Fin (2 ^ F.A) → ℝ) (lam : ℝ),
+              IsQSD F (↑c.n1 / ↑c.d1) (↑c.n2 / ↑c.d2) μ lam → 0 < lam → ↑↑Ll / ↑Ml ≤ lam
+Data.poisson_bound : ∀ (c : Data) (F : Face),
+  c.tabOK F = true →
+    ∀ (K : ℕ) (NK Wp Wm : Gump.Dice.Tree) (S : ℕ),
+      0 < S →
+        ∀ (p lam' eps om : ℚ),
+          Data.allRows (c.poisRow F.A (c.Dt F.A) K NK Wp Wm S p lam' eps om) (2 ^ F.A) = true →
+            Wp.get F.A 0 = 0 ∧ Wm.get F.A 0 = 0 →
+              (∀ (v : Fin (2 ^ F.A)),
+                  ↑(NK.get F.A ↑v) = ↑(c.Dt F.A) ^ K * F.noBust (↑c.n1 / ↑c.d1) (↑c.n2 / ↑c.d2) K v) →
+                ∀ (μ : Fin (2 ^ F.A) → ℝ) (lam : ℝ),
+                  IsQSD F (↑c.n1 / ↑c.d1) (↑c.n2 / ↑c.d2) μ lam →
+                    |∑ x, μ x * ↑(F.noBust (↑c.n1 / ↑c.d1) (↑c.n2 / ↑c.d2) K x) - ↑p * (1 - lam)| ≤
+                      (↑eps + |↑lam' - lam| * ↑om) * (1 - lam)
+Data.rows_le : ∀ (c : Data) (F : Face),
+  c.tabOK F = true →
+    ∀ (U W : Gump.Dice.Tree) (L M : ℕ),
+      0 < M →
+        Data.allRows (c.rowLe F.A (c.Dt F.A) L M U W) (2 ^ F.A) = true →
+          ∀ (x : Fin (2 ^ F.A)),
+            (F.P (↑c.n1 / ↑c.d1) (↑c.n2 / ↑c.d2)).mulVec (Data.vec U F.A) x ≤ ↑L / ↑M * Data.vec W F.A x
+Tree.eval_eq : ∀ (t : Gump.Dice.Tree) (n : ℕ) (f : ℕ → ℕ × ℕ),
+  t.eval n f = ∑ y ∈ Finset.range (2 ^ n), (∏ i ∈ Finset.range n, Tree.sel (f i) (y.testBit i)) * t.get n y
+Data.rows_of_reps : ∀ (c : Data) (F : Face),
+  c.tabOK F = true →
+    ∀ (gens : List (List ℕ × Gump.Dice.Tree)) (Wg Wr Rm : Gump.Dice.Tree),
+      (∀ g ∈ gens, c.symOK F.A g.1 g.2 = true) →
+        ∀ (U W : Gump.Dice.Tree),
+          (∀ g ∈ gens, Data.invOK F.A g.2 U = true) →
+            (∀ g ∈ gens, Data.invOK F.A g.2 W = true) →
+              Data.repsOK F.A gens Wg Wr Rm = true →
+                ∀ (R : ℚ → ℚ → Prop),
+                  (∀ (x : Fin (2 ^ F.A)),
+                      Rm.get F.A ↑x = 1 →
+                        R ((F.P (↑c.n1 / ↑c.d1) (↑c.n2 / ↑c.d2)).mulVec (Data.vec U F.A) x) (Data.vec W F.A x)) →
+                    ∀ (x : Fin (2 ^ F.A)),
+                      R ((F.P (↑c.n1 / ↑c.d1) (↑c.n2 / ↑c.d2)).mulVec (Data.vec U F.A) x) (Data.vec W F.A x)
+Data.P_sym : ∀ (c : Data) (F : Face),
+  c.tabOK F = true →
+    ∀ {σ : List ℕ} {I : Gump.Dice.Tree},
+      c.symOK F.A σ I = true →
+        ∀ (x y : Fin (2 ^ F.A)) (hx' : I.get F.A ↑x < 2 ^ F.A) (hy' : I.get F.A ↑y < 2 ^ F.A),
+          F.P (↑c.n1 / ↑c.d1) (↑c.n2 / ↑c.d2) ⟨I.get F.A ↑x, hx'⟩ ⟨I.get F.A ↑y, hy'⟩ =
+            F.P (↑c.n1 / ↑c.d1) (↑c.n2 / ↑c.d2) x y
+flux_share : ∀ (F : Face) (ρ1 ρ2 : ℚ) (μ : Fin (2 ^ F.A) → ℝ) (lam : ℝ),
+  IsQSD F ρ1 ρ2 μ lam →
+    0 < lam →
+      lam < 1 →
+        ∀ (K : ℕ),
+          1 ≤ K →
+            ∀ (m : ℕ),
+              (∑ x, μ x * ↑(F.pathE ρ1 ρ2 (m + K) (fun l => if (F.dies l && F.bustLast K l) = true then 1 else 0) x)) /
+                  ∑ x, μ x * ↑(F.pathE ρ1 ρ2 (m + K) (fun l => if F.dies l = true then 1 else 0) x) =
+                F.bustShare ρ1 ρ2 K μ lam
+death_flux : ∀ (F : Face) (ρ1 ρ2 : ℚ) (μ : Fin (2 ^ F.A) → ℝ) (lam : ℝ),
+  IsQSD F ρ1 ρ2 μ lam →
+    ∀ (n : ℕ), ∑ x, μ x * ↑(F.pathE ρ1 ρ2 (n + 1) (fun l => if F.dies l = true then 1 else 0) x) = lam ^ n * (1 - lam)
+hull3_bust_flux : ∀ (μ : Fin (2 ^ (hull 3).A) → ℝ) (lam : ℝ),
+  IsQSD (hull 3) ρ1 ρ2 μ lam →
+    ∀ (m : ℕ),
+      17017e-6 <
+          (∑ x,
+              μ x *
+                ↑((hull 3).pathE ρ1 ρ2 (m + 6)
+                    (fun l => if ((hull 3).dies l && (hull 3).bustLast 6 l) = true then 1 else 0) x)) /
+            ∑ x, μ x * ↑((hull 3).pathE ρ1 ρ2 (m + 6) (fun l => if (hull 3).dies l = true then 1 else 0) x) ∧
+        (∑ x,
+              μ x *
+                ↑((hull 3).pathE ρ1 ρ2 (m + 6)
+                    (fun l => if ((hull 3).dies l && (hull 3).bustLast 6 l) = true then 1 else 0) x)) /
+            ∑ x, μ x * ↑((hull 3).pathE ρ1 ρ2 (m + 6) (fun l => if (hull 3).dies l = true then 1 else 0) x) <
+          17018e-6
+torus113_bust_flux : ∀ (μ : Fin (2 ^ (torus 1 1 3).A) → ℝ) (lam : ℝ),
+  IsQSD (torus 1 1 3) ρ1 ρ2 μ lam →
+    0 < lam →
+      ∀ (m : ℕ),
+        0.936852 <
+            (∑ x,
+                μ x *
+                  ↑((torus 1 1 3).pathE ρ1 ρ2 (m + 6)
+                      (fun l => if ((torus 1 1 3).dies l && (torus 1 1 3).bustLast 6 l) = true then 1 else 0) x)) /
+              ∑ x,
+                μ x * ↑((torus 1 1 3).pathE ρ1 ρ2 (m + 6) (fun l => if (torus 1 1 3).dies l = true then 1 else 0) x) ∧
+          (∑ x,
+                μ x *
+                  ↑((torus 1 1 3).pathE ρ1 ρ2 (m + 6)
+                      (fun l => if ((torus 1 1 3).dies l && (torus 1 1 3).bustLast 6 l) = true then 1 else 0) x)) /
+              ∑ x,
+                μ x * ↑((torus 1 1 3).pathE ρ1 ρ2 (m + 6) (fun l => if (torus 1 1 3).dies l = true then 1 else 0) x) <
+            0.936853
+survival_le_hull : ∀ (R : ℕ) (ρ1 ρ2 : ℚ),
+  0 ≤ ρ1 →
+    ρ1 ≤ 1 →
+      0 ≤ ρ2 →
+        ρ2 ≤ 1 → ∀ (t : ℕ) (x : Fin (2 ^ (hull R).A)), (hull R).survival ρ1 ρ2 t x ≤ (1 - delta0 ρ1 ρ2 ^ (hull R).A) ^ t
+lntau_le_hull : ∀ (R : ℕ) (μ : Fin (2 ^ (hull R).A) → ℝ) (lam : ℝ),
+  IsQSD (hull R) ρ1 ρ2 μ lam → 0 < (hull R).A → -Real.log (1 - lam) < 2.5095 * ↑(hull R).A
+qsd_le_balanced : ∀ (F : Face) (ρ1 ρ2 w δ : ℚ),
+  0 < w →
+    0 ≤ δ →
+      F.balanced →
+        F.wcheck ρ1 ρ2 w δ = true → ∀ (μ : Fin (2 ^ F.A) → ℝ) (lam : ℝ), IsQSD F ρ1 ρ2 μ lam → ↑δ ^ F.A ≤ 1 - lam
+lntau_le_hull_small : ∀ (R : ℕ),
+  R = 3 ∨ R = 5 ∨ R = 7 ∨ R = 9 ∨ R = 11 →
+    ∀ (μ : Fin (2 ^ (hull R).A) → ℝ) (lam : ℝ), IsQSD (hull R) ρ1 ρ2 μ lam → -Real.log (1 - lam) < 2.2165 * ↑(hull R).A
+Face.hull_balanced : ∀ (R : ℕ), (hull R).balanced
+Face.hull_type : ∀ (R i : ℕ),
+  i < (hull R).A →
+    (((hull R).nb i).length, (hull R).m1 i, (hull R).m2 i) = (6, 2, 1) ∨
+      (((hull R).nb i).length, (hull R).m1 i, (hull R).m2 i) = (4, 2, 1) ∨
+        (((hull R).nb i).length, (hull R).m1 i, (hull R).m2 i) = (2, 2, 0)
+lntau_le_hull_all : ∀ (R : ℕ) (μ : Fin (2 ^ (hull R).A) → ℝ) (lam : ℝ),
+  IsQSD (hull R) ρ1 ρ2 μ lam → 0 < (hull R).A → -Real.log (1 - lam) < 2.2165 * ↑(hull R).A
+regular_torus303 : (torus 3 0 3).regular
+lntau_le_torus303 : ∀ (μ : Fin (2 ^ (torus 3 0 3).A) → ℝ) (lam : ℝ),
+  IsQSD (torus 3 0 3) ρ1 ρ2 μ lam → -Real.log (1 - lam) < 1.9228 * ↑(torus 3 0 3).A
+Face.torus_regular : ∀ (H K D : ℕ), 0 < H → 0 < D → (torus H K D).regular
+Face.torus_count_symm : ∀ (H K D : ℕ),
+  0 < H →
+    0 < D →
+      ∀ (i j : ℕ),
+        i < (torus H K D).A →
+          j < (torus H K D).A → List.count j ((torus H K D).nb i) = List.count i ((torus H K D).nb j)
+lntau_le_torus : ∀ (H K D : ℕ),
+  0 < H →
+    0 < D →
+      ∀ (μ : Fin (2 ^ (torus H K D).A) → ℝ) (lam : ℝ),
+        IsQSD (torus H K D) ρ1 ρ2 μ lam → 0 < (torus H K D).A → -Real.log (1 - lam) < 1.9228 * ↑(torus H K D).A
+sweep exit 0

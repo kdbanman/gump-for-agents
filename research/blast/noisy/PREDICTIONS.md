@@ -146,3 +146,98 @@ Still no brute force at 84 cells and eps = 1/16. The sampler, exact for the chai
 sweeps on, 1,050 replications) and +0.005 +- 0.011 (off, 1,040) from gump: within 0.015, as forecast, by another
 route than the one the forecast named. Left open as written.
 
+## Block 4 (PI; frozen 2026-11-19, 20:30 UTC, before anyone has run the density control)
+
+The control (the lead's proposal): the depth series' d = 1 and d = 2 rows at 63 cells and eps = 1/4, with each coin
+drawn at the replaced layer's own mean density in gump on the same hull instead of 1/2. Fair coins gave +0.670 and
++0.315 (pooled over two codes). Seen when this was written: the audit's layer densities on a wrapped slab (0.518,
+0.434, 0.406 of a layer for the face and the two layers under it) and its remark that the layer under a nearly
+empty hull face is fuller than under a wrapped one. Not seen: any run with biased coins.
+
+My reading [conjectured]: most of the gain is the loss of correlation, not the density. At rate 1/4 the coins move
+a layer's density by a quarter of the way from about 0.43 to 0.5, which is small; what they do that gump does not
+is hand a fading face live cells beneath it at times when gump's own layer is fading with it.
+
+1. At matched density the d = 1 gain is at least 0.40 (of the 0.67): **70%**. At most 0.15: 12%.
+2. At matched density the d = 2 gain is at least 0.18 (of the 0.315): 65%.
+3. Coins at a density well below the layer's own (a third of it) still lengthen the d = 1 life: 55%.
+4. The sign never turns: no coin density between 0.2 and 0.8 at d = 1 shortens the watched face's life: 80%.
+
+
+### Scores of block 4 (13:55 UTC 2026-11-24; from the `density` agent's rows, `research/blast/density/README.md`, commit 9a105d3; one code, not yet refereed)
+
+| item | forecast | outcome | Brier |
+|---|---|---|---|
+| 1 | d = 1 gain at matched density ≥ 0.40: 70% (≤ 0.15: 12%) | +0.532 ± 0.011 (two seeds): **true** | 0.09 |
+| 2 | d = 2 gain at matched density ≥ 0.18: 65% | +0.244 ± 0.013 (one seed): **true** | 0.12 |
+| 3 | coins at a third of the layer's density still lengthen the d = 1 life: 55% | the scan gives −0.32 at 0.1 and +0.04 at 0.2, zero near 0.19; a third of 0.43 is 0.14: **false** | 0.30 |
+| 4 | no coin density between 0.2 and 0.8 shortens the life: 80% | true as far as run: +0.04 at 0.2 (1.8 σ above zero), positive at 0.3 … 0.7, 0.8 not run: **provisionally true** | 0.04 |
+
+What I had right: the gain is mostly the loss of correlation (0.53 of 0.68 survives at matched density). What I had
+wrong: I thought any live support helps a fading face. It does not; below a density of about 0.19 independent coins
+are worse for the face than gump's own layer, and coins that copy the layer's current state shorten the life.
+
+## Block 5 (PI; frozen 13:55 UTC 2026-11-24, before any run at ε other than 1/4 with coins of density near 0.19, and before any run at 45 cells with biased coins)
+
+The question: `density` found that at ε = 1/4, d = 1, 63 cells, coins of density p* ≈ 0.19 leave the life unchanged.
+Is p* a property of gump's support (the same at every replacement rate and face size), so that a face of gump is a
+face over independent coins of density p*? At ε = 1 the support is fresh coins every generation: the one-layer dice
+picture on the hull.
+
+My reading [conjectured]: no single density does it. The gain at matched density grows less than in proportion to ε
+(+0.164 at 1/16, +0.532 at 1/4), and at full replacement all of the support's memory is gone, so a lower density
+is needed to cancel a larger gain.
+
+1. p*(ε = 1/16) is within 0.03 of p*(ε = 1/4), at 63 cells and d = 1: 60%.
+2. p*(ε = 1) is below 0.17: 55%. It is within 0.04 of 0.19: 35%.
+3. p* at 45 cells and ε = 1/4 is within 0.03 of the 63-cell value: 55%.
+4. With ε = 1 and the p* that matches gump at 63 cells, the 45-cell life is within 0.15 of gump's in ln τ (one
+   density gives the face law's slope as well as one point): 35%.
+
+### Scores of block 5 (15:04 UTC 2026-11-24; from `density`'s second task, `research/blast/density/README.md`, commit b7f5904; one seed per row, one code)
+
+| item | forecast | outcome | Brier |
+|---|---|---|---|
+| 1 | p*(1/16) within 0.03 of p*(1/4) at 63 cells: 60% | 0.173 ± 0.010 against 0.191 ± 0.003: **true** | 0.16 |
+| 2a | p*(full replacement) below 0.17: 55% | 0.316 (coins under the face's middle), 0.385 (every cell not on a face): **false, and in the wrong direction** | 0.30 |
+| 2b | p*(full replacement) within 0.04 of 0.19: 35% | **false** | 0.12 |
+| 3 | p* at 45 cells within 0.03 of the 63-cell value at ε = 1/4: 55% | 0.180 ± 0.006 against 0.191 ± 0.003: **true** | 0.20 |
+| 4 | with full replacement, the 63-cell p* gives the 45-cell life within 0.15: 35% | as I specified it (coins under the middle): +0.210 ± 0.007, **false**; with every cell not on a face a coin: +0.009 ± 0.007 | 0.12 |
+
+What I had wrong: I reasoned that more replacement means a larger gain to cancel, hence a lower p*. The opposite
+happens. At partial replacement most of the support is still made by gump's rule from the coins, and p* describes
+that mix; with nothing but coins under it a face needs far denser coins (0.32 to 0.385) to live as long as it does
+in gump, and below about 0.35 a hull on coins alone dies at once.
+
+## Block 6 (PI; frozen 15:04 UTC 2026-11-24, before any of these runs)
+
+Seen when written: `density`'s two hand-backs. In particular: with every cell not on a face replaced by a fresh
+coin every generation, p = 0.385 gives gump's life at 45 and 63 cells (+0.009 ± 0.007, −0.028 ± 0.020), the 84-cell
+row reads −0.28 ± 0.15 on 45 deaths, the face dies differently (dips rarer and deadlier), and gump's own layer
+under the 63-cell face has density 0.384 when the face is at most 10 cells (its minimum over the thresholds tried).
+
+1. Gump's layer 1 under the 45-cell face, conditioned on a low face, has a minimum over thresholds within 0.005 of
+   0.385: 45%. (If p* on coins alone is the support's density at its thinnest, this should hold at every size.)
+2. The 84-cell row at 0.385 with at least 300 deaths is below −0.10: 70%. (One density does not give the face
+   law's slope; p* creeps up with the size.)
+3. Full replacement from depth d with coins at each layer's own mean density, 63 cells: Δ(1) > +2: 75%;
+   Δ(2) between +0.3 and +1.5: 55%; |Δ(3)| < 0.15: 45%; |Δ(4)| < 0.05: 45%.
+4. At the smallest d with |Δ| < 0.1, the face's way of dying is gump's: from one cell it dies between 74% and 80%
+   of the time, and dips below 16 cells are within 20% of gump's frequency: 60%.
+
+### Scores of block 6 (17:03 UTC 2026-11-24; from `density`'s third task, `research/blast/density/README.md`, commit 2d67675; one code, not yet refereed)
+
+| item | forecast | outcome | Brier |
+|---|---|---|---|
+| 1 | the 45-cell layer's minimum under a low face within 0.005 of 0.385: 45% | the core's lowest is 0.390, the cells the coins actually replace thin to 0.357: **false** (the coincidence is an accident) | 0.20 |
+| 2 | the 84-cell row at 0.385 below −0.10: 70% | −0.165 ± 0.043 on 559 deaths: **true** | 0.09 |
+| 3a | Δ(1) > +2 at 63 cells: 75% | under the watched face +1.186 ± 0.037: **false** (true only with coins under every face, +3.53) | 0.56 |
+| 3b | Δ(2) in (+0.3, +1.5): 55% | +0.694 ± 0.029: **true** | 0.20 |
+| 3c | \|Δ(3)\| < 0.15: 45% | +0.295 ± 0.023: **false** | 0.20 |
+| 3d | \|Δ(4)\| < 0.05: 45% | +0.016 ± 0.012 (two seeds): **true** | 0.30 |
+| 4 | at the first d that matches, the way of dying is gump's: 60% | d = 4: death from one cell 0.765–0.776 (gump 0.770), dips within 0.005 in the logarithm: **true** | 0.16 |
+
+What I had wrong: I expected the face alone over a bath at gump's density to live more than e² longer; under the
+watched face only it is e^1.19, because the rims keep their real layers. What I did not expect to be so clean: the
+step from three real layers to four removes all of the excess that can be measured, at both sizes and on both kinds
+of face.

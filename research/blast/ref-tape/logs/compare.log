@@ -1,0 +1,119 @@
+PASS cellsOf.B: Lean list (5 entries, 5 distinct) = catalogue object (5 cells)
+PASS cellsOf.C: Lean list (5 entries, 5 distinct) = catalogue object (5 cells)
+PASS tape.wTest.-6.8: the catalogue object lies inside the evaluation box (units -6..8)
+PASS tape.wTest.-6.8: Lean configuration on the box = catalogue object (75 cells)
+PASS lineList.2: Lean list (43 entries, 43 distinct) = catalogue object (43 cells)
+PASS lineList.3: Lean list (48 entries, 48 distinct) = catalogue object (48 cells)
+PASS lineList.4: Lean list (53 entries, 53 distinct) = catalogue object (53 cells)
+PASS lineList.5: Lean list (58 entries, 58 distinct) = catalogue object (58 cells)
+PASS lineList.7: Lean list (68 entries, 68 distinct) = catalogue object (68 cells)
+PASS lineList.12: Lean list (93 entries, 93 distinct) = catalogue object (93 cells)
+PASS lineList.20: Lean list (133 entries, 133 distinct) = catalogue object (133 cells)
+PASS lineList.31: Lean list (188 entries, 188 distinct) = catalogue object (188 cells)
+PASS litList.1: Lean list (38 entries, 38 distinct) = catalogue object (38 cells)
+PASS litList.2: Lean list (43 entries, 43 distinct) = catalogue object (43 cells)
+PASS litList.3: Lean list (48 entries, 48 distinct) = catalogue object (48 cells)
+PASS litList.4: Lean list (53 entries, 53 distinct) = catalogue object (53 cells)
+PASS litList.5: Lean list (58 entries, 58 distinct) = catalogue object (58 cells)
+PASS litList.6: Lean list (63 entries, 63 distinct) = catalogue object (63 cells)
+PASS litList.7: Lean list (68 entries, 68 distinct) = catalogue object (68 cells)
+PASS litList.8: Lean list (73 entries, 73 distinct) = catalogue object (73 cells)
+PASS litList.9: Lean list (78 entries, 78 distinct) = catalogue object (78 cells)
+PASS litList.10: Lean list (83 entries, 83 distinct) = catalogue object (83 cells)
+PASS litList.11: Lean list (88 entries, 88 distinct) = catalogue object (88 cells)
+PASS litList.12: Lean list (93 entries, 93 distinct) = catalogue object (93 cells)
+PASS X0 = the oracle run of the lit clock of 6 units (clock-C.json) at generation 41
+PASS X0 lies on a cycle of exact period 26 = 4*6 + 2 (oracle)
+PASS clockY.0 is the state at generation [27] of the oracle run of the lit clock of 6 units (cycle from 4, searched 4..29)
+PASS clock 6: every state of the lit cycle lies in the evaluation box, so clockY.0 was compared whole
+PASS clock 6: the lit clock has exact period 26 from generation 4, and generation 3 is not on the cycle
+PASS clockY.1 is the state at generation [31] of the oracle run of the lit clock of 7 units (cycle from 5, searched 5..34)
+PASS clock 7: every state of the lit cycle lies in the evaluation box, so clockY.1 was compared whole
+PASS clock 7: the lit clock has exact period 30 from generation 5, and generation 4 is not on the cycle
+PASS clockY.2 is the state at generation [33] of the oracle run of the lit clock of 8 units (cycle from 6, searched 6..39)
+PASS clock 8: every state of the lit cycle lies in the evaluation box, so clockY.2 was compared whole
+PASS clock 8: the lit clock has exact period 34 from generation 6, and generation 5 is not on the cycle
+PASS clockY.3 is the state at generation [37] of the oracle run of the lit clock of 9 units (cycle from 7, searched 7..44)
+PASS clock 9: every state of the lit cycle lies in the evaluation box, so clockY.3 was compared whole
+PASS clock 9: the lit clock has exact period 38 from generation 7, and generation 6 is not on the cycle
+PASS clockY.4 is the state at generation [39] of the oracle run of the lit clock of 10 units (cycle from 8, searched 8..49)
+PASS clock 10: every state of the lit cycle lies in the evaluation box, so clockY.4 was compared whole
+PASS clock 10: the lit clock has exact period 42 from generation 8, and generation 7 is not on the cycle
+PASS clockY.5 is the state at generation [43] of the oracle run of the lit clock of 11 units (cycle from 9, searched 9..54)
+PASS clock 11: every state of the lit cycle lies in the evaluation box, so clockY.5 was compared whole
+PASS clock 11: the lit clock has exact period 46 from generation 9, and generation 8 is not on the cycle
+PASS clockY.6 is the state at generation [45] of the oracle run of the lit clock of 12 units (cycle from 10, searched 10..59)
+PASS clock 12: every state of the lit cycle lies in the evaluation box, so clockY.6 was compared whole
+PASS clock 12: the lit clock has exact period 50 from generation 10, and generation 9 is not on the cycle
+PASS trainBase.0.0 = unit of parity 0 of the oracle train at generation 0 (ring of 16 units)
+PASS trainBase.0.1 = unit of parity 1 of the oracle train at generation 0 (ring of 16 units)
+PASS train.0 (Lean ucfg) on units -4..5 = the oracle train at generation 0
+PASS trainBase.1.0 = unit of parity 0 of the oracle train at generation 1 (ring of 16 units)
+PASS trainBase.1.1 = unit of parity 1 of the oracle train at generation 1 (ring of 16 units)
+PASS train.1 (Lean ucfg) on units -4..5 = the oracle train at generation 1
+PASS trainBase.2.0 = unit of parity 0 of the oracle train at generation 2 (ring of 16 units)
+PASS trainBase.2.1 = unit of parity 1 of the oracle train at generation 2 (ring of 16 units)
+PASS train.2 (Lean ucfg) on units -4..5 = the oracle train at generation 2
+PASS trainBase.3.0 = unit of parity 0 of the oracle train at generation 3 (ring of 16 units)
+PASS trainBase.3.1 = unit of parity 1 of the oracle train at generation 3 (ring of 16 units)
+PASS train.3 (Lean ucfg) on units -4..5 = the oracle train at generation 3
+PASS signal E: parity, direction and cells as sig6.py
+PASS signal U: parity, direction and cells as sig6.py
+PASS signal H: parity, direction and cells as sig6.py
+PASS signal K0: parity, direction and cells as sig6.py
+PASS signal K3: parity, direction and cells as sig6.py
+PASS signal N1: parity, direction and cells as sig6.py
+PASS signal N2: parity, direction and cells as sig6.py
+PASS signal N3: parity, direction and cells as sig6.py
+PASS signal N4: parity, direction and cells as sig6.py
+PASS hexCells.0: Lean list (2 entries, 2 distinct) = catalogue object (2 cells)
+PASS hexCells.1: Lean list (3 entries, 3 distinct) = catalogue object (3 cells)
+PASS hexCells.2: Lean list (3 entries, 3 distinct) = catalogue object (3 cells)
+PASS hexCells.3: Lean list (4 entries, 4 distinct) = catalogue object (4 cells)
+PASS hexCells.4: Lean list (3 entries, 3 distinct) = catalogue object (3 cells)
+PASS hexCells.5: Lean list (4 entries, 4 distinct) = catalogue object (4 cells)
+PASS hexCells.6: Lean list (4 entries, 4 distinct) = catalogue object (4 cells)
+PASS hexCells.7: Lean list (5 entries, 5 distinct) = catalogue object (5 cells)
+PASS hexCells.8: Lean list (3 entries, 3 distinct) = catalogue object (3 cells)
+PASS hexCells.9: Lean list (4 entries, 4 distinct) = catalogue object (4 cells)
+PASS hexCells.10: Lean list (4 entries, 4 distinct) = catalogue object (4 cells)
+PASS hexCells.11: Lean list (5 entries, 5 distinct) = catalogue object (5 cells)
+PASS hexCells.12: Lean list (4 entries, 4 distinct) = catalogue object (4 cells)
+PASS hexCells.13: Lean list (5 entries, 5 distinct) = catalogue object (5 cells)
+PASS hexCells.14: Lean list (5 entries, 5 distinct) = catalogue object (5 cells)
+PASS hexCells.15: Lean list (6 entries, 6 distinct) = catalogue object (6 cells)
+PASS store.1: the catalogue object lies inside the evaluation box (units -5..6)
+PASS store.1: Lean configuration on the box = catalogue object (61 cells)
+PASS countRead.1: the catalogue object lies inside the evaluation box (units -5..6)
+PASS countRead.1: Lean configuration on the box = catalogue object (60 cells)
+PASS pulsesTape.1.-3: the catalogue object lies inside the evaluation box (units -6..4)
+PASS pulsesTape.1.-3: Lean configuration on the box = catalogue object (55 cells)
+PASS store.2: the catalogue object lies inside the evaluation box (units -5..7)
+PASS store.2: Lean configuration on the box = catalogue object (66 cells)
+PASS countRead.2: the catalogue object lies inside the evaluation box (units -5..7)
+PASS countRead.2: Lean configuration on the box = catalogue object (65 cells)
+PASS pulsesTape.2.-3: the catalogue object lies inside the evaluation box (units -6..6)
+PASS pulsesTape.2.-3: Lean configuration on the box = catalogue object (65 cells)
+PASS store.3: the catalogue object lies inside the evaluation box (units -5..8)
+PASS store.3: Lean configuration on the box = catalogue object (71 cells)
+PASS countRead.3: the catalogue object lies inside the evaluation box (units -5..8)
+PASS countRead.3: Lean configuration on the box = catalogue object (70 cells)
+PASS pulsesTape.3.-3: the catalogue object lies inside the evaluation box (units -6..8)
+PASS pulsesTape.3.-3: Lean configuration on the box = catalogue object (75 cells)
+PASS store.5: the catalogue object lies inside the evaluation box (units -5..10)
+PASS store.5: Lean configuration on the box = catalogue object (81 cells)
+PASS countRead.5: the catalogue object lies inside the evaluation box (units -5..10)
+PASS countRead.5: Lean configuration on the box = catalogue object (80 cells)
+PASS pulsesTape.5.-3: the catalogue object lies inside the evaluation box (units -6..12)
+PASS pulsesTape.5.-3: Lean configuration on the box = catalogue object (95 cells)
+PASS storeAt.1: the catalogue object lies inside the evaluation box (units 30..41)
+PASS storeAt.1: Lean configuration on the box = catalogue object (61 cells)
+PASS storeAt.2: the catalogue object lies inside the evaluation box (units 30..42)
+PASS storeAt.2: Lean configuration on the box = catalogue object (66 cells)
+PASS storeAt.4: the catalogue object lies inside the evaluation box (units 30..44)
+PASS storeAt.4: Lean configuration on the box = catalogue object (76 cells)
+PASS callLine: Lean list (162 entries, 162 distinct) = catalogue object (162 cells)
+PASS callCells: Lean list (2 entries, 2 distinct) = catalogue object (2 cells)
+PASS e1: Lean list (1 entries, 1 distinct) = catalogue object (1 cells)
+PASS cross = 35 (call9.json crossings[0] + 4)
+ALL PASS

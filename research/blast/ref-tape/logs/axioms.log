@@ -1,0 +1,47 @@
+tape modules: 2074 constants ([(Gump.LineData, 3),
+ (Gump.Unzip, 78),
+ (Gump.TapeSignals, 179),
+ (Gump.Tape, 111),
+ (Gump.Clock, 347),
+ (Gump.UnzipProof, 455),
+ (Gump.CallProof, 533),
+ (Gump.TapeBase, 142),
+ (Gump.Line, 156),
+ (Gump.CallData, 3),
+ (Gump.TapeSignalsData, 52),
+ (Gump.ClockData, 3),
+ (Gump.Call,
+  12)]); their Gump dependencies: 795 constants; axiom sets seen in the tape modules: [([propext], 218),
+ ([propext, Quot.sound], 1233),
+ ([], 296),
+ ([propext, Classical.choice, Quot.sound], 327)]
+0 constants (tape modules and their dependencies) with an axiom beyond propext, Classical.choice, Quot.sound, or declared axiom/opaque
+name tape_run: 1 constant(s) [Gump.Tape.tape_run (Gump.Tape)]
+name tape_local_run: 1 constant(s) [Gump.Tape.tape_local_run (Gump.Tape)]
+name line_orbit: 1 constant(s) [Gump.Line.line_orbit (Gump.Line)]
+name line_period_four: 1 constant(s) [Gump.Line.line_period_four (Gump.Line)]
+name S_succ: 1 constant(s) [Gump.Line.S_succ (Gump.Line)]
+name train_step: 1 constant(s) [Gump.Tape.Signals.train_step (Gump.TapeSignals)]
+name signal_run: 1 constant(s) [Gump.Tape.Signals.signal_run (Gump.TapeSignals)]
+name glue_run: 1 constant(s) [Gump.Tape.glue_run (Gump.TapeBase)]
+name orbit_classify: 1 constant(s) [Gump.Tape.orbit_classify (Gump.TapeBase)]
+name clock_every_length: 1 constant(s) [Gump.Clock.clock_every_length (Gump.Clock)]
+name clock_cycle: 1 constant(s) [Gump.Clock.clock_cycle (Gump.Clock)]
+name lit_clock_small: 1 constant(s) [Gump.Clock.lit_clock_small (Gump.Clock)]
+name unzip_law_sharp: 1 constant(s) [Gump.Unzip.unzip_law_sharp (Gump.UnzipProof)]
+name unzip_law: 1 constant(s) [Gump.Unzip.unzip_law (Gump.UnzipProof)]
+name stretch_stands: 1 constant(s) [Gump.Unzip.stretch_stands (Gump.Unzip)]
+name glue_run_moving: 1 constant(s) [Gump.Unzip.glue_run_moving (Gump.Unzip)]
+name call_law_b: 1 constant(s) [Gump.Call.call_law_b (Gump.CallProof)]
+name train_shift: 1 constant(s) [Gump.Tape.Signals.train_shift (Gump.TapeSignals)]
+name surg_step: 1 constant(s) [Gump.Clock.surg_step (Gump.Clock)]
+name chartA: 1 constant(s) [Gump.Clock.chartA (Gump.Clock)]
+name chartB: 1 constant(s) [Gump.Clock.chartB (Gump.Clock)]
+name hex_local: 1 constant(s) [Gump.Unzip.hex_local (Gump.Unzip)]
+name pieceCheck_spec: 1 constant(s) [Gump.Tape.pieceCheck_spec (Gump.TapeSignals)]
+name forcedCheck_spec: 1 constant(s) [Gump.Call.forcedCheck_spec (Gump.CallProof)]
+name lineC_N_period_four: 0 constant(s) []
+name CallLaw: 1 constant(s) [Gump.Call.CallLaw (Gump.Call)]
+name UnzipLawSharp: 1 constant(s) [Gump.Unzip.UnzipLawSharp (Gump.Unzip)]
+name UnzipLaw: 1 constant(s) [Gump.Unzip.UnzipLaw (Gump.Unzip)]
+name LineRest: 1 constant(s) [Gump.Call.LineRest (Gump.Call)]

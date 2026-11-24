@@ -1,0 +1,2 @@
+/home/user/gump-for-agents/research/blast/ref-tape/RtCert.lean:51:8: warning: declaration uses `sorry`
+controls: sorry -> [sorryAx]; native_decide -> [refTapeCtlNative._native.native_decide.ax_1_1]

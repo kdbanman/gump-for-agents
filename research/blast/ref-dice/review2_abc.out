@@ -1,0 +1,27 @@
+(a) hull  1: A =   3, types {(2, 2, 0): 3}, balanced True, symmetric True, no repeated neighbour True
+(a) hull  3: A =   9, types {(2, 2, 0): 3, (4, 2, 1): 6}, balanced True, symmetric True, no repeated neighbour True
+(a) hull  5: A =  18, types {(2, 2, 0): 3, (4, 2, 1): 12, (6, 2, 1): 3}, balanced True, symmetric True, no repeated neighbour True
+(a) hull  7: A =  30, types {(2, 2, 0): 3, (4, 2, 1): 18, (6, 2, 1): 9}, balanced True, symmetric True, no repeated neighbour True
+(a) hull  9: A =  45, types {(2, 2, 0): 3, (4, 2, 1): 24, (6, 2, 1): 18}, balanced True, symmetric True, no repeated neighbour True
+(a) hull 11: A =  63, types {(2, 2, 0): 3, (4, 2, 1): 30, (6, 2, 1): 30}, balanced True, symmetric True, no repeated neighbour True
+(a) hull 13: A =  84, types {(2, 2, 0): 3, (4, 2, 1): 36, (6, 2, 1): 45}, balanced True, symmetric True, no repeated neighbour True
+(a) hull 15: A = 108, types {(2, 2, 0): 3, (4, 2, 1): 42, (6, 2, 1): 63}, balanced True, symmetric True, no repeated neighbour True
+(b) w = 1341/1000: min weighted factor over the 3 hull types = 0.109039 >= 0.109: True -> ln tau < 2.2160 A
+    best uniform w on a 0.001 grid: 1.341, delta 0.109039 -> 2.2160 A; -ln 0.109 = 2.21641
+(c) tori:
+    (1,1,1): A=3 regular=True self-slots=6 max multiplicity=2
+    (1,2,1): A=3 regular=True self-slots=6 max multiplicity=2
+    (1,5,1): A=3 regular=True self-slots=6 max multiplicity=2
+    (2,1,1): A=6 regular=True self-slots=4 max multiplicity=2
+    (3,2,1): A=9 regular=True self-slots=6 max multiplicity=2
+    (1,1,2): A=6 regular=True self-slots=4 max multiplicity=2
+    (1,3,2): A=6 regular=True self-slots=4 max multiplicity=2
+    (1,5,2): A=6 regular=True self-slots=4 max multiplicity=2
+    (2,1,2): A=12 regular=True self-slots=0 max multiplicity=2
+    (2,3,2): A=12 regular=True self-slots=0 max multiplicity=2
+    (5,3,2): A=30 regular=True self-slots=0 max multiplicity=2
+    (1,4,3): A=9 regular=True self-slots=0 max multiplicity=1
+    (1,7,3): A=9 regular=True self-slots=0 max multiplicity=1
+    (2,5,3): A=18 regular=True self-slots=0 max multiplicity=1
+    (4,6,5): A=60 regular=True self-slots=0 max multiplicity=1
+    (1,2,7): A=21 regular=True self-slots=0 max multiplicity=1

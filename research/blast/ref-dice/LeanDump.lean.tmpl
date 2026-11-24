@@ -1,0 +1,16 @@
+import GumpMath.DiceDef
+open Gump Gump.Dice Finset
+set_option maxRecDepth 100000
+def entry (F : Face) (r1 r2 : ℚ) (x y : ℕ) : ℚ :=
+  if h : x < 2 ^ F.A then if h2 : y < 2 ^ F.A then F.P r1 r2 ⟨x, h⟩ ⟨y, h2⟩ else 0 else 0
+def ptS (p : Pt) : String := s!"{p.x},{p.y},{p.z}"
+def dump (name : String) (F : Face) : IO Unit := do
+  IO.println s!"FACE {name} {F.A}"
+  IO.println s!"CELLS {" ".intercalate (F.cells.map ptS)}"
+  for i in List.range F.A do
+    IO.println s!"NB {i} {F.nb i} {F.m1 i} {F.m2 i}"
+  for x in List.range (2 ^ F.A) do
+    IO.println s!"A {x} {(List.range F.A).map (fun i => F.a ρ1 ρ2 x i)}"
+  for x in List.range (2 ^ F.A) do
+    IO.println s!"P {x} {" ".intercalate ((List.range (2 ^ F.A)).map (fun y => toString (entry F ρ1 ρ2 x y)))}"
+  IO.println s!"FULL {(F.full : ℕ)}"

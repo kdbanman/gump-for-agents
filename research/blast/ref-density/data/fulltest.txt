@@ -1,0 +1,17 @@
+FULLTEST reps 400: cells outside N changed: 0
+FULLTEST depth 3 bias 0.41448: after alive 0.41529 (z +1.58), after dead 0.41465 (z +0.33); against bias+0.01: z -17.9 -19.2
+FULLTEST depth 4 bias 0.41678: after alive 0.41670 (z -0.15), after dead 0.41635 (z -0.84); against bias+0.01: z -19.6 -20.3
+FULLTEST depth 5 bias 0.41677: after alive 0.41777 (z +1.94), after dead 0.41660 (z -0.33); against bias+0.01: z -17.5 -19.8
+FULLTEST depth 6 bias 0.41448: after alive 0.41463 (z +0.29), after dead 0.41532 (z +1.63); against bias+0.01: z -19.2 -17.9
+FULLTEST covariance of consecutive N cells, same lane: -6.76e-05 (z -0.74)
+FULLTEST covariance of adjacent lanes, same cell: -7.04e-05 (z -0.56)
+FULLTEST covariance of one cell in two successive draws: -1.82e-04 (z -2.03)
+FULLTEST reps 200: cells outside N changed: 0
+FULLTEST depth 4 bias 0.41655: after alive 0.41666 (z +0.22), after dead 0.41703 (z +0.94); against bias+0.01: z -19.3 -18.5
+FULLTEST depth 5 bias 0.41568: after alive 0.41587 (z +0.40), after dead 0.41553 (z -0.32); against bias+0.01: z -20.6 -21.4
+FULLTEST depth 6 bias 0.41562: after alive 0.41633 (z +1.49), after dead 0.41537 (z -0.53); against bias+0.01: z -19.6 -21.6
+FULLTEST depth 7 bias 0.41659: after alive 0.41654 (z -0.09), after dead 0.41629 (z -0.59); against bias+0.01: z -19.6 -20.1
+FULLTEST depth 8 bias 0.41488: after alive 0.41549 (z +1.19), after dead 0.41601 (z +2.21); against bias+0.01: z -18.3 -17.3
+FULLTEST covariance of consecutive N cells, same lane: +2.22e-05 (z +0.29)
+FULLTEST covariance of adjacent lanes, same cell: +1.63e-04 (z +1.49)
+FULLTEST covariance of one cell in two successive draws: -1.08e-04 (z -1.40)

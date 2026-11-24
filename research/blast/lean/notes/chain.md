@@ -1,0 +1,330 @@
+# The chain arm: the lifetime theorems of `blast/rigour` in Lean
+
+Agent `chain` (Lean arm, theory), 2026-11-24, 11:16 UTC onwards. Source: `research/blast/rigour/THEOREMS.md`,
+its referee `research/blast/ref-proofs/REVIEW.md`, the seam identity of `research/blast/image/README.md`.
+Files (all new, all mine): `research/blast/lean/mathlib/GumpMath/Chain*.lean` (16 modules: Tilt, Perron, Exist,
+Lemma0, Coins, Routes, Seam, SSM, Price, Inst, TiltLimit, Bits, Kagome, Torus, Rate, Sharp),
+`research/blast/lean/mathlib/AxiomsChain.lean`, `research/blast/lean/statements_chain.json`, this note.
+
+Every theorem below compiles with no `sorry`, no `native_decide`, and `#print axioms` gives
+`[propext, Classical.choice, Quot.sound]` for each (`AxiomsChain.lean`; `Kagome.window_iff` needs only
+`[propext, Quot.sound]`). `sh research/blast/lean/check.sh
+--mathlib` passes (last run 13:10 UTC: "lean: all checks passed", mathlib package 226 theorems). Two earlier runs failed
+for reasons outside these files (another agent's then-unfinished `Gump/UnzipProof.lean`; two heavy dice modules killed
+for memory when built in parallel with other agents' jobs; each builds alone). Nothing here imports `GumpMath/Dice*.lean`; every theorem is proved from stated hypotheses on a
+finite killed Markov chain, and the section *Instantiation plan* says how the concrete surrogate meets them.
+
+## The setting (`ChainTilt.lean`)
+
+- `KilledChain σ`: a finite set σ of living states, `Q x y ≥ 0`, `∑ y, Q x y ≤ 1`; `death x = 1 - ∑ y, Q x y`.
+- `IsQSD μ lam`: μ ≥ 0, ∑ μ = 1, μQ = lam·μ (on living states).
+- `survival μ t = ∑_y (μ Q^t)_y` = P_μ(T > t); `lifetime μ = ∑' t, survival μ t` = E_μ T. **The path space is not
+  constructed**: E_μ T is defined as the sum of the survival probabilities, which is what it equals for an ℕ-valued
+  T. `IsQSD.survival_eq`: P_μ(T > t) = λ^t. `IsQSD.lifetime_eq`: τ = 1/h, h = ∑ μ d = 1 − λ.
+- `LocalDeath V`: `death x = ∏_{i ∈ V} d_i x` with `0 < d_i ≤ 1` (the product kernel plus (K)); `cost i = -log d_i`
+  (ε_i), `energy = ∑_i cost i` (E), `price μ i = ∫₀¹ ⟨ε_i⟩_s ds` (c_i).
+- `tiltMean μ E s f = E_μ[f e^{-sE}] / E_μ[e^{-sE}]` (⟨f⟩_s), `Z μ E s = E_μ e^{-sE}`.
+
+## Theorem 2, the tilt identity: done in full
+
+Lean statement (variables of the section: `{σ : Type*} [Fintype σ] [DecidableEq σ] {K : KilledChain σ}`):
+
+```lean
+theorem tilt_identity {V : Type*} [Fintype V] (L : K.LocalDeath V) {μ : σ → ℝ} {lam : ℝ}
+    (hμ : K.IsQSD μ lam) :
+    log (K.lifetime μ) = ∫ s in (0:ℝ)..1, tiltMean μ L.energy s L.energy ∧
+    log (K.lifetime μ) = ∑ i, L.price μ i ∧
+    Antitone (fun s => tiltMean μ L.energy s L.energy) ∧
+    tiltMean μ L.energy 1 L.energy ≤ log (K.lifetime μ) ∧
+    log (K.lifetime μ) ≤ tiltMean μ L.energy 0 L.energy ∧
+    tiltMean μ L.energy 0 L.energy = ∑ x, μ x * L.energy x
+```
+
+Around it: `neg_log_Z_one` (the analytic core, −log E_μ e^{−E} = ∫₀¹⟨E⟩_s ds for any probability vector and real E,
+by the fundamental theorem of calculus on log Z); `tiltMean_antitone` (d⟨E⟩_s/ds = (N² − MZ)/Z² ≤ 0, Cauchy–Schwarz
+as ∑ w (E Z − N)² ≥ 0); `integral_tiltMean_bounds`; `price_mem` (c_i ∈ [0, ε_max]); `IsQSD.last_living_law`
+(μ₁ = μ d / h is the law of X_{T−1}: ∑_t P_μ(X_t = x) d(x) = μ(x) d(x)/h).
+
+Existence of μ, for every face (`ChainExist.lean`): `KilledChain.exists_qsd` gives, for every finite killed chain on
+a nonempty set, the **dominant** quasi-stationary law, `IsDominantQSD` (repair D2 of `research/blast/ref-chain/REVIEW.md`:
+"some QSD" admitted the λ = 0 point mass on a surely-dying state, log τ = 0): λ ≥ λ' for every quasi-stationary law
+(ν, λ'), λ ≥ Q u u for every state u (so λ > 0 and τ ≥ 1/(1 − Q u u) on any face with a state that can persist), and λ
+is the exponential decay rate of the longest-lived start (P_x(T > t) ≤ C_ε (λ + ε)^t for every x and ε > 0;
+P_x(T > t) ≥ λ^t for some x at every t). Proof: perturb to Q + J/(k+1), take Wielandt's positive Perron row and column
+vectors (equal roots r_k), extract a convergent subsequence in simplex × [0, 1 + |σ|]; every QSD has λ' ≤ r_k (pair it
+with the column vector), r_k ≥ Q u u (the row vector's u-entry), and P_x(T > t) ≤ (max w/min w) r_k^t
+(`Certificate.survival_le` with `pow_entry_mono`). `tilt_identity_exists` (Theorems 1 and 2 on every face, hull faces
+and strips included, where Lemma 0 is not available, for that law); `ProductKernel.tilt_identity_product` (every
+product kernel P(x,y) = ∏_i (a_i(x) or 1 − a_i(x)) with 0 ≤ a_i < 1, i.e. S(G) for any face, with the cells' own
+factors 1 − a_i). Not proved: that this λ is the spectral radius of Q, or that it is the decay rate from every start
+reaching its support (on wrapped faces `decay_bounds` gives that, with uniqueness).
+
+Perron–Frobenius, built here because Mathlib has none (`ChainPerron.lean`): `exists_pos_eigenvector` (an irreducible
+non-negative matrix on a finite set has a strictly positive eigenvector, eigenvalue ≥ 0: Wielandt's argument,
+maximising min_i (Av)_i/v_i on the compact image of the simplex under the positive matrix ∑_{k≤N} A^k);
+`exists_pos_left_eigenvector`; `left_eigen_pos`; `left_eigenvalue_eq`; `left_eigen_unique`;
+`KilledChain.qsd_exists_unique` (one irreducible class C with Q u u > 0 for some u ∈ C, every other state dying surely
+and entered from C ⇒ exactly one QSD with λ > 0, charging every state); `KilledChain.price_invariant` (with that
+uniqueness, a symmetry (g of states preserving Q, π of cells carrying d_i along) gives c_{πi} = c_i: one price per
+orbit, the "one price per orientation" clause).
+
+**Differentiability of the top eigenvalue is not needed**, and was not built: the paper's tilt is a tilt of μ, not of
+the matrix, and Z(s) = ∑_x μ(x) e^{−sE(x)} is a finite sum of exponentials.
+
+## Theorem 1, Lemma 0, Lemma R: done, Lemma 0 with its geometry on every wrapped face
+
+- `KilledChain.upper_bound`: log τ ≤ E_μ[E] ≤ ε_max·A, for any chain with local factors and any QSD.
+- The constant (`ChainCoins.lean`): `threeCoins_death_ge` (a cell with coins (2,1) and k ≤ 6 dies with probability
+  ≥ min(ρ1²ρ2, (1−ρ1)²(1−ρ2)): every one of its 14 death events contains b = 0 or b = 3); `twoCoins_death_ge` (hull
+  corners, coins (2,0), k ≤ 2: the same bound; the rule used is `Gump.rule` by `aliveNext_eq_rule`); `upper_bound_coins` (log τ ≤ −log min(...)·A); `emax_main`
+  (−log(0.44²·0.42) ≤ 2.51, via e^{2.51} ≥ ∑_{i<16} 2.51^i/i!); `emax_fair` (≤ 2.08 at ½, ½).
+- Lemma 0 (`ChainLemma0.lean`, `ChainInst.lean`): `SubsetChain.lemma0` (states = subsets of the cells; possible
+  successors of x = subsets of M(x) (step (1)); hypotheses: (2) singletons communicate, (3) some u has M(u) = V,
+  (4) u reachable from a singleton; conclusion: the states with M ≠ ∅ form one irreducible class, Q u u > 0, every
+  other state dies surely, every state is entered from u); `SubsetChain.lemma0_qsd` (hence exactly one QSD with
+  λ > 0, positive everywhere); `ProductKernel.supp` (step (1) for product kernels with (K)); `KilledChain.one_class`
+  (the abstract form: some living u with Q u y > 0 for every living y, and every state that can survive one step
+  reaches u ⇒ uniqueness and positivity; this is the form to instantiate on bit-mask states).
+- **Lemma 0 in full, geometry included, on every wrapped face** (`ChainKagome.lean`): the layer is modelled as
+  cells (o, p), o ∈ {X, Y, Z}, p in any finite abelian group T generated by e1, e2 (the wrapped face (H,K),(0,D) is
+  T = ℤ²/⟨(H,K),(0,D)⟩), with the six in-layer neighbours read off the oracle's offsets (multiplicity allowed);
+  every cell has three coins. `kagome_lemma0`: for all 0 < ρ1, ρ2 < 1, the states some cell of which can be alive
+  next form one irreducible class containing the all-X state u, Q u u > 0, every other non-empty state dies surely
+  and is entered from u, and the QSD with λ > 0 is unique and positive everywhere. Ingredients: `window_iff` (a live
+  cell can survive iff k ≤ 5, a dead one be born iff 1 ≤ k ≤ 5), `M_uX` (step (3): in u every cell has one or two
+  live neighbours), `singleton_reach`, `grow_iter_univ`. **Step (4) is proved by a different route from the
+  source's**: no line growth. From the X cells over a set Q, one generation adds the Y cells beside them (each has a
+  live X neighbour and at most two live neighbours); the next keeps Q and adds the X cells over Q ± e1 (each has a
+  live Y neighbour; no cell has more than four live neighbours, since no Z cell is alive); the same with Z cells
+  gives Q ± e2. Since e1, e2 generate T, four generations per round reach the X cells over all of T.
+  `kagome_one_price`: for that unique law, c_i depends only on the orientation of i and
+  log τ = |T|·(c_X + c_Y + c_Z) (translations act on states and cells, `price_invariant`). `kagome_rotation`: if T
+  has an automorphism R with R e1 = −e2, R e2 = e1 − e2 (the rotation (x,y,z) ↦ (y,z,x) of the layer), then
+  c_X = c_Y = c_Z: one price per cell (`nbrs_rot_perm`: the rotation permutes each neighbour list).
+  `kagome_upper_bound`: Theorem 1 with its constant on this layer.
+  The neighbour lists were checked against `reference/oracle.py`'s `offsets` by a script (below), not in Lean.
+- **Every wrapped face (H,K),(0,D) literally** (`ChainTorus.lean`): `Torus H K D = ℤ²/⟨(H,K),(0,D)⟩`,
+  `torus_finite` (H, D > 0), `torus_generated`, then `wrapped_lemma0`, `wrapped_one_price`, `wrapped_upper_bound`,
+  `wrapped_rotation` (invariance as (K, −H−K), (D, −D) ∈ Λ), and the example `torus_2_0_2_one_price` (the 12-cell
+  torus of `exact.csv`: unique QSD, ln τ = 3|T|·c). `torus_card` (repair D3): |T| = H·D for H, D > 0, whence
+  `wrapped_one_price_HD` (ln τ = HD·(c_X + c_Y + c_Z)), `wrapped_rotation_HD` (ln τ = 3HD·c) and `torus_2_0_2_twelve`
+  (ln τ = 12·c).
+- The rate (`ChainRate.lean`): `decay_bounds` (from every state x of the living class, (m/M)λ^t ≤ P_x(T > t) and
+  P_x(T > t+1) ≤ (M/m)λ^t, m ≤ w ≤ M the Perron column vector; every QSD with λ > 0 has this λ), and
+  `lifetime_from_bounds` ((m/M)/(1−λ) ≤ E_x T ≤ 1 + (M/m)/(1−λ), conditional on λ < 1; `lifetime_from_bounds_K`
+  proves λ < 1 from (K), repair D6): the QSD rate is the decay rate from every start,
+  and a lifetime measured from any start is τ up to the factor M/m (not bounded here; a path argument gives only
+  ln(M/m) = O(A)).
+- Lemma R (`ChainRoutes.lean`): `routes_first` (d log τ/dA = ∑ p_r c_r), `routes_second` (d/dA ∑ p c = −∑ p (c − c̄)²
+  + ∑ p c′), `log_odds`, `routes_concave` (constant prices ⇒ concave log τ, any number of routes),
+  `two_routes_step` (the referee's exact discrete step c_s − log(1 − p(1 − e^{−(c_b − c_s)}))).
+
+## The seam identity and Theorem 3: done; (SSM) is a hypothesis, and a weaker one is proved sufficient
+
+Seam (`ChainSeam.lean`): bands in a finite set B, transfer matrix F ≥ 0; torus of m = M+1 bands cut at the seam,
+(a, xs); cover of N = m + L bands cut at the seam and at its image, (a, xs, c, ys). `coverW_eq_ringL` and
+`torusW_eq_ringL`: the cut weights are the products of F round the ring. `sum_pathF` (Chapman–Kolmogorov),
+`torusZ`/`coverZ` (normalisations Tr F^m, Tr F^N), `cover_marginal`, **`seam_identity`**: for F ≥ 0 and L = k·m,
+P_T(a, xs) = P_C(a, xs, image = a)·Tr F^N / (Tr F^m · (F^L)(a,a)); `seam_identity_obs` (the window form ★ for any
+observable); `PT_seam`; `seam_sharp` (the referee's K = 2 form, P_C(seam, rest, image = seam) = P_T(seam, rest)·
+P_T(seam), under Tr F^m = Tr F^{2m} = 1). The modelling step, that gump's space-time weight factorises into one F on
+bands two graph steps thick and that the cover has the same F, is the hypothesis (the ring weight), not derived.
+
+Theorem 3 (`ChainSSM.lean`): `Face` bundles a chain, local factors, a QSD and a number r_i per cell. `SSM` is the
+paper's hypothesis with the referee's repair: |⟨ε_i⟩_{s,G} − e_∞(s)| ≤ K e^{−r_i/ξ} + K₀/A for all G, i,
+s ∈ [0,1]. `IntSSM` is what the proof uses: the same bound on c_i(G) − c_∞. `SSM.toIntSSM` (needs e_∞ integrable),
+`thm3a` (|log τ − c_∞A| ≤ K ∑ e^{−r_i/ξ} + K₀), `thm3b` (r_i ≥ (ℓ−2)/2 ⇒ ≤ K A e^{−(ℓ−2)/2ξ} + K₀), `thm3c` (at most
+C·R cells at each integer distance ⇒ ≤ K C R/(1 − e^{−1/ξ}) + K₀), `thm3d` (A → ∞ and ∑ e^{−r_i/ξ} = o(A) ⇒
+log τ/A → c_∞).
+
+Weaker hypothesis, proved sufficient (`ChainTiltLimit.lean`): `tilt_riemann_bounds` ((1/n)∑_{k=1}^{n}⟨E⟩_{k/n} ≤
+log τ ≤ (1/n)∑_{k=0}^{n−1}⟨E⟩_{k/n} on every face, width ≤ ε_max A/n, from monotonicity alone) and
+**`price_of_pointwise`**: along any sequence of faces with costs ≤ ε_max, if ⟨E⟩_{s,G_n}/A_n → f(s) for every
+s ∈ (0,1] — at any rate, not uniformly, with no spatial locality, and with jumps of f allowed — then
+log τ/A → ∫₀¹ f; and `price_of_ae` (the referee's, taken over) asks this only for almost every s, so the finite
+curves need not converge at the jump point itself. So Theorem 3 (d)'s "one price for rimmed and wrapped faces" follows from the two families having the
+same pointwise limit of the per-cell tilted energy; a first-order jump along the tilt (the referee's two humps) does
+not obstruct it. Its finite form, `price_compare`: if the per-cell tilted energies of two faces differ by at most δ at the n + 1 tilts
+k/n and each falls by at most w over [0, 1], their prices per cell differ by at most δ + w/n. Conversely
+`SSM.einf_continuousOn` (SSM on a family with arbitrarily small error terms forces e_∞ continuous on [0,1]), with
+the referee's `SSM.tilt_limit` (under SSM, ⟨E⟩_{s,G_n}/A_n → e_∞(s) at every s) and `jump_refutes_SSM` (taken over
+from `research/blast/ref-chain/RefChainSSM.lean`), makes the referee's objection a theorem in full: a family whose
+per-cell tilted energies converge to a function not continuous on [0,1] satisfies no (SSM), whatever e_∞, K, K₀.
+
+## Places where the source needed more than it said (corrected after the referee, D5)
+
+My first list overstated. As corrected by `research/blast/ref-chain/REVIEW.md` (D5): **none of these is a gap in the
+mathematics of the source**; one is a genuine omission of a standard fact.
+1. *λ > 0 for uniqueness*: not a gap. It is a property of my weak `IsQSD` (the eigen-equation only), under which the
+   point mass on the surely-dying all-alive state is a solution with λ = 0; under the standard definition of a QSD
+   (P_μ(T > t) > 0 for all t) the source's "unique" is right as written.
+2. *Existence of μ off Lemma 0* (hull faces, strips): a genuine omission of a standard fact; proved here, for the
+   dominant law (`exists_qsd`). Uniqueness there remains unproved.
+3. *2.509*: rounding. ε_max = −ln(0.44²·0.42) = 2.50946… (0.081312·e^{2.509} = 0.99954 < 1, so ln τ ≤ 2.509·A does not
+   follow from the unweighted argument; the earlier referee's "2.509·A is right" carries the same rounding). Proved:
+   ln τ ≤ 2.51·A on every face; on wrapped faces the sharper `kagome_sharp_bound` (≤ 2.2412·A) implies ≤ 2.509·A.
+4. *e_∞ integrable*: redundant whenever (SSM) has content: `SSM.toIntSSM'` / `SSM.toIntSSM_of_small` derive `IntSSM`
+   with no integrability hypothesis from (SSM) and arbitrarily small error terms.
+5. *Division by (F^L)(s,s) in the seam identity*: does not arise in the source, whose covers are whole multiples of
+   the loop (`seam_identity` covers those). The referee measured that off multiples the identity still holds wherever
+   (F^L)(a,a) > 0 and fails otherwise (the 2-cycle); that form is not formalised. The sharp K = 2 form needs
+   Tr F^m = Tr F^{2m} = 1 (the referee's Z = 1), assumed.
+6. *(K) for every cell in every state* (Lemma 0's step (1)): the source's standing assumption, stated as such.
+7. Lemma R's discrete form: the earlier referee's correction, proved here.
+
+## Which upper bounds are Lean theorems (D7)
+
+- `KilledChain.upper_bound_coins` with `emax_main`: ln τ ≤ −ln min(ρ1²ρ2,(1−ρ1)²(1−ρ2))·A ≤ 2.51·A, for every QSD of any
+  chain whose local factors are all ≥ the smallest coin atom (every face of the surrogate: `bit_surrogate`,
+  `kagome_upper_bound`, `wrapped_upper_bound`).
+- `Kagome.kagome_sharp_bound` (`ChainSharp.lean`, the referee's paper proof formalised): ln τ ≤ 2.2412·A for every QSD
+  of the surrogate on the kagome layer over any finite T (every wrapped face), at (0.44, 0.42). Hypotheses: none
+  beyond the model. The constant is (2ε_max + ε₂)/3 = 2.241096 (ε₂ = −ln(0.56²·0.58) = 1.70437), proved with
+  ε_max ≤ 2.5095, ε₂ ≤ 1.7045. Ingredients: `indeg` (every cell is the neighbour of exactly six slots), `card_S_le`
+  (3·#{live, k = 3} ≤ 2A), `energy_le_sharp` (E(x) ≤ (2ε_max + ε₂)/3·A for every state). Not for hull faces.
+- The dice agent's `Gump.Dice.lntau_le_regular` (commit ce1b0a1, `DiceBound2.lean`, not mine): −ln(1 − λ) < 1.9228·A
+  for every QSD of a `Gump.Dice.Face` with all its coins and `regular` (six slots out and six in per cell), at the
+  dice densities; regularity is proved for `torus 1 0 3`, `torus 1 1 3`, `torus 2 0 2`. It is about its own faces, not
+  this model; on those three it implies 2.2411.
+- "ln τ ≤ 2.509·A is true of the surrogate" (my earlier sentence): now a theorem on wrapped faces only (via
+  `kagome_sharp_bound`); unproved on hull faces.
+
+## Instantiation plan (for `GumpMath/Dice*.lean`)
+
+**Update: most of this plan is now done here, in the other agent's shape** (`ChainBits.lean`): `bitP A a` is
+`Gump.Dice.Face.P` over ℝ for any a; `bitP_row` (the rows sum to 1: `sum_bits`, induction over the top bit),
+`bitP_zero`, `bitP_pos_iff`; `aliveProbR` is `Gump.Dice.aliveProb` transcribed over ℝ, with
+`one_sub_aliveProbR_three`/`_two` identifying 1 − aliveProb with `death3`/`death2`; and `bit_surrogate` gives
+Theorems 1 and 2 for every face whose cells have coins (2,1) and k ≤ 6, or (2,0) and k ≤ 2, for the dominant QSD and
+with the local factor of each cell **named** as 1 − aliveProbR of that cell (repair D1: the referee's `exists_lumped`
+shows an unnamed factorisation makes "ln τ = Σ c_i" empty, all prices but one 0; no other theorem here has an
+existential local factorisation); `bit_one_class` gives
+Lemma 0's uniqueness on bit masks from a state u where every cell can be alive and reachability of u. What remains
+for the instantiation, in a later step that may import both: (1) `(F.P ρ1 ρ2 x y : ℝ) = bitP F.A (fun x i =>
+aliveProbR ρ1 ρ2 (F.m1 i) (F.m2 i) (F.k x i) (x.testBit i)) x y` by `push_cast` (and `bin` against `binR`);
+(2) the per-face facts on `m1`, `m2`, `k` by `decide`; (3) for Lemma 0 on their torus faces, either the
+reachability hypothesis of `bit_one_class` per face, or a bijection to my kagome model carrying `nb` to `nbrs`.
+The table below is the original plan.
+
+The other agent's chain (`Gump.Dice.Face.P ρ1 ρ2 : Matrix (Fin (2^A)) (Fin (2^A)) ℚ`, states as bit masks, the empty
+face 0 absorbing, a_i(x) = `aliveProb ρ1 ρ2 (m1 i) (m2 i) (k x i) (testBit x i)`) is exactly the shape of
+`ChainInst.lean`. With S = Fin (2^A), o = 0, P = its matrix cast to ℝ, V = Fin A:
+
+| hypothesis of `surrogate_theorems` | why it holds for the surrogate | how to check |
+|---|---|---|
+| `hP`: P ≥ 0 | products of a_i, 1 − a_i ∈ [0, 1] | their `P_nonneg`, cast |
+| `hrow`: ∑_y P x y = 1 | ∏_i (a_i + (1 − a_i)) expanded over bit masks | induction on A splitting y by its top bit (about 40 lines if not already in `Dice*`) |
+| `hprod`: P x 0 = ∏_i (1 − a_i x) | testBit 0 i = false | `simp` |
+| `ha0`, `ha1`: 0 ≤ a_i < 1 (K) | every cell has coins (2,1) and k ≤ 6, or (2,0) and k ≤ 2 (hull corners) | `decide` on the face's `m1`, `m2`, `nb` lengths; then 1 − aliveProb = `death3`/`death2` (a finite case check over s, k) and `threeCoins_death_ge`/`twoCoins_death_ge` |
+| `hatom`: 1 − a_i ≥ min(ρ1²ρ2, (1−ρ1)²(1−ρ2)) | the same two lemmas | as above |
+
+Then `surrogate_theorems` gives, for that face, a QSD, log τ = ∑_i c_i (Theorem 2) and log τ ≤ 2.51·A at
+(0.44, 0.42) with `emax_main` (Theorem 1). Their `Gump.Dice.IsQSD` (nonneg, vanishing at 0, total 1, eigen on
+non-empty y) converts to mine by `KilledChain.isQSD_of` field for field, so their certified λ-interval
+(`qsd_bounds`) and my `IsQSD.lifetime_eq` (τ = 1/(1 − λ)) connect directly. For uniqueness on a wrapped face, use
+`KilledChain.one_class` with u = the cells of one orientation: (i) Q u y > 0 for every y ≠ 0, because in u every
+cell has k = 2 (two in-layer neighbours of each orientation), so 0 < a_i(u) < 1 for every i and every product term is
+positive; (ii) every state that can survive reaches u: x → {i} for i ∈ M(x), singletons → neighbouring singletons
+(k_j = multiplicity ≤ 5), and the line-growth path of THEOREMS.md (4) from an X-singleton to u, given per face as an
+explicit list of states (each a subset of M of the previous), checked by `decide`. With uniqueness,
+`price_invariant` and the translations (bit-mask permutations, a finite check) give one price per orientation.
+
+## What is not done, and the obstacle in each case
+
+- **Lemma 0 on the other agent's faces.** Proved on my kagome model (`kagome_lemma0`); that the other agent's
+  `torus H K D` (cells as a list of 3D points, `nb` from `Gump.nbrs` and `red`) is this model is not proved: it
+  needs a bijection between its cell indices and Orient × ℤ²/⟨(H,K),(0,D)⟩ carrying `nb` to `nbrs` (per face by
+  `decide`, or once by a geometric proof about `red`). For hull faces and strips (not wrapped) uniqueness remains
+  unproved, in Lean as in the source.
+- **(SSM) is not proved, and as stated it is probably false** (judgment below).
+- **The existence of the price per cell, unconditionally.** Proved: existence and a two-sided interval
+  [(a_n − C′)/n, (a_n + C)/n] from one face, under gluing inequalities with defects (`ChainPrice.lean`:
+  `price_exists_of_sub`, `price_exists_of_super`, `price_interval`, Fekete's lemma applied to a + C and C′ − a); and
+  existence from pointwise convergence of the per-cell tilted energy (`price_of_pointwise`). The fact that blocks it:
+  no gluing inequality is known for S. Super-multiplicativity τ(G₁ ∪ G₂) ≥ e^{−C′}τ(G₁)τ(G₂) is the open lower
+  bound B2 in another form (two faces with no edges between them have log τ = max, not the sum, so the inequality
+  must quantify reseeding across the seam); sub-multiplicativity needs a bound on how much reseeding across a seam
+  can lengthen life, and conditioning on survival is a global event that does not factorise over bands, which is why
+  the seam identity (a statement about soup-started histories) does not give it.
+- Not built because not needed: perturbation theory of the top eigenvalue; that Wielandt's eigenvalue is the spectral
+  radius; convergence in law to the QSD from an arbitrary start (only the decay rate, `decay_bounds`).
+- A bound on the Perron vector's spread M/m that would make ln E_x T = ln τ + O(1): not proved.
+
+## Judgment on (SSM), with reasons, and the first step
+
+(SSM) asks that the tilted local means be local *uniformly in s ∈ [0,1]*. Three facts weigh against it for the
+surrogate. (i) The referee's tilted laws are two-humped on wrapped faces for s ≳ 0.3, with valley/peak ratio growing
+1.2, 3.9, 15 at 12, 18, 27 cells: a first-order transition along the tilt is forming, at which e_∞ would jump while
+every finite curve is continuous, so no bound uniform in s can hold near the jump. (ii) Even at s = 0 (spatial mixing
+of the quasi-stationary law itself) the standard route is closed: Dobrushin's interaction coefficient of the one-step
+kernel, α = 6·max_{s,k}|a(s,k) − a(s,k+1)| + max_k|a(0,k) − a(1,k)|, is 2.923 at (0.44, 0.42) and at least 2.625 at
+every coin density (minimum at ½, ½; script below), against the contraction threshold 1. (iii) The QSD is a law
+conditioned on survival, a global event, so even a contracting kernel would not make it a Gibbs measure of a local
+specification. So: not provable by known methods, and probably false as stated.
+
+What the conclusion actually needs is much weaker and is now a theorem (`price_of_pointwise`): pointwise convergence
+of ⟨E⟩_{s,G}/A at each s, with the same limit for the families compared. The first step towards proving that would
+be the case s = 0, convergence of E_μ[E]/A, a density-like bulk average of the living state, along one family
+(a tube or strip lengthened one unit at a time). Even that needs a gluing inequality for the quasi-stationary law
+of two pieces, and that inequality is the same obstacle as in the price section above. A weakened form proved
+unconditionally: the Riemann bracket (`tilt_riemann_bounds`), which makes ln τ computable to within ε_max A/n from
+n + 1 tilted means, jump or no jump.
+
+## Bearing on the owner's questions
+
+The tilt identity is now a theorem in Lean at full generality: the lifetime of every face of the surrogate is
+exactly a sum of local costs (`tilt_identity`, `ProductKernel.tilt_identity_product`, `bit_surrogate`), and on every
+wrapped face the quasi-stationary law is unique and the price of a cell depends only on its orientation
+(`wrapped_lemma0`, `wrapped_one_price`), one price per cell on rotation-invariant tori (`wrapped_rotation`). The new observation: the measured "two kinds of face at one tilt"
+does not stop the price from existing. `price_of_pointwise` shows a jump along the tilt is harmless to the
+existence and universality of the price per cell; what would make the prices of rimmed and wrapped faces differ is
+a different pointwise limit of the per-cell tilted energy, not the jump itself.
+
+## Reproduce
+
+    export PATH=$HOME/.elan/bin:$PATH; cd research/blast/lean/mathlib
+    lake build GumpMath.ChainTilt GumpMath.ChainPerron GumpMath.ChainExist GumpMath.ChainLemma0 GumpMath.ChainCoins \
+      GumpMath.ChainRoutes GumpMath.ChainSeam GumpMath.ChainSSM GumpMath.ChainPrice GumpMath.ChainInst \
+      GumpMath.ChainTiltLimit GumpMath.ChainBits GumpMath.ChainKagome GumpMath.ChainTorus GumpMath.ChainRate \
+      GumpMath.ChainSharp
+    lake env lean AxiomsChain.lean            # every line: [propext, Classical.choice, Quot.sound]
+    cd ../../../.. && sh research/blast/lean/check.sh --mathlib
+    python3 research/blast/lean/statements.py # merges statements_chain.json (rewrites STATEMENTS.md)
+
+The kagome neighbour lists against the oracle's offsets (prints `all match: True`):
+
+    python3 -c "
+    import sys; sys.path.insert(0,'reference'); from oracle import offsets
+    ab=lambda o,a,b:[(1+2*a+2*b,-2*a,-2*b),(2*a+2*b,1-2*a,-2*b),(2*a+2*b,-2*a,1-2*b)][o]
+    inv={ab(o,a,b):(o,a,b) for o in range(3) for a in range(-3,4) for b in range(-3,4)}
+    mine={0:[(0,-1,1),(0,1,-1),(1,0,0),(1,1,0),(2,0,0),(2,0,1)],1:[(1,0,1),(1,0,-1),(0,0,0),(0,-1,0),(2,0,0),(2,-1,1)],
+          2:[(2,1,0),(2,-1,0),(0,0,0),(0,0,-1),(1,0,0),(1,1,-1)]}
+    ok=all(sorted(inv[tuple(p+d for p,d in zip(ab(o,0,0),D))] for D in offsets(o) if sum(D)==0)==sorted(mine[o]) for o in range(3))
+    print('all match:',ok)"
+
+Dobrushin's coefficient (the judgment above; 1 s):
+
+    python3 -c "
+    from math import comb
+    rule=lambda s,n:(3<=n<=5) if s else n in(4,5)
+    def al(r1,r2):
+     P=[0]*4
+     for c1 in range(3):
+      for c2 in range(2): P[c1+c2]+=comb(2,c1)*r1**c1*(1-r1)**(2-c1)*r2**c2*(1-r2)**(1-c2)
+     a={(s,k):sum(P[b] for b in range(4) if rule(s,k+b)) for s in(0,1) for k in range(7)}
+     return 6*max(abs(a[s,k]-a[s,k+1]) for s in(0,1) for k in range(6))+max(abs(a[0,k]-a[1,k]) for k in range(7))
+    print(al(.44,.42), min(al(i/100,j/100) for i in range(1,100) for j in range(1,100)))"
+
+## Not checked
+
+- No second reader has gone through these Lean statements against the source; the rows of `statements_chain.json`
+  are my reading. In particular `Face.r` is an arbitrary number per cell: the source's r_i (largest isomorphic ball,
+  coin counts included) is not formalised, so (b) and (c) take their geometric inputs as hypotheses.
+- No theorem here is about the other agent's `Gump.Dice.Face.P` itself: `bitP` and `aliveProbR` are transcriptions
+  of its `P` and `aliveProb` made by reading `DiceDef.lean`, not checked against them by Lean (the instantiation
+  step would check them by `push_cast`).
+- The kagome model's identification with `geom.py`'s tori rests on the coordinates (a, b) of `geom.py`'s `ab_cell`
+  as transcribed in `DiceDef.lean` (`abCell`) and on the offsets check above; that `Torus H K D` with e1, e2 is the
+  torus of `geom.py torus H K D` (period lattice (H,K),(0,D) in the basis E1, E2) is read from its README, not
+  proved.
+- The Dobrushin numbers are from the script above only (no second code).

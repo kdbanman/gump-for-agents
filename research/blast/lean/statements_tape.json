@@ -1,0 +1,202 @@
+[
+ {
+  "section": "The catalogue's \"for every N\" laws: the tape, the gun's line, the rake train's signals (tape files)",
+  "rows": [
+   [
+    "tape_run",
+    "`research/signals/README.md` §10, the tape: every pattern made of B units and C units moves towards −v at one unit per 2 generations; every infinite sequence over {B, C} is an exact solution moving at one unit per 2 generations (reviewed in `research/audit/REVIEW-signals-2.md` row 5; part A of `REVIEW-signals-9.md` §3 for wire B, the same letters `7`, `b`).",
+    "Same, on the whole lattice, for every word w : ℤ → {B, C} (finite, one-sided and two-sided words alike). Stated at even generations; nothing is said about the odd ones (the source needs nothing there either)."
+   ],
+   [
+    "tape_local_run",
+    "The form the gluing arguments use (`REVIEW-signals-9.md` §3, W(k) 'by A both continue for ever'): what lies on a stretch of tape determines the stretch 2n generations later.",
+    "Stronger than the source states: any configuration that is the tape of w on the units a − 2n .. b + 2n is, 2n generations later, the tape of the shifted word on a .. b, whatever lies outside."
+   ],
+   [
+    "line_orbit",
+    "§21: the line (capA + N units of bare wire C + the gun) has period exactly 4 from generation 2N on for every N ≥ 2; `verify_line.py` (D): and not from generation 2N − 1 (measured there for N = 2, 3, 12, 13, 30).",
+    "Stronger: for every N ≥ 2 the state at s returns after p > 0 generations iff s ≥ 2N and 4 ∣ p, so the preperiod is exactly 2N for every N (the source proves period 4 from 2N by induction and measures the 2N − 1 clause). Object in the coordinates of `objects/line-C.json`; base runs S(4,1), N = 2, 3 by the kernel."
+   ],
+   [
+    "line_period_four",
+    "§21 in the form of `Gump.Signals.lineC_2_period_four`, `lineC_3_period_four`, `lineC_12_period_four`, `lineC_13_period_four` (N = 2, 3, 12, 13).",
+    "Same as `line_orbit`, specialised: period 4 from 2N, no smaller, not from 2N − 1."
+   ],
+   [
+    "S_succ",
+    "`research/signals/prove_line.py`'s induction S(N, m) → S(N+1, m+1): Y(t) = L_N(t) on units ≤ m and τX_N(t) on units > m is X_{N+1}.",
+    "Same argument; the witness of 'not period 2' is carried at a unit > m and that of 'not from 2N − 1' at a unit ≤ m + 1, which the source does not need."
+   ],
+   [
+    "train_step",
+    "§30, `echo6.check_train`: the plain rake train (rake5 on even units, rakef on odd at generation 0) is an orbit and moves one unit towards −v every 2 generations.",
+    "Same, on the whole lattice (the train infinite along the wire); `train_shift` is the motion."
+   ],
+   [
+    "signal_run",
+    "§30 and `prove_echo.py` (E, U, H, K0), `REVIEW-signals-6.md` §2 and `research/audit/signals6/sig6.py` (K3, N1, N2, N3, N4): each of the nine signals rides the infinite train for ever, rigidly, one unit per 2 generations.",
+    "Same, for every lowest unit of the kind's parity and every n: run (train 1 ⊕ sig K u) (2n) = train (1 + 2n) ⊕ sig K (u + dir·n). That these are all the train's signals is not claimed (nor by the source)."
+   ],
+   [
+    "glue_run",
+    "The gluing step of §11, §21, push 8 and `REVIEW-signals-9.md` §3: two orbits that agree on the units m, m + 1, one obeying the rule on units ≤ m and the other on units > m, glue to an orbit.",
+    "Same, with a fixed seam; the moving seam is `glue_run_moving` (its own row)."
+   ],
+   [
+    "orbit_classify",
+    "(the meaning of 'period exactly 4 from generation μ, and not from μ − 1')",
+    "A general lemma: the three facts X(μ+4) = X(μ), X(μ+2) ≠ X(μ), X(μ+3) ≠ X(μ−1) give: X(s+p) = X(s) iff s ≥ μ and 4 ∣ p."
+   ],
+   [
+    "clock_every_length",
+    "§11: a clock of period exactly 4N + 2 exists for every N ≥ 1 (`prove_clock.py`; REVIEW-signals-2 row 1).",
+    "**Less than the claim**: an existential that does not name the clock (referee ref-tape D1: the lit clocks of 1 and 2 units side by side satisfy it for N = 7). The theorem that names the object is `clockOf_period`. Kept unchanged."
+   ],
+   [
+    "clock_cycle",
+    "§11's surgery: the base cycle (here the clock of 6 units, period 26) cut at unit m with j units inserted is an orbit of period exactly p + 4j.",
+    "Same; the chart arithmetic (A), (B) is proved for every j, i, t by omega (the source enumerated j ≤ 40); base N0 = 6 instead of 8 or 12."
+   ],
+   [
+    "lit_clock_small",
+    "§11, `verify_clock.py`: the lit clock (one added cell) has period 4N + 2; REVIEW-signals-2: it enters its cycle after max(N − 2, 0) generations.",
+    "N = 1 .. 5 only: from generation max(N − 2, 0) an oscillator of exact period 4N + 2 (that it is not periodic earlier is not claimed)."
+   ],
+   [
+    "unzip_law_sharp",
+    "push 8 §5 and `prove_unzip8.py`: the count read leaves exactly k pulses two units apart for every k; REVIEW-signals-8 §3: final from generation 2k + 6, not at 2k + 4.",
+    "Same, on the whole lattice with the infinite store wire, the stretch's first unit at 0. `UnzipLawSharp` is a definition in `Gump/Unzip.lean`: ∀ k ≥ 1, (∀ n ≥ k + 3, run (countRead k) (2n) = tape (pulses k (2 − n))) ∧ run (countRead k) (2(k + 2)) ≠ tape (pulses k (2 − (k + 2))). Proved by an induction on time (the front `f 9`), not by the source's seam argument."
+   ],
+   [
+    "unzip_law",
+    "push 8 §5 as the push states it: from generation 4k + 8 on.",
+    "Same (`UnzipLaw` in `Gump/Unzip.lean`: ∀ k ≥ 1, ∀ n ≥ 2k + 4, run (countRead k) (2n) = tape (pulses k (2 − n))); a corollary of `unzip_law_sharp`."
+   ],
+   [
+    "stretch_stands",
+    "push 8 §6: the memory cell holding k stands (period 2); here its infinite-wire form, wire B with d^k f.",
+    "For the infinite wire, every k ≥ 1; the finite cell with its two caps is not covered."
+   ],
+   [
+    "glue_run_moving",
+    "push 8's and the call law's gluing step: a seam that moves at most one unit per generation, with agreement on three units.",
+    "Same; proved, not used by the unzip proof here."
+   ],
+   [
+    "call_law_b",
+    "`research/audit/REVIEW-signals-9.md` §3 (b) and P1 of its proof (`proof9.py` parts D, E): for every k ≥ 1, at every even t ≥ 2k + 34, V_k(t) (the store wire alone, e1 = (1,2,0) of the crossing unit made live at generation 29) is plain wire B carrying exactly k units b at units c + 3 − (t − 28)/2 + 2j, j < k.",
+    "Same, on the whole lattice with the infinite store wire, c = 35 as in call9.json; the second conjunct of `Gump.Call.CallLaw`. Proved by the time induction of the unzip law (front `f b 9`), not by the review's seam path. Part (a) of the call law (X_k = V_k ⊔ Lf) is not proved."
+   ],
+   [
+    "clockOf_period",
+    "§11: a clock of period exactly 4N + 2 for every N ≥ 1, as a named object.",
+    "`clockOf N` is the lit clock (capL + N units + capR + one cell) at generation max(N − 2, 0) for N ≤ 5, and the surgery's cycle `clockY (N − 6)` for N ≥ 6: exact period 4N + 2, support in units −4 .. N + 3. That `clockY j` is a state of the lit clock of 6 + j units is not proved (measured by the referee for j ≤ 6)."
+   ],
+   [
+    "line_rest",
+    "`REVIEW-signals-9.md` §3 and `proof9.py` part B: the free call line (with the CALL) is at rest from generation 42.",
+    "Same: `Lf (2n) = lcfg line` for n ≥ 21 (`LineRest`), by the kernel on the 128 × 128 × 16 box of `Gump/CallBox.lean`, whose stepper `Gump.Call.Box.bstep_spec` is proved equal to `Gump.step`."
+   ],
+   [
+    "call_law_a",
+    "`REVIEW-signals-9.md` §3 (a): X_k(t) = V_k(t) ⊔ Lf(t) at every generation, for every k ≥ 1.",
+    "Same (disjointness in `V_Lf_disjoint`): supports by `confinement`/`hull`, the union law off the 44-cell interaction set by `step_or`, and at it by kernel checks at every generation (store, start, `VW` words, all 256 tape words for t ≥ 44)."
+   ],
+   [
+    "call_law",
+    "`REVIEW-signals-9.md` §3, the whole call law: (a) and (b) for every k ≥ 1.",
+    "Same: `CallLaw` (Gump/Call.lean) proved. The review's \"what is left\" (ii)–(iv) (the finite cell, other seed places, \"at no earlier generation\") are not covered."
+   ],
+   [
+    "X0_lit",
+    "(referee ref-tape's observation) the surgery's base X0 is a state of the catalogue's lit clock.",
+    "Same: the lit clock of six units at generation 41 is X0, so `clockY 0` is its state at generation 53 (`clockY_zero_lit`). For j ≥ 1 that `clockY j` is a state of the lit clock of 6 + j units is not proved."
+   ],
+   [
+    "lit_word",
+    "(PI's brief, third task) the lit clock's transient as a word family for every N: from one cell the rake f runs from unit N/2 towards capR, shedding units of wire B (pulses p<) behind it.",
+    "Same, for every N ≥ 6: at generation 2m (m ≤ mmax N = ⌈N/2⌉ − 1) the lit clock is `FL N m`: f at N/2 + m, wire B at N/2 − m + 2i (i < m), wire C elsewhere, caps untouched. Checked on the oracle for N = 6 .. 30 by `tape_lit.py`; proved by local double steps (tape windows, three zone families, `zonesLit_ok`) for N ≥ 16 and by whole-clock kernel steps (`smallOK_ok`) for 6 ≤ N ≤ 15."
+   ],
+   [
+    "lit_enters",
+    "§11 and the owner's journal (2026-11-15, 10:30): one cell lights the clock of N units into the cycle `clockOf N`; matched at generation N − 2 with `clockY (N − 6)`.",
+    "For even N: at generation N − 2 exactly (2 · mmax N = N − 2), the state of `clockOf N` at generation 2(N − 6) + 3, i.e. `Y_{N−6}` at surgery time 2(N − 6) + 8 (`FL_entry`). For odd N this theorem matches at N − 1 (2 · mmax N = N − 1); the match at N − 2 is `lit_odd_entry` (ClockLitOdd), and the whole claim with \"at no earlier generation\" is `lit_enters_at`."
+   ],
+   [
+    "lit_clock",
+    "§11, `verify_clock.py`: the clock lit by one cell is an oscillator of period exactly 4N + 2, for every N ≥ 1.",
+    "Same, for every N ≥ 1: from generation `litEntry N` (max(N − 2, 0) for N ≤ 5; N − 2 for even, N − 1 for odd N ≥ 6) every state of the lit clock is a state of the cycle of `clockOf N` and has exact period 4N + 2. With `lit_enters` this makes the journal's 4N + 2 clock a theorem from a single cell."
+   ],
+   [
+    "beam_period",
+    "§21, `prove_beam.py`: the beam (the mirror-image gun, N units of rake train, the SAT absorber of C = 31; `objects/beam-5f.json`) has period exactly 4 for every N ≥ 1.",
+    "Same, for every N ≥ 1 (period 4, and no smaller period). The object is given unit by unit (`beamU`, `Gump/LineBeamData.lean` from `tape_beam.py`, which checks that it reassembles to the catalogue's Object(N) for N = 1 .. 30). Proved by the source's induction N → N + 2 (`S_step`, the gluing by `glue_run`) from kernel bases S 8, S 9, and N = 1 .. 9 directly. Not covered: the cell count 33 + 5N, the hull, the stream's one-cell pulses (the hole)."
+   ],
+   [
+    "reader_run",
+    "§15, `prove_reader.py`: capL of the clock eats every word of the B/C tape and remembers nothing: at every even generation, for every word, the state is capL and the tape moved on, cell for cell.",
+    "Same, for every word w (any function from units to {B, C}; its letters on the units ≥ 0 are on the tape): `readerC w` (capL on the units < 0, `tape w` on the units ≥ 0) is at generation 2n `readerC` of w moved n units. One double step (`reader_step`) is tape windows on the units ≥ 2 and one kernel check per word on the units 0 .. 3 (`readerOK_ok`, the source's 16 closed states). The source's `--U 4` variant and other caps in the census (`readers.py`) are not covered."
+   ],
+   [
+    "reader9_run",
+    "`REVIEW-signals-9.md` §3, what is left (ii): whether the third push's reader theorem covers the call line's left cap (`call9.json` `capL`; that the cap takes a train of any length is measured to k = 40).",
+    "Covered, by a new theorem: call9's capL (18 cells, not the clock's capL) eats every word too: capL9 on the units < 4 and any word on the units ≥ 4 is at generation 2n capL9 and the word moved n units (`readerCall`). Proved by `reader_run_gen` (`ClockReader`'s proof written for any cap passing 16 zone checks), `cap9OK_ok`. This is the cap at the end of a bare store wire: the finite cell of the call law (the cap during the call, with the call line across the cell) is not covered."
+   ],
+   [
+    "lit_enters_exact",
+    "(PI's brief, third task) the lit clock enters the cycle of `clockOf N` at generation N − 2, \"at no earlier generation\" if true.",
+    "For even N ≥ 6: on the cycle at generation N − 2 and at no earlier generation (`lit_first_even`: no state before N − 2 is any state of the cycle; the witness is the left end at generation N − 3, one kernel-checked cell per base time)."
+   ],
+   [
+    "lit_first",
+    "(PI's brief, third task) \"at no earlier generation\": the lit clock of N units is on no state of the cycle of `clockOf N` before generation N − 2.",
+    "Same, for every N ≥ 6: even N by the left end at N − 3 (`lit_first_even`), odd N by the right end at N − 3 (`lit_first_odd`: C, f, C, capR is the right end of no base state; the left end would not do, it is that of the base at times 4, 8, 12, 16 in Lean's `Xb` convention, i.e. generations 11, 15, 19, 23 counted from X0, `Xb_nat`; ref-tape third review). With `lit_enters_at` the entry is exactly N − 2 for every N ≥ 6."
+   ],
+   [
+    "lit_enters_at",
+    "(PI's brief, third task) one cell lights the clock of N units into the cycle `clockOf N`, matched at generation N − 2 with `clockY (N − 6)`, at no earlier generation; the owner's journal (2026-11-15, 10:30) on the 4N + 2 clock as a theorem from a single cell.",
+    "Same, for every N ≥ 6: the state at N − 2 is a state of the cycle (even N: `clockY (N − 6)` at generation 2(N − 6) + 3, `lit_enters`; odd N: at 2(N − 6) + 2, `lit_odd_entry`, three local one-generation kernel checks against base times 7, 9, 11), and no earlier state is (`lit_first`). `lit_clock_exact`: from N − 2 on, exact period 4N + 2. N ≤ 5: `lit_clock_small` (from max(N − 2, 0); minimality there not claimed)."
+   ],
+   [
+    "divider_period",
+    "§21b, `prove_divider.py`: the divider (line-C(N) and the oscillator `osc` of `objects/divider-C8.json`) has period exactly 8 from generation 2N − 3 for every N ≥ 8.",
+    "Same, for every N ≥ 8: the state at 2N − 3 returns after 8 generations and after no fewer, and the state at 2N − 4 does not return after 8 (so it is on no cycle: the preperiod is exactly 2N − 3). Proved by the source's (and `Line.lean`'s) induction N → N + 1 with the oscillator in the right chart (`S_succ`), from the kernel base S 14 3 (`baseCheck_ok`, 37 generations) and N = 8 .. 13 directly (`directOK_ok`). capA, the wire unit and the gun are asserted equal to line-C's by `tape_divider.py`, which also checks the periods on the oracle for N = 8 .. 16. N = 3 .. 7 (direct runs in the catalogue) are not covered."
+   ],
+   [
+    "run_or_far",
+    "(PI's brief, fourth task) superposition: two configurations whose supports are farther apart than the light cone reaches in n generations evolve independently for n generations.",
+    "Same, on the whole lattice, from `light_cone` alone: if no live cell of c₁ is within max-norm distance 4n of a live cell of c₂, the run of their union for n generations is the union of their runs."
+   ],
+   [
+    "superpose_units",
+    "(the same, along a wire and on a background) two modifications of a background X, one on the units < a and one on the units > b, run independently while their light cones do not meet.",
+    "Same: if Y = X on the units ≥ a and Z = X on the units ≤ b, then for any seam a + n − 1 ≤ m ≤ b − n, n generations of Y-on-the-units-≤-m glued to Z-beyond are the runs of Y and Z glued at m. Any background, not only an orbit."
+   ],
+   [
+    "pair_run",
+    "§31: each ordered pair of kinds moving in opposite directions has exactly one meeting (up to translation and time), because two generations lower the distance by 2.",
+    "Same, for every pair of an up-signal and a down-signal of the nine (dir +1, −1): `pair A B a (b + 2n)` (train(1) with A at a and B at b + 2n) is after 2n generations `pair A B a b` moved n units, whenever b − a ≥ top(A) + 3. Proved by `superpose_units` for each double step (`pair_step`)."
+   ],
+   [
+    "meet_U_K0",
+    "§31 table: U meets K0: both vanish (the plain train, exactly, 20 generations after the start at offset 19).",
+    "Same, from every distance 3 + 2n (n ≥ 0; offset 19 is n = 8): from generation 2n + 4 on the configuration is exactly train(1 + t). Base: one kernel run at distance 3 (`checkUK0_ok`)."
+   ],
+   [
+    "meet_UH",
+    "§31 table: U meets H: the stream turns into wire B between two edges, the lower running down with the stream, the upper running up and turning every rake into wire B.",
+    "Same, exactly and for ever, from every distance 4 + 2n: from generation 2n + 12 on, four generations move the configuration two units down at and below unit 4 + n and two units up above it (`front`), and the units 2 + n .. 7 + n hold wire B (`wireB`); the states at 2n + 12 .. 2n + 16 are the kernel's (`stateUH`). The law: `rigid_front` (the chart argument as a theorem); the base chain by `chainUH_ok`, `factsUH_ok`."
+   ],
+   [
+    "meet_EH",
+    "§31 table: E meets H: the stream turns into wire B between two edges (\"U meets H: the same: wire B between the same two edges\").",
+    "Same law, from every distance 5 + 2n, from generation 2n + 22 (seam 1 + n, wire B on units n − 1 .. n + 4). **Correction to the table**: the edges are not the same as U–H's. The lower edges agree, but E–H's upper edge carries for ever a three-unit inclusion (two altered units around one unit of plain train) just below its four topmost units of wire B, moving up with the edge (pictures printed by `tape_meet.py`). The section's note that E–H's edge is \"wider\" at generation 56 is this inclusion."
+   ],
+   [
+    "meet_EK",
+    "§31 table: E meets K0: E becomes a puncher; K0 is gone; an edge runs up behind which every rake has lost its hole cell (the train xor H at every odd unit).",
+    "Same, from every distance 4 + 2n, from generation 2n + 12: the front law at the seam 1 + n, with the medium on the units n − 1 .. n + 4 the holed train (`medEK`: train(1) with H at every odd unit, its unit at each phase; `tape_meet.py` checks it is that orbit, period 4, two-unit periodic). The lower edge of the holed region is the lowest H, which runs down with the stream."
+   ]
+  ]
+ }
+]

@@ -1,0 +1,45 @@
+hull3 from 511: share of ALL deaths (t <= 120, mass 0.99996584): 0.152267
+hull3 from 511: t =   6  P(T = t) = 7.177e-02  bust share of the deaths at t: 0.2860777638
+hull3 from 511: t =  10  P(T = t) = 4.728e-02  bust share of the deaths at t: 0.0156419855
+hull3 from 511: t =  20  P(T = t) = 1.890e-02  bust share of the deaths at t: 0.0170063302
+hull3 from 511: t =  40  P(T = t) = 3.307e-03  bust share of the deaths at t: 0.0170176858
+hull3 from 511: t =  60  P(T = t) = 5.791e-04  bust share of the deaths at t: 0.0170176867
+hull3 from 511: t =  80  P(T = t) = 1.014e-04  bust share of the deaths at t: 0.0170176867
+hull3 from 511: t = 100  P(T = t) = 1.776e-05  bust share of the deaths at t: 0.0170176867
+hull3 from 511: t = 120  P(T = t) = 3.109e-06  bust share of the deaths at t: 0.0170176867
+torus113 from 73: share of ALL deaths (t <= 120, mass 0.99976693): 0.934236
+torus113 from 73: t =   6  P(T = t) = 5.849e-02  bust share of the deaths at t: 0.9492856837
+torus113 from 73: t =  10  P(T = t) = 3.893e-02  bust share of the deaths at t: 0.9308212435
+torus113 from 73: t =  20  P(T = t) = 1.847e-02  bust share of the deaths at t: 0.9366803599
+torus113 from 73: t =  40  P(T = t) = 4.552e-03  bust share of the deaths at t: 0.9368528492
+torus113 from 73: t =  60  P(T = t) = 1.123e-03  bust share of the deaths at t: 0.9368529752
+torus113 from 73: t =  80  P(T = t) = 2.773e-04  bust share of the deaths at t: 0.9368529753
+torus113 from 73: t = 100  P(T = t) = 6.843e-05  bust share of the deaths at t: 0.9368529753
+torus113 from 73: t = 120  P(T = t) = 1.689e-05  bust share of the deaths at t: 0.9368529753
+torus103 from 73: share of ALL deaths (t <= 120, mass 0.98222557): 0.669454
+torus103 from 73: t =   6  P(T = t) = 2.926e-02  bust share of the deaths at t: 0.7370745213
+torus103 from 73: t =  10  P(T = t) = 2.635e-02  bust share of the deaths at t: 0.6566377792
+torus103 from 73: t =  20  P(T = t) = 1.882e-02  bust share of the deaths at t: 0.6466868451
+torus103 from 73: t =  40  P(T = t) = 9.505e-03  bust share of the deaths at t: 0.6465904452
+torus103 from 73: t =  60  P(T = t) = 4.799e-03  bust share of the deaths at t: 0.6465904363
+torus103 from 73: t =  80  P(T = t) = 2.423e-03  bust share of the deaths at t: 0.6465904363
+torus103 from 73: t = 100  P(T = t) = 1.224e-03  bust share of the deaths at t: 0.6465904363
+torus103 from 73: t = 120  P(T = t) = 6.178e-04  bust share of the deaths at t: 0.6465904363
+strip13 from 511: share of ALL deaths (t <= 120, mass 0.99915370): 0.015857
+strip13 from 511: t =   6  P(T = t) = 2.322e-02  bust share of the deaths at t: 0.0643659645
+strip13 from 511: t =  10  P(T = t) = 3.968e-02  bust share of the deaths at t: 0.0132061838
+strip13 from 511: t =  20  P(T = t) = 2.877e-02  bust share of the deaths at t: 0.0085822059
+strip13 from 511: t =  40  P(T = t) = 8.346e-03  bust share of the deaths at t: 0.0083595481
+strip13 from 511: t =  60  P(T = t) = 2.377e-03  bust share of the deaths at t: 0.0083587187
+strip13 from 511: t =  80  P(T = t) = 6.767e-04  bust share of the deaths at t: 0.0083587156
+strip13 from 511: t = 100  P(T = t) = 1.927e-04  bust share of the deaths at t: 0.0083587156
+strip13 from 511: t = 120  P(T = t) = 5.486e-05  bust share of the deaths at t: 0.0083587156
+patch13 from 511: share of ALL deaths (t <= 120, mass 0.99999999): 0.008165
+patch13 from 511: t =   6  P(T = t) = 5.151e-02  bust share of the deaths at t: 0.0226681689
+patch13 from 511: t =  10  P(T = t) = 7.567e-02  bust share of the deaths at t: 0.0043444855
+patch13 from 511: t =  20  P(T = t) = 2.401e-02  bust share of the deaths at t: 0.0016396722
+patch13 from 511: t =  40  P(T = t) = 9.362e-04  bust share of the deaths at t: 0.0014091499
+patch13 from 511: t =  60  P(T = t) = 3.423e-05  bust share of the deaths at t: 0.0014056864
+patch13 from 511: t =  80  P(T = t) = 1.250e-06  bust share of the deaths at t: 0.0014056316
+patch13 from 511: t = 100  P(T = t) = 4.565e-08  bust share of the deaths at t: 0.0014056307
+patch13 from 511: t = 120  P(T = t) = 1.667e-09  bust share of the deaths at t: 0.0014056307

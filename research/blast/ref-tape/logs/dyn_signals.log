@@ -1,0 +1,59 @@
+PASS signal E: negative control, the signal moved the wrong way fails
+PASS signal E (u = 0): train(1+2n) xor the signal moved +1*n units, whole torus, n = 0..48
+PASS signal E: negative control, the signal moved the wrong way fails
+PASS signal E (u = 10): train(1+2n) xor the signal moved +1*n units, whole torus, n = 0..48
+PASS signal E: negative control, the signal moved the wrong way fails
+PASS signal E (u = 22): train(1+2n) xor the signal moved +1*n units, whole torus, n = 0..48
+PASS signal U: negative control, the signal moved the wrong way fails
+PASS signal U (u = 1): train(1+2n) xor the signal moved +1*n units, whole torus, n = 0..48
+PASS signal U: negative control, the signal moved the wrong way fails
+PASS signal U (u = 11): train(1+2n) xor the signal moved +1*n units, whole torus, n = 0..48
+PASS signal U: negative control, the signal moved the wrong way fails
+PASS signal U (u = 23): train(1+2n) xor the signal moved +1*n units, whole torus, n = 0..48
+PASS signal H: negative control, the signal moved the wrong way fails
+PASS signal H (u = 1): train(1+2n) xor the signal moved -1*n units, whole torus, n = 0..48
+PASS signal H: negative control, the signal moved the wrong way fails
+PASS signal H (u = 11): train(1+2n) xor the signal moved -1*n units, whole torus, n = 0..48
+PASS signal H: negative control, the signal moved the wrong way fails
+PASS signal H (u = 23): train(1+2n) xor the signal moved -1*n units, whole torus, n = 0..48
+PASS signal K0: negative control, the signal moved the wrong way fails
+PASS signal K0 (u = 0): train(1+2n) xor the signal moved -1*n units, whole torus, n = 0..48
+PASS signal K0: negative control, the signal moved the wrong way fails
+PASS signal K0 (u = 10): train(1+2n) xor the signal moved -1*n units, whole torus, n = 0..48
+PASS signal K0: negative control, the signal moved the wrong way fails
+PASS signal K0 (u = 22): train(1+2n) xor the signal moved -1*n units, whole torus, n = 0..48
+PASS signal K3: negative control, the signal moved the wrong way fails
+PASS signal K3 (u = 0): train(1+2n) xor the signal moved -1*n units, whole torus, n = 0..48
+PASS signal K3: negative control, the signal moved the wrong way fails
+PASS signal K3 (u = 10): train(1+2n) xor the signal moved -1*n units, whole torus, n = 0..48
+PASS signal K3: negative control, the signal moved the wrong way fails
+PASS signal K3 (u = 22): train(1+2n) xor the signal moved -1*n units, whole torus, n = 0..48
+PASS signal N1: negative control, the signal moved the wrong way fails
+PASS signal N1 (u = 0): train(1+2n) xor the signal moved +1*n units, whole torus, n = 0..48
+PASS signal N1: negative control, the signal moved the wrong way fails
+PASS signal N1 (u = 10): train(1+2n) xor the signal moved +1*n units, whole torus, n = 0..48
+PASS signal N1: negative control, the signal moved the wrong way fails
+PASS signal N1 (u = 22): train(1+2n) xor the signal moved +1*n units, whole torus, n = 0..48
+PASS signal N2: negative control, the signal moved the wrong way fails
+PASS signal N2 (u = 0): train(1+2n) xor the signal moved -1*n units, whole torus, n = 0..48
+PASS signal N2: negative control, the signal moved the wrong way fails
+PASS signal N2 (u = 10): train(1+2n) xor the signal moved -1*n units, whole torus, n = 0..48
+PASS signal N2: negative control, the signal moved the wrong way fails
+PASS signal N2 (u = 22): train(1+2n) xor the signal moved -1*n units, whole torus, n = 0..48
+PASS signal N3: negative control, the signal moved the wrong way fails
+PASS signal N3 (u = 0): train(1+2n) xor the signal moved -1*n units, whole torus, n = 0..48
+PASS signal N3: negative control, the signal moved the wrong way fails
+PASS signal N3 (u = 10): train(1+2n) xor the signal moved -1*n units, whole torus, n = 0..48
+PASS signal N3: negative control, the signal moved the wrong way fails
+PASS signal N3 (u = 22): train(1+2n) xor the signal moved -1*n units, whole torus, n = 0..48
+PASS signal N4: negative control, the signal moved the wrong way fails
+PASS signal N4 (u = 1): train(1+2n) xor the signal moved -1*n units, whole torus, n = 0..48
+PASS signal N4: negative control, the signal moved the wrong way fails
+PASS signal N4 (u = 11): train(1+2n) xor the signal moved -1*n units, whole torus, n = 0..48
+PASS signal N4: negative control, the signal moved the wrong way fails
+PASS signal N4 (u = 23): train(1+2n) xor the signal moved -1*n units, whole torus, n = 0..48
+ALL PASS
+
+real	0m10.846s
+user	0m10.017s
+sys	0m0.153s

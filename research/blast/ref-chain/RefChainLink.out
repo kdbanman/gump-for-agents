@@ -1,0 +1,5 @@
+'RefChainLink.dominant_lifetime_unique' depends on axioms: [propext, Classical.choice, Quot.sound]
+'RefChainLink.dominant_is_physical' depends on axioms: [propext, Classical.choice, Quot.sound]
+'RefChainLink.junk_not_dominant' depends on axioms: [propext, Classical.choice, Quot.sound]
+'RefChainLink.reach_rejects_nxt' depends on axioms: [propext, Classical.choice, Quot.sound]
+'RefChainLink.tab_rejects_nbrs' depends on axioms: [propext, Classical.choice, Quot.sound]

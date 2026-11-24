@@ -1,0 +1,18 @@
+PASS store k=1: state at every even generation 0..40 = the start, generation 1 differs (ring of 23 units)
+PASS store k=2: state at every even generation 0..40 = the start, generation 1 differs (ring of 26 units)
+PASS store k=3: state at every even generation 0..40 = the start, generation 1 differs (ring of 29 units)
+PASS store k=4: state at every even generation 0..40 = the start, generation 1 differs (ring of 32 units)
+PASS store k=5: state at every even generation 0..40 = the start, generation 1 differs (ring of 35 units)
+PASS store k=6: state at every even generation 0..40 = the start, generation 1 differs (ring of 38 units)
+PASS store k=7: state at every even generation 0..40 = the start, generation 1 differs (ring of 41 units)
+PASS store k=8: state at every even generation 0..40 = the start, generation 1 differs (ring of 44 units)
+PASS store k=9: state at every even generation 0..40 = the start, generation 1 differs (ring of 47 units)
+PASS store k=10: state at every even generation 0..40 = the start, generation 1 differs (ring of 50 units)
+PASS store k=11: state at every even generation 0..40 = the start, generation 1 differs (ring of 53 units)
+PASS store k=12: state at every even generation 0..40 = the start, generation 1 differs (ring of 56 units)
+PASS store k=20: state at every even generation 0..40 = the start, generation 1 differs (ring of 80 units)
+ALL PASS
+
+real	0m3.403s
+user	0m2.081s
+sys	0m0.093s

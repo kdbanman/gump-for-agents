@@ -1,0 +1,6 @@
+n=2: distances at which an interaction was found within 2 generations: [2, 4] (the theorem allows interaction only at distance <= 8)
+ALL PASS
+
+real	1m30.171s
+user	1m25.773s
+sys	0m3.738s

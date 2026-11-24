@@ -49,6 +49,16 @@ after its own check; the PI never merges it.
   included, by proving them. A brief to an agent names the summit, not the first ledge. And: comments by the lead
   on the pull request come from the same GitHub account as this session's and do not wake it, so the pull
   request is polled by scheduled check-ins.)
+- 2026-11-18, about 18:22 UTC, in answer to the PI's question about a usage ceiling: "for now, let's hold off on
+  blast/swarm usage rates.  subagents are still allowed, just not big pushes." and "but on the last day before
+  usage resets, you can do another blast up to 0.96 of fable usage, and 0.9 of total usage, whichever comes
+  first.  (feel free to use opus subagents too)."
+  (How the PI reads it: the 50% target of 10:05 UTC is replaced. Until 2026-11-24 11:00 UTC: an ordinary pace, at
+  most two subagents at a time, Opus by preference so that the Fable window is kept for the last day, and the PI
+  stops interim spending of its own if the Fable window passes 0.60. From 2026-11-24 11:00 UTC to the reset at
+  2026-11-25 11:00 UTC: a blast, stopping at 0.96 of the Fable window (`seven_day_overage_included`) or 0.90 of
+  the all-model window (`seven_day`), whichever comes first. Opus is allowed on Agent calls from now on; xhigh on
+  solvers and referees stands.)
 
 ## Usage and context
 
@@ -64,36 +74,107 @@ after its own check; the PI never merges it.
   without warning: after every milestone bring this file up to date ("State"), and within 60,000 tokens of the
   threshold do it at once.
 
-## State (overwritten; last written 17:28 UTC 2026-11-18)
+## State (overwritten; last written 17:20 UTC 2026-11-24)
 
-- **The blast is closed.** The owner at about 14:55 UTC: "Anything to finish or document here? We can do another
-  blast at a later date, but for now let's see what you found!" Nothing is running: no agent, no job. Start none
-  without the owner's word.
-- **Usage at 13:56 UTC: Fable window 0.39, weekly 0.20** (PI turns only since then).
-- **Last job, ended 16:37 UTC:** the noisy hull's blind test at 108 cells, complete. Final numbers are in the last
-  second-phase entry of `REPORT.md` (weighted mean +0.069 +- 0.025 above gump; intercept at zero noise -0.025 +-
-  0.083) and in the short version; `noisy/PREDICTIONS.md` block 2 and the PI's block 5 items 5 and 6 are scored.
-  The 135-cell runs were not started and the 135-cell face stays open.
-- **After the closing message the owner asked whether the theory is amenable to Lean.** Answered in chat, not in
-  the repository: T1 to T4 easy in core Lean, T5 and T6 moderate, the dice-surrogate theorems possible with weeks
-  of work, the measured laws not until there is a paper proof. Installing Lean here was refused by the session's
-  permission layer and was not worked around; nothing was machine-checked.
-- **For a later blast** (the PI's list): a thick corner-free strip by a sampler or on the card ((6 unit rows,
-  L = 6), about 24; (5 unit rows, L = 7), about 23.6); the 126- and 132-cell tubes against block 7; the noisy
-  chain's own offset at 84 cells by brute force (`prod_A_brute84.sh`); a referee for `noisy/` and for `strips/`;
-  T1 to T3 in Lean if the owner allows the install; what the audit left unchecked (its section 9).
-- **Pull request 36 was merged at 14:17 UTC** (head db1791c) after the outside audit
-  (`research/audit/REVIEW-blast.md`: mechanism confirmed by a rebuild; three statements qualified, which
-  `REPORT.md` now carries in its entry of 16:40 UTC). The commits after the merge (the interim and final 108-cell
-  numbers, the audit entry, this state) are in a **second pull request, kdbanman/gump-for-agents#39,** from the same branch, with `main` merged
-  in (no rebase, no force push). The lead merges it; this session does not.
-- **This session is subscribed to pull request 39** (since 17:27 UTC; events arrive as turns). On an event: answer
-  a question or a challenge on the pull request in depth, from the files, with the command behind each number;
-  fix what a review shows to be wrong in `research/blast/` (small, own paths), commit and push; anything larger,
-  or anything that asks for runs, agents or access, goes to the owner first. If the subscription rules are not in
-  context, call `subscribe_pr_activity` again before acting.
-- Not done: `research/check.sh` not run on the blast; no figures; nothing of the second phase has been recomputed
-  by the lead or the audit.
+**The last-day blast is finished.** Everything is in `REPORT.md` (entry "The last-day blast
+(2026-11-24)" and the short version), `lean/README.md` (table, "Added after the integration", what is not proved),
+`noisy/PREDICTIONS.md` (blocks 4, 5, 6 scored) and the reviews `ref-{lean,chain,tape,dice,density}/REVIEW.md`. The
+comment for the lead was posted on PR 39 at 17:19 UTC (text in `pi/COMMENT-DRAFT.md`). `check.sh --mathlib` and
+`--long` pass at the branch tip (57 core and 75 Mathlib modules, 214 + 240 axiom lines, 217 statement rows).
+Usage at 17:07: Fable 0.94, all-model 0.74; the stops are 0.96 and 0.90; the window resets 2026-11-25 11:00 UTC.
+**Start nothing new before the reset.** Nothing is in flight. `ref-density`'s second review (e233230) reproduced
+the skin rows (d = 3, 4 at 45 and 63 cells; no tuning; "in gump's way" to 1%); it is in REPORT and in a second
+comment on PR 39 (17:37 UTC). The day's chronology is under "Session-private ids" below; the paragraphs
+of this section that follow are older and are superseded where they differ.
+
+Headlines of the day, for whoever picks this up: (1) gump's face law is a property of a skin four layers thick
+(`density`, third task: with every cell from depth 4 down a fresh coin at gump's density, 45 and 63 cells die at
+gump's rate and in gump's way; three layers do not suffice; one code until the referee reports); (2) in Lean, for
+the dice surrogate, every hull face and every wrapped face has a unique quasi-stationary law, ln τ as a sum of
+per-cell prices and a linear upper bound (`hull_full_every`, `wrapped_full_all`), and five 9-cell faces have ln τ
+to ten digits (`hull3_complete`); (3) the catalogue's laws for every N, the call law whole, the clock from one cell,
+the meetings of §31 with one correction to the catalogue's table. Next, after the reset: referee and extend the
+skin (84 and 108 cells; is four exact or a decay), then treat the four-layer skin over coins as the object whose
+lifetime is to be explained (a finite Markov chain per face; the chain theory's general theorems apply to it, the
+product-kernel ones do not, because cells share coins).
+
+- **Open again, on the owner's word of about 17:50 UTC** (quoted above): Lean, at full ambition, and in-depth
+  discussion on pull request 39. Before that the owner had closed the blast (14:55 UTC).
+- **Usage at 19:34 UTC: Fable weekly window 0.68, all-model weekly 0.38** (0.48 and 0.25 at 18:09); resets
+  2026-11-25 11:00 UTC; shared with the lead's session, whose rebuild is running. It passed the PI's own interim
+  stop of 0.60, so **from 19:39 UTC: no new agents and no new work of the PI's own until 2026-11-24 11:00 UTC or
+  the owner's word**; only what is owed (the `diag2.sh` rows to the lead; answers on the pull request, polled a
+  few times a day). The PI's own turns are costly while its context is large: keep them few and batched.
+  **The last-day blast** (the owner, 18:22 UTC): from 2026-11-24 11:00 UTC, stopping at 0.96 Fable or 0.90
+  all-model; a scheduled wake is set for 11:05 that day.
+- **Both Lean agents have reported and are integrated** (head ca137e7 for `lean/`): 74 theorems in core Lean,
+  12 in `mathlib/`; `sh research/blast/lean/check.sh [--long] [--mathlib]`; `lean/STATEMENTS.md` (50 rows, from
+  `statements.py`: add a row there for every new headline theorem); `lean/README.md` holds the table and the climb,
+  with the lead's pointers for the catalogue laws as line 2b. Open ends are listed in the README's line 1 and in
+  the agents' reports (not kept): `set36` not compared with `sealed.py`'s set; T5 not on tori; `gumpcheck`'s I/O
+  unproved; concurrent `lake build`s in one tree can delete each other's `.olean` files.
+- **For the last-day blast, in this order of value** (the PI's list): the 9-cell hull triangle of the dice
+  surrogate with a certified two-sided rate (the first lifetime theorem; `mathlib/GumpMath/Certificate.lean` is the
+  tool); the tape theorem and the gun's line for every N (line 2b); the unzip and call laws; both exits and the
+  price as theorems; a sampler for the noisy hull that moves the initial state; the thick strips and the 126- and
+  132-cell tubes of the earlier list.
+- **Pull request 39** (title and text rewritten 20:53 UTC): the lead's rebuild has reported (comments of 19:37 and
+  19:49 UTC: chain and sampler confirmed; the weighted mean withdrawn for the equal-weight value, +0.009 +- 0.044
+  from gump at 108 cells; the limit is the unmoved initial state). The lead has b80248c merged and f069674
+  cherry-picked in its branch (pull request 40); **1eaddfc is named as the next answer commit**. The Lean part is
+  a second pass, deferred with a review of `strips/` (no Fable agents on either side for now). Eleven comments by
+  20:53 UTC, the last is the PI's. Poll with `get_comments`, `perPage` 1, `page` 12 upward, and count the pages
+  (a miscount hid two of the lead's comments for an hour).
+- **2026-11-19, 08:20 UTC (sparse poll):** no new comment on pull request 39 (twelve, the last the PI's). The
+  lead's pull request 40 is merged: `main` holds b80248c, f069674 (as 4866569) and the lead's review of `noisy/`
+  (`research/audit/REVIEW-blast-noisy.md`). `main` was merged into this branch (conflicts in `REPORT.md` and
+  `noisy/PREDICTIONS.md` resolved to this branch's versions, which hold everything `main` has). Not yet on `main`:
+  1eaddfc and b4bc3a4 (named to the lead) and all of `lean/`. Next poll about 20:20 UTC.
+- **2026-11-19, 20:30 UTC (second sparse poll): usage is now the binding fact. Fable window 0.84, all-model 0.48**
+  (0.71 and 0.39 at 22:16 UTC on the 18th; it rose 0.06 over the day with this session idle, and one poll of this
+  session costs about a point because its context is large). **Polling is stopped**: no further scheduled polls;
+  the lead's comments are read at the last-day wake (2026-11-24 11:05 UTC) or when the owner writes. **For the
+  blast: 0.12 of the Fable window is left at most, 0.42 of the all-model one. So the blast runs on Opus
+  subagents, with the PI's own turns as few and as batched as possible; ask the owner to compact this session
+  before it starts.** The lead's comment of 08:54 UTC (the thirteenth): the depth series repeats on its code
+  (ledger X7), a correction to the PI's "0.7 per layer" (written into `REPORT.md`), the odd sweeps closed, 1eaddfc
+  and b4bc3a4 on `main` through pull request 41 (merged; `main` merged into this branch cleanly), and a control it
+  offers to either side: coins at the replaced layer's own density (open problem 9 (r); forecasts frozen in
+  `noisy/PREDICTIONS.md` block 4; not run; first item for the blast's CPU, design in `noisy/README.md`). The PI's
+  reply is the fourteenth comment. The Lean pass and a review of `strips/` stay deferred by the lead.
+- **2026-11-24, 11:10 UTC: THE LAST-DAY BLAST IS RUNNING.** Usage at 11:06: Fable 0.87, all-model 0.54; stop at
+  0.96 or 0.90 (the owner, 18:22 UTC on the 18th). The Fable headroom is small and a cold start of this session
+  costs about a point (its context is large and the cache lasts an hour), so: **Opus subagents only, launched
+  together in the foreground so that they return in one turn; their hand-backs short, their full reports in
+  files; a second wave whose first agent is an integrator.** Shared Lean files need no edits by agents:
+  `check.sh` builds every `Gump/*.lean` and `mathlib/GumpMath/*.lean`, runs every `Axioms*.lean`
+  (`AxiomsNative.lean` is the second tier, for base runs by `native_decide` in `*Native.lean` only), and
+  `statements.py` merges `statements_*.json`.
+  Wave 1 (Opus, xhigh): `dice` (the first lifetime theorem: the 9-cell hull triangle of the one-layer dice
+  surrogate with a certified two-sided rate; then more faces; `lean/mathlib/GumpMath/Dice*.lean`), `tape` (the
+  tape theorem and the gun's line for every N; `lean/Gump/Tape*.lean`), `chain` (the blast's theorems for an
+  abstract killed chain: Theorem 1's bound, the tilt identity, Lemma R; `lean/mathlib/GumpMath/Chain*.lean`),
+  `density` (open problem 9 (r): coins at the replaced layer's own density; `research/blast/density/`; forecasts
+  in `noisy/PREDICTIONS.md` block 4), `ref-lean` (the referee of every Lean statement; `research/blast/ref-lean/`).
+  **Owed when they return:** read each `REPORT-agent.md`, launch the integrator (README table, STATEMENTS, REPORT
+  entry, a draft comment for the lead in a file), then check, commit by path, push, post the comment, tell the
+  owner. Also new on `main` (merged in): the 120-cell tube's drop is not confirmed (the lead's notebook,
+  2026-11-20); `REPORT.md` and block 7 are corrected for it.
+- **Nothing is in flight** (22:16 UTC). `diag3.sh` ended: on minus off at 84 cells is -0.001 +- 0.014 (1,150 and
+  1,040 replications), so the odd sweeps are cleared; written into `REPORT.md` and `noisy/README.md` and named to
+  the lead as the third answer commit. Until 2026-11-24 11:00 UTC: answer the lead on the pull request (poll a
+  few times a day, `get_comments` `perPage` 1 from `page` 13), nothing else.
+- **New this evening, in `REPORT.md`** (entry of 20:53 UTC): the depth series (coins at depth >= d under a 63-cell
+  face at rate 1/4: -0.005, +0.019, +0.054, +0.101, +0.304, +0.674 for d = 6 .. 1): one code, one seed a row.
+- **Lean** (`research/blast/lean/`, `README.md` there = the aim and the climb; `sh research/blast/lean/check.sh`).
+  Lean 4.36.0 via elan in `~/.elan` (`export PATH=$HOME/.elan/bin:$PATH`; if the container was rebuilt, reinstall:
+  `curl -sSf https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh | sh -s -- -y --no-modify-path`).
+  Done: Basic, Layers (T1), Sealed (T2, T3 both halves, T4, hull, sealed lemma, union), Finite + Check (the rule
+  against the oracle and the 2012 logs); `mathlib/` (Mathlib v4.36.0 fetched, 7 GB in `.lake`, not in git):
+  `Certificate.lean` (upper and lower survival certificates for a killed chain) and `Threshold.lean` (T5).
+- **Language** (the owner, 17:50 UTC): goals at full size; estimates and obstacles as facts or hypotheses only.
+  Every brief and every README written from now on is read once against that before it goes out.
+- Not done: nothing of the second phase or of `lean/` has been recomputed or read by the lead or a referee.
 
 ## Results that are easy to misremember (all in `REPORT.md`)
 
@@ -129,6 +210,146 @@ after its own check; the PI never merges it.
   the PI once briefed an agent to redo what `rim/` had done.
 
 ## Session-private ids (valid only in this session; an agent resumed by id keeps its context)
+
+Second-phase Lean agents (Opus): lean-thickness a4e16ed4e4f3a8c9b · lean-link a27ca9c827a98f418.
+
+Last-day blast, wave 1 (Opus, started 11:20 UTC 2026-11-24; they run in the background and each wakes this session
+when it ends, hand-backs of 30 lines at most, full reports in the files named in State): dice ab2a647cc91d04eeb ·
+tape a0b7dfd013c31f0bd · chain a825b151b0cb2660a · density a672d9caa1fd19096 · ref-lean acb72a1d1903a988d.
+
+Wave 2 (Opus): ref-chain a7d485bc698b4b1c4 (started 13:15 UTC, referee of `chain`'s Lean files, two hours at most,
+writes `research/blast/ref-chain/REVIEW.md`).
+ref-tape ae67c18db5283c79c (started 13:20 UTC, referee of `tape`'s modules, two hours at most, writes
+`research/blast/ref-tape/REVIEW.md`). `tape` (a0b7dfd013c31f0bd) handed back at 13:16 (notes `lean/notes/tape.md`,
+commit 6be19d4: tape theorem, line orbit, clock, nine signals, unzip law sharp, call law (b)) and was resumed at
+13:20 for the call law's part (a) (a larger bit box) and the clock's lighting for N ≥ 6, two hours at most.
+`ref-chain` handed back (`research/blast/ref-chain/REVIEW.md`, commit ae18afb): no proof broken; defects D1–D7 are
+statements left existential (`bit_surrogate`'s factorisation, "some QSD" admitting the dead point mass, |T| = HD
+unproved, rows). `chain` (a825b151b0cb2660a) resumed for the repairs (90 minutes); it waits for a second message
+from me, after `dice` hands back, before starting the instantiation on `Gump.Dice.Face.P`.
+`ref-tape` handed back (`research/blast/ref-tape/REVIEW.md`, commit e645679): no theorem broken, objects equal the
+catalogue's cell for cell; D1 `clock_every_length` never names the clock (sent to `tape`), D2 `STATEMENTS.md` stale
+and `check.sh` does not notice (mine, at integration: regenerate, and make the check compare), D3 three stale
+passages (sent to `tape`).
+`density` (a672d9caa1fd19096) handed back at 13:50 (README in `research/blast/density/`, commit 9a105d3): mostly
+correlation (matched-density coins keep +0.532 of +0.678 at d = 1; copy coins shorten the life, −0.434; the gain is
+zero at coin density ≈ 0.19). Block 4 scored and block 5 frozen in `noisy/PREDICTIONS.md` (993a3d5). `density`
+resumed at 13:58 for p*(ε, size) (is the equivalent density a constant; ε = 1 is the dice picture on the hull), two
+hours. ref-density ad8647ed13bc7c8ae started 13:58 (own code from the oracle, two hours, writes
+`research/blast/ref-density/REVIEW.md`). Usage at 13:41: Fable 0.90, all-model 0.62.
+`chain` handed back its repairs at 13:57 (f32bb82: D1–D7 all repaired; `exists_qsd` now gives `IsDominantQSD`;
+`torus_card`; `kagome_sharp_bound` ln τ ≤ 2.2412·A on wrapped faces) and was resumed at 14:00 for the instantiation
+on `Gump.Dice.Face.P` (new files `GumpMath/Link*.lean`, `notes/link.md`), two hours.
+`dice` (ab2a647cc91d04eeb) handed back at 14:02 (a65957b; `notes/dice.md`): `hull3_lifetime`, `hull3_tau` (ln τ in
+(2.4837157463, 2.4837157464) for every QSD of the 9-cell hull triangle), four more 9-cell faces, both exits,
+Theorem 1 at every size (`lntau_le_all` < 2.5095·A; `lntau_le_regular` < 1.9228·A); 12 cells not done (memory).
+Resumed at 14:05 for the bust-share formula, `Face.regular` on every torus, Theorem 1 on hull faces, and the 12-cell
+torus if under 4 GB; 90 minutes. ref-dice a4857c15ecf3e29cc started 14:05 (two hours,
+`research/blast/ref-dice/REVIEW.md`).
+In flight at 14:05: tape (call law (a)), chain (link), dice (second task), density (p*), ref-density, ref-dice.
+Planned when cores free up: a solver on the lower bound B2 by block renormalisation (`research/blast/b2/`); `density`
+again for the depth series at ε = 1 (how many real layers a face needs under it to die at gump's rate); then the
+integrator.
+`tape` handed back the second time (ba36f77): `call_law : CallLaw` whole for every k ≥ 1 (a second bit box of
+128 × 128 × 16, `Gump.Call.Box.bstep_spec`), `clockOf_period` (D1 repaired), D3 repaired; not done: one cell lighting
+the clock for N ≥ 7. Resumed a third time (clock lighting for every N, then the catalogue's next laws of its choice;
+two hours). `ref-tape` (ae67c18db5283c79c) resumed for a second review of the call law (a), the new box and the
+clock repair (50 minutes).
+`ref-tape` second review back (203a828): no new defect; call law, new box, `zone_cover`, `clockOf_period` stand.
+`dice` second hand-back (6f70d2d): `flux_share` (bust share = share of the death flux), `Face.torus_regular` for
+every torus so `lntau_le_torus` < 1.9228·A on every wrapped face, `lntau_le_hull_all` < 2.2165·A on every hull face;
+12 cells not attempted. `dice` is resting (not resumed). Note: the dice surrogate gives each cell its own dice; gump
+over a layer of coins shares each coin between two face cells, so `Face.P` is not gump's step over i.i.d. support
+(only the one-cell marginals agree); the noisy hull at ε = 1 is the shared-coin chain.
+`chain` handed back the link (9fde4a9; `notes/link.md`): `hull3_full` (`LinkFaces.lean`: existence, uniqueness,
+19-digit λ, ln τ in (2.4837157463, 2.4837157464), named per-cell prices, price classes, two-sided decay) and the same
+for four more 9-cell faces; `torus202_full` (12 cells, no λ interval). Resumed a last time (commit the generators,
+`survFrom` = `Face.survival`, the general torus bijection; 90 minutes). `ref-chain` (a7d485bc698b4b1c4) resumed for
+a second review of the repairs and the Link modules (60 minutes).
+`density` second hand-back (b7f5904): p* is not a constant (0.17, 0.19 at ε = 1/16, 1/4; 0.27/0.32 at full
+replacement under the middle at 45/63 cells; with every cell not on a face a coin, 0.3848/0.3854, one density for
+both sizes, 84 cells −0.28 ± 0.15 undecided; the face dies differently there). Block 5 scored, block 6 frozen
+(1e62823). Resumed a third time at 15:05 (the 0.385 coincidence at 45 cells, skin depth at full replacement d = 1–4,
+the 84-cell row, a wrapped face if time; two and a half hours).
+`ref-dice` back (003cb73): could not break the Dice modules at a65957b; six small defects (a cited theorem that
+does not exist, proved by the referee in `ref-dice/QsdSurvival.lean`; notes and rows); private against shared coins
+differ by total variation 0.33 in one step. `dice` resumed for the repairs (30 minutes); `ref-dice`
+(a4857c15ecf3e29cc) resumed for a second review of dice's second task (50 minutes).
+15:10–15:45: `ref-chain` second review clean (256c1a5); `dice` repairs in (08db9dd, `DiceMean.lean`), dice idle;
+`ref-dice` second review clean (b5c5e42). **For the integration:** two text fixes the dice referee found late: the
+`DiceBound3` header still says the classification "is not proved for every R" (`hull_type` proves it); the
+`torus113_bust_flux` row reuses the hull's "0.152 from the full face" (on that torus, from state 73, it is 0.934).
+Also at integration: regenerate `STATEMENTS.md` and make `check.sh` fail when it is stale; run
+`check.sh --mathlib --long` with nothing else building; `CellsOK` for every hull R is measured (R ≤ 15), not proved.
+A background job (bj01hgfn5) pushes every 40 s until about 16:55 UTC.
+`chain` third hand-back (55cf4a5): generators committed (`link_*.py`), `survFrom_cast`, `Hull3.hull3_complete`,
+`torusNb_all` and `wrapped_full_all` (every wrapped face, no hypothesis). Resumed a fourth time for every hull face
+(`CellsOK (hull R)` from dice's `hull_type`; Lemma 0 on every hull triangle; 90 minutes). `ref-chain` resumed for a
+third review (40 minutes). Wind-down plan: agents' tasks end by about 18:00 UTC, integration by about 19:00.
+`ref-chain` third review clean (fba0cab). `ref-density` back (07d2708, own code `rd.c`): every number of
+`density`'s first task reproduces (gump 13.632 ± 0.014; fair +0.653; mean density +0.535; core copy −0.445; zero of
+the scan 0.199 ± 0.007); the READING is partly broken: the ordering by low-face support density fails (layer-copy
+chain), "layer leads by 1–2 generations" is not supported (peak at lag 0; Granger layer → face), "a fifth" depends on
+the matching (a third on realized density), p* is a coin bias not a support density, consecutive seeds share the
+coin stream. Sent to `density` to fold into its third task. For my REPORT entry: state only what both codes give.
+`chain` fourth hand-back (5e8aa76), now idle: `cellsOK_hull R`, `hull_theorems R` (every hull face, no hypothesis:
+dominant law, tilt identity, ln τ < 2.2165·A, `survFrom = Face.survival`); uniqueness on hull faces is
+`hull_full_sym R` under the one hypothesis `Lemma0F (hull R)`, kernel-proved for R = 1, 3, …, 13 (unrefereed).
+In flight at 15:50: tape (third task), density (third task). Next: when `tape` returns, launch the integrator.
+`tape` third hand-back (40520c7), now idle: the clock from a single cell for every N (`lit_clock_exact`,
+`lit_enters_at`, `lit_first`), `Clock.reader_run`, `Reader.reader9_run`, `Beam.beam_period`,
+`Divider.divider_period`; not done: the meetings of §31.
+15:47 UTC: integrator ae578bc595e5e8719 launched (75 minutes: STATEMENTS and its check, two text slips, lean README,
+`check.sh --mathlib` and `--long`, blast README, REPORT entry and short version, `pi/COMMENT-DRAFT.md`). `ref-tape`
+resumed for a third review (tape's third task, 45 minutes); `ref-chain` for a fourth (every hull face, DiceMean; 40
+minutes). `density` third task still running (to about 17:35).
+**Owed when the integrator returns:** read its diff of REPORT.md and the comment draft; fill the density third-task
+placeholder; score block 6; commit by path; push; post the comment on PR 39 with `gh api`; tell the owner; update
+State above.
+`ref-tape` third review clean (90494b6): one prose slip (base times 4, 8, 12, 16 in Lean's `Xb` convention, not
+"11, 15, 19, 23"), sent to the integrator.
+`ref-chain` fourth review clean (dd5715b). **Integrator back at 16:00 UTC** (96d5011, 27794f3 lean; 0170ac3 blast):
+`check.sh --mathlib` 193 s and `--long` 331 s both pass (52 core and 73 Mathlib modules; 187 + 221 axiom lines;
+1,307 catalogue objects certified); `statements.py --check` now in `check.sh`; lean README, blast README, REPORT
+entry "The last-day blast (2026-11-24)" with two short-version bullets, `pi/COMMENT-DRAFT.md`. I read the entry and
+the draft, fixed three leftover slips and one wording (d9d6134 lean, ecf542f blast), `check.sh --mathlib` passes.
+16:05: `chain` resumed (`Lemma0F (hull R)` for every R by a general proof, and the two symmetries; two hours);
+`tape` resumed (the meetings of §31 with a superposition lemma; two hours). Both append rows to `lean/README.md`
+under "Added after the integration (2026-11-24)" and may regenerate `STATEMENTS.md`.
+**Owed:** when `density` returns: fill the placeholder in REPORT.md ("The density agent's third task"), score block
+6, then post `pi/COMMENT-DRAFT.md` on PR 39 (drop its sentence about the `ClockLitFirst` header, now fixed; add the
+third task and that chain and tape are still on two extensions), tell the owner. When chain and tape return: a
+short referee pass each (resume ref-chain, ref-tape), a REPORT addendum, final `check.sh --mathlib --long`.
+Stop everything at Fable 0.96 or all-model 0.90 (15:01: 0.91 / 0.67).
+`chain` back (0992cd4): `hull_full_every R hA` (LinkHullGen.lean: Lemma 0 on every hull face by a general proof,
+no hypothesis) and `rot_aut`, `refl_aut`, `hull_prices_sym` for every R (LinkHullSym.lean); `check.sh --mathlib`
+passes (240 Mathlib theorems). `ref-chain` resumed for a fifth review (40 minutes). **Mine to update:** the
+"What is not proved" bullet on hull uniqueness beyond R = 13 in `lean/README.md`, the same clause in the REPORT entry
+and the short version ("every hull face up to 84 cells"), and the comment draft.
+`ref-chain` fifth review clean (53245f2); README and REPORT corrected for hull uniqueness (every R). 16:56: push
+loop restarted (by3xjoqmq, to about 18:45). Usage 16:42: Fable 0.93, all-model 0.73: NO new launches.
+`tape` back (c6c8e82): `Gump.run_or_far`, `superpose_units`, `Signals.pair_run`, `meet_U_K0`, `meet_UH`, `meet_EH`,
+`meet_EK`, `rigid_front`; a finding: the catalogue's §31 row "U meets H: the same" is wrong at the upper edge (E–H
+carries a defect X.X there, U–H does not). `ref-tape` resumed for a fourth review (40 minutes).
+**Owed now:** density's third task (placeholder in REPORT, block 6), ref-tape's fourth review, then a short REPORT
+addendum for the meetings, the comment on PR 39 (update the draft: hull uniqueness for every R, meetings, the §31
+correction, the fixed header), the owner, State.
+17:03: `density` third hand-back (2d67675), now idle: **four real layers give gump's rate and gump's way of dying**
+(45 cells +0.004 ± 0.007, 63 cells +0.016 ± 0.012; three layers +0.17, +0.30; wrapped faces agree); the 0.385
+coincidence is an accident; 84 cells on coins alone −0.165 ± 0.043. Written into REPORT (section and short version)
+and block 6 scored (43a672c). `ref-density` (ad8647ed13bc7c8ae) resumed for the skin rows with its own code (60
+minutes). **Owed:** ref-tape's fourth review (meetings; the §31 correction) → a REPORT addendum; ref-density's
+second review → one line in REPORT; then the comment on PR 39 from `pi/COMMENT-DRAFT.md` (update: hull uniqueness
+for every R, the meetings, the §31 row, the skin, 84 cells, the header now fixed), the owner, State.
+
+**13:15 UTC 2026-11-24.** `chain` handed back (notes: `lean/notes/chain.md`, last commit 23163ec; 15 `Chain*.lean`
+modules, 82 headline theorems, `check.sh --mathlib` passed at 13:10). `ref-lean` handed back earlier (repairs in
+1763630). Still running: dice, tape, density (to about 14:20). Usage at 13:03: Fable 0.89, all-model 0.60. The
+container has 4 cores and was at load 8: launch nothing heavy until the wave-1 agents end. Planned next, in this
+order: (1) when `dice` returns, a link agent instantiating `chain`'s theorems on `Gump.Dice.Face.P` (plan in
+`notes/chain.md`, "Instantiation plan"); (2) a referee for `tape` and `dice`; (3) if cores are free, a sampler that
+moves the initial state, for the 135-cell hull face; (4) an integrator for the README table, REPORT entry and a
+draft comment for the lead; then my own check, commits by path, push, the comment on PR 39, the owner.
 
 split-slab a6cf747f951a40794 · split-hull a3569cf285a0ef651 · tube1d aa106621bb873fec2 · anatomy a94ca87ca9da97616 ·
 rim ab5a56882ea42ba61 · image ab0b5ef769471d467 · model ad6a0e85503ffe25e · rigour a2335f9a30eb2ed29 · ref-anatomy

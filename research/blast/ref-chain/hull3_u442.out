@@ -1,0 +1,2 @@
+M(442) = all: True
+every survivable state reaches 442: True ; states with M = all: [207, 221, 222, 223, 231, 235, 239, 245, 246, 247, 249, 250] ... 64

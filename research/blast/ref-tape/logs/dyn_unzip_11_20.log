@@ -1,0 +1,15 @@
+PASS unzip k=11: state at 2n = tape(pulses k (2-n)) exactly for n >= 14 (claimed k+3 = 14), checked n = 1..18, ring of 87 units, units -1-2n..k+2n (1 s)
+PASS unzip k=12: state at 2n = tape(pulses k (2-n)) exactly for n >= 15 (claimed k+3 = 15), checked n = 1..19, ring of 92 units, units -1-2n..k+2n (1 s)
+PASS unzip k=13: state at 2n = tape(pulses k (2-n)) exactly for n >= 16 (claimed k+3 = 16), checked n = 1..20, ring of 97 units, units -1-2n..k+2n (1 s)
+PASS unzip k=14: state at 2n = tape(pulses k (2-n)) exactly for n >= 17 (claimed k+3 = 17), checked n = 1..21, ring of 102 units, units -1-2n..k+2n (1 s)
+PASS unzip k=15: state at 2n = tape(pulses k (2-n)) exactly for n >= 18 (claimed k+3 = 18), checked n = 1..22, ring of 107 units, units -1-2n..k+2n (1 s)
+PASS unzip k=16: state at 2n = tape(pulses k (2-n)) exactly for n >= 19 (claimed k+3 = 19), checked n = 1..23, ring of 112 units, units -1-2n..k+2n (1 s)
+PASS unzip k=17: state at 2n = tape(pulses k (2-n)) exactly for n >= 20 (claimed k+3 = 20), checked n = 1..24, ring of 117 units, units -1-2n..k+2n (1 s)
+PASS unzip k=18: state at 2n = tape(pulses k (2-n)) exactly for n >= 21 (claimed k+3 = 21), checked n = 1..25, ring of 122 units, units -1-2n..k+2n (2 s)
+PASS unzip k=19: state at 2n = tape(pulses k (2-n)) exactly for n >= 22 (claimed k+3 = 22), checked n = 1..26, ring of 127 units, units -1-2n..k+2n (2 s)
+PASS unzip k=20: state at 2n = tape(pulses k (2-n)) exactly for n >= 23 (claimed k+3 = 23), checked n = 1..27, ring of 132 units, units -1-2n..k+2n (3 s)
+ALL PASS
+
+real	0m14.684s
+user	0m10.617s
+sys	0m0.815s

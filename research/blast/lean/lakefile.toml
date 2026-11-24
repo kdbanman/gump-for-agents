@@ -1,0 +1,9 @@
+name = "gump"
+defaultTargets = ["Gump"]
+
+[[lean_lib]]
+name = "Gump"
+
+[[lean_exe]]
+name = "gumpcheck"
+root = "Check"

@@ -1,0 +1,14 @@
+Build completed successfully (82 jobs).
+118 headline theorems: no sorry, no axiom beyond propext, Classical.choice, Quot.sound
+2012 log, closed cube of side 08: identical, 24 lines
+2012 log, closed cube of side 09: identical, 72 lines
+2012 log, closed cube of side 10: identical, 66 lines
+oracle, soup 1: 60 generations compared with the oracle state for state, 0 mismatches (seed 167 cells, last 353 cells)
+oracle, soup 2: 60 generations compared with the oracle state for state, 0 mismatches (seed 348 cells, last 830 cells)
+oracle, soup 3: 60 generations compared with the oracle state for state, 0 mismatches (seed 455 cells, last 994 cells)
+lean: all checks passed
+
+real	5m31.168s
+user	4m37.008s
+sys	0m30.096s
+exit 0

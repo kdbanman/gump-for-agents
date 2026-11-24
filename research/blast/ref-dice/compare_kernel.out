@@ -1,0 +1,17 @@
+hull3: A=9 cells=match; nb/m1/m2 ok=True; a entries 4608; P entries compared 262144, mismatches 0; rows not summing to 1: 0; empty absorbing: True; full = 511 (2^A-1 = 511)
+coins (m1,m2) per cell: [(2, 0), (2, 1), (2, 1), (2, 0), (2, 1), (2, 1), (2, 1), (2, 1), (2, 0)]  degrees: [2, 4, 4, 2, 4, 4, 4, 4, 2]
+PASS
+torus103: A=9 cells=match; nb/m1/m2 ok=True; a entries 4608; P entries compared 262144, mismatches 0; rows not summing to 1: 0; empty absorbing: True; full = 511 (2^A-1 = 511)
+coins (m1,m2) per cell: [(2, 1), (2, 1), (2, 1), (2, 1), (2, 1), (2, 1), (2, 1), (2, 1), (2, 1)]  degrees: [6, 6, 6, 6, 6, 6, 6, 6, 6]
+PASS
+torus113: A=9 cells=match; nb/m1/m2 ok=True; a entries 4608; P entries compared 262144, mismatches 0; rows not summing to 1: 0; empty absorbing: True; full = 511 (2^A-1 = 511)
+coins (m1,m2) per cell: [(2, 1), (2, 1), (2, 1), (2, 1), (2, 1), (2, 1), (2, 1), (2, 1), (2, 1)]  degrees: [6, 6, 6, 6, 6, 6, 6, 6, 6]
+PASS
+strip13: A=9 cells=match; nb/m1/m2 ok=True; a entries 4608; P entries compared 262144, mismatches 0; rows not summing to 1: 0; empty absorbing: True; full = 511 (2^A-1 = 511)
+coins (m1,m2) per cell: [(2, 1), (2, 1), (2, 1), (2, 1), (2, 1), (2, 1), (2, 1), (2, 1), (2, 1)]  degrees: [3, 4, 3, 3, 4, 3, 3, 4, 3]
+PASS
+patch13: A=9 cells=match; nb/m1/m2 ok=True; a entries 4608; P entries compared 262144, mismatches 0; rows not summing to 1: 0; empty absorbing: True; full = 511 (2^A-1 = 511)
+coins (m1,m2) per cell: [(2, 1), (2, 1), (2, 1), (2, 1), (2, 1), (2, 1), (2, 1), (2, 1), (2, 1)]  degrees: [3, 3, 2, 3, 4, 3, 2, 3, 3]
+PASS
+hull3 --mutant: FAIL (106971)
+hull3 --mutant-nb: FAIL (54880)

@@ -1,0 +1,37 @@
+PASS callStart 1: Lean = store wire (units 8..46) + line + CALL from call9.json, 360 cells in the region
+PASS callStart 3: Lean = store wire (units 8..46) + line + CALL from call9.json, 360 cells in the region
+PASS the oracle run of line + CALL stays in the new box core (moved by lineFrame)
+PASS Lf t read through Gump.Call.Box = the oracle run, t = 0..46 (differ at [])
+PASS oracle: the free line is `line` at 42 and 44, and not at 43
+PASS clockOf 1: = the lit clock of 1 units at generation [0] (cycle entered at 0); exact period 6 on the oracle: True
+PASS clockOf 2: = the lit clock of 2 units at generation [0] (cycle entered at 0); exact period 10 on the oracle: True
+PASS clockOf 3: = the lit clock of 3 units at generation [1] (cycle entered at 1); exact period 14 on the oracle: True
+PASS clockOf 4: = the lit clock of 4 units at generation [2] (cycle entered at 2); exact period 18 on the oracle: True
+PASS clockOf 5: = the lit clock of 5 units at generation [3] (cycle entered at 3); exact period 22 on the oracle: True
+PASS clockOf 6: = the lit clock of 6 units at generation [27] (cycle entered at 4); exact period 26 on the oracle: True
+PASS clockOf 7: = the lit clock of 7 units at generation [31] (cycle entered at 5); exact period 30 on the oracle: True
+PASS clockOf 8: = the lit clock of 8 units at generation [33] (cycle entered at 6); exact period 34 on the oracle: True
+PASS clockOf 9: = the lit clock of 9 units at generation [37] (cycle entered at 7); exact period 38 on the oracle: True
+PASS clockOf 10: = the lit clock of 10 units at generation [39] (cycle entered at 8); exact period 42 on the oracle: True
+PASS clockOf 11: = the lit clock of 11 units at generation [43] (cycle entered at 9); exact period 46 on the oracle: True
+PASS clockOf 12: = the lit clock of 12 units at generation [45] (cycle entered at 10); exact period 50 on the oracle: True
+PASS clockOf 13: = the lit clock of 13 units at generation [49] (cycle entered at 11); exact period 54 on the oracle: True
+PASS clockOf 14: = the lit clock of 14 units at generation [51] (cycle entered at 12); exact period 58 on the oracle: True
+PASS clockOf 15: = the lit clock of 15 units at generation [55] (cycle entered at 13); exact period 62 on the oracle: True
+PASS clockOf 16: = the lit clock of 16 units at generation [57] (cycle entered at 14); exact period 66 on the oracle: True
+PASS clockOf 17: = the lit clock of 17 units at generation [61] (cycle entered at 15); exact period 70 on the oracle: True
+PASS clockOf 18: = the lit clock of 18 units at generation [63] (cycle entered at 16); exact period 74 on the oracle: True
+PASS clockOf 19: = the lit clock of 19 units at generation [67] (cycle entered at 17); exact period 78 on the oracle: True
+PASS clockOf 20: = the lit clock of 20 units at generation [69] (cycle entered at 18); exact period 82 on the oracle: True
+PASS the two-clocks object is not clockOf 7, nor any state of the lit clock of 7 units
+PASS HL's eight bounds are exactly the diagonal hull of line + CALL (True)
+PASS zoneZ (44 cells in Lean: 44) = brute-force set of cells whose closed neighbourhood meets HV and HL (44 cells)
+PASS oracle: Lf stays in HL, t = 0..46
+PASS k=1: V_k in HV at every generation (True); the 12 cells where V_k and Lf both reach the closed neighbourhood, t = 0..40, all in Z (True)
+PASS k=3: V_k in HV at every generation (True); the 13 cells where V_k and Lf both reach the closed neighbourhood, t = 0..44, all in Z (True)
+PASS k=10: V_k in HV at every generation (True); the 13 cells where V_k and Lf both reach the closed neighbourhood, t = 0..58, all in Z (True)
+ALL PASS
+
+real	0m47.808s
+user	0m21.956s
+sys	0m0.541s

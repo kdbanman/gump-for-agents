@@ -361,3 +361,16 @@ I expected the two prices of a strip to close on 0.209 faster than they do: at L
    were not started.
 6. The 135-cell hull face: **still open.** Nothing in either phase measured it.
 
+### Block 7 (the 126- and 132-cell tubes), scored provisionally 2026-11-24 from the lead's notebook entry of 2026-11-20
+
+Not recomputed here; one code (the card's chain 4); its seeds scatter more than counting allows, so the errors may
+be too small by up to 1.7; a longer chain is running there.
+- 126 cells: forecast 25.66 ± 0.06, measured 25.7572 ± 0.0320: 1.4 combined errors high. **Held within two errors,
+  on the high side.**
+- 132 cells: forecast 26.78 ± 0.13, measured 26.9057 ± 0.0584: 0.9 combined errors high. **Held.**
+- A second way to die on the longer tubes (30%): **not seen** (no firewall, no settled life in those runs).
+- The 120-cell tube again: the card's CPU code reads 24.594 ± 0.040. The scores above that called this session's
+  24.56 ± 0.03 and the dice chain's 24.60 ± 0.07 missed rest on 24.5086 ± 0.0169 alone and are suspended; against
+  the pooled 24.521 ± 0.016 they are 1.1 and 1.1 errors high.
+Both forecasts for the longer tubes were low: I extrapolated a bend that the second code does not show.
+

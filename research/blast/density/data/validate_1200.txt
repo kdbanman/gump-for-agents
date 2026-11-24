@@ -1,0 +1,31 @@
+1. oracle, R = 11, 1200 generations x 3 lanes, no noise: OK
+1. oracle, R = 11, one neighbour swapped (negative control): fails as it must: state differs at generation 4, lane 37 (1 cells)
+1. oracle, R = 9, 1200 generations x 3 lanes, no noise: OK
+1. oracle, R = 9, one neighbour swapped (negative control): fails as it must: state differs at generation 7, lane 511 (1 cells)
+2. coins by depth (R = 11, DW = 1, M = 256): 0.1, 0.9, 0.3, 0.42, rest 0.7: OK
+2. fair path (every bias 1/2): OK
+2. bias 1/2 through the comparison path: OK
+2. coins of bias 0.6 read as 0.5 (negative control): fails as it must: depth 1: share set alive 0.13298, expected 0.11065 +- 0.00157
+2. shuffled coin, source = the whole layer: OK
+2. shuffled coin, source = the layer's core: OK
+2. conditioned coins (bias by the number of live face neighbours), face all dead and all alive: OK
+2. frozen coins (bias 0.42): the oracle with the cells of N held: OK
+2. frozen coins, one neighbour swapped (negative control): fails as it must: state differs at generation 1, lane 511
+2. full replacement (R = 11, d = 1; biases 0.19, 0.3, 0.5 by depth): OK
+2. full replacement at R = 9: OK
+2. full replacement of bias 0.21 checked as 0.19 (negative control): fails as it must: depth 1: share alive 0.21072, bias 0.19
+2. clustered full replacement (p 0.3, c 0.3): OK
+2. clustered full replacement c 0.3 checked as independent (negative control): fails as it must: same depth agree 0.7014, expected 0.5800 +- 0.0069
+2. second stream: coin fields of seeds 5000 and 5001 agree 0.5279 (independent 0.5264): OK
+2. old second-stream start (NZD_OLDSTREAM): agreement 0.6188 (negative control): fails as it must: adjacent seeds are correlated
+3. same BRUTE line as nz.c: R 11 seed 1201 gens 20000 M 256 DW 1: OK
+3. same BRUTE line as nz.c: R 11 seed 1202 gens 20000 M 128 DW 2: OK
+3. same BRUTE line as nz.c: R 11 seed 1206 gens 20000 M 64 DW 6: OK
+3. same BRUTE line as nz.c: R 9 seed 901 gens 30000 M 16 DW 6: OK
+3. same BRUTE line as nz.c: R 11 seed 5 gens 20000 M 0 DW 1: OK
+3. bias 1/2 through the comparison path against nz.c (negative control): fails as it must: lines differ
+3. another seed against nz.c (negative control): fails as it must: lines differ
+3. the list form with every bias 1/2: OK
+4. excursion counts recomputed from a dump (R = 9, M = 16, 30,000 generations): OK
+5. layer groups and the face group: OK
+VALIDATION PASSED

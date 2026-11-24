@@ -1,0 +1,7 @@
+largest one-cell costs (cost, state, k): [(np.float64(2.5095), 1, 3), (np.float64(1.7044), 1, 2), (np.float64(1.3348), 0, 3), (np.float64(0.9149), 1, 4)]
+bound (2 eps_max + eps_2)/3 = 2.2411 per cell  (eps_max = 2.5095)
+torus (2, 0, 2): max_x E(x)/A = 1.5192  (E_mu E / A from chain_numbers.out is smaller)
+torus (1, 1, 4): max_x E(x)/A = 1.8186  (E_mu E / A from chain_numbers.out is smaller)
+torus (1, 0, 4): max_x E(x)/A = 1.7180  (E_mu E / A from chain_numbers.out is smaller)
+torus (1, 1, 3): max_x E(x)/A = 1.7169  (E_mu E / A from chain_numbers.out is smaller)
+torus (1, 0, 3): max_x E(x)/A = 1.5788  (E_mu E / A from chain_numbers.out is smaller)
