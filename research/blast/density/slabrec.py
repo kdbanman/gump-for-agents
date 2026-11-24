@@ -26,19 +26,22 @@ for f in sorted(glob.glob(os.path.join(d, 'slab_*.txt'))):
     l1 = [l for l in t.splitlines() if l.startswith('LAYER1')][0]
     rows[A].append(dict(f=os.path.basename(f), L=L, p=p, E=E, n0=n0, n7=n7, H=H, R=R, l1=l1))
 for A in sorted(rows):
-    g = [r for r in rows[A] if r['L'] == 8]
-    if not g: continue
-    g = g[0]; gv = math.log(2 * g['E'] / (g['n0'] + g['n7'])); ge = 1 / math.sqrt(g['n0'] + g['n7'])
+    gs = [r for r in rows[A] if r['L'] == 8]
+    if not gs: continue
+    g = dict(E=sum(r['E'] for r in gs), n0=sum(r['n0'] for r in gs), n7=sum(r['n7'] for r in gs), H=gs[0]['H'], l1=gs[0]['l1'], f=', '.join(r['f'] for r in gs),
+             R={k: tuple(sum(r['R'][k][i] for r in gs) for i in range(3)) for k in gs[0]['R']})
+    gv = math.log(2 * g['E'] / (g['n0'] + g['n7'])); ge = 1 / math.sqrt(g['n0'] + g['n7'])
     k = g['H'] - 1; gd = g['R'][k][0] / g['E']; gP = g['R'][k][1] / g['R'][k][0]; g1 = g['R'][1][1] / g['R'][1][0]
-    print(f'{A} cells: gump {gv:.4f} +- {ge:.4f} ({g["f"]}; watched face alone {math.log(g["E"] / g["n0"]):.4f})' + ('; anchor 13.1622 +- 0.0007' if A == 63 else ''))
+    print(f'{A} cells: gump {gv:.4f} +- {ge:.4f} (both faces; {g["f"]}; watched face alone {math.log(g["E"] / g["n0"]):.4f})' + ('; anchor 13.1622 +- 0.0007' if A == 63 else ''))
     print(f'   gump: dips {gd:.3e}, deadliness {gP:.4f}, P1 {g1:.4f}; {g["l1"]}')
     pts = []
-    for r in sorted((r for r in rows[A] if r['L'] < 8), key=lambda r: r['p']):
+    for r in sorted((r for r in rows[A] if r['L'] < 8), key=lambda r: ('skin' in r['f'], r['L'], r['p'])):
         v = math.log(r['E'] / r['n0']) - gv; e = math.hypot(1 / math.sqrt(r['n0']), ge)
         N = r['R'][k][0]; D = r['R'][k][1]; N1, D1 = r['R'][1][0], r['R'][1][1]
         print(f'   p {r["p"]:.4f}: Delta {v:+.4f} +- {e:.4f} ({r["n0"]} deaths)  d ln dips {math.log(N / r["E"]) - math.log(gd):+.3f}  '
               f'd ln deadliness {math.log(D / N) - math.log(gP):+.3f}  P1 {D1 / N1:.4f} +- {math.sqrt(D1 / N1 * (1 - D1 / N1) / N1):.4f}  ({r["f"]})')
-        pts.append((r['p'], v, 1 / math.sqrt(r['n0'])))
+        if 'skin' not in r['f']: pts.append((r['p'], v, 1 / math.sqrt(r['n0'])))
+        else: print(f'      ^ skin row: real layers 0..{r["L"] - 1}, coins at gump\'s layer means from layer {r["L"]}')
     br = [i for i in range(len(pts) - 1) if pts[i][1] < 0 <= pts[i + 1][1]]
     if br:
         sel = [x for x in pts if abs(x[1]) < 0.1]

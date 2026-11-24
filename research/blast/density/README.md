@@ -577,3 +577,53 @@ themselves), and those differences matter only within three layers of the face; 
 information about the face that the face can use (part 1: their density does not move with the face, ± 0.005, and
 their correlation with it is < 0.01). Not checked: d = 4 at ε < 1 (darts); whether it is "depth ≥ 4" or a smooth decay
 that drops below the errors there (d = 3 → 4 removes 0.17 and 0.30; d = 4 → 5 nothing measurable).
+
+### 4. The wrapped face: one real layer over fresh coins, and its skin [measured]
+
+New stepper: `slab.c` on a slab torus from `slabgeom.py` (8 layers, periodic in the plane under the lattice (H, K),
+(0, D); the construction re-derived from `docs/AUTOMATON.md` after `research/blast/split-slab/geom.py`; same cell ids).
+**Bit-exact against `reference/oracle.py`** on a covering cubic torus (N = H D cubes a side; layers 8 … N − 1 dead and
+kept so by T2): 600 generations × 3 lanes, every cell, on (1,4),(0,21) (63 cells) and (1,4),(0,15) (45 cells);
+negative controls (one neighbour swapped) fail at generations 3 and 1; the coins (every cell of layers ≥ L a fresh coin
+of its layer's bias each generation) checked for bias and for leaving layers < L alone
+(`python3 research/blast/density/validate_slab.py 600`, `data/validate_slab_600.txt`). The face is layer 0; with coins
+the other face (layer 7) is coins too and cannot die; gump rows end a life when either face dies and count τ_face =
+2 × exposure / deaths. Rows: `sh research/blast/density/slabrows.sh TAG:SEED:GENS:L:P` (`HKD=1_4_15` for 45 cells,
+`SLABBIN=slab2` for the per-layer biases), table: `python3 research/blast/density/slabrec.py`. Gump: 9.3524 ± 0.0024
+(45 cells, two rows) and 13.159 ± 0.013 (63 cells, two rows; the project's anchor for this torus 13.1622 ± 0.0007).
+
+**One real layer (the face) over fresh coins of density p, all 7 layers under it:**
+
+| | p\* | slope per unit p | at p\*: Δ ln dips | Δ ln deadliness | death from one cell | gump's death from one cell |
+|---|---|---|---|---|---|---|
+| 45 cells | **0.3550 ± 0.0002** (0.35: −0.151, 0.355: +0.000 ± 0.006) | 30 | −1.49 | +1.49 | 0.999 | 0.873 |
+| 63 cells | **0.3659 ± 0.0004** (0.365: −0.031, 0.37: +0.214 and +0.229) | 52 | −2.16 | +2.21 | 0.997 | 0.862 |
+
+p\* *creeps up with the wrapped face* (+0.011 from 45 to 63 cells, 24 σ of the counting errors), unlike the hull's DO = 1 rows (0.3848,
+0.3854); the two tori differ in shape as well as in size (their shortest loops are not in proportion), which is not
+separated here. The way of dying is again not gump's: over coins a face that reaches one cell dies 99.7–99.9% of the
+time (gump's wrapped faces 86–87%, already above the hull's 77%), dips 4–9 times less often, each 4–9 times deadlier.
+Gump's own layer 1 under a low wrapped face (all of it, the cells the coins replace): 63 cells 0.435 overall, 0.304 at
+face ≤ 10, 0.295 at its thinnest (≤ 6); 45 cells 0.403, **0.122** at ≤ 10, 0.075 at ≤ 2 (the layer under a dying
+45-cell wrapped face nearly empties). Nothing there is near p\* (0.355, 0.366): the coincidence does not hold on the
+wrapped face either.
+
+**The skin on the wrapped face** (layers 0 … L − 1 real, every layer ≥ L a fresh coin at gump's mean density of that
+layer on the same torus: 45 cells 0.3725, 0.3781, 0.3779, 0.3728, 0.4031, 0.4767 for layers 2–7; 63 cells 0.4345,
+0.4057, 0.4157, 0.4157, 0.4057, 0.4345, 0.5172 for layers 1–7; `LAYERS` lines of `slab_gump{45,63}L_*.txt`):
+
+| real layers L | 45 cells: Δ ln τ | Δ ln dips, deadliness (k = H − 1 = 10, or 8 where noted) | P₁ | 63 cells: Δ ln τ | Δ ln dips, deadliness | P₁ |
+|---|---:|---|---:|---:|---|---:|
+| 1 | +1.012 ± 0.008 | −1.65, +0.63 | 0.993 | +2.204 ± 0.069 | −1.98, −0.22 | 0.969 |
+| 2 | +0.633 ± 0.007 | −0.41, −0.22 | 0.904 | +1.231 ± 0.036 | −0.59, −0.64 | 0.865 |
+| 3 | +0.150 ± 0.006 | +0.02, −0.17 (k = 8) | 0.863 | +0.245 ± 0.025 | +0.00, −0.24 | 0.857 |
+| **4** | **+0.003 ± 0.005** | +0.04, −0.05 (k = 8; k = 10 the same) | 0.877 | **+0.029 ± 0.023** | −0.00, −0.02 | 0.861 |
+| 5 | −0.016 ± 0.005 | +0.02, −0.00 (k = 8) | 0.878 | +0.002 ± 0.023 | −0.01, +0.01 | 0.868 |
+
+(gump: P₁ 0.873 at 45 cells, 0.862 at 63; "dips" from ≥ H to < H as in the hull table, H = 11 and 16; at 45 cells
+the dips at k = 10 are distorted by a threshold effect in one row, L = 5: +0.33/−0.32 at k = 10 against +0.02/−0.00 at
+k = 8, so the k = 8 values are quoted.) **The same four-layer skin as on the hull**: with four real layers the wrapped
+face dies at gump's rate and in gump's way (to ± 0.03 in ln τ, ± 0.05 in the excursion statistics, ± 0.01 in P₁);
+with three it lives longer by 0.15 (45) and 0.25 (63). One difference not understood: on the 45-cell wrapped face the
+face's mean population with coins from layer 4 is 22.7 against gump's 21.4 although its rate and excursions match (at
+63 cells 32.58 against 32.58).
