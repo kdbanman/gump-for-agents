@@ -646,4 +646,56 @@ theorem aliveF_u (hR : 3 ≤ R) (hodd : R % 2 = 1) (i : ℕ) (hi : i < (Gump.Dic
 
 end Reach
 
+/-! ### Lemma 0 on every hull face -/
+
+/-- **Lemma 0 on every hull face of side R ≥ 3** (R odd). -/
+theorem hull_lemma0_ge3 {R : ℕ} (hR : 3 ≤ R) (hodd : R % 2 = 1) : Lemma0F (Gump.Dice.hull R) := by
+  refine ⟨mask R U, mask_lt R U, mask_ne_zero R U ?_, fun i hi => aliveF_u hR hodd i hi,
+    fun x _ _ ⟨i, hi, hal⟩ => ?_⟩
+  · obtain ⟨j, hj, e⟩ := exists_idx R (c0 R) (c0_mem R hR hodd)
+    exact ⟨j, hj, by rw [e]; exact (c0_T R hR hodd).1⟩
+  · have h2 : 2 ^ i < 2 ^ (Gump.Dice.hull R).A := Nat.pow_lt_pow_right (by norm_num) hi
+    refine Relation.ReflTransGen.head ⟨h2, by positivity, step_single _ x i hal⟩ ?_
+    rw [single_eq R i hi]
+    refine (walk_all hR hodd _ (Face.hull_cell_mem R i hi)).trans ?_
+    rw [← G0 hR hodd]
+    refine (grow hR hodd (3 * R)).trans ?_
+    rw [GN]
+    exact Relation.ReflTransGen.head (step_TZ hR hodd) (Relation.ReflTransGen.single (step_U hR hodd))
+
+/-- **Lemma 0 on every hull face** (every R with A > 0): the hypothesis of `hull_full_all` and `hull_full_sym`. -/
+theorem hull_lemma0 (R : ℕ) (hA : 0 < (Gump.Dice.hull R).A) : Lemma0F (Gump.Dice.hull R) := by
+  have hodd : R % 2 = 1 := by
+    obtain ⟨-, -, -, h4, hpar⟩ := parity R _ (Face.hull_cell_mem R 0 hA)
+    omega
+  rcases (show R = 1 ∨ 3 ≤ R by omega) with h | h
+  · subst h; exact hull1_lemma0
+  · exact hull_lemma0_ge3 h hodd
+
 end Gump.Link.HullGen
+
+namespace Gump.Link
+open Gump.Dice Gump.Chain Gump.Chain.KilledChain Finset
+
+/-- **Every hull face, for `Face.P` itself, no hypothesis**: at (0.44, 0.42), for every R with A > 0, the unique
+quasi-stationary law among λ > 0, positive on every living state; ln τ = Σ c_i (named per-cell factors);
+ln τ < 2.2165·A; decay at exactly λ from every state that can survive; survFrom = Face.survival; equal prices
+along every automorphism of the tables. -/
+theorem hull_full_every (R : ℕ) (hA : 0 < (Gump.Dice.hull R).A) :
+    ∃ μ lam, (chain (Gump.Dice.hull R) Hull3.sdens.dens).IsDominantQSD μ lam ∧
+      IsQSD (Gump.Dice.hull R) ρ1 ρ2 (extend (Gump.Dice.hull R) μ) lam ∧ 0 < lam ∧ (∀ x, 0 < μ x) ∧
+      (∀ ν lam', (chain (Gump.Dice.hull R) Hull3.sdens.dens).IsQSD ν lam' → 0 < lam' → ν = μ ∧ lam' = lam) ∧
+      (∀ i x, (LH R Hull3.sdens).dc i x = 1 - (((Gump.Dice.hull R).a ρ1 ρ2 x i : ℚ) : ℝ)) ∧
+      Real.log ((chain (Gump.Dice.hull R) Hull3.sdens.dens).lifetime μ) = ∑ i, (LH R Hull3.sdens).price μ i ∧
+      Real.log ((chain (Gump.Dice.hull R) Hull3.sdens.dens).lifetime μ) < 2.2165 * (Gump.Dice.hull R).A ∧
+      (∃ m M : ℝ, 0 < m ∧ m ≤ M ∧
+        (∀ t x, (chain (Gump.Dice.hull R) Hull3.sdens.dens).CanSurvive x →
+          m / M * lam ^ t ≤ (chain (Gump.Dice.hull R) Hull3.sdens.dens).survFrom t x) ∧
+        (∀ t x, (chain (Gump.Dice.hull R) Hull3.sdens.dens).survFrom (t + 1) x ≤ M / m * lam ^ t)) ∧
+      (∀ t x, (chain (Gump.Dice.hull R) Hull3.sdens.dens).survFrom t x =
+        (((Gump.Dice.hull R).survival ρ1 ρ2 t x : ℚ) : ℝ)) ∧
+      (∀ (π : List ℕ) (hπ : autOK (Gump.Dice.hull R) π = true) (i : Fin (Gump.Dice.hull R).A),
+        (LH R Hull3.sdens).price μ (autPerm hπ i) = (LH R Hull3.sdens).price μ i) :=
+  hull_full_sym R hA (HullGen.hull_lemma0 R hA)
+
+end Gump.Link
