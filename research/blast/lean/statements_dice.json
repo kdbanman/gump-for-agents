@@ -111,6 +111,16 @@
     "lntau_le_hull_all",
     "The weighted local inequality applied to hull faces (not in the source).",
     "Every R: ln τ < 2.2165·A for every QSD of hull R (weight 1341/1000 on live–dead slots; hull_balanced and hull_type: degrees 6/4/2 with coins (2,1)/(2,1)/(2,0), proved for every R; type_check by the kernel)."
+   ],
+   [
+    "torus_regular",
+    "(needed for the weighted bound on wrapped faces) every wrapped face has six neighbour slots per cell and every cell is in six slots.",
+    "Every torus H K D with H, D > 0 (Face.regular), from the reduction modulo the period lattice (Tr_shift, Tr_sub, Tr_id) and the symmetry red_symm."
+   ],
+   [
+    "lntau_le_torus",
+    "The weighted local inequality on wrapped faces (not in the source).",
+    "Every wrapped face (H, D > 0): ln τ < 1.9228·A for every QSD. Replaces the per-face checks of DiceRegular.lean."
    ]
   ]
  }

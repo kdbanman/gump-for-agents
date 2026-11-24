@@ -12,6 +12,7 @@ import GumpMath.DiceHull
 import GumpMath.DiceBound3
 import GumpMath.DiceHullAll
 import GumpMath.DiceRegular
+import GumpMath.DiceTorusReg
 open Gump.Dice
 #print axioms hull3_lifetime
 #print axioms hull3_tau
@@ -51,3 +52,6 @@ open Gump.Dice
 #print axioms lntau_le_hull_all
 #print axioms regular_torus303
 #print axioms lntau_le_torus303
+#print axioms Face.torus_regular
+#print axioms Face.torus_count_symm
+#print axioms lntau_le_torus

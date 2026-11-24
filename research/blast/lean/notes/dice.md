@@ -220,15 +220,13 @@ All [proved], standard three axioms (`AxiomsDice.lean`), each module built alone
    form for R ≤ 11.
 
 **Not done.**
-- `Face.regular` for every `torus H K D`. Parts (six slots per cell, all slots cells) are routine. The in-degree
-  needs the reduction lemma: red is reduction modulo the lattice spanned by H·E1 + K·E2 and D·E2, so
-  red(p_j − v) = p_i whenever red(p_i + v) = p_j. In coordinates this is (a + sH) mod H = a mod H and the matching
-  floor-division identity, with H, D variables; `omega` cannot do it (it handles division by constants only). The
-  proof plan: decode/encode lemmas for `abCell`/`coordA`/`coordB` (omega, division by 2), an offset table per
-  orientation, the two lattice lemmas from `Int.add_mul_emod_self`/`Int.add_mul_ediv_right`, then the
-  v ↦ −v bijection. Estimated 1.5–2 hours; not started. `lntau_le_regular` holds where `regular` is checked by
-  the kernel: the three tori of `DiceBound2.lean` and, added (`DiceRegular.lean`), (1,0),(0,4), (1,1),(0,4),
-  (1,0),(0,5), (1,1),(0,5), (1,0),(0,6), (1,1),(0,6), (2,0),(0,3), (3,0),(0,3) (`lntau_le_torus303`: 27 cells).
+4. **`Face.regular` for every wrapped face** (`DiceTorusReg.lean`, done after all): `torus_regular H K D` for
+   H, D > 0. In the cell coordinates (o, a, b) the reduction is Tr(a, b) = (a mod H, (b − ⌊a/H⌋K) mod D):
+   invariant under the period lattice (`Tr_shift`), equal to the identity up to a lattice vector (`Tr_sub`), the
+   identity on the fundamental domain (`Tr_id`); hence `red_symm` (the neighbour of i across v reduces to j iff the
+   neighbour of j across −v reduces to i), `torus_count_symm` (v ↦ −v between the slots), six slots per cell
+   (every reduction is a cell, `red_mem`), so in-degree six. **`lntau_le_torus`: ln τ < 1.9228·A on every wrapped
+   face**, every QSD. (`DiceRegular.lean`'s per-face checks are now special cases.)
 - The 12-cell torus: skipped, as the brief allowed (no build was attempted under the 4 GB rule).
 
 Reproduce: `cd research/blast/lean/mathlib && lake build GumpMath.DiceFlux` (then DiceHull, DiceBound3,
