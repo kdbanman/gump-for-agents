@@ -264,6 +264,12 @@ A background job (bj01hgfn5) pushes every 40 s until about 16:55 UTC.
 `torusNb_all` and `wrapped_full_all` (every wrapped face, no hypothesis). Resumed a fourth time for every hull face
 (`CellsOK (hull R)` from dice's `hull_type`; Lemma 0 on every hull triangle; 90 minutes). `ref-chain` resumed for a
 third review (40 minutes). Wind-down plan: agents' tasks end by about 18:00 UTC, integration by about 19:00.
+`ref-chain` third review clean (fba0cab). `ref-density` back (07d2708, own code `rd.c`): every number of
+`density`'s first task reproduces (gump 13.632 ± 0.014; fair +0.653; mean density +0.535; core copy −0.445; zero of
+the scan 0.199 ± 0.007); the READING is partly broken: the ordering by low-face support density fails (layer-copy
+chain), "layer leads by 1–2 generations" is not supported (peak at lag 0; Granger layer → face), "a fifth" depends on
+the matching (a third on realized density), p* is a coin bias not a support density, consecutive seeds share the
+coin stream. Sent to `density` to fold into its third task. For my REPORT entry: state only what both codes give.
 
 **13:15 UTC 2026-11-24.** `chain` handed back (notes: `lean/notes/chain.md`, last commit 23163ec; 15 `Chain*.lean`
 modules, 82 headline theorems, `check.sh --mathlib` passed at 13:10). `ref-lean` handed back earlier (repairs in
