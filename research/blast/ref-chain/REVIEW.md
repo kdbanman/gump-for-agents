@@ -255,7 +255,7 @@ new defect of substance; three small qualifications are below.
 
 ### (1) The seven defects, re-attacked
 
-- **D1 closed.** `bit_surrogate` (ChainBits.lean l. 129–145) now names the factor: `L.dc i x = 1 − aliveProbR (cell i)`.
+- **D1 closed.** `bit_surrogate` (ChainBits.lean l. 130–148) now names the factor: `L.dc i x = 1 − aliveProbR (cell i)`.
   My `lumped` factorisation (`RefChainVacuity.lean`) no longer meets the statement (its factors are not those).
 - **D2 closed.** `IsDominantQSD` (ChainExist.lean l. 29–34): a QSD with λ ≥ λ′ for every QSD (ν, λ′), λ ≥ Q u u,
   P_x(T > t) ≤ C_ε(λ + ε)^t for all x, and ≥ λ^t for some x at each t. [proved: Lean] `RefChainLink.lean`:
@@ -279,7 +279,7 @@ new defect of substance; three small qualifications are below.
 
 ### (2) `hull3_full` and its siblings, clause by clause
 
-- `chain F hd` is `ofStochastic (fun x y => ((F.P ρ1 ρ2 x y : ℚ) : ℝ)) F.empty …` (LinkBridge.lean l. 103): the killed
+- `chain F hd` is `ofStochastic (fun x y => ((F.P ρ1 ρ2 x y : ℚ) : ℝ)) F.empty …` (LinkBridge.lean l. 104): the killed
   chain of `Face.P` itself at `F.empty = ⟨0, _⟩` (DiceBound.lean l. 58). `extend` puts 0 at the empty state and is
   harmless (`toDice` proves the dice agent's `IsQSD`, whose `empty` field requires exactly that).
 - Uniqueness is over all `(chain F).IsQSD ν λ′` with λ′ > 0, on the living states `{x // x ≠ F.empty}`: the right
