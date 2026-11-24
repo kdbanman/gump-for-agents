@@ -2,7 +2,7 @@
 """ref-tape, check 2: the claimed behaviour of the catalogue's objects, on reference/oracle.py, at sizes and times the
 Lean base cases do not cover, with the sharp boundaries. Objects from rt_objects.py (the JSON files only).
 
-    python3 rt_dyn.py tape | line | clock | twoclocks | train | signals | unzip [K1-K2] | stands | call [K1-K2]      (each under 10 minutes)
+    python3 rt_dyn.py tape | local | line | clock | twoclocks | train | signals | unzip [K1-K2] | stands | call [K1-K2]      (each under 10 minutes)
 
 Infinite configurations (tape words, the train, the store wire) are run as rings on the oracle's torus
 (2L, hy, 2L) (rt_lib.orc_ring); where the infinite word is not periodic, only units whose light cone sees one copy of
@@ -43,6 +43,32 @@ def check_tape():
             report(not neg, f'tape: negative control, L = {L}: generation 2 is not the word shifted by 2, nor the start')
             report(good, f'tape: random word {"".join(word)[:20]}... on a ring of {L} units, whole torus, generations 0..{T}: '
                    f'state at 2n = the word shifted by n')
+
+
+def check_local():
+    """tape_local_run: a configuration that is the tape of w on units a-2n .. b+2n, with anything outside, is the
+    shifted word on a .. b after 2n generations (finite word on units 0..39, random cells on units -6..-1, 40..45)"""
+    rnd = random.Random(2411)
+    for trial in range(3):
+        word = [rnd.choice('BC') for _ in range(40)]
+        cells = set(O.tape_cells(lambda u: word[u], 0, 39))
+        for u in list(range(-6, 0)) + list(range(40, 46)):
+            for x in (2 * u, 2 * u + 1):
+                for y in range(-4, 5):
+                    for s in range(-6, 11):
+                        c = (x, y, s - x)
+                        if sum(v & 1 for v in c) == 1 and rnd.random() < 0.35:
+                            cells.add(c)
+        T = 20
+        orb = orc_run(cells, T, margin=40)
+        good = True
+        for n in range(T // 2 + 1):
+            a, b = 2 * n, 39 - 2 * n
+            want = O.tape_cells(lambda u: word[u + n], a, b)
+            good &= frozenset(c for c in orb[2 * n] if a <= unit_of(c) <= b) == want
+        junk = sum(1 for c in orb[T] if not 0 <= unit_of(c) <= 39)
+        report(good, f'tape_local_run: word on units 0..39 with random junk outside ({len(cells)} cells), n = 0..{T // 2}: '
+               f'units 2n..39-2n are the word shifted by n ({junk} live cells outside units 0..39 at generation {T})')
 
 
 def line_check(N, extra=10, pmax=12):
@@ -200,7 +226,7 @@ if __name__ == '__main__':
         {'unzip': check_unzip, 'call': check_call}[what](range(a, b + 1))
         print('ALL PASS' if ok else 'SOME CHECKS FAILED')
         sys.exit(0 if ok else 1)
-    {'tape': check_tape, 'line': check_line, 'clock': check_clock, 'twoclocks': check_twoclocks,
+    {'tape': check_tape, 'local': check_local, 'line': check_line, 'clock': check_clock, 'twoclocks': check_twoclocks,
      'train': check_train, 'signals': check_signals, 'unzip': check_unzip, 'stands': check_stands, 'call': check_call}[what]()
     print('ALL PASS' if ok else 'SOME CHECKS FAILED')
     sys.exit(0 if ok else 1)
