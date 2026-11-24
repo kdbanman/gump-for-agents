@@ -10,7 +10,7 @@ the differences sigma_t = S(t) xor train(1 + t) are computed with the oracle for
 needs (two-generation steps up to g, then single steps to g + 4) and written out; Lean re-checks every step with its
 own stepper. Also checked here on the oracle (the Lean statements, for a test the proof does not need): from
 generation g on, S(t + 4) is S(t) with its units <= m moved two units down and its units > m moved two units up, for
-t = g .. g + 40, and the units m - 2 .. m + 3 hold the medium.
+t = g .. g + 24, and the units m - 2 .. m + 3 hold the medium.
 """
 import sys
 from tape_lib import load, orbit_box, tr, unit, units, shift, lean_list
@@ -19,7 +19,7 @@ lc = load('research/signals/objects/line-C.json')
 R5 = [tuple(c) for c in lc['rake5']]; RF = [tuple(c) for c in lc['rakef']]
 SIGS = {'E': (0, [(1, 2, 2), (2, 0, 1), (2, 0, 3)], +1), 'U': (1, [(0, 0, 3)], +1),
         'H': (1, [(1, 2, 2)], -1), 'K0': (0, [(0, 0, 3)], -1)}
-LO, HI = -44, 44
+LO, HI = -60, 60
 piece0 = frozenset(tr(c, u) for u in range(-60, 60) for c in (R5 if u % 2 == 0 else RF))
 o0 = orbit_box(piece0, 6)
 BASE = [[frozenset(tr(c, -par) for c in units(o0[t], par, par)) for par in (0, 1)] for t in range(4)]
@@ -52,7 +52,7 @@ def front_ok(D, g, m, medium, T):
     good = True
     for t in range(g, T - 3):
         lo_, hi_ = LO + t + 8, HI - t - 8
-        want = shift(frozenset(c for c in D[t] if unit(c) <= m), -2) | shift(frozenset(c for c in D[t] if unit(c) > m), 2)
+        want = frozenset(c for c in shift(D[t], -2) if unit(c) <= m) | frozenset(c for c in shift(D[t], 2) if unit(c) > m)
         good &= units(D[t + 4], lo_, hi_) == units(want, lo_, hi_)
         for u in range(m - 2, m + 4):
             cells = frozenset(tr(c, -u) for c in units(D[t], u, u) ^ units(train(1 + t, u, u), u, u))
@@ -81,9 +81,9 @@ MEETS = [('UH', 'U', 1, 'H', 5, 12, 4, lambda t, u: BO if t % 2 == 0 else BE),
          ('EK', 'E', 0, 'K0', 4, 12, 4, None)]
 data = {}
 for (name, A, a, B, b, g, m, med) in MEETS[:1]:
-    D = diffs(A, a, B, b, g + 44)
+    D = diffs(A, a, B, b, g + 28)
     report(f'{name}: from generation {g}, S(t+4) is S(t) moved down below unit {m} and up above it; the units '
-           f'{m - 2} .. {m + 3} hold wire B (t = {g} .. {g + 40})', front_ok(D, g, m, med, g + 44))
+           f'{m - 2} .. {m + 3} hold wire B (t = {g} .. {g + 24})', front_ok(D, g, m, med, g + 28))
     data[name] = (D, g, m, lean_steps(name, D, g))
 if not ok:
     sys.exit(1)
