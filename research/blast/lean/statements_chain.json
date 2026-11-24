@@ -261,6 +261,26 @@
     "surrogate_theorems",
     "Theorems 1 and 2 for S(G), from the surrogate's kernel as a stochastic matrix with the empty face absorbing.",
     "Hypotheses: P ≥ 0, rows sum to 1, P(x, ∅) = Π_i (1 - a_i(x)) with 0 ≤ a_i < 1, and 1 - a_i ≥ min(ρ1²ρ2, (1-ρ1)²(1-ρ2)); for the surrogate the last two follow from ChainCoins once its a_i is matched with death3 and death2."
+   ],
+   [
+    "bitP_row",
+    "(needed by the instantiation) the surrogate's kernel on bit masks is stochastic: Σ_y Π_{i<A}(a_i or 1 - a_i) = 1.",
+    "For every a: a sum over bit masks of a product over bits factorises (sum_bits)."
+   ],
+   [
+    "one_sub_aliveProbR_three",
+    "(the instantiation) 1 - aliveProb with coins (2,1) is the death probability of ChainCoins.",
+    "Same, for every k and state; aliveProbR is Gump.Dice.aliveProb transcribed over ℝ (by reading, not by a Lean proof)."
+   ],
+   [
+    "bit_surrogate",
+    "THEOREMS.md, Theorems 1 and 2 for S(G) on every face, in the bit-mask form of GumpMath/DiceDef.lean.",
+    "Every face with A ≥ 1 cells whose cells have coins (2,1) and k ≤ 6, or (2,0) and k ≤ 2: a QSD exists, ln τ = Σ_i c_i, ln τ ≤ -ln min(ρ1²ρ2,(1-ρ1)²(1-ρ2))·A. The face's m1, m2, k and the cast from ℚ are the remaining inputs."
+   ],
+   [
+    "bit_one_class",
+    "Lemma 0 on bit masks: the QSD is unique and charges every non-empty state.",
+    "Hypotheses: a state u in which every cell can be alive next (on wrapped faces: one orientation, k = 2 everywhere), and every state that can survive reaches u (the geometric part, per face)."
    ]
   ]
  }

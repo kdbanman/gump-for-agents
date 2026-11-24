@@ -9,6 +9,7 @@ import GumpMath.ChainSSM
 import GumpMath.ChainPrice
 import GumpMath.ChainInst
 import GumpMath.ChainTiltLimit
+import GumpMath.ChainBits
 open Gump.Chain
 -- Theorem 2 (the tilt identity) and its analytic core
 #print axioms neg_log_Z_one
@@ -75,3 +76,11 @@ open Gump.Chain
 -- Theorem 3 without (SSM): monotonicity of the tilt
 #print axioms tilt_riemann_bounds
 #print axioms price_of_pointwise
+-- the surrogate's kernel on bit masks (the shape of GumpMath/DiceDef.lean)
+#print axioms Bits.sum_bits
+#print axioms Bits.bitP_row
+#print axioms Bits.bitP_pos_iff
+#print axioms Bits.one_sub_aliveProbR_three
+#print axioms Bits.one_sub_aliveProbR_two
+#print axioms Bits.bit_surrogate
+#print axioms Bits.bit_one_class
