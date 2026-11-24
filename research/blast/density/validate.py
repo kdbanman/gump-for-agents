@@ -175,6 +175,41 @@ def shuffle_check(R, DW, M, core):
     return None
 
 
+def cond_check(R, DW, M, trials=40):
+    """conditioned coins: bias p_m by m = live face neighbours. Face all dead (m = 0) or all alive (m = 2 at depth 1,
+    m = 1 at depth 2); N cells start dead (alive) and the share set alive (dead) is q p_m (q (1 - p_m))."""
+    lib = ctypes.CDLL(so)
+    lib.set_coin.argtypes = [ctypes.c_int, ctypes.c_double]; lib.set_ccoin.argtypes = [ctypes.c_int] + [ctypes.c_double] * 3
+    n, A, co = geometry(lib, R, DW, 3)
+    tab = {1: (0.1, 0.5, 0.8), 2: (0.3, 0.7, 0.5)}
+    for d, t in tab.items(): lib.set_ccoin(d, *t)
+    for d in range(3, 30): lib.set_coin(d, 0.25)
+    nN = lib.v_nN(); B = lib.v_B(); Nc = np.zeros(nN, np.int32); lib.v_ncells(Nc.ctypes.data_as(VP))
+    dep = (R - co @ SIG[0]) // 2; q = 1 - (1 - 1 / B) ** M
+    inN = np.zeros(n, bool); inN[Nc] = True; buf = np.zeros(n, np.uint8); lib.v_seed(4321)
+    for face in (0, 1):
+        for start in (0, 1):
+            acc = np.zeros(n); nl = 0
+            for t in range(trials):
+                st = np.full(n, start, np.uint8); st[:A] = face; lib.v_clear()
+                for lane in range(512): lib.v_set(lane, st.ctypes.data_as(VP))
+                lib.v_noise(M)
+                for lane in range(0, 512, 7):
+                    lib.v_get(lane, buf.ctypes.data_as(VP)); nl += 1
+                    if (buf[~inN] != st[~inN]).any(): return 'a cell outside N changed'
+                    acc += buf if start == 0 else 1 - buf
+            for d in sorted(set(dep[Nc])):
+                sel = inN & (dep == d); cells = sel.sum() * nl
+                if d in tab:
+                    p = tab[d][0] if face == 0 else tab[d][2 if d == 1 else 1]
+                else:
+                    p = 0.25
+                want = q * (p if start == 0 else 1 - p); f = acc[sel].sum() / cells; sd = np.sqrt(want * (1 - want) / cells)
+                if abs(f - want) > 5 * sd:
+                    return f'face {face}, start {start}, depth {d}: share {f:.5f}, expected {want:.5f} +- {sd:.5f}'
+    return None
+
+
 def brute(exe_, R, seed, gens, M, DW, extra=None, env=None):
     cmd = [exe_, str(R), 'brute', str(seed), str(gens), str(M), str(DW), '3'] + ([extra] if extra else [])
     e = dict(os.environ); e.update(env or {})
@@ -257,6 +292,7 @@ report('2. bias 1/2 through the comparison path', coin_check(11, 2, 128, {d: 0.5
 report_neg('2. coins of bias 0.6 read as 0.5', coin_check(11, 1, 256, {d: 0.6 for d in range(1, 12)}, read_as={d: 0.5 for d in range(1, 12)}))
 report('2. shuffled coin, source = the whole layer', shuffle_check(11, 1, 256, 0))
 report('2. shuffled coin, source = the layer\'s core', shuffle_check(11, 1, 256, 1))
+report('2. conditioned coins (bias by the number of live face neighbours), face all dead and all alive', cond_check(11, 1, 256))
 cases = [(11, 1201, 20000, 256, 1), (11, 1202, 20000, 128, 2), (11, 1206, 20000, 64, 6), (9, 901, 30000, 16, 6), (11, 5, 20000, 0, 1)]
 for R, seed, gens, M, DW in cases:
     a = first_line(brute(nzexe, R, seed, gens, M, DW)); b = first_line(brute(exe, R, seed, gens, M, DW))

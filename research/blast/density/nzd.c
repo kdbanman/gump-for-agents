@@ -55,6 +55,9 @@ static inline u64 rnd2(void) { u64 z = (sm2 += 0x9e3779b97f4a7c15ULL); z = (z ^ 
   z = (z ^ (z >> 27)) * 0x94d049bb133111ebULL; return z ^ (z >> 31); }
 
 /* the coin of each depth: kind 0 fair (v & 1), 1 comparison with thr, 2 shuffle, 3 always 1 */
+/* kind 4 (conditioned): the bias depends on m = the number of live face neighbours (depth 0) of the cell in the current
+   state: cctab[d][m]; fnb = those neighbours */
+static u64 cctab[MAXD][4]; static double ccb[MAXD][4]; static int *fnb, *nfnb;
 static int ckind[MAXD]; static u64 cthr[MAXD]; static double cbias[MAXD]; static int *srcs[MAXD], nsrc[MAXD];
 static int general = 0, frozen = 0, srccore = 0;
 static int allfair = -1, allthr = -1;     /* caches of the noise loop's form; reset whenever a coin changes */
@@ -97,6 +100,8 @@ int geom_init(int R_, int dw, int dov) {
     }
     if (in) Ncell[nN++] = i;
   }
+  fnb = malloc(sizeof(int) * 3 * n); nfnb = malloc(sizeof(int) * n);
+  for (int i = 0; i < n; i++) { nfnb[i] = 0; for (int j = 0; j < 12; j++) { int c = nb[12 * i + j]; if (c < n && dep0[c] == 0 && nfnb[i] < 3) fnb[3 * i + nfnb[i]++] = c; } }
   CB = 2; while ((1 << CB) < 4 * nN) CB++;
   B = 1 << CB;
   a = aligned_alloc(64, (size_t)(n + 1) * W * 8); b = aligned_alloc(64, (size_t)(n + 1) * W * 8);
@@ -121,6 +126,9 @@ void set_srccore(int c) {   /* rebuild the shuffle sources (validation) */
   for (int i = 0; i < n; i++) if (dep0[i] < MAXD && (!srccore || dmo[i] >= DO)) srcs[dep0[i]][nsrc[dep0[i]]++] = i;
 }
 void set_general(int g) { general = g; }
+void set_ccoin(int d, double p0, double p1, double p2) {   /* conditioned coin: bias p_m, m = live face neighbours */
+  allfair = allthr = -1; ckind[d] = 4; cbias[d] = -2; double p[3] = {p0, p1, p2};
+  for (int m = 0; m < 3; m++) { cctab[d][m] = (u64)floor((p[m] > 1 ? 1 : p[m]) * 65536.0 + 0.5); ccb[d][m] = cctab[d][m] / 65536.0; } }
 
 #define FA(s, c, p, q, r) do { vec t_ = (p) ^ (q); s = t_ ^ (r); c = ((p) & (q)) | (t_ & (r)); } while (0)
 static inline vec rule(const vec *x, vec me) {
@@ -156,6 +164,8 @@ static inline u64 coin(int lane, int cell, uint32_t v) {
   switch (ckind[d]) {
     case 0: return v & 1;
     case 1: return bits16() < cthr[d];
+    case 4: { int m = 0; for (int j = 0; j < nfnb[cell]; j++) m += (int)((a[(size_t)fnb[3 * cell + j] * W + (lane >> 6)] >> (lane & 63)) & 1);
+      return bits16() < cctab[d][m]; }
     default: { uint32_t z = (bits16() << 16) | bits16(); int s = srcs[d][((u64)z * (u64)nsrc[d]) >> 32];
       return (a[(size_t)s * W + (lane >> 6)] >> (lane & 63)) & 1; }
   }
@@ -184,7 +194,7 @@ static void noise_random(int M) {
   }
   static uint32_t *jthr;
   if (allthr < 0) { allthr = 1; free(jthr); jthr = malloc(sizeof(uint32_t) * nN);
-    for (int j = 0; j < nN; j++) { int d = dep0[Ncell[j]]; if (ckind[d] == 2) allthr = 0; jthr[j] = ckind[d] == 1 ? (uint32_t)cthr[d] : 32768u; } }
+    for (int j = 0; j < nN; j++) { int d = dep0[Ncell[j]]; if (ckind[d] == 2 || ckind[d] == 4) allthr = 0; jthr[j] = ckind[d] == 1 ? (uint32_t)cthr[d] : 32768u; } }
   if (allthr) {       /* every depth a comparison (a fair depth among biased ones: threshold 2^15, same law) */
     for (int l = 0; l < NL; l++) {
       u64 r = rnd(); uint32_t u = (uint32_t)r; int k = 0; while (cdf[k] <= u && k < M) k++;
@@ -305,7 +315,30 @@ static void layer_accum(int l, int counted) {   /* after observe(); every group 
     for (int g = 0; g < ng; g++) { double y = gpop[g][l], yp = hy[g][l][q];
       Lfw[g][j] += xp * y; Lbw[g][j] += yp * x; Lsy[g][j] += y; Lsyy[g][j] += y * y; Lsx2[g][j] += xp; Lsy2[g][j] += yp; } }
 }
+static double CMn[3][2][3], CMa[3][2][3], CMf[3][2][3];   /* [set: core1, core2, full1][all, pop <= 10][m]; CMf: changed since the last generation */
+static void cond_measure(const u64 *cm) {   /* cm: counted lanes; after observe() */
+  u64 low[W]; for (int w = 0; w < W; w++) low[w] = 0;
+  for (int l = 0; l < NL; l++) if (pop[l] <= 10) low[l >> 6] |= 1ULL << (l & 63);
+  for (int i = 0; i < n; i++) {
+    int st = (dep0[i] == 1 && dmo[i] >= DO) ? 0 : (dep0[i] == 2 && dmo[i] >= DO) ? 1 : -1;
+    for (int pass = 0; pass < 2; pass++) { int set = pass == 0 ? st : (dep0[i] == 1 ? 2 : -1); if (set < 0) continue;
+      for (int w = 0; w < W; w++) { u64 s0 = 0, s1 = 0;
+        for (int j = 0; j < nfnb[i]; j++) { u64 x = a[(size_t)fnb[3 * i + j] * W + w], t = s0 & x; s0 ^= x; s1 ^= t; }
+        u64 me = a[(size_t)i * W + w], ch = me ^ b[(size_t)i * W + w], mm[3] = {~s0 & ~s1, s0 & ~s1, ~s0 & s1};
+        for (int m = 0; m < 3; m++) { u64 q = mm[m] & cm[w];
+          CMn[set][0][m] += __builtin_popcountll(q); CMa[set][0][m] += __builtin_popcountll(q & me);
+          CMn[set][1][m] += __builtin_popcountll(q & low[w]); CMa[set][1][m] += __builtin_popcountll(q & me & low[w]);
+          CMf[set][0][m] += __builtin_popcountll(q & ch); CMf[set][1][m] += __builtin_popcountll(q & ch & low[w]); } } } }
+}
 static void layer_report(void) {
+  { const char *nm[3] = {"core1", "core2", "full1"};
+    for (int s_ = 0; s_ < 3; s_++) { printf("CONDM %s : P(alive | m live face neighbours), all / face pop <= 10 :", nm[s_]);
+      for (int m = 0; m < 3; m++) if (CMn[s_][0][m] > 0) printf(" m%d %.5f (%.3e) / %.5f (%.3e)", m, CMa[s_][0][m] / CMn[s_][0][m], CMn[s_][0][m],
+          CMn[s_][1][m] ? CMa[s_][1][m] / CMn[s_][1][m] : -1.0, CMn[s_][1][m]);
+      printf("\n");
+      printf("CONDF %s : P(changed since the last generation | m), all / face pop <= 10 :", nm[s_]);
+      for (int m = 0; m < 3; m++) if (CMn[s_][0][m] > 0) printf(" m%d %.5f / %.5f", m, CMf[s_][0][m] / CMn[s_][0][m], CMn[s_][1][m] ? CMf[s_][1][m] / CMn[s_][1][m] : -1.0);
+      printf("\n"); } }
   /* LAYER g name ncells : overall density ; density given face population <= t for t = 3, 6, 10, 15 ; and a table by p */
   double tot = 0; for (int p = 0; p <= A; p++) tot += Ng[p];
   int thr[6] = {2, 4, 6, 10, 15, 20};
@@ -356,13 +389,16 @@ static void parse_bias(const char *s) {
   if (!s || !strcmp(s, "f")) return;
   if (!strchr(s, ':')) { double p = strcmp(s, "s") ? atof(s) : -1; for (int d = 1; d < MAXD; d++) set_coin(d, p); return; }
   char buf[1024]; strncpy(buf, s, 1023); buf[1023] = 0;
-  double star = 0.5; int have[MAXD] = {0}; double val[MAXD];
+  double star = 0.5, cq[MAXD][3]; int have[MAXD] = {0}; double val[MAXD];
   for (char *tok = strtok(buf, ","); tok; tok = strtok(0, ",")) {
     char *c = strchr(tok, ':'); if (!c) { fprintf(stderr, "bad bias %s\n", tok); exit(2); } *c = 0;
+    if (c[1] == 'c') { int d = atoi(tok); double q[3] = {0.5, 0.5, 0.5}; sscanf(c + 2, "%lf/%lf/%lf", q, q + 1, q + 2);
+      if (d < 1 || d >= MAXD) exit(2);
+      have[d] = 2; cq[d][0] = q[0]; cq[d][1] = q[1]; cq[d][2] = q[2]; continue; }
     double v = !strcmp(c + 1, "f") ? 0.5 : !strcmp(c + 1, "s") ? -1 : atof(c + 1);
     if (!strcmp(tok, "*")) star = v; else { int d = atoi(tok); if (d < 1 || d >= MAXD) exit(2); have[d] = 1; val[d] = v; }
   }
-  for (int d = 1; d < MAXD; d++) set_coin(d, have[d] ? val[d] : star);
+  for (int d = 1; d < MAXD; d++) { if (have[d] == 2) set_ccoin(d, cq[d][0], cq[d][1], cq[d][2]); else set_coin(d, have[d] ? val[d] : star); }
 }
 int main(int argc, char **argv) {
   if (argc < 6 || strcmp(argv[2], "brute")) { fprintf(stderr, "usage: nzd R brute SEED GENS M [DW DO [BIAS]]\n"); return 2; }
@@ -387,7 +423,9 @@ int main(int argc, char **argv) {
   FILE *dump = getenv("NZD_DUMP") ? fopen(getenv("NZD_DUMP"), "wb") : 0;   /* validation: per generation 512 pops, 512 bytes odl */
   for (long g = 0; g < gens + T0; g++) {
     step(); if (M && !frozen) noise_random(M); observe();
-    if (layers) { for (int q = 0; q < ng; q++) count_group(q); face_births(); }
+    if (layers) { for (int q = 0; q < ng; q++) count_group(q); face_births();
+      u64 cm[W]; for (int w = 0; w < W; w++) cm[w] = 0; for (int l = 0; l < NL; l++) if (g >= T0 && age[l] + 1 > T0) cm[l >> 6] |= 1ULL << (l & 63);
+      cond_measure(cm); }
     if (dump) { static uint8_t buf[2 * NL]; for (int l = 0; l < NL; l++) { buf[l] = (uint8_t)pop[l]; buf[NL + l] = (uint8_t)((od[l >> 6] >> (l & 63)) & 1); } fwrite(buf, 1, 2 * NL, dump); }
     for (int l = 0; l < NL; l++) {
       age[l]++;
@@ -416,7 +454,7 @@ int main(int argc, char **argv) {
   printf(" settled %ld longest_life %ld\n", nsettled, maxage);
   printf("BIAS seed %llu general %d frozen %d src %s :", (unsigned long long)seed0, general, frozen, srccore ? "core" : "layer");
   for (int d = DW; d <= R; d++) { int any = 0; for (int j = 0; j < nN; j++) if (dep0[Ncell[j]] == d) any++; if (!any) continue;
-    if (ckind[d] == 2) printf(" %d(%d):s", d, any); else printf(" %d(%d):%.5f", d, any, cbias[d]); }
+    if (ckind[d] == 2) printf(" %d(%d):s", d, any); else if (ckind[d] == 4) printf(" %d(%d):c%.4f/%.4f/%.4f", d, any, ccb[d][0], ccb[d][1], ccb[d][2]); else printf(" %d(%d):%.5f", d, any, cbias[d]); }
   printf("\n");
   printf("REC H %d :", H); for (int k = 0; k < KR; k++) printf(" %d:%ld/%ld/%ld", k, NK[k], DK[k], CK[k]); printf("\n");
   if (layers) layer_report();

@@ -8,6 +8,7 @@
 2. coins of bias 0.6 read as 0.5 (negative control): fails as it must: depth 1: share set alive 0.13421, expected 0.11065 +- 0.00157
 2. shuffled coin, source = the whole layer: OK
 2. shuffled coin, source = the layer's core: OK
+2. conditioned coins (bias by the number of live face neighbours), face all dead and all alive: OK
 3. same BRUTE line as nz.c: R 11 seed 1201 gens 20000 M 256 DW 1: OK
 3. same BRUTE line as nz.c: R 11 seed 1202 gens 20000 M 128 DW 2: OK
 3. same BRUTE line as nz.c: R 11 seed 1206 gens 20000 M 64 DW 6: OK
