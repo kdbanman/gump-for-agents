@@ -30,22 +30,22 @@
    [
     "exists_qsd",
     "(used silently by Theorem 2 on hull faces and strips, where Lemma 0 is not proved) a quasi-stationary law exists.",
-    "New: every finite killed chain on a nonempty set has one (weak Perron theorem, by perturbation to a positive matrix and compactness)."
+    "New, and the law is identified (IsDominantQSD, repair D2): every finite killed chain on a nonempty set has a quasi-stationary law whose λ is maximal among all quasi-stationary laws, at least Q u u for every state u, and the exponential decay rate of the longest-lived start (P_x(T > t) ≤ C_ε(λ+ε)^t for all x, ≥ λ^t for some x at each t). So the λ = 0 point mass on a surely-dying state is excluded wherever a state can persist. That λ is the spectral radius is not stated beyond this."
    ],
    [
     "tilt_identity_exists",
     "Theorem 2 on every face, wrapped or rimmed.",
-    "Existence of μ included; uniqueness is not claimed where Lemma 0 is not available."
+    "For the dominant law (IsDominantQSD); also ln τ ≤ E_μ[E] (Theorem 1) and τ ≥ 1/(1 − Q u u) for every u. Uniqueness is not claimed where Lemma 0 is not available (hull faces, strips)."
    ],
    [
     "tilt_identity_product",
     "Theorem 2 for S(G): the surrogate's kernel is a product over cells with (K).",
-    "For every product kernel P(x, y) = Π_i (a_i(x) if i ∈ y else 1 - a_i(x)) with 0 ≤ a_i < 1. The surrogate's a_i (coins and B45/S345) is supplied by the instantiation; ChainCoins.lean has the one-cell law."
+    "For every product kernel P(x, y) = Π_i (a_i(x) if i ∈ y else 1 − a_i(x)) with 0 ≤ a_i < 1, for the dominant QSD, with the local factors the cells' own 1 − a_i (G.localDeath, named); also ln τ ≤ E_μ[E] and τ ≥ 1/(1 − Q u u). The surrogate's a_i (coins and B45/S345) is supplied by the instantiation; ChainCoins.lean has the one-cell law."
    ],
    [
     "price_invariant",
     "Theorem 2: on a wrapped face c_i depends only on the orientation of i; c_X = c_Y = c_Z on tori invariant under the rotation by 2π/3.",
-    "For any permutation g of states preserving Q and π of cells carrying the local factors along, given that the quasi-stationary law with λ > 0 is unique (Lemma 0). That translations act transitively on each orientation is not formalised."
+    "For any permutation g of states preserving Q and π of cells carrying the local factors along, given that the quasi-stationary law with λ > 0 is unique. Discharged in Lean for the translations (kagome_one_price) and the rotation by 2π/3 (kagome_rotation)."
    ],
    [
     "kagome_one_price",
@@ -75,7 +75,7 @@
    [
     "qsd_exists_unique",
     "Lemma 0 ⇒ the quasi-stationary law μ is unique and charges every non-empty state.",
-    "Uniqueness among laws with λ > 0. With λ = 0 allowed, the point mass at a state that dies surely (the all-alive wrapped face) is also a solution of μQ = λμ: the source's statement needs λ > 0, which the usual definition of a QSD (P_μ(T > t) > 0) contains silently."
+    "Uniqueness among laws with λ > 0. Lean's IsQSD is only the eigen-equation μQ = λμ, under which the point mass at a surely-dying state (the all-alive wrapped face) is a solution with λ = 0; under the standard definition of a QSD (P_μ(T > t) > 0 for all t, i.e. λ > 0) the source's statement is right as written."
    ],
    [
     "decay_bounds",
@@ -85,7 +85,12 @@
    [
     "lifetime_from_bounds",
     "(the tie between τ = E_μ T and a lifetime measured from a fair start)",
-    "New: (m/M)/(1-λ) ≤ E_x T ≤ 1 + (M/m)/(1-λ) for x in the class; ln E_x T = ln τ up to ln(M/m) + O(1). The spread M/m is not bounded."
+    "New: conditional on r < 1 (an implication in the theorem): (m/M)/(1−λ) ≤ E_x T ≤ 1 + (M/m)/(1−λ) for x in the class; ln E_x T = ln τ up to ln(M/m) + O(1). The spread M/m is not bounded. lifetime_from_bounds_K proves r < 1 from (K)."
+   ],
+   [
+    "lifetime_from_bounds_K",
+    "(the tie between τ and a lifetime from a start, unconditional)",
+    "As lifetime_from_bounds with λ < 1 proved from (K): every state dies with positive probability."
    ]
   ]
  },
@@ -115,7 +120,7 @@
    [
     "emax_main",
     "Theorem 1: ε_max = 2.509 at (0.44, 0.42).",
-    "Proved ε_max ≤ 2.51. The exact value -ln(0.44²·0.42) = 2.50946… exceeds the printed 2.509, which is its truncation; ln τ ≤ 2.509·A is true of the surrogate but not by this argument."
+    "Proved ε_max ≤ 2.51; the exact value −ln(0.44²·0.42) = 2.50946… exceeds the printed 2.509 (rounding). On wrapped faces kagome_sharp_bound gives ln τ ≤ 2.2412·A, hence ≤ 2.509·A there; on hull faces only 2.51·A is proved."
    ],
    [
     "emax_fair",
@@ -126,6 +131,11 @@
     "kagome_upper_bound",
     "THEOREMS.md, Theorem 1 on wrapped faces: ln τ ≤ 2.509·A.",
     "ln τ ≤ -ln min(ρ1²ρ2,(1-ρ1)²(1-ρ2))·A for every QSD of the surrogate on the kagome layer over T, A = 3|T|; with emax_main, ≤ 2.51·A at (0.44, 0.42)."
+   ],
+   [
+    "kagome_sharp_bound",
+    "ref-chain/REVIEW.md D7 (the referee's paper proof): ln τ ≤ (2ε_max + ε₂)/3·A = 2.2411·A on wrapped faces.",
+    "Same argument, for every QSD of the surrogate on the kagome layer over any finite T at (0.44, 0.42), proved as ≤ 2.2412·A (the constant is 2.241096). Ingredients: indeg (every cell is the neighbour of six slots), card_S_le (3|S| ≤ 2A), energy_le_sharp. Not for hull faces. The dice agent's Gump.Dice.lntau_le_regular (ln τ < 1.9228·A on its faces proved regular) is a separate theorem about Gump.Dice.Face."
    ]
   ]
  },
@@ -195,7 +205,7 @@
    [
     "seam_identity",
     "image/README.md: a torus is its cover conditioned on the seam's whole history recurring one loop along, divided by how likely that is: P_T(s₀..s_{m-1}) = P_C(s₀..s_{m-1}, s_m = s₀)/[π(s₀) Z].",
-    "The finite-K exact form, with (F^L)(s₀, s₀)/Tr F^N in place of π(s₀)·const, for F ≥ 0 and a cover a whole number of loops long. The factorisation of the history weight into a transfer matrix on bands two graph steps thick, and the cover having the same F, are the hypothesis (the ring weight), not derived from gump's rule."
+    "The finite-K exact form, with (F^L)(s₀, s₀)/Tr F^N in place of π(s₀)·const, for F ≥ 0 and a cover a whole number of loops long. The factorisation of the history weight into a transfer matrix on bands two graph steps thick, and the cover having the same F, are the hypothesis (the ring weight), not derived from gump's rule. The referee measured that it also holds off multiples wherever (F^L)(a,a) > 0 (not formalised), and fails otherwise (2-cycle)."
    ],
    [
     "seam_identity_obs",
@@ -230,7 +240,7 @@
    [
     "SSM.toIntSSM",
     "Theorem 3's hypothesis (SSM), uniform in s ∈ [0,1], with the referee's K₀/A.",
-    "Needs e_∞ integrable on [0, 1], which the source's c_∞ = ∫₀¹ e_∞ assumes silently."
+    "Needs e_∞ integrable; redundant for every family with arbitrarily small error terms (SSM.toIntSSM')."
    ],
    [
     "thm3b",
@@ -255,7 +265,7 @@
    [
     "price_of_pointwise",
     "(new; replaces (SSM) in Theorem 3 (d)) the price per cell from a bulk limit at each tilt.",
-    "New and weaker than (SSM): if ⟨E⟩_{s,G_n}/A_n → f(s) for every s ∈ (0,1] (no rate, no uniformity in s, no locality; jumps of f allowed), then ln τ/A → ∫₀¹ f. Two families have one price when their pointwise limits agree."
+    "New and weaker than (SSM): if ⟨E⟩_{s,G_n}/A_n → f(s) for every s ∈ (0,1] (no rate, no uniformity in s, no locality; jumps of f allowed), then ln τ/A → ∫₀¹ f. Two families have one price when their pointwise limits agree. Its hypothesis asks convergence at the jump point too; price_of_ae (the referee's) needs only almost every s."
    ],
    [
     "SSM.einf_continuousOn",
@@ -266,6 +276,26 @@
     "price_compare",
     "(new; the finite form of price_of_pointwise) two faces with the same per-cell tilted energy at finitely many tilts have nearly the same price.",
     "New: if the per-cell curves differ by ≤ δ at s = k/n and each falls by ≤ w over [0,1], then |ln τ/A − ln τ′/A′| ≤ δ + w/n."
+   ],
+   [
+    "price_of_ae",
+    "(the referee's form of price_of_pointwise, taken over from ref-chain/RefChainVacuity.lean)",
+    "ln τ/A → ∫₀¹f from convergence of ⟨E⟩_{s,G_n}/A_n for almost every s ∈ (0,1]: a first-order jump costs nothing even if the finite curves do not converge at the jump point."
+   ],
+   [
+    "SSM.toIntSSM'",
+    "(taken over from the referee) (SSM) gives IntSSM with no integrability hypothesis.",
+    "For families with arbitrarily small error terms."
+   ],
+   [
+    "SSM.tilt_limit",
+    "(taken over from the referee, RefChainSSM.lean) under (SSM) the per-cell tilted energy converges to e_∞ at every tilt.",
+    "Along families with A → ∞ and Σ_i e^{-r_i/ξ} = o(A)."
+   ],
+   [
+    "jump_refutes_SSM",
+    "REVIEW.md A2.3 in full (taken over from the referee): a jump of the limiting per-cell tilted energy refutes (SSM).",
+    "For families with large faces and arbitrarily small error terms, whatever e_∞, K, K₀."
    ]
   ]
  },
@@ -300,7 +330,7 @@
    [
     "surrogate_theorems",
     "Theorems 1 and 2 for S(G), from the surrogate's kernel as a stochastic matrix with the empty face absorbing.",
-    "Hypotheses: P ≥ 0, rows sum to 1, P(x, ∅) = Π_i (1 - a_i(x)) with 0 ≤ a_i < 1, and 1 - a_i ≥ min(ρ1²ρ2, (1-ρ1)²(1-ρ2)); for the surrogate the last two follow from ChainCoins once its a_i is matched with death3 and death2."
+    "Hypotheses: P ≥ 0, rows sum to 1, P(x, ∅) = Π_i (1 − a_i(x)) with 0 ≤ a_i < 1, and 1 − a_i ≥ min(ρ1²ρ2, (1−ρ1)²(1−ρ2)). The law is the dominant QSD and the local factors are named (ofStochastic_local … a); also τ ≥ 1/(1 − Q u u)."
    ],
    [
     "bitP_row",
@@ -315,7 +345,7 @@
    [
     "bit_surrogate",
     "THEOREMS.md, Theorems 1 and 2 for S(G) on every face, in the bit-mask form of GumpMath/DiceDef.lean.",
-    "Every face with A ≥ 1 cells whose cells have coins (2,1) and k ≤ 6, or (2,0) and k ≤ 2: a QSD exists, ln τ = Σ_i c_i, ln τ ≤ -ln min(ρ1²ρ2,(1-ρ1)²(1-ρ2))·A. The face's m1, m2, k and the cast from ℚ are the remaining inputs."
+    "Every face with A ≥ 1 cells whose cells have coins (2,1) and k ≤ 6, or (2,0) and k ≤ 2 (hull faces and strips included): the dominant QSD, the local factor of cell i named as 1 − aliveProbR(cell i) (repair D1: so ln τ = Σ_i c_i is about per-cell prices), ln τ ≤ ε_max·A, τ ≥ 1/(1 − Q u u). k is any function with those bounds, not tied to a neighbourhood; the face's m1, m2, k and the cast from ℚ are the remaining inputs."
    ],
    [
     "bit_one_class",
@@ -340,7 +370,7 @@
    [
     "wrapped_one_price",
     "THEOREMS.md, Theorem 2: one price per orientation on every wrapped face.",
-    "Same, log τ = |T|·(c_X + c_Y + c_Z), |T| = HD."
+    "Same, log τ = |T|·(c_X + c_Y + c_Z); |T| = HD is torus_card, and wrapped_one_price_HD states log τ = HD·(c_X + c_Y + c_Z)."
    ],
    [
     "wrapped_upper_bound",
@@ -355,7 +385,27 @@
    [
     "torus_2_0_2_one_price",
     "(example) the 12-cell torus (2,0),(0,2) of rigour/data/exact.csv.",
-    "Unique QSD and ln τ = 12·c, one price per cell; the number c is not computed in Lean."
+    "Unique QSD and ln τ = 3|T|·c, one price per cell; torus_2_0_2_twelve states ln τ = 12·c. The number c is not computed in Lean."
+   ],
+   [
+    "torus_card",
+    "(rows wrapped_one_price, torus_2_0_2_one_price) |T| = HD.",
+    "Same: |ℤ²/⟨(H,K),(0,D)⟩| = H·D for H, D > 0 (the representatives [0,H)×[0,D) are a bijection, torusRep_bijective)."
+   ],
+   [
+    "wrapped_one_price_HD",
+    "THEOREMS.md, Theorem 2: ln τ(Λ) = (A/3)(c_X + c_Y + c_Z) on every wrapped face.",
+    "Same, A = 3HD, for the unique QSD with λ > 0."
+   ],
+   [
+    "wrapped_rotation_HD",
+    "THEOREMS.md, Theorem 2: on rotation-invariant tori one price per cell, ln τ = A·c.",
+    "Same, ln τ = 3HD·c."
+   ],
+   [
+    "torus_2_0_2_twelve",
+    "(example) the 12-cell torus (2,0),(0,2): ln τ = 12·c.",
+    "Same; c is not computed in Lean."
    ]
   ]
  }
