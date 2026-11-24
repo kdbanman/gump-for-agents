@@ -61,3 +61,27 @@ def shift(s, k):
 
 def lean_list(cells):
     return '[' + ', '.join(f'⟨{x}, {y}, {z}⟩' for x, y, z in sorted(cells)) + ']'
+
+
+def orbit_box(cells, gens):
+    """As orbit, on a box with a size of its own along each axis (extent + 4*gens + 12, even), masks by the oracle's
+    formula (coordinate a odd, the others even), stepped by oracle.step; checked never to be felt."""
+    cells = [tuple(c) for c in cells]
+    a = np.array(cells)
+    lo, hi = a.min(0), a.max(0)
+    shape = tuple(int(hi[i] - lo[i]) + 4 * gens + 12 + ((int(hi[i] - lo[i]) + 4 * gens + 12) % 2) for i in range(3))
+    off = [int(shape[i] // 2 - ((int(hi[i]) + int(lo[i])) // 2)) & ~1 for i in range(3)]
+    par = np.indices(shape) % 2
+    m = [(par[i] == 1) & (par.sum(0) == 1) for i in range(3)]
+    h = np.zeros(shape, np.int8)
+    for c in cells:
+        h[c[0] + off[0], c[1] + off[1], c[2] + off[2]] = 1
+    out = []
+    for t in range(gens + 1):
+        pts = np.argwhere(h == 1)
+        if len(pts):
+            assert (pts.min(0) >= 2).all() and (pts.max(0) < np.array(shape) - 2).all(), 'box felt'
+        out.append(frozenset((int(x) - off[0], int(y) - off[1], int(z) - off[2]) for x, y, z in pts))
+        if t < gens:
+            h = oracle.step(h, m)
+    return out

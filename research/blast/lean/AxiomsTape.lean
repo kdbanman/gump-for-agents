@@ -5,6 +5,7 @@ import Gump.Tape
 import Gump.Line
 import Gump.TapeSignals
 import Gump.Clock
+import Gump.Call
 open Gump Gump.Tape
 #print axioms glue_run
 #print axioms run_shiftC
@@ -32,3 +33,10 @@ open Gump Gump.Tape
 #print axioms Gump.Clock.clock_cycle
 #print axioms Gump.Clock.lit_clock_small
 #print axioms Gump.Clock.clock_every_length
+#print axioms Gump.Unzip.tape_eq_hcfg
+#print axioms Gump.Unzip.hex_local
+#print axioms Gump.Unzip.storeWinOK_ok
+#print axioms Gump.Unzip.stretch_stands
+#print axioms Gump.Unzip.glue_run_moving
+#print axioms Gump.Unzip.unzipLawSharp_imp
+#print axioms Gump.Call.pulses_at
