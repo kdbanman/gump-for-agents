@@ -35,7 +35,7 @@ g45 = [(9.8161, 0.0044)]
 for r in rows:
     if r['A'] == 45 and r['M'] == 0 and not r['full'] and not r['frozen']:
         g45.append((math.log(r['E'] / r['n0']), 1 / math.sqrt(r['n0'])))
-w = sum(1 / e ** 2 for v, e in g45); G = {63: (13.633, 0.001), 45: (sum(v / e ** 2 for v, e in g45) / w, 1 / math.sqrt(w))}
+w = sum(1 / e ** 2 for v, e in g45); G = {63: (13.633, 0.001), 45: (sum(v / e ** 2 for v, e in g45) / w, 1 / math.sqrt(w)), 84: (18.141, 0.005)}
 print(f'gump references: 63 cells {G[63][0]:.4f} +- {G[63][1]:.4f}; 45 cells {G[45][0]:.4f} +- {G[45][1]:.4f} (pooled from {len(g45)})')
 groups = defaultdict(list)
 for r in rows:
@@ -56,7 +56,7 @@ for key in sorted(groups):
         i = br[0]
         for x in (pts[i], pts[i + 1]):
             if x not in sel: sel.append(x)
-    if len(sel) < 2:
+    if len(sel) < 2 or len(set(x[0] for x in sel)) < 2:
         print('   no zero bracketed'); continue
     S = sum(1 / e ** 2 for p, D, e, *_ in sel); Sx = sum(p / e ** 2 for p, D, e, *_ in sel); Sy = sum(D / e ** 2 for p, D, e, *_ in sel)
     Sxx = sum(p * p / e ** 2 for p, D, e, *_ in sel); Sxy = sum(p * D / e ** 2 for p, D, e, *_ in sel)
