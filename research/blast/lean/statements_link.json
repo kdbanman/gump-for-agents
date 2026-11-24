@@ -106,6 +106,11 @@
     "wrapped_full_all",
     "rigour/README.md claim 3 and THEOREMS.md (Lemma 0, Theorems 1, 2) on every wrapped face, with the sharpened Theorem 1.",
     "wrapped_theorems_all at (ρ1, ρ2) = (0.44, 0.42), and ln τ < 1.9228·A (the dice agent's lntau_le_torus, every wrapped face). No hypothesis. Not stated: a value of λ on any torus beyond the certified ones."
+   ],
+   [
+    "wrapped_area",
+    "Theorem 2 on the wrapped faces in area form: ln τ = H·D·(c_X + c_Y + c_Z), and ln τ = A·c on a rotation-invariant torus.",
+    "For Face.P on torus H K D, every H, D > 0, K, 0 < ρ1, ρ2 < 1, every QSD with λ > 0 (it is the unique one): c_o is the price of cell o < 3 (orientation o at the origin); the second form when (K, −H−K) and (D, −D) are periods, A = 3HD. No hypothesis."
    ]
   ]
  }

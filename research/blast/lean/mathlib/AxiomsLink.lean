@@ -11,6 +11,7 @@ import GumpMath.LinkStrip13Sym
 import GumpMath.LinkPatch13Sym
 import GumpMath.LinkSurv
 import GumpMath.LinkWrappedAll
+import GumpMath.LinkWrappedArea
 open Gump.Link
 -- the bridge
 #print axioms aliveProb_cast
@@ -68,3 +69,4 @@ open Gump.Link
 #print axioms Wrapped.torusNb_all
 #print axioms Wrapped.wrapped_theorems_all
 #print axioms Wrapped.wrapped_full_all
+#print axioms Wrapped.wrapped_area

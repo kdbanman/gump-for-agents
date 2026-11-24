@@ -97,7 +97,7 @@ lattice is not rotation-invariant. The torus (1,1),(0,3) has one (0.29940 each).
 ## Third task (2026-11-24, from 14:51 UTC): the generators, survival, every wrapped face
 
 Files (new): `LinkSurv.lean`, `LinkWrapped.lean`, `LinkWrappedFull.lean`, `LinkWrappedCheck.lean`,
-`LinkWrappedAll.lean`, the `link_*.py` generators. Imported from the dice agent (read-only, committed and built):
+`LinkWrappedAll.lean`, `LinkWrappedArea.lean`, the `link_*.py` generators. Imported from the dice agent (read-only, committed and built):
 `DiceHull` (`hull_P_empty_row`), `DiceTorusReg` (`Tr`, `Tr_sub`, `torus_red`, `gridCells_nodup`, `axis_abCell`,
 `nb_lt'`, `lntau_le_torus`), `DiceHullAll` (`idxOf?_nodup`).
 
@@ -123,6 +123,9 @@ Files (new): `LinkSurv.lean`, `LinkWrapped.lean`, `LinkWrappedFull.lean`, `LinkW
    neighbours of (o, a, b) in `Gump.offsets` order, `DL o`), `nb_eq` (nb i = `DL` mapped by the reduced index),
    `DL_perm` (`DL o` is a permutation of the kagome `offs o`, decided). Hence **`wrapped_full_all`** and
    `wrapped_theorems_all`, no hypothesis.
+   **`wrapped_area`** (`LinkWrappedArea.lean`): for that law, ln τ = H·D·(c₀ + c₁ + c₂) with c_o the price of cell o
+   (orientation o at the origin), and ln τ = A·c₀ on a rotation-invariant torus: ln τ is exactly linear in the
+   area at fixed shape class, with one constant per orientation.
    One price per orientation is stated on the face as: cells i ≡ j (mod 3) have equal prices; one per cell when
    (K, −H−K) and (D, −D) are periods (the lattice of `ChainTorus.lean`).
 
@@ -134,7 +137,7 @@ Files (new): `LinkSurv.lean`, `LinkWrapped.lean`, `LinkWrappedFull.lean`, `LinkW
     lake build GumpMath.LinkFaces && lake env lean AxiomsLink.lean          # one at a time: ~1-1.5 min per face file
     lake build GumpMath.LinkNoCert GumpMath.LinkTorus202                    # the 12-cell torus: 3-4.5 min
     lake build GumpMath.LinkSurv GumpMath.LinkWrapped GumpMath.LinkWrappedFull   # third task: ~10 s each
-    lake build GumpMath.LinkWrappedCheck GumpMath.LinkWrappedAll            # ~10-20 s each
+    lake build GumpMath.LinkWrappedCheck GumpMath.LinkWrappedAll GumpMath.LinkWrappedArea   # ~10-20 s each
 
 The generators (committed; each regenerates its modules **byte for byte**, checked with `LINK_OUT=<dir>` and `cmp`
 against the committed files at 9fde4a9; set `LINK_OUT` to write elsewhere, the default is `mathlib/GumpMath/`):
