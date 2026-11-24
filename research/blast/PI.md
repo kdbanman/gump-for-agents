@@ -191,6 +191,10 @@ after its own check; the PI never merges it.
 
 Second-phase Lean agents (Opus): lean-thickness a4e16ed4e4f3a8c9b · lean-link a27ca9c827a98f418.
 
+Last-day blast, wave 1 (Opus, started 11:20 UTC 2026-11-24; they run in the background and each wakes this session
+when it ends, hand-backs of 30 lines at most, full reports in the files named in State): dice ab2a647cc91d04eeb ·
+tape a0b7dfd013c31f0bd · chain a825b151b0cb2660a · density a672d9caa1fd19096 · ref-lean acb72a1d1903a988d.
+
 split-slab a6cf747f951a40794 · split-hull a3569cf285a0ef651 · tube1d aa106621bb873fec2 · anatomy a94ca87ca9da97616 ·
 rim ab5a56882ea42ba61 · image ab0b5ef769471d467 · model ad6a0e85503ffe25e · rigour a2335f9a30eb2ed29 · ref-anatomy
 af7880128daa2f79e · boom a2dbcc30895945c85 · ref-hull a3624c82c86099e8a · ref-proofs acbbdf05e14446ed9 · toy
