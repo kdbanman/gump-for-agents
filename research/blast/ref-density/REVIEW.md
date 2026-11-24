@@ -112,13 +112,13 @@ R = 9 agrees). The eight-face values agree too (mine 13.802 ± 0.007, theirs 13.
    | copy from the replaced cells | −0.445 | 0.348 | 0.348 | 2.10 |
    | every depth at 0.2 | +0.002 | **0.354** | 0.397 | 1.69 |
    | gump | 0 | 0.384 | 0.384 | 1.80 |
-   | copy from the whole layer | −0.205 | **0.386** | 0.398 | 1.77 |
+   | copy from the whole layer (2 seeds) | −0.183 | **0.386** | 0.398 | 1.77 |
    | LOW10 coins | +0.448 | 0.422 | 0.433 | 1.58 |
    | mean-density coins | +0.535 | 0.435 | 0.436 | 1.58 |
    | fair coins | +0.653 | 0.457 | 0.445 | 1.54 |
 
-   The whole-layer copy has gump's low-face density and (before the darts) gump's clustering and lives 0.20
-   shorter (7σ); the p = 0.2 chain is thinner than gump under a low face and lives as long; p = 0.1 is the thinnest
+   The whole-layer copy has gump's low-face density and (before the darts) gump's clustering and lives 0.18
+   shorter (7.8σ); the p = 0.2 chain is thinner than gump under a low face and lives as long; p = 0.1 is the thinnest
    of all and outlives the core copy. The scan chains also change the deeper replaced layers (their rule-made density
    is 0.44–0.46 at depths 2–4, against gump's 0.41–0.42), so they are not a clean test of layer 1 alone; the
    whole-layer copy is (its deeper replaced layers are within 0.004 of gump's before the darts). Whatever sets the
@@ -224,7 +224,7 @@ R = 9 agrees). The eight-face values agree too (mine 13.802 ± 0.007, theirs 13.
 | — | conjecture: the lag asymmetry is from different autocorrelations, not a lead | 0.60 | **half wrong**: no lead in the peak sense, but the asymmetry is directional (Granger), not only autocorrelation |
 | — | the mean-density chain's replaced core sits above 0.435 all time | 0.70 | **hit** (0.4405 rule-made, 0.438 after the darts) |
 | 13 | copy from the whole layer | 0.80 | **hit** (−1.3σ; two seeds −0.7σ) |
-| 14 | the ordering by low-face density survives a fifth chain | 0.60 | **miss** (0.386, gump's density, Δ −0.20) |
+| 14 | the ordering by low-face density survives a fifth chain | 0.60 | **miss** (0.386, gump's density, Δ −0.18) |
 | 15 | LOW10 d = 1 | 0.80 | **hit** (−0.5σ) |
 | 16 | mean density d = 2 | 0.80 | **hit** (+2.0σ) |
 | 17 | the p = 0.2 chain's support above 0.35 after the darts (informed by R = 9) | 0.80 | **hit** (0.399) |

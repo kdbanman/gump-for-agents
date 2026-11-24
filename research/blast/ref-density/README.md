@@ -9,5 +9,6 @@ Files:
 - `row.sh` (one row of `rd`), `nzdrow.sh` (`nzd.c` at 9a105d3 as a black box), `worker.sh` (two workers on one
   queue file), `collect.py` (all tables), `lagdump.py` (lagged and Granger analysis of a time-series dump),
   `seedstream.py` (nzd.c's second random stream for consecutive seeds).
-- `data/rows/` (my rows' full outputs), `data/nzd/` (nzd.c's outputs at R = 9), `data/lagdump_gump_R11_s1101.txt`.
+- `data/rows/` (my rows' full outputs), `data/nzd/` (nzd.c's outputs: R = 9 rows, fair at R = 11, and its layer
+  diagnostics on the whole-layer copy chain), `data/lagdump_gump_R11_s1101.txt`.
 - Bulk (the 77 MB dump): `research/scratch/blast/ref-density/`.
