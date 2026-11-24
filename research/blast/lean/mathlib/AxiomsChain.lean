@@ -24,6 +24,7 @@ open Gump.Chain
 #print axioms ProductKernel.tilt_identity_product
 -- Theorem 1 (the upper bound) and its constant
 #print axioms KilledChain.upper_bound
+#print axioms aliveNext_eq_rule
 #print axioms threeCoins_death_ge
 #print axioms twoCoins_death_ge
 #print axioms KilledChain.upper_bound_coins

@@ -13,6 +13,7 @@ min(ρ1²ρ2, (1-ρ1)²(1-ρ2)).  A hull corner (two coins of density ρ1, k ≤
 -/
 import Mathlib
 import GumpMath.ChainTilt
+import Gump.Basic
 
 set_option linter.unusedSectionVars false
 
@@ -22,6 +23,13 @@ open Finset Real
 /-- gump's rule B45/S345: alive next iff (dead and n ∈ {4,5}) or (alive and n ∈ {3,4,5}). -/
 def aliveNext (alive : Bool) (n : ℕ) : Bool :=
   if alive then decide (3 ≤ n ∧ n ≤ 5) else decide (n = 4 ∨ n = 5)
+
+/-- `aliveNext` is the rule of `Gump/Basic.lean`. -/
+theorem aliveNext_eq_rule : aliveNext = Gump.rule := by
+  funext alive n
+  cases alive
+  · by_cases h4 : n = 4 <;> by_cases h5 : n = 5 <;> simp [aliveNext, Gump.rule, h4, h5]
+  · simp [aliveNext, Gump.rule]
 
 /-- The law of the number of heads of two coins of density ρ1 and one of density ρ2. -/
 def coin3 (ρ1 ρ2 : ℝ) : ℕ → ℝ
