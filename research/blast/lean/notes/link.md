@@ -88,13 +88,43 @@ lattice is not rotation-invariant. The torus (1,1),(0,3) has one (0.29940 each).
   kernel-checked certificate, the symmetry classes from kernel-checked table automorphisms.
 - Proved for the 12-cell torus (2,0),(0,2): everything in `torus202_full` (no λ interval: not certified by anyone in
   Lean).
-- **Not proved**: a certified λ (hence ln τ to digits) for the 12-cell torus; Lemma 0 for `Face.P` on every wrapped face (my `wrapped_lemma0` is on the
-  kagome model; the bijection between the dice agent's `torus H K D` cell lists and `Orient × Torus H K D` carrying
-  `Face.nb` to `nbrs` is not done), hence `kagome_sharp_bound` is not yet a theorem about `Face.P`; Lemma 0 on every
-  hull triangle or strip by a general argument (only per face). The survival in the decay clause is the killed
-  chain's `survFrom` (∑ over living y of (Q^t)(x, y)); that it equals the dice agent's `Face.survival` (through
-  (P^t) and the absorbing empty state) is not stated here (the dice agent's own `<face>_lifetime` bounds
-  `Face.survival` directly).
+- Proved for **every wrapped face** `torus H K D` (H, D > 0, any K; third task): everything in `wrapped_full_all`
+  (`wrapped_theorems_all` at every 0 < ρ1, ρ2 < 1). Nothing is hypothesis: the bijection is `torusNb_all`.
+- Proved for every hull face and every face with all its coins: `survFrom = Face.survival` (`survFrom_cast`).
+- **Not proved**: a certified λ (hence ln τ to digits) for the 12-cell torus or any torus beyond the certified two;
+  Lemma 0 on every hull triangle or strip by a general argument (only per face); `CellsOK` for every hull face.
+
+## Third task (2026-11-24, from 14:51 UTC): the generators, survival, every wrapped face
+
+Files (new): `LinkSurv.lean`, `LinkWrapped.lean`, `LinkWrappedFull.lean`, `LinkWrappedCheck.lean`,
+`LinkWrappedAll.lean`, the `link_*.py` generators. Imported from the dice agent (read-only, committed and built):
+`DiceHull` (`hull_P_empty_row`), `DiceTorusReg` (`Tr`, `Tr_sub`, `torus_red`, `gridCells_nodup`, `axis_abCell`,
+`nb_lt'`, `lntau_le_torus`), `DiceHullAll` (`idxOf?_nodup`).
+
+1. **`survFrom` is `Face.survival`** (`LinkSurv.lean`, `survFrom_cast`): on every face whose empty state is absorbing,
+   `(chain F).survFrom t x = (F.survival ρ1 ρ2 t x : ℝ)` for every t and living x (by induction on t; the
+   empty state contributes 0 since `Face.survival t ∅ = 0`, `survival_empty_of`). Absorbing: every hull face
+   (`absorbing_hull`) and every face with all its coins (`absorbing_of_coins`). **`hull3_complete`**: every clause of
+   `hull3_full`, plus `survFrom = Face.survival`, `0.72·λ₋^t ≤ P_full(T > t)` and `P_x(T > t) ≤ 1384·λ₊^t`
+   (the dice agent's `hull3_lifetime`) with λ₋ ≤ λ ≤ λ₊, in one theorem.
+2. **Every wrapped face** (`LinkWrapped*.lean`). The hypothesis was first named `TorusNb H K D`: (torus H K D).A = 3HD
+   and `nb i` is a permutation of `kIdx i` (the kagome neighbours of cell i = 3(aD + b) + o, reduced by the dice
+   agent's `Tr`). `kIdx_map` (every torus): `(kIdx i).map phi = Kagome.nbrs (phi i)`, phi i = (o, [a, b]).
+   `cellEquiv` (Fin A ≃ Orient × Torus H K D, from `torusRep_bijective` and the cardinality), `stateEquiv`
+   (bits ↔ subsets), **`Q_eq`**: `Face.P` *is* the kagome kernel along these. The relabelling lemmas
+   (`transport_qsd`, `transport_survFrom`, `transport_canSurvive`, `transport_price`: the price is an explicit
+   integral of a Gibbs tilt of μ, so it transports by reindexing sums) carry `wrapped_lemma0`,
+   `wrapped_one_price_HD`, `wrapped_rotation_HD` and `decay_bounds` to `Face.P`; `face_theorems_allcoins` gives the
+   dominant QSD and the tilt identity; `lntau_le_torus` gives 1.9228·A. `wrapped_full` (under `TorusNb`) and
+   `wrapped_theorems` (any densities). `TorusNb` is kernel-checked (`decide +kernel`, each under a second) on
+   (1,0,1), (2,0,2), (1,0,2), (2,0,1), (1,0,3), (3,0,1), (2,1,2), (2,0,3), (3,1,3), (3,0,3).
+   **Then proved for every H, D > 0** (`LinkWrappedAll.lean`, `torusNb_all`): `grid_getElem?` (cell i of
+   `gridCells H D` is (i mod 3, ⌊i/3⌋ div D, ⌊i/3⌋ mod D)), `idxOf_grid` (its index), `inlayer` (the six in-layer
+   neighbours of (o, a, b) in `Gump.offsets` order, `DL o`), `nb_eq` (nb i = `DL` mapped by the reduced index),
+   `DL_perm` (`DL o` is a permutation of the kagome `offs o`, decided). Hence **`wrapped_full_all`** and
+   `wrapped_theorems_all`, no hypothesis.
+   One price per orientation is stated on the face as: cells i ≡ j (mod 3) have equal prices; one per cell when
+   (K, −H−K) and (D, −D) are periods (the lattice of `ChainTorus.lean`).
 
 ## Reproduce
 
@@ -103,6 +133,8 @@ lattice is not rotation-invariant. The torus (1,1),(0,3) has one (0.29940 each).
     for f in Hull3 Torus103 Torus113 Strip13 Patch13; do lake build GumpMath.Link$f GumpMath.Link${f}Sym; done
     lake build GumpMath.LinkFaces && lake env lean AxiomsLink.lean          # one at a time: ~1-1.5 min per face file
     lake build GumpMath.LinkNoCert GumpMath.LinkTorus202                    # the 12-cell torus: 3-4.5 min
+    lake build GumpMath.LinkSurv GumpMath.LinkWrapped GumpMath.LinkWrappedFull   # third task: ~10 s each
+    lake build GumpMath.LinkWrappedCheck GumpMath.LinkWrappedAll            # ~10-20 s each
 
 The generators (committed; each regenerates its modules **byte for byte**, checked with `LINK_OUT=<dir>` and `cmp`
 against the committed files at 9fde4a9; set `LINK_OUT` to write elsewhere, the default is `mathlib/GumpMath/`):
@@ -118,4 +150,7 @@ The hand-written modules are `LinkBridge`, `LinkUnique`, `LinkSym`, `LinkNoCert`
 ## Not checked
 
 - The generators write Lean that the kernel checks; nothing they compute is trusted.
-- No second reader has gone through these statements.
+- No second reader has gone through these statements (the referee reads the modules at 9fde4a9; the third task's
+  files are later).
+- `kIdx`/`offs` were matched to the dice geometry by `#eval` before the proof (orientation o ↔ X, Y, Z, e1 along a,
+  e2 along b); the proof does not depend on that run.

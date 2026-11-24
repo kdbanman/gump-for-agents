@@ -71,6 +71,41 @@
     "torus202_full",
     "rigour/README.md claim 3 and THEOREMS.md (Lemma 0, Theorem 2: one price per cell on a rotation-invariant torus) for the 12-cell torus (2,0),(0,2).",
     "For Gump.Dice.Face.P at (0.44, 0.42): unique QSD among λ > 0, positive on every living state, all twelve prices equal, ln τ = 12·c, ln τ < 1.9228·12 (the dice agent's lntau_le_regular), the decay rate from every start. No certified interval for λ (the dice agent's 12-cell certificate was not built); the tables are mine, checked by Data.tabOK against Face.nb."
+   ],
+   [
+    "survFrom_cast",
+    "(the question whether the chain's decay clause and the dice agent's hull3_lifetime are about one object) the chain's P_x(T > t) is Face.survival.",
+    "Equal as functions, cast ℚ → ℝ, for every face whose empty state is absorbing (Absorbing): every hull face (absorbing_hull, from the dice agent's hull_P_empty_row) and every face with all its coins (absorbing_of_coins, from P_empty_row); also Face.survival t ∅ = 0 there."
+   ],
+   [
+    "hull3_complete",
+    "rigour/README.md claim 3 for the face (hull 3), with the dice agent's explicit decay constants.",
+    "Everything in hull3_full, and: survFrom = Face.survival; 0.72·λ₋^t ≤ P_full(T > t) and P_x(T > t) ≤ 1384·λ₊^t for every living x and every t (from hull3_lifetime), λ₋ = 0.9165673655948901373 ≤ λ ≤ λ₊ = …374 in the same theorem."
+   ],
+   [
+    "Q_eq",
+    "(the bijection, consequence) on a wrapped face Face.P is the chain arm's kagome kernel over Torus H K D.",
+    "Entry by entry along the relabelling stateEquiv (live cells ↔ a subset of Orient × Torus H K D via cellEquiv, cell 3(aD+b)+o ↦ (o, (a,b))), at every 0 < ρ1, ρ2 < 1, under TorusNb H K D."
+   ],
+   [
+    "wrapped_full",
+    "Lemma 0, Theorems 1 and 2 on a wrapped face, for Face.P itself, under the hypothesis TorusNb.",
+    "The hypothesis form (kept: wrapped_full_all supplies TorusNb). At (ρ1, ρ2) = (0.44, 0.42)."
+   ],
+   [
+    "torusNb_all",
+    "(the general bijection) the dice agent's torus H K D cell list is Orient × Torus H K D, Face.nb carried to Kagome.nbrs.",
+    "For every H, D > 0 and every K: 3HD cells, and nb i is a permutation of kIdx i, whose image under phi is exactly Kagome.nbrs (phi i) (kIdx_map). Also kernel-checked (decide +kernel) on ten tori, torusNb_1_0_1 … torusNb_3_0_3, independently of the general proof."
+   ],
+   [
+    "wrapped_theorems_all",
+    "Lemma 0, Theorems 1 and 2 on every wrapped face, for Face.P itself, every strict density.",
+    "For every H, D > 0, K, and 0 < ρ1, ρ2 < 1: a dominant QSD (also the dice agent's IsQSD), λ > 0, μ > 0 on every living state, unique among λ > 0; ln τ = Σ_i c_i (c_i the price of cell i's own death probability); c_i = c_j when i ≡ j mod 3 (one price per orientation); one price per cell when (K, −H−K), (D, −D) are periods; decay at exactly λ from every state that can survive (constants m/M, M/m); survFrom = Face.survival. No hypothesis."
+   ],
+   [
+    "wrapped_full_all",
+    "rigour/README.md claim 3 and THEOREMS.md (Lemma 0, Theorems 1, 2) on every wrapped face, with the sharpened Theorem 1.",
+    "wrapped_theorems_all at (ρ1, ρ2) = (0.44, 0.42), and ln τ < 1.9228·A (the dice agent's lntau_le_torus, every wrapped face). No hypothesis. Not stated: a value of λ on any torus beyond the certified ones."
    ]
   ]
  }

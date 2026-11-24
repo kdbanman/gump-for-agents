@@ -9,6 +9,8 @@ import GumpMath.LinkTorus103Sym
 import GumpMath.LinkTorus113Sym
 import GumpMath.LinkStrip13Sym
 import GumpMath.LinkPatch13Sym
+import GumpMath.LinkSurv
+import GumpMath.LinkWrappedAll
 open Gump.Link
 -- the bridge
 #print axioms aliveProb_cast
@@ -48,3 +50,21 @@ open Gump.Link
 #print axioms Torus202.tab
 #print axioms Torus202.price_all
 #print axioms Torus202.torus202_full
+-- survFrom is Face.survival; hull 3 with the dice agent's constants
+#print axioms survFrom_cast
+#print axioms absorbing_hull
+#print axioms absorbing_of_coins
+#print axioms Hull3.hull3_complete
+-- every wrapped face
+#print axioms Wrapped.torusNb_of
+#print axioms Wrapped.kIdx_map
+#print axioms Wrapped.Q_eq
+#print axioms Wrapped.transport_price
+#print axioms Wrapped.wrapped_theorems
+#print axioms Wrapped.wrapped_full
+#print axioms Wrapped.torusNb_2_0_2
+#print axioms Wrapped.torusNb_3_1_3
+#print axioms Wrapped.nb_eq
+#print axioms Wrapped.torusNb_all
+#print axioms Wrapped.wrapped_theorems_all
+#print axioms Wrapped.wrapped_full_all
