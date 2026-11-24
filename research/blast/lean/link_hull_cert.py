@@ -111,12 +111,23 @@ def cert(F):
     return u, c0, path, walks
 
 
+def perm(F, f):
+    idx = {tuple(c): i for i, c in enumerate(F.cell)}
+    return [idx[tuple(f(c))] for c in F.cell]
+
+
 def lean(R, F):
     u, c0, path, walks = cert(F)
     w = ', '.join('[' + ', '.join(map(str, x)) + ']' for x in walks)
+    rot = perm(F, lambda c: [c[1], c[2], c[0]])
+    ref = perm(F, lambda c: [c[1], c[0], c[2]])
     return (f"/-- The certificate for `hull {R}` ({F.A} cells): u, c0, growth path, walks. -/\n"
             f"theorem hull{R}_lemma0 : Lemma0F (Gump.Dice.hull {R}) :=\n"
-            f"  lemma0_of_cert _ {u} {c0} [{', '.join(map(str, path))}]\n    [{w}] (by decide +kernel)\n")
+            f"  lemma0_of_cert _ {u} {c0} [{', '.join(map(str, path))}]\n    [{w}] (by decide +kernel)\n\n"
+            f"/-- The rotation (x,y,z) ↦ (y,z,x) of `hull {R}` is an automorphism of its tables. -/\n"
+            f"theorem hull{R}_rot : autOK (Gump.Dice.hull {R}) {rot} = true := by decide +kernel\n\n"
+            f"/-- The reflection (x,y,z) ↦ (y,x,z) of `hull {R}` is an automorphism of its tables. -/\n"
+            f"theorem hull{R}_refl : autOK (Gump.Dice.hull {R}) {ref} = true := by decide +kernel\n")
 
 
 def main():
@@ -124,10 +135,11 @@ def main():
     Rs = [int(r) for r in sys.argv[2:]]
     body = '\n'.join(lean(R, Face(T[R])) for R in Rs)
     s = f"""/-
-`Lemma0F (hull R)` checked by the kernel from a certificate (`certOK`, `lemma0_of_cert`), hence `hull_full_all R`,
-for R = {', '.join(map(str, Rs))}. Written by `link_hull_cert.py` (the certificate is data; the kernel checks every step).
+`Lemma0F (hull R)` checked by the kernel from a certificate (`certOK`, `lemma0_of_cert`), hence `hull_full_all R`
+and `hull_full_sym R`, for R = {', '.join(map(str, Rs))}; and the triangle's rotation and reflection checked to be
+automorphisms of the tables (`autOK`), so the prices are equal along the triangle's six symmetries. Written by `link_hull_cert.py` (the certificate is data; the kernel checks every step).
 -/
-import GumpMath.LinkHull
+import GumpMath.LinkFaceAut
 
 namespace Gump.Link
 
