@@ -351,6 +351,16 @@ static void layer_report(void) {
   }
   printf("DRIFT p : count births(0 below) births(1) births(2) births(3) deaths dead-with-2-below dead-with-3-below, per generation, keyed by the population before\n");
   for (int p = 0; p <= A; p++) if (DNp[p] > 0) printf("DRIFT %d : %.0f %.5f %.5f %.5f %.5f %.5f %.5f %.5f\n", p, DNp[p], BBp[0][p] / DNp[p], BBp[1][p] / DNp[p], BBp[2][p] / DNp[p], BBp[3][p] / DNp[p], BBp[4][p] / DNp[p], BBp[5][p] / DNp[p], BBp[6][p] / DNp[p]);
+  /* VAR g : variance of the group's population over its binomial value n rho (1 - rho) (1 = independent cells), all and
+     given face population <= 10 and <= 4 (within a given face population p, then averaged over p <= t by count) */
+  for (int g = 0; g < ng; g++) { printf("VAR %s n %d :", gname[g], gn[g]);
+    int tv[3] = {A, 10, 4};
+    for (int t = 0; t < 3; t++) { double s = 0, c = 0, q = 0, wv = 0, wb = 0;
+      for (int p = 0; p <= tv[t]; p++) { s += Sg[g][p]; q += Cg[g][p]; c += Ng[p];
+        if (Ng[p] > 0) { double m_ = Sg[g][p] / Ng[p], v_ = Cg[g][p] / Ng[p] - m_ * m_, r_ = m_ / gn[g]; wv += Ng[p] * v_; wb += Ng[p] * gn[g] * r_ * (1 - r_); } }
+      double m = s / c, v = q / c - m * m, r = m / gn[g];
+      printf(" | pop<=%d: var/binom %.3f (within each face population %.3f)", tv[t], v / (gn[g] * r * (1 - r)), wv / wb); }
+    printf("\n"); }
   for (int g = 0; g < ng; g++) { printf("BYPOP %s :", gname[g]); for (int p = 0; p <= A; p++) printf(" %d:%.4f:%.0f", p, Ng[p] ? Sg[g][p] / Ng[p] / gn[g] : -1.0, Ng[p]); printf("\n"); }
   /* LAG g : corr(face(t - lag), group(t)) [face leads] and corr(group(t - lag), face(t)) [group leads] */
   for (int g = 0; g < ng; g++) { printf("LAG %s :", gname[g]);
