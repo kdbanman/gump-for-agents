@@ -141,6 +141,11 @@
     "reader9_run",
     "`REVIEW-signals-9.md` §3, what is left (ii): whether the third push's reader theorem covers the call line's left cap (`call9.json` `capL`; that the cap takes a train of any length is measured to k = 40).",
     "Covered, by a new theorem: call9's capL (18 cells, not the clock's capL) eats every word too: capL9 on the units < 4 and any word on the units ≥ 4 is at generation 2n capL9 and the word moved n units (`readerCall`). Proved by `reader_run_gen` (`ClockReader`'s proof written for any cap passing 16 zone checks), `cap9OK_ok`. This is the cap at the end of a bare store wire: the finite cell of the call law (the cap during the call, with the call line across the cell) is not covered."
+   ],
+   [
+    "lit_enters_exact",
+    "(PI's brief, third task) the lit clock enters the cycle of `clockOf N` at generation N − 2, \"at no earlier generation\" if true.",
+    "For even N ≥ 6: on the cycle at generation N − 2 and at no earlier generation (`lit_first_even`: no state before N − 2 is any state of the cycle; the witness is the left end at generation N − 3, one kernel-checked cell per base time). Odd N: not proved; the left end at N − 3 equals that of base times 11, 15, 19, 23 (`tape_lit.py`), so this witness does not work, and the theorem's entry for odd N is N − 1 (`lit_enters`), not the measured N − 2."
    ]
   ]
  }

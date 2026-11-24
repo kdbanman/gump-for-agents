@@ -51,6 +51,20 @@ for N in range(6, 31):
     good = all(o[2 * m] == F(N, m) for m in range(mmax + 1))
     ok &= good
     print(('PASS' if good else 'FAIL'), f'N = {N}: generation 2m is the word for m = 0 .. {mmax}', file=sys.stderr, flush=True)
+# "At no earlier generation" (Gump/ClockLitFirst.lean): for even N the units <= 2 at generation N - 3 are the same for
+# every N and differ from those of each of the 26 base states (the lit clock of 6 units at generations 41 .. 66); the
+# first differing cell for each base time is `wit` there. For odd N the left end at N - 3 is that of 4 base times.
+o6 = orbit_box(lit(6), 41 + 26)
+assert o6[41 + 26] == o6[41]
+base = [units(o6[41 + n], -99, 2) for n in range(26)]
+left = {N: units(orbit_box(lit(N), N - 3)[N - 3], -99, 2) for N in range(6, 21, 2)}
+good = all(left[N] == left[6] for N in left) and all(base[n] != left[6] for n in range(26))
+ok &= good
+wit = [sorted(base[n] ^ left[6])[0] for n in range(26)]
+print(('PASS' if good else 'FAIL'), 'even N = 6 .. 20: the units <= 2 at generation N - 3 are on no base state; wit =',
+      '[' + ', '.join(f'⟨{x}, {y}, {z}⟩' for x, y, z in wit) + ']', file=sys.stderr)
+odd = {N: [n for n in range(26) if base[n] == units(orbit_box(lit(N), N - 3)[N - 3], -99, 2)] for N in (7, 9, 11)}
+print('odd N: base times whose units <= 2 equal the lit clock\'s at N - 3:', odd, file=sys.stderr)
 if not ok:
     sys.exit(1)
 print(f'''/-
