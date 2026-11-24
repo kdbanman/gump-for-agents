@@ -91,3 +91,4 @@ open Gump.Chain
 #print axioms Kagome.singleton_reach
 #print axioms Kagome.grow_iter_univ
 #print axioms Kagome.kagome_lemma0
+#print axioms Kagome.kagome_one_price

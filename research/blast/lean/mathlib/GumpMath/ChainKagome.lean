@@ -419,3 +419,91 @@ theorem kagome_lemma0 (hgen : AddSubgroup.closure ({e1, e2} : Set T) = ⊤) :
 
 end Main
 end Gump.Chain.Kagome
+
+/-! ### One price per orientation on every wrapped face -/
+
+namespace Gump.Chain.Kagome
+open Finset Relation
+
+variable {T : Type*} [AddCommGroup T] [Fintype T] [DecidableEq T] (e1 e2 : T)
+
+/-- Translation of the layer by t. -/
+def tr (t : T) : Cell T ≃ Cell T := Equiv.prodCongr (Equiv.refl Orient) (Equiv.addRight t)
+
+theorem tr_apply (t : T) (c : Cell T) : tr t c = (c.1, c.2 + t) := rfl
+
+theorem nbrs_tr (t : T) (c : Cell T) : nbrs e1 e2 (tr t c) = (nbrs e1 e2 c).map (tr t) := by
+  rcases c with ⟨o, p⟩
+  cases o <;> simp [nbrs, tr_apply, add_comm, add_left_comm, add_assoc, sub_eq_add_neg]
+
+theorem k_tr (t : T) (x : Finset (Cell T)) (c : Cell T) :
+    k e1 e2 (x.map (tr t).toEmbedding) (tr t c) = k e1 e2 x c := by
+  unfold k
+  rw [nbrs_tr, List.countP_map]
+  congr 1
+  funext d
+  simp
+
+section Price
+variable {ρ1 ρ2 : ℝ} (h1 : 0 < ρ1) (h1' : ρ1 < 1) (h2 : 0 < ρ2) (h2' : ρ2 < 1)
+
+theorem a_tr (t : T) (x : Finset (Cell T)) (c : Cell T) :
+    (kernel e1 e2 ρ1 ρ2 h1 h1' h2 h2').a (tr t c) (x.map (tr t).toEmbedding) =
+      (kernel e1 e2 ρ1 ρ2 h1 h1' h2 h2').a c x := by
+  simp only [kernel, k_tr]
+  congr 2
+  simp
+
+/-- Translation acting on the non-empty states. -/
+def trState (t : T) : Living (Cell T) ≃ Living (Cell T) :=
+  Equiv.subtypeEquiv (Equiv.finsetCongr (tr t)) (fun x => by
+    simp [Equiv.finsetCongr_apply])
+
+theorem trState_val (t : T) (x : Living (Cell T)) :
+    ((trState t x : Living (Cell T)) : Finset (Cell T)) = x.1.map (tr t).toEmbedding := rfl
+
+theorem P_tr (t : T) (x y : Finset (Cell T)) :
+    (kernel e1 e2 ρ1 ρ2 h1 h1' h2 h2').P (x.map (tr t).toEmbedding) (y.map (tr t).toEmbedding) =
+      (kernel e1 e2 ρ1 ρ2 h1 h1' h2 h2').P x y := by
+  unfold ProductKernel.P
+  rw [← Equiv.prod_comp (tr t)]
+  refine Finset.prod_congr rfl (fun c _ => ?_)
+  have hm : (tr t c ∈ y.map (tr t).toEmbedding) ↔ c ∈ y := by simp
+  simp only [hm, a_tr]
+
+/-- **One price per orientation, on every wrapped face**: for the unique quasi-stationary law of the
+surrogate on the kagome layer over T, the price c_i of a cell depends only on its orientation, and
+log τ = |T| · (c_X + c_Y + c_Z). -/
+theorem kagome_one_price (hgen : AddSubgroup.closure ({e1, e2} : Set T) = ⊤) :
+    ∃ μ lam, (kernel e1 e2 ρ1 ρ2 h1 h1' h2 h2').toSubsetChain.killed.IsQSD μ lam ∧ 0 < lam ∧
+      (∀ ν lam', (kernel e1 e2 ρ1 ρ2 h1 h1' h2 h2').toSubsetChain.killed.IsQSD ν lam' → 0 < lam' →
+        ν = μ ∧ lam' = lam) ∧
+      (∀ (o : Orient) (p q : T), (kernel e1 e2 ρ1 ρ2 h1 h1' h2 h2').localDeath.price μ (o, p) =
+        (kernel e1 e2 ρ1 ρ2 h1 h1' h2 h2').localDeath.price μ (o, q)) ∧
+      Real.log ((kernel e1 e2 ρ1 ρ2 h1 h1' h2 h2').toSubsetChain.killed.lifetime μ) =
+        Fintype.card T * ∑ o : Orient, (kernel e1 e2 ρ1 ρ2 h1 h1' h2 h2').localDeath.price μ (o, 0) := by
+  obtain ⟨-, -, -, μ, lam, hμ, hlam, -, huniq⟩ := kagome_lemma0 e1 e2 h1 h1' h2 h2' hgen
+  set G := kernel e1 e2 ρ1 ρ2 h1 h1' h2 h2'
+  have hinv : ∀ (t : T) (c : Cell T), G.localDeath.price μ (tr t c) = G.localDeath.price μ c := by
+    intro t c
+    refine KilledChain.price_invariant G.localDeath hμ hlam (fun ν lam' h h' => (huniq ν lam' h h').1)
+      (trState t) (fun x y => ?_) (tr t) (fun i x => ?_) c
+    · show G.P (trState t x).1 (trState t y).1 = G.P x.1 y.1
+      rw [trState_val, trState_val, P_tr]
+    · show 1 - G.a (tr t i) (trState t x).1 = 1 - G.a i x.1
+      rw [trState_val, a_tr]
+  have hor : ∀ (o : Orient) (p q : T), G.localDeath.price μ (o, p) = G.localDeath.price μ (o, q) := by
+    intro o p q
+    have := hinv (q - p) (o, p)
+    rw [tr_apply] at this
+    simp only [add_sub_cancel] at this
+    exact this.symm
+  refine ⟨μ, lam, hμ, hlam, huniq, hor, ?_⟩
+  rw [(KilledChain.tilt_identity G.localDeath hμ).2.1]
+  rw [Fintype.sum_prod_type, Finset.mul_sum]
+  refine Finset.sum_congr rfl (fun o _ => ?_)
+  rw [Finset.sum_congr rfl (fun p _ => hor o p 0)]
+  simp
+
+end Price
+end Gump.Chain.Kagome
