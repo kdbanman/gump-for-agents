@@ -8,7 +8,7 @@ exactly") and of the density README, before I read `nz.c` or `nzd.c` (I never op
 
 ## In brief
 
-- **The numbers stand.** Every headline row I reran (12 lifetimes, the layer densities, the lags, P₁) reproduces
+- **The numbers stand.** Every headline row I reran (11 lifetimes and the scan's zero, the layer densities, the lags, P₁) reproduces
   with independent code and seeds, all within 2σ (table; the d = 2 mean-density row is the farthest, +1.97σ). The
   layer densities and lagged correlations agree to the third decimal. Fair coins at d = 1 read −1.6σ on my first
   seed and −1.0σ with a second (note under the table).
@@ -70,7 +70,7 @@ exactly") and of the density README, before I read `nz.c` or `nzd.c` (I never op
 | LOW10 coins | 14.096 ± 0.010 (+0.463) | 14.081 ± 0.029 (+0.448) | 1,176 | −0.5σ |
 | mean-density coins, d = 2 | 13.877 ± 0.013 (+0.244) | 13.936 ± 0.027 (+0.303) | 1,359 | +2.0σ |
 | fair coins, d = 2 | 13.965 ± 0.014 (+0.332) | 13.971 ± 0.028 (+0.338) | 1,313 | +0.2σ |
-| mean-density coins, ε = 1/16 | 13.797 ± 0.013 (+0.164) | PENDING-E16 | | |
+| mean-density coins, ε = 1/16 | 13.797 ± 0.013 (+0.164) | 13.830 ± 0.026 (+0.197) | 1,511 | +1.1σ |
 | gump: replaced core of layer 1, all time | 0.4301 | 0.4301 | | |
 | … the same, face ≤ 10 (≤ 4) | 0.3836 (0.401) | 0.3843 (0.4016) | | |
 | … whole layer 1, face ≤ 10 | 0.3425 | 0.3422 | | |
@@ -222,7 +222,7 @@ R = 9 agrees). The eight-face values agree too (mine 13.802 ± 0.007, theirs 13.
 | 16 | mean density d = 2 | 0.80 | **hit** (+2.0σ) |
 | 17 | the p = 0.2 chain's support above 0.35 after the darts (informed by R = 9) | 0.80 | **hit** (0.399) |
 | 18 | fair d = 2 | 0.80 | **hit** (+0.2σ) |
-| 19 | mean density, ε = 1/16 | 0.80 | PENDING-S19 |
+| 19 | mean density, ε = 1/16 | 0.80 | **hit** (+1.1σ) |
 | 20 | my second fair seed lands above the first | 0.65 | **hit** (14.324 against 14.264) |
 
 ## Not checked
