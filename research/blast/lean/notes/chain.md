@@ -2,8 +2,8 @@
 
 Agent `chain` (Lean arm, theory), 2026-11-24, 11:16 UTC onwards. Source: `research/blast/rigour/THEOREMS.md`,
 its referee `research/blast/ref-proofs/REVIEW.md`, the seam identity of `research/blast/image/README.md`.
-Files (all new, all mine): `research/blast/lean/mathlib/GumpMath/Chain*.lean` (15 modules: Tilt, Perron, Exist,
-Lemma0, Coins, Routes, Seam, SSM, Price, Inst, TiltLimit, Bits, Kagome, Torus, Rate),
+Files (all new, all mine): `research/blast/lean/mathlib/GumpMath/Chain*.lean` (16 modules: Tilt, Perron, Exist,
+Lemma0, Coins, Routes, Seam, SSM, Price, Inst, TiltLimit, Bits, Kagome, Torus, Rate, Sharp),
 `research/blast/lean/mathlib/AxiomsChain.lean`, `research/blast/lean/statements_chain.json`, this note.
 
 Every theorem below compiles with no `sorry`, no `native_decide`, and `#print axioms` gives
@@ -285,7 +285,8 @@ a different pointwise limit of the per-cell tilted energy, not the jump itself.
     export PATH=$HOME/.elan/bin:$PATH; cd research/blast/lean/mathlib
     lake build GumpMath.ChainTilt GumpMath.ChainPerron GumpMath.ChainExist GumpMath.ChainLemma0 GumpMath.ChainCoins \
       GumpMath.ChainRoutes GumpMath.ChainSeam GumpMath.ChainSSM GumpMath.ChainPrice GumpMath.ChainInst \
-      GumpMath.ChainTiltLimit GumpMath.ChainBits GumpMath.ChainKagome GumpMath.ChainTorus GumpMath.ChainRate
+      GumpMath.ChainTiltLimit GumpMath.ChainBits GumpMath.ChainKagome GumpMath.ChainTorus GumpMath.ChainRate \
+      GumpMath.ChainSharp
     lake env lean AxiomsChain.lean            # every line: [propext, Classical.choice, Quot.sound]
     cd ../../../.. && sh research/blast/lean/check.sh --mathlib
     python3 research/blast/lean/statements.py # merges statements_chain.json (rewrites STATEMENTS.md)
