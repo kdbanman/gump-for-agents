@@ -468,3 +468,39 @@ my copy, standard axioms. No `sorry`, `native_decide`, `implemented_by`, `opaque
 
 Files added: `lemma0f_check.py`, `hull_tables.py` (with `.out`), `RefChainHull.lean`, `LinkHullCertCopy.lean` (`.out`),
 `Link4AxiomSweep.lean` (`.out`, `link4_names.txt`).
+
+---
+
+## Fifth review (2026-11-24, commit 0992cd4: `LinkHullGen.lean`, `LinkHullSym.lean`)
+
+Oleans current (16:26, 16:29; LinkHullCert rebuilt 15:51); nothing built. **Verdict: clean; no defect.**
+
+**`HullGen.hull_lemma0 : ∀ R, 0 < (hull R).A → Lemma0F (hull R)` is unconditional.** `#check` shows no other
+hypothesis; R odd is derived from `hA` (`parity`); R = 1 is the fixed kernel check `hull1_lemma0`, R ≥ 3 the general
+proof `hull_lemma0_ge3`; the only `decide`s are on fixed offset lists and axes, none ranges over R; no instance or
+definition restricts R. [proved: Lean] `RefChainHullGen.lean`: `hull_lemma0 15`, `hull_lemma0 21` (231 cells, no
+certificate exists), `rot_aut 21` and `hull_full_every 21` elaborate; axioms standard.
+
+**The construction on my oracle-built hulls** [measured] `hullgen_check.py`, R = 3, 5, 7, 9, 11, 13, each step simulated
+as supports (y possible from x iff every live cell of y can be alive next from x): u = mask U (cells with z even) has
+every cell alive-able, and its mask equals LinkHullCert's u (442, 226794, 928952234, …); every T cell but c0 has a
+T neighbour of smaller φ with a possible singleton step, every non-T cell a T neighbour (longest walk 3 … 8 steps);
+G 0 = {c0}; G n → G n+1 possible for every n < 3R; G 3R = T; T → T ∪ Zp → U possible. Control: T → U directly is
+impossible on every R, so the Zp step is needed. (Skipping a growth level is also possible, so that is no control.)
+Brute force on hull 3 (`hull3_u442.out`): 442 is one of the 64 states from which every cell can be alive next, and every
+state that can survive reaches it; my first review's 207 is another of the 64.
+
+**Symmetries.** `rot`, `refl` are literally (x,y,z) ↦ (y,z,x) and (x,y,z) ↦ (y,x,z) for every R (`HullGen.rot`,
+`HullGen.refl`); `gList R rot`, `gList R refl` equal LinkHullCert's per-R `autOK` lists for R = 3 … 13 on my cell
+lists. `hull_prices_sym` asserts c_j = c_i when cell j is rot or refl of cell i: on hull 3 my prices satisfy it to
+10⁻¹⁶ (fourth review), and the orbits are corners / the rest; nothing contradicts it.
+
+**Hygiene.** [proved: Lean] `Link5AxiomSweep.lean`: 1,693 constants (LinkHullGen 312, LinkHullSym 30 new), 1,315
+theorems, only the standard three axioms; the same compiler artefacts. No `sorry`, `native_decide`, `opaque`. All names
+in `statements_link.json` (34) and `AxiomsLink.lean` (84) resolve; the five new rows (`hull_lemma0`, `hull_full_every`,
+`aut_general`, `rot_aut`, `hull_prices_sym`) say what the statements say.
+
+**Not checked:** prices on hull 5 and larger (2^18 states and up); `aut_general`'s hypotheses beyond rot and refl.
+
+Files added: `hullgen_check.py`, `hull3_u442.out`, `RefChainHullGen.lean` (`.out`), `Link5AxiomSweep.lean` (`.out`,
+`link5_names.txt`).

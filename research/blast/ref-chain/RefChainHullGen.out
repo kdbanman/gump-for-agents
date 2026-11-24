@@ -1,0 +1,41 @@
+HullGen.hull_lemma0 : ∀ (R : ℕ), 0 < (hull R).A → Lemma0F (hull R)
+hull_full_every : ∀ (R : ℕ),
+  0 < (hull R).A →
+    ∃ μ lam,
+      (chain (hull R) ⋯).IsDominantQSD μ lam ∧
+        IsQSD (hull R) ρ1 ρ2 (extend (hull R) μ) lam ∧
+          0 < lam ∧
+            (∀ (x : { x // x ≠ (hull R).empty }), 0 < μ x) ∧
+              (∀ (ν : { x // x ≠ (hull R).empty } → ℝ) (lam' : ℝ),
+                  (chain (hull R) ⋯).IsQSD ν lam' → 0 < lam' → ν = μ ∧ lam' = lam) ∧
+                (∀ (i : Fin (hull R).A) (x : { x // x ≠ (hull R).empty }),
+                    (LH R Hull3.sdens).dc i x = 1 - ↑((hull R).a ρ1 ρ2 ↑↑x ↑i)) ∧
+                  Real.log ((chain (hull R) ⋯).lifetime μ) = ∑ i, (LH R Hull3.sdens).price μ i ∧
+                    Real.log ((chain (hull R) ⋯).lifetime μ) < 2.2165 * ↑(hull R).A ∧
+                      (∃ m M,
+                          0 < m ∧
+                            m ≤ M ∧
+                              (∀ (t : ℕ) (x : { x // x ≠ (hull R).empty }),
+                                  (chain (hull R) ⋯).CanSurvive x → m / M * lam ^ t ≤ (chain (hull R) ⋯).survFrom t x) ∧
+                                ∀ (t : ℕ) (x : { x // x ≠ (hull R).empty }),
+                                  (chain (hull R) ⋯).survFrom (t + 1) x ≤ M / m * lam ^ t) ∧
+                        (∀ (t : ℕ) (x : { x // x ≠ (hull R).empty }),
+                            (chain (hull R) ⋯).survFrom t x = ↑((hull R).survival ρ1 ρ2 t ↑x)) ∧
+                          ∀ (π : List ℕ) (hπ : autOK (hull R) π = true) (i : Fin (hull R).A),
+                            (LH R Hull3.sdens).price μ ((autPerm hπ) i) = (LH R Hull3.sdens).price μ i
+HullGen.rot_aut : ∀ (R : ℕ), autOK (hull R) (HullGen.gList R HullGen.rot) = true
+hull_prices_sym : ∀ (R : ℕ),
+  0 < (hull R).A →
+    ∀ (μ : { x // x ≠ (hull R).empty } → ℝ) (lam : ℝ),
+      (chain (hull R) ⋯).IsQSD μ lam →
+        0 < lam →
+          ∀ (i j : Fin (hull R).A),
+            (hull R).cell ↑j = HullGen.rot ((hull R).cell ↑i) ∨ (hull R).cell ↑j = HullGen.refl ((hull R).cell ↑i) →
+              (LH R Hull3.sdens).price μ j = (LH R Hull3.sdens).price μ i
+'Gump.Link.HullGen.hull_lemma0' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Gump.Link.HullGen.hull_lemma0_ge3' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Gump.Link.hull_full_every' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Gump.Link.HullGen.rot_aut' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Gump.Link.HullGen.refl_aut' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Gump.Link.HullGen.aut_general' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Gump.Link.hull_prices_sym' depends on axioms: [propext, Classical.choice, Quot.sound]
