@@ -353,3 +353,73 @@ under a low face, part 1) costs 0.29 in ln τ at 63 cells, as much as lowering t
 separates the two variables that moved together in part 1: both matter. The clustering of c = 0.1 is worth a density
 of 0.026 at 63 cells and 0.014 at 45 (effect / slope). Not run: clustering at ε = 1/4, or a clustering that copies
 gump's (here every replaced cell of a depth shares the common coin, near or far).
+
+### The density scan at ε = 1/4, p = 0.8 (the PI's block 4, item 4) [measured]
+
+`e4_p0.8` (3 M generations, 607 deaths): Δ = **+1.109 ± 0.041**. The scan at ε = 1/4 is now −0.32, −0.08, +0.04, +0.27,
++0.43, +0.68, +0.98, +1.11 at p = 0.1, 0.175, 0.2, 0.3, 0.4, 0.5, 0.7, 0.8: no density between 0.2 and 0.8 shortens
+the life (0.6 not run).
+
+DIRECT_ROWS
+
+### Answer to the question [measured, with the reading conjectured]
+
+No: p\* is not a property of gump's support alone. With part of the support replaced it is a property of the mixture
+of coins and the rule-made cells they prop up: 0.17–0.19 at ε = 1/16 and 1/4 (nearly the same at 45 and 63 cells),
+0.27 and 0.32 at full replacement of the 3 or 9 cells under the middle of the face. Only when nearly the whole support
+is coins (DO = 1, two thirds of layer 1 and everything below) does one density, **0.385**, give gump's life at both
+45 and 63 cells, so the face law's slope as well as a point. Even then a face of gump is not a face over coins in its
+way of dying: over coins it is fuller, dips 6–8 times less often below a quarter of its cells, and dies from one cell
+96–98% of the time instead of 77%. Its rate is reproduced; its excursions are not.
+
+### Scores of `PREDICTIONS.md` (this task)
+
+| item | forecast | outcome |
+|---|---|---|
+| 1. p\*(1/16, 63) within 0.05 of p\*(1/4, 63) | 65% | **true**: 0.173 ± 0.010 against 0.191 ± 0.003 |
+| 2. p\*(1/4, 63) in [0.17, 0.21] | 75% | **true**: 0.191 ± 0.003 |
+| 3a. p\*(full, 63) within 0.05 of p\*(1/4, 63) | 40% | **false**: 0.316 ± 0.001 |
+| 3b. … and higher | 60% | **true** |
+| 4. slope at p\* ≥ 1.5 times larger at full replacement | 70% | **true**: 11 ± 1 against 5 ± 1 (63 cells); 4.0 against 0.93 (45) |
+| 5. p\*(1/4, 45) within 0.05 of p\*(1/4, 63) | 50% | **true**: 0.180 ± 0.006 |
+| 6. at full replacement the 63-cell p\* gives the 45-cell face gump's life within ± 0.03 | 40% | **false** as stated (DO = 3): +0.210 ± 0.007. With DO = 1 the two p\* agree to 0.0006, which would pass; that setting was not the one forecast. |
+| 7a. at full replacement and p\*, P(death from 1 cell) = 0.77 ± 0.03 | 75% | **false**: 0.81 (DO = 3), 0.96–0.98 (DO = 1) |
+| 7b. … and every Δ ln f_k, Δ ln P_k within ± 0.06 | 45% | **false**: up to ± 0.42 (DO = 3), ± 2.2 (DO = 1) |
+| 8. ε = 1/4, p = 0.8: Δ > 0; in [1.0, 1.5] | 97%; 60% | **true; true**: +1.109 ± 0.041 |
+
+The PI's block 5 (`research/blast/noisy/PREDICTIONS.md`, read after the above was committed), as these rows bear on it,
+for the PI to score: (1) p\*(1/16) within 0.03 of p\*(1/4) at 63 cells: 0.173 against 0.191, yes; (2) p\*(full) below
+0.17, or within 0.04 of 0.19: no (0.316); (3) the 45-cell p\* at 1/4 within 0.03 of the 63-cell one: 0.180 against
+0.191, yes; (4) at full replacement and the 63-cell p\*, the 45-cell life within 0.15 of gump's: no with DO = 3
+(+0.210 ± 0.007), yes with DO = 1 (DIRECT_45).
+
+### Not checked (second task)
+
+- Every row is one seed; the scatter between seeds of the steep DO = 1 rows (where an error of 0.0002 in p\* rests on
+  counting alone) is not measured.
+- p\*(1/4, 63) rests on two rows near the zero (0.175 with 5,320 deaths, 0.2 with 1,763); the planned 0.225 row was
+  dropped for the 84-cell row. The curve is not straight over 0.1–0.3 at 63 cells (slope 3.6 then 2.3), so wider
+  windows give other values (0.188 from 0.1 and 0.2).
+- Full replacement at DO = 3 and DO = 1 are different hulls: with DO = 1 the other faces also sit on coins, and below
+  p ≈ 0.35 lives end within the ageing-in, so those rows are not stationary rates.
+- Not run: the dart process at ε = 1 (M = B, replacement 0.63; ~30 minutes a row at 63 cells); 84 cells except the one
+  DO = 1 row; clustering at ε = 1/4 or a gump-like (local) clustering; 0.6 in the scan; frozen coins at other densities.
+- The two full-replacement modes were validated against the oracle outside the noise region and statistically inside
+  it; the excursion split was validated in part 1 (one Python recount).
+
+### Reproduce (second task)
+
+```sh
+python3 research/blast/density/validate.py 1200       # VALIDATION PASSED, with the full and clustered modes
+S=research/scratch/blast/density; gcc -O3 -march=native -o $S/nzd_cur research/blast/density/nzd.c -lm
+#   (the rows ran on nzd_prod4 (44ce0cc) and, for NZD_CLUST, nzd_prod5 (578b461); the current nzd.c prints the same lines)
+NZD_FULL=1 NZD_BIN=nzd_cur sh research/blast/density/row.sh full_p0.317 11 8737 12000000 0 1 0.317
+DO=1 NZD_FULL=1 NZD_BIN=nzd_cur sh research/blast/density/row.sh fullDO1_p0.38 11 8786 4000000 0 1 0.38
+NZD_FULL=1 NZD_CLUST=0.1 NZD_BIN=nzd_cur sh research/blast/density/row.sh fullc0.1_p0.32 11 8752 8000000 0 1 0.32
+sh research/blast/density/row.sh e16_p0.2 11 8620 8000000 64 1 0.2          # darts, eps = 1/16
+sh research/blast/density/row.sh R9_e4_p0.2 9 8902 400000 64 1 0.2         # 45 cells, eps = 1/4
+#   every other row: tag, seed, generations and settings in the file name and its BRUTE and BIAS lines (data/rows/)
+python3 research/blast/density/zeros.py     # every p* of the table, with the rows used
+python3 research/blast/density/collect.py   # the excursion split per size
+# exploration (300,000 generations, seed 77, not used for any number): data/explore/full63_p*.txt
+```
