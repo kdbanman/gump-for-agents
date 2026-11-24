@@ -1601,6 +1601,51 @@ theorem hull_full_sym (R : ℕ) (hA : 0 < (Gump.Dice.hull R).A) (h0 : Lemma0F (G
 - **Meant to be:** rigour/README.md claim 3 on every hull face with the prices equal along the triangle's symmetries, under Lemma0F (hull R).
 - **Difference:** hull_full_all plus c_{π i} = c_i for every autOK automorphism π of hull R; the rotation (x,y,z) ↦ (y,z,x) and the reflection (x,y,z) ↦ (y,x,z) are kernel-checked automorphisms for R = 3, …, 13 (hull<R>_rot, hull<R>_refl), not for general R.
 
+### `hull_lemma0` (`mathlib/GumpMath/LinkHullGen.lean`)
+
+```lean
+theorem hull_lemma0 (R : ℕ) (hA : 0 < (Gump.Dice.hull R).A) : Lemma0F (Gump.Dice.hull R)
+```
+
+- **Meant to be:** THEOREMS.md, Lemma 0, on every hull face, by a general proof (the PI's fifth task).
+- **Difference:** Lemma0F (hull R) for every R with A > 0 (R odd). R = 1: hull1_lemma0 (kernel). R ≥ 3: u = the cells whose normal is not z (aliveF_u); every cell of T (the non-corner x- and y-cells) but c0 = (0, 1, R − 1) has a neighbour in T of smaller φ = 3(R − 1 − z) + [stuck] (descent), every other cell one in T (enterT); a lone live cell walks to c0 (walk_all), {c0} grows through the sublevel sets of φ to T (grow; no z-cell alive keeps k ≤ 4, kc_le_four), then T with the two z-cells beside the x- and y-corners (step_TZ), then u (step_U).
+
+### `hull_full_every` (`mathlib/GumpMath/LinkHullGen.lean`)
+
+```lean
+theorem hull_full_every (R : ℕ) (hA : 0 < (Gump.Dice.hull R).A) : ∃ μ lam, (chain (Gump.Dice.hull R) Hull3.sdens.dens).IsDominantQSD μ lam ∧ IsQSD (Gump.Dice.hull R) ρ1 ρ2 (extend (Gump.Dice.hull R) μ) lam ∧ 0 < lam ∧ (∀ x, 0 < μ x) ∧ (∀ ν lam', (chain (Gump.Dice.hull R) Hull3.sdens.dens).IsQSD ν lam' → 0 < lam' → ν = μ ∧ lam' = lam) ∧ (∀ i x, (LH R Hull3.sdens).dc i x = 1 - (((Gump.Dice.hull R).a ρ1 ρ2 x i : ℚ) : ℝ)) ∧ Real.log ((chain (Gump.Dice.hull R) Hull3.sdens.dens).lifetime μ) = ∑ i, (LH R Hull3.sdens).price μ i ∧ Real.log ((chain (Gump.Dice.hull R) Hull3.sdens.dens).lifetime μ) < 2.2165 * (Gump.Dice.hull R).A ∧ (∃ m M : ℝ, 0 < m ∧ m ≤ M ∧ (∀ t x, (chain (Gump.Dice.hull R) Hull3.sdens.dens).CanSurvive x → m / M * lam ^ t ≤ (chain (Gump.Dice.hull R) Hull3.sdens.dens).survFrom t x) ∧ (∀ t x, (chain (Gump.Dice.hull R) Hull3.sdens.dens).survFrom (t + 1) x ≤ M / m * lam ^ t)) ∧ (∀ t x, (chain (Gump.Dice.hull R) Hull3.sdens.dens).survFrom t x = (((Gump.Dice.hull R).survival ρ1 ρ2 t x : ℚ) : ℝ)) ∧ (∀ (π : List ℕ) (hπ : autOK (Gump.Dice.hull R) π = true) (i : Fin (Gump.Dice.hull R).A), (LH R Hull3.sdens).price μ (autPerm hπ i) = (LH R Hull3.sdens).price μ i)
+```
+
+- **Meant to be:** rigour/README.md claim 3 and THEOREMS.md (Lemma 0, Theorems 1, 2) on every hull face, no hypothesis.
+- **Difference:** hull_full_sym with hull_lemma0: at (0.44, 0.42), every R with A > 0: the dominant QSD (also the dice agent's IsQSD), unique among λ > 0, positive on every living state; ln τ = Σ c_i with named per-cell factors; ln τ < 2.2165·A; decay at exactly λ from every state that can survive; survFrom = Face.survival; c_{π i} = c_i for every autOK automorphism π.
+
+### `aut_general` (`mathlib/GumpMath/LinkHullSym.lean`)
+
+```lean
+theorem aut_general (g : Pt → Pt) (hadd : ∀ p q, g (p + q) = g p + g q) (hdot : ∀ p, d111.dot (g p) = d111.dot p) (hmem : ∀ p, g p ∈ Gump.Dice.hullCells R ↔ p ∈ Gump.Dice.hullCells R) (hcor : ∀ p, corner (g p) ↔ corner p) (hinj : Function.Injective g) (hoff : ∀ p ∈ Gump.Dice.hullCells R, (offsets (g p).axis).Perm ((offsets p.axis).map g)) : autOK (Gump.Dice.hull R) (gList R g) = true
+```
+
+- **Meant to be:** (the symmetries) a map of points with the hull's symmetries acts as an automorphism of hull R's tables.
+- **Difference:** For every R: g additive, keeping d111·p, hull membership and the corners, injective, and carrying each cell's twelve offsets to those of its image up to order gives autOK (hull R) (gList R g), gList R g = the cells' images by idxOf.
+
+### `rot_aut` (`mathlib/GumpMath/LinkHullSym.lean`)
+
+```lean
+theorem rot_aut : autOK (Gump.Dice.hull R) (gList R rot) = true
+```
+
+- **Meant to be:** The triangle's symmetries are automorphisms of every hull face's tables.
+- **Difference:** rot_aut: the rotation (x,y,z) ↦ (y,z,x); refl_aut: the reflection (x,y,z) ↦ (y,x,z); every R, from aut_general (the offset permutations decided per orientation).
+
+### `hull_prices_sym` (`mathlib/GumpMath/LinkHullSym.lean`)
+
+```lean
+theorem hull_prices_sym (R : ℕ) (hA : 0 < (Gump.Dice.hull R).A) (μ : {x : Fin (2 ^ (Gump.Dice.hull R).A) // x ≠ (Gump.Dice.hull R).empty} → ℝ) (lam : ℝ) (hμ : (chain (Gump.Dice.hull R) Hull3.sdens.dens).IsQSD μ lam) (hlam : 0 < lam) (i j : Fin (Gump.Dice.hull R).A) (h : (Gump.Dice.hull R).cell j = HullGen.rot ((Gump.Dice.hull R).cell i) ∨ (Gump.Dice.hull R).cell j = HullGen.refl ((Gump.Dice.hull R).cell i)) : (LH R Hull3.sdens).price μ j = (LH R Hull3.sdens).price μ i
+```
+
+- **Meant to be:** THEOREMS.md, Theorem 2, on every hull face: equal prices along the triangle's six symmetries.
+- **Difference:** Every R with A > 0, every QSD with λ > 0 (the unique one): c_j = c_i when cell j is the rotation or the reflection of cell i (they generate the six symmetries). No hypothesis.
+
 ## The catalogue's "for every N" laws: the tape, the gun's line, the rake train's signals (tape files)
 
 ### `tape_run` (`Gump/Tape.lean`)

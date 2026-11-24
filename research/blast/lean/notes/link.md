@@ -91,14 +91,13 @@ lattice is not rotation-invariant. The torus (1,1),(0,3) has one (0.29940 each).
 - Proved for **every wrapped face** `torus H K D` (H, D > 0, any K; third task): everything in `wrapped_full_all`
   (`wrapped_theorems_all` at every 0 < ρ1, ρ2 < 1). Nothing is hypothesis: the bijection is `torusNb_all`.
 - Proved for every hull face and every face with all its coins: `survFrom = Face.survival` (`survFrom_cast`).
-- Proved for **every hull face** (fourth task): `CellsOK` (`cellsOK_hull`) and everything in `hull_theorems`
-  (dominant QSD, tilt identity, ln τ < 2.2165·A, survFrom = Face.survival). Everything in `hull_full_all` /
-  `hull_full_sym` (uniqueness, positivity, decay at exactly λ, equal prices along table automorphisms) is proved
-  under the single hypothesis `Lemma0F (hull R)`, which is kernel-checked for R = 1, 3, …, 13; the rotation and
-  reflection automorphisms are kernel-checked for R = 3, …, 13.
+- Proved for **every hull face** (fourth and fifth tasks), every R with A > 0, no hypothesis: `CellsOK`
+  (`cellsOK_hull`), everything in `hull_theorems`, and everything in `hull_full_every` (uniqueness, positivity, decay
+  at exactly λ, equal prices along table automorphisms; `Lemma0F (hull R)` is `hull_lemma0`), and equal prices along
+  the triangle's six symmetries (`hull_prices_sym`; `rot_aut`, `refl_aut`). The face-by-face certificates
+  (`LinkHullCert.lean`, R ≤ 13) are now a second, independent check.
 - **Not proved**: a certified λ (hence ln τ to digits) for the 12-cell torus or any torus beyond the certified two;
-  `Lemma0F (hull R)` for every R, and the triangle's rotation and reflection as automorphisms for every R (see the
-  fourth task's section for exactly where the general proof stops); Lemma 0 on the strips.
+  Lemma 0 on the strips.
 
 ## Third task (2026-11-24, from 14:51 UTC): the generators, survival, every wrapped face
 
@@ -172,6 +171,37 @@ the monotone step s ↦ M(s) ∩ T (every k ≤ 4 while no z cell is alive); (d)
 `Gump.offsets` permuted by a coordinate permutation is a permutation of the permuted axis's offsets (finite), and
 `hullCells` is invariant (index map by `idxOf?`); not written.
 
+## Fifth task (2026-11-24, from 16:04 UTC): Lemma 0 and the symmetries on every hull face, general proofs
+
+Files (new): `LinkHullGen.lean`, `LinkHullSym.lean`. The fourth task's "where the general proof stops" is closed: the
+certificate's construction written out in the hull's coordinates.
+
+- **States as masks of point sets** (`mask R S`, through `LinkWrapped`'s bit/subset bijection): `mask_bit`,
+  `mask_congr`, `single_eq` (2^j is the mask of cell j). **`k_mask`**: the number of live neighbours of cell i is
+  `kc R S (cell i)`, a count over the cell's six in-layer offsets (`kc_eq`, `inl_X/Y/Z`) of the neighbours in the
+  hull and in S. `m2_eq` (no coin two layers in exactly at the corners), `aliveF_mask`, **`stepN_mask`** (a possible
+  transition is a check, cell by cell, in coordinates), `canB_*` (the coin rule as arithmetic).
+- **Counting lemmas** (every R, by the six offsets): `kc_le_four` (no z-cell alive: k ≤ 4), `kc_le_five` (live
+  cells with z even or z = 1: k ≤ 5 at x- and y-cells), `kc_le_one` (one live cell: k ≤ 1), `kc_pos`, `kc_two`.
+- **The geometry**: T = the non-corner x- and y-cells, φ = 3(R − 1 − z) + [stuck] (stuck: an x-cell with y = 0, or a
+  y-cell with x = 0 below the top row), c0 = (0, 1, R − 1). `descent`: every cell of T but c0 has an in-layer
+  neighbour in T of smaller φ, which has it as an in-layer neighbour (an x-cell with y ≥ 2 moves up in z, one with
+  y = 0 moves to the y-cell beside it; likewise for y-cells; four cases). `enterT`: every other cell has an in-layer
+  neighbour in T (a z-cell moves to the x- or y-cell below it; the x- and y-corners along their edge). `phi_zero`:
+  φ ≤ 0 on T only at c0.
+- **The reach**: `walk_step`, `walk_T`, `walk_all` (a lone live cell walks to c0, by induction on φ); `grow_step`,
+  `grow` ({c0} grows through the sublevel sets G n of φ: each new cell is born next to its descent neighbour, every
+  k ≤ 4 since no z-cell is alive), `G0`, `GN`; `step_TZ` (T, then T with the z-cells (R−1, 0, 1), (0, R−1, 1));
+  `step_U` (then u: the corners are born from two live neighbours, `kc_two`; every other cell has k ≤ 5);
+  `aliveF_u` (every cell can be alive next from u). **`hull_lemma0 R (hA : 0 < A)`** (R = 1 from `hull1_lemma0`) and
+  **`hull_full_every R hA`**.
+- **The symmetries** (`LinkHullSym.lean`): `aut_general` (an additive, injective map keeping d·p, the hull and the
+  corners and carrying each cell's offsets to its image's is an `autOK` automorphism; the neighbour lists are carried
+  by `List.Perm.filterMap`), **`rot_aut`**, **`refl_aut`** (every R; the offset permutations decided per orientation),
+  **`hull_prices_sym`**: c_j = c_i when cell j is the rotation or the reflection of cell i, for the unique QSD.
+
+Each module builds in under a minute; no `decide` over states (the only `decide`s are on the twelve-offset lists).
+
 ## Reproduce
 
     cd research/blast/lean/mathlib
@@ -183,6 +213,7 @@ the monotone step s ↦ M(s) ∩ T (every k ≤ 4 while no z cell is alive); (d)
     lake build GumpMath.LinkWrappedCheck GumpMath.LinkWrappedAll GumpMath.LinkWrappedArea   # ~10-20 s each
     lake build GumpMath.LinkHull GumpMath.LinkFaceAut                       # fourth task: ~30 s each
     lake build GumpMath.LinkHullCert                                        # R = 1..13: ~90 s
+    lake build GumpMath.LinkHullGen GumpMath.LinkHullSym                    # fifth task: under a minute each
 
 The generators (committed; each regenerates its modules **byte for byte**, checked with `LINK_OUT=<dir>` and `cmp`
 against the committed files at 9fde4a9; set `LINK_OUT` to write elsewhere, the default is `mathlib/GumpMath/`):

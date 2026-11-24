@@ -13,6 +13,8 @@ import GumpMath.LinkSurv
 import GumpMath.LinkWrappedAll
 import GumpMath.LinkWrappedArea
 import GumpMath.LinkHullCert
+import GumpMath.LinkHullGen
+import GumpMath.LinkHullSym
 open Gump.Link
 -- the bridge
 #print axioms aliveProb_cast
@@ -85,3 +87,23 @@ open Gump.Link
 #print axioms hull13_lemma0
 #print axioms hull13_rot
 #print axioms hull13_refl
+-- Lemma 0 and the symmetries on every hull face, general proofs
+#print axioms HullGen.k_mask
+#print axioms HullGen.stepN_mask
+#print axioms HullGen.kc_le_four
+#print axioms HullGen.kc_le_one
+#print axioms HullGen.kc_le_five
+#print axioms HullGen.kc_two
+#print axioms HullGen.descent
+#print axioms HullGen.enterT
+#print axioms HullGen.walk_all
+#print axioms HullGen.grow
+#print axioms HullGen.step_TZ
+#print axioms HullGen.step_U
+#print axioms HullGen.aliveF_u
+#print axioms HullGen.hull_lemma0
+#print axioms hull_full_every
+#print axioms HullGen.aut_general
+#print axioms HullGen.rot_aut
+#print axioms HullGen.refl_aut
+#print axioms hull_prices_sym

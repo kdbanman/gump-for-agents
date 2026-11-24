@@ -131,6 +131,13 @@ chain, with Perron–Frobenius built here because Mathlib has none):
 | **Every hull face** R, no hypothesis: dominant law, tilt identity with named factors, ln τ < 2.2165·A, survFrom = `Face.survival` | `cellsOK_hull`, `hull_theorems` | `LinkHull.lean` | yes (`ref-chain`, fourth review: clean; `hull R` has no cells for even R, so "every R" is every R with A > 0, i.e. odd R, as the rows say) |
 | **Every hull face under `Lemma0F (hull R)`**: uniqueness, positivity, decay at λ, equal prices along every table automorphism; `Lemma0F` itself kernel-proved for R = 1, 3, …, 13 (3 to 84 cells), the triangle's rotation and reflection for R = 3, …, 13 | `hull_full_all`, `face_full_of`, `lemma0_of_cert`, `price_aut`, `hull_full_sym`; `hull1_lemma0` … `hull13_lemma0` | `LinkHull.lean`, `LinkFaceAut.lean`, `LinkHullCert.lean` | yes (fourth review: the certificates regenerate byte for byte from the referee's oracle-built tables; `autOK` rejects permutations that keep neighbours but not coins and the reverse; on hull 3 the prices are 0.0481050722 at the three corners and 0.3899000883 at the other six, as the classes claim) |
 
+#### Added after the integration (2026-11-24)
+
+| statement | Lean name | file | refereed |
+|---|---|---|---|
+| **Every hull face, no hypothesis**: `Lemma0F (hull R)` by a general proof for every R with A > 0, hence the dominant law unique among λ > 0, positive on every living state, decay at exactly λ, ln τ = Σ c_i, ln τ < 2.2165·A, survFrom = `Face.survival`, equal prices along every table automorphism | `hull_lemma0`, `hull_full_every` (`descent`, `enterT`, `walk_all`, `grow`, `step_TZ`, `step_U`, `aliveF_u`, `kc_le_four`, `stepN_mask`) | `LinkHullGen.lean` | no |
+| **The triangle's six symmetries on every hull face**: the rotation and the reflection are table automorphisms for every R; equal prices along them | `aut_general`, `rot_aut`, `refl_aut`, `hull_prices_sym` | `LinkHullSym.lean` | no |
+
 ### What is not proved (as of 2026-11-24)
 
 - **The price per cell.** The limit of ln τ/A is proved to exist only under hypotheses (gluing inequalities with

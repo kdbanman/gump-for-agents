@@ -146,6 +146,31 @@
     "hull_full_sym",
     "rigour/README.md claim 3 on every hull face with the prices equal along the triangle's symmetries, under Lemma0F (hull R).",
     "hull_full_all plus c_{π i} = c_i for every autOK automorphism π of hull R; the rotation (x,y,z) ↦ (y,z,x) and the reflection (x,y,z) ↦ (y,x,z) are kernel-checked automorphisms for R = 3, …, 13 (hull<R>_rot, hull<R>_refl), not for general R."
+   ],
+   [
+    "hull_lemma0",
+    "THEOREMS.md, Lemma 0, on every hull face, by a general proof (the PI's fifth task).",
+    "Lemma0F (hull R) for every R with A > 0 (R odd). R = 1: hull1_lemma0 (kernel). R ≥ 3: u = the cells whose normal is not z (aliveF_u); every cell of T (the non-corner x- and y-cells) but c0 = (0, 1, R − 1) has a neighbour in T of smaller φ = 3(R − 1 − z) + [stuck] (descent), every other cell one in T (enterT); a lone live cell walks to c0 (walk_all), {c0} grows through the sublevel sets of φ to T (grow; no z-cell alive keeps k ≤ 4, kc_le_four), then T with the two z-cells beside the x- and y-corners (step_TZ), then u (step_U)."
+   ],
+   [
+    "hull_full_every",
+    "rigour/README.md claim 3 and THEOREMS.md (Lemma 0, Theorems 1, 2) on every hull face, no hypothesis.",
+    "hull_full_sym with hull_lemma0: at (0.44, 0.42), every R with A > 0: the dominant QSD (also the dice agent's IsQSD), unique among λ > 0, positive on every living state; ln τ = Σ c_i with named per-cell factors; ln τ < 2.2165·A; decay at exactly λ from every state that can survive; survFrom = Face.survival; c_{π i} = c_i for every autOK automorphism π."
+   ],
+   [
+    "aut_general",
+    "(the symmetries) a map of points with the hull's symmetries acts as an automorphism of hull R's tables.",
+    "For every R: g additive, keeping d111·p, hull membership and the corners, injective, and carrying each cell's twelve offsets to those of its image up to order gives autOK (hull R) (gList R g), gList R g = the cells' images by idxOf."
+   ],
+   [
+    "rot_aut",
+    "The triangle's symmetries are automorphisms of every hull face's tables.",
+    "rot_aut: the rotation (x,y,z) ↦ (y,z,x); refl_aut: the reflection (x,y,z) ↦ (y,x,z); every R, from aut_general (the offset permutations decided per orientation)."
+   ],
+   [
+    "hull_prices_sym",
+    "THEOREMS.md, Theorem 2, on every hull face: equal prices along the triangle's six symmetries.",
+    "Every R with A > 0, every QSD with λ > 0 (the unique one): c_j = c_i when cell j is the rotation or the reflection of cell i (they generate the six symmetries). No hypothesis."
    ]
   ]
  }
