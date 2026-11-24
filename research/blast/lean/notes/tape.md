@@ -4,7 +4,7 @@ Lean arm, 2026-11-24, 11:16–13:15 UTC, 13:16–14:25 UTC and 14:32–16:30 UTC
 (+ `TapeSignalsData.lean`), `Gump/Line.lean` (+ `LineData.lean`), `Gump/Clock.lean` (+ `ClockData.lean`),
 `Gump/Unzip.lean`, `Gump/UnzipProof.lean`, `Gump/Call.lean` (+ `CallData.lean`), `Gump/CallProof.lean`,
 `Gump/CallBox.lean`, `Gump/CallLine.lean`, `Gump/CallUnion.lean` (+ `CallUnionData.lean`), `Gump/CallUnionLocal.lean`,
-`Gump/ClockLit.lean` (+ `ClockLitData.lean`), `Gump/LineBeam.lean` (+ `LineBeamData.lean`);
+`Gump/ClockLit.lean` (+ `ClockLitData.lean`), `Gump/LineBeam.lean` (+ `LineBeamData.lean`), `Gump/ClockReader.lean`;
 `AxiomsTape.lean`; scripts `tape_lib.py`, `tape_line.py`, `tape_signals.py`, `tape_clock.py`, `tape_call.py`,
 `tape_statements_check.py`, `tape_unzip.py`, `tape_call_front.py`, `tape_callunion.py`, `tape_lit.py`, `tape_beam.py`; rows in `statements_tape.json`. Every result below is in the **kernel tier**: no
 `native_decide` anywhere, every base run is `decide +kernel` on `Gump.Bits`' stepper, and every theorem in
@@ -22,6 +22,7 @@ Lean arm, 2026-11-24, 11:16–13:15 UTC, 13:16–14:25 UTC and 14:32–16:30 UTC
 | 6 | the call law (REVIEW-signals-9 §3, `proof9.py`) | `Call.call_law : CallLaw` (`call_law_a`, `call_law_b`, `line_rest`) | **proved whole** for every k (second session) |
 | – | a stretch d^k f stands (period 2) for every k (push 8 §6, infinite-wire form) | `Unzip.stretch_stands` | proved (a base fact of 5) |
 | 7 | the beam: period exactly 4 for every N ≥ 1 (§21, `prove_beam.py`) | `Beam.beam_period` | **proved** (third session) |
+| 8 | capL of the clock eats every word and remembers nothing (§15, `prove_reader.py`) | `Clock.reader_run`, `reader_step` | **proved**, every word (third session) |
 
 ### Headline statements, verbatim
 
@@ -41,6 +42,7 @@ theorem call_law_b (k : Nat) (hk : 1 ≤ k) (n : Nat) (hn : k + 17 ≤ n) :
 theorem call_law : CallLaw
 theorem clockOf_period (N : Nat) (hN : 1 ≤ N) :
     run (clockOf N) (4 * N + 2) = clockOf N ∧ (∀ k, 0 < k → k < 4 * N + 2 → run (clockOf N) k ≠ clockOf N) ∧ …
+theorem reader_run (w : Int → Letter) : ∀ n : Nat, run (readerC w) (2 * n) = readerC (fun u => w (u + n))
 theorem beam_period (N : Nat) (hN : 1 ≤ N) :
     run (beam N) 4 = beam N ∧ ∀ k, 0 < k → k < 4 → run (beam N) k ≠ beam N
 theorem lit_word (N : Nat) (h6 : 6 ≤ N) : ∀ m, m ≤ mmax N → run (lcfg (litList N)) (2 * m) = ucfg (FL N m)
@@ -209,6 +211,16 @@ two units at every generation); the orbit on the units ≤ 4 glued (`glue_run`) 
 ≥ 5 starts at the beam of N + 2 units (`glue_beam`, unit-by-unit list equality), so it is that beam's orbit
 (`S_step`). Bases S 8, S 9 and N = 1 .. 9 by one kernel check (`baseOK_ok`, the box moved by (8, 8, 24)).
 Unlike the line there is no delay: the stream crossing the seam is the train itself, already periodic.
+
+## The reader (third session)
+
+`Gump/ClockReader.lean`: `readerC w` is capL on the units < 0 and the tape of any word w on the units ≥ 0.
+`reader_step`: two generations later it is capL and the word moved one unit, cell for cell; `reader_run`: at
+generation 2n, capL and w moved n units. So the cap swallows every word letter by letter, sends nothing back into the
+tape and keeps no trace (the source's (i) and (ii) at once: the state is never anything but capL + the pure word).
+The proof is local, like the transient's: tape windows on the units ≥ 2, empty space on the units ≤ −7, and on the
+units −6 .. 1 one kernel check for each of the 16 words on the units 0 .. 3 (`readerOK_ok`), the source's closed set
+of 16 cap states.
 
 ## Not checked, and caveats
 

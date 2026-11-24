@@ -11,6 +11,7 @@ import Gump.CallProof
 import Gump.CallUnionLocal
 import Gump.ClockLit
 import Gump.LineBeam
+import Gump.ClockReader
 open Gump Gump.Tape
 #print axioms glue_run
 #print axioms run_shiftC
@@ -94,3 +95,6 @@ open Gump Gump.Tape
 #print axioms Gump.Beam.seam_facts
 #print axioms Gump.Beam.S_all
 #print axioms Gump.Beam.beam_period
+#print axioms Gump.Clock.readerOK_ok
+#print axioms Gump.Clock.reader_step
+#print axioms Gump.Clock.reader_run

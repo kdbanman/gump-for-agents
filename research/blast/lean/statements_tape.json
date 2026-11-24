@@ -131,6 +131,11 @@
     "beam_period",
     "§21, `prove_beam.py`: the beam (the mirror-image gun, N units of rake train, the SAT absorber of C = 31; `objects/beam-5f.json`) has period exactly 4 for every N ≥ 1.",
     "Same, for every N ≥ 1 (period 4, and no smaller period). The object is given unit by unit (`beamU`, `Gump/LineBeamData.lean` from `tape_beam.py`, which checks that it reassembles to the catalogue's Object(N) for N = 1 .. 30). Proved by the source's induction N → N + 2 (`S_step`, the gluing by `glue_run`) from kernel bases S 8, S 9, and N = 1 .. 9 directly. Not covered: the cell count 33 + 5N, the hull, the stream's one-cell pulses (the hole)."
+   ],
+   [
+    "reader_run",
+    "§15, `prove_reader.py`: capL of the clock eats every word of the B/C tape and remembers nothing: at every even generation, for every word, the state is capL and the tape moved on, cell for cell.",
+    "Same, for every word w (any function from units to {B, C}; its letters on the units ≥ 0 are on the tape): `readerC w` (capL on the units < 0, `tape w` on the units ≥ 0) is at generation 2n `readerC` of w moved n units. One double step (`reader_step`) is tape windows on the units ≥ 2 and one kernel check per word on the units 0 .. 3 (`readerOK_ok`, the source's 16 closed states). The source's `--U 4` variant and other caps in the census (`readers.py`) are not covered."
    ]
   ]
  }
