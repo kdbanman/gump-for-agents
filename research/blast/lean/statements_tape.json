@@ -126,6 +126,11 @@
     "lit_clock",
     "§11, `verify_clock.py`: the clock lit by one cell is an oscillator of period exactly 4N + 2, for every N ≥ 1.",
     "Same, for every N ≥ 1: from generation `litEntry N` (max(N − 2, 0) for N ≤ 5; N − 2 for even, N − 1 for odd N ≥ 6) every state of the lit clock is a state of the cycle of `clockOf N` and has exact period 4N + 2. With `lit_enters` this makes the journal's 4N + 2 clock a theorem from a single cell."
+   ],
+   [
+    "beam_period",
+    "§21, `prove_beam.py`: the beam (the mirror-image gun, N units of rake train, the SAT absorber of C = 31; `objects/beam-5f.json`) has period exactly 4 for every N ≥ 1.",
+    "Same, for every N ≥ 1 (period 4, and no smaller period). The object is given unit by unit (`beamU`, `Gump/LineBeamData.lean` from `tape_beam.py`, which checks that it reassembles to the catalogue's Object(N) for N = 1 .. 30). Proved by the source's induction N → N + 2 (`S_step`, the gluing by `glue_run`) from kernel bases S 8, S 9, and N = 1 .. 9 directly. Not covered: the cell count 33 + 5N, the hull, the stream's one-cell pulses (the hole)."
    ]
   ]
  }

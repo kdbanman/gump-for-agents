@@ -4,9 +4,9 @@ Lean arm, 2026-11-24, 11:16–13:15 UTC, 13:16–14:25 UTC and 14:32–16:30 UTC
 (+ `TapeSignalsData.lean`), `Gump/Line.lean` (+ `LineData.lean`), `Gump/Clock.lean` (+ `ClockData.lean`),
 `Gump/Unzip.lean`, `Gump/UnzipProof.lean`, `Gump/Call.lean` (+ `CallData.lean`), `Gump/CallProof.lean`,
 `Gump/CallBox.lean`, `Gump/CallLine.lean`, `Gump/CallUnion.lean` (+ `CallUnionData.lean`), `Gump/CallUnionLocal.lean`,
-`Gump/ClockLit.lean` (+ `ClockLitData.lean`);
+`Gump/ClockLit.lean` (+ `ClockLitData.lean`), `Gump/LineBeam.lean` (+ `LineBeamData.lean`);
 `AxiomsTape.lean`; scripts `tape_lib.py`, `tape_line.py`, `tape_signals.py`, `tape_clock.py`, `tape_call.py`,
-`tape_statements_check.py`, `tape_unzip.py`, `tape_call_front.py`, `tape_callunion.py`, `tape_lit.py`; rows in `statements_tape.json`. Every result below is in the **kernel tier**: no
+`tape_statements_check.py`, `tape_unzip.py`, `tape_call_front.py`, `tape_callunion.py`, `tape_lit.py`, `tape_beam.py`; rows in `statements_tape.json`. Every result below is in the **kernel tier**: no
 `native_decide` anywhere, every base run is `decide +kernel` on `Gump.Bits`' stepper, and every theorem in
 `AxiomsTape.lean` rests on at most `propext`, `Classical.choice`, `Quot.sound`. Nothing here is refereed.
 
@@ -21,6 +21,7 @@ Lean arm, 2026-11-24, 11:16–13:15 UTC, 13:16–14:25 UTC and 14:32–16:30 UTC
 | 5 | the unzip law (push 8 §5, `prove_unzip8.py`; REVIEW-signals-8 §3) | `Unzip.unzip_law`, `unzip_law_sharp` | **proved**, both the push's bound and the review's sharp one, by a new argument |
 | 6 | the call law (REVIEW-signals-9 §3, `proof9.py`) | `Call.call_law : CallLaw` (`call_law_a`, `call_law_b`, `line_rest`) | **proved whole** for every k (second session) |
 | – | a stretch d^k f stands (period 2) for every k (push 8 §6, infinite-wire form) | `Unzip.stretch_stands` | proved (a base fact of 5) |
+| 7 | the beam: period exactly 4 for every N ≥ 1 (§21, `prove_beam.py`) | `Beam.beam_period` | **proved** (third session) |
 
 ### Headline statements, verbatim
 
@@ -40,6 +41,8 @@ theorem call_law_b (k : Nat) (hk : 1 ≤ k) (n : Nat) (hn : k + 17 ≤ n) :
 theorem call_law : CallLaw
 theorem clockOf_period (N : Nat) (hN : 1 ≤ N) :
     run (clockOf N) (4 * N + 2) = clockOf N ∧ (∀ k, 0 < k → k < 4 * N + 2 → run (clockOf N) k ≠ clockOf N) ∧ …
+theorem beam_period (N : Nat) (hN : 1 ≤ N) :
+    run (beam N) 4 = beam N ∧ ∀ k, 0 < k → k < 4 → run (beam N) k ≠ beam N
 theorem lit_word (N : Nat) (h6 : 6 ≤ N) : ∀ m, m ≤ mmax N → run (lcfg (litList N)) (2 * m) = ucfg (FL N m)
 theorem lit_enters (N : Nat) (h6 : 6 ≤ N) :
     run (lcfg (litList N)) (2 * mmax N) = run (clockOf N) (2 * (N - 6) + 3)
@@ -195,6 +198,17 @@ one unit per double step, so the train spreads at both ends.
   `clockOf`'s definition.
 - What it does not say: the entry generation is not shown minimal ("at no earlier generation"), and the odd-N entry
   is shown at N − 1, not at the measured N − 2.
+
+## The beam (third session)
+
+`Gump/LineBeam.lean`: the mirror-image gun, N units of rake train and the SAT absorber (`objects/beam-5f.json`),
+given unit by unit (`beamU`; `tape_beam.py` checks it reassembles to `prove_beam.py`'s Object(N) for N = 1 .. 30).
+`beam_period`: for every N ≥ 1 it returns after 4 generations and after no fewer. The proof is the source's
+induction N → N + 2: `S N` is period 4, not period 2, and the seam (on the units 4, 5 the orbit is its own move by
+two units at every generation); the orbit on the units ≤ 4 glued (`glue_run`) to its move by two units on the units
+≥ 5 starts at the beam of N + 2 units (`glue_beam`, unit-by-unit list equality), so it is that beam's orbit
+(`S_step`). Bases S 8, S 9 and N = 1 .. 9 by one kernel check (`baseOK_ok`, the box moved by (8, 8, 24)).
+Unlike the line there is no delay: the stream crossing the seam is the train itself, already periodic.
 
 ## Not checked, and caveats
 

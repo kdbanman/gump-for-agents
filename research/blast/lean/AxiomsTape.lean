@@ -10,6 +10,7 @@ import Gump.UnzipProof
 import Gump.CallProof
 import Gump.CallUnionLocal
 import Gump.ClockLit
+import Gump.LineBeam
 open Gump Gump.Tape
 #print axioms glue_run
 #print axioms run_shiftC
@@ -87,3 +88,9 @@ open Gump Gump.Tape
 #print axioms Gump.Clock.lit_enters
 #print axioms Gump.Clock.exact_period_run
 #print axioms Gump.Clock.lit_clock
+#print axioms Gump.Beam.glue_beam
+#print axioms Gump.Beam.S_step
+#print axioms Gump.Beam.baseOK_ok
+#print axioms Gump.Beam.seam_facts
+#print axioms Gump.Beam.S_all
+#print axioms Gump.Beam.beam_period
