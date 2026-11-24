@@ -10,9 +10,9 @@ here; **[conjectured]**. Every script is in this directory; bulk output in `rese
 
 I could not break it. Every theorem says what its row says, and the five kernels are gump's rule on the face over
 private coins entry for entry. Three points need care. The "ln τ" of the statements is −ln(1 − λ): that is the
-source's own definition of τ, but the lemma cited for E_μT = 1/(1 − λ) does not exist. I have now proved it,
-in `QsdSurvival.lean`. The bust share is the share of
-the death flux only through a prose step; I checked that step on paper and to 10 digits numerically. The "surrogate"
+source's own definition of τ, but the lemma cited for E_μT = 1/(1 − λ) does not exist. I have now proved it, in
+`QsdSurvival.lean`. The bust share is the share of the death flux only through a prose step; I checked that step
+on paper and to 10 digits numerically. The "surrogate"
 is not gump over i.i.d. coins: with gump's own shared cells beneath, the one-step law differs by up to 0.33 in
 total variation. The source says this; it is not a defect of the Lean.
 
