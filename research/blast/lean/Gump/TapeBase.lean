@@ -299,6 +299,28 @@ theorem eqOn_spec {a b : Int} (ha : -8 ≤ a) (hb : b ≤ 23) (hab : a ≤ b + 1
     simp only [Nat.testBit_and, testBit_unitMask ha hb hab p hbx, h1, h2] at e
     simpa using e
 
+theorem bcfg_out {S : Nat} {p : Pt} (h : unitOf p < -8 ∨ 23 < unitOf p) : bcfg S p = false := by
+  simp only [bcfg]
+  have : inBox p = false := by
+    simp only [inBox, decide_eq_false_iff_not]
+    simp only [unitOf] at h
+    omega
+  rw [this, Bool.false_and]
+
+/-- Agreement on all units ≤ b (the box ends at unit −8). -/
+theorem eqOn_spec_le {b : Int} (hb : b ≤ 23) (hb' : -9 ≤ b) {S T : Nat}
+    (h : eqOn (unitMask (-8) b) S T = true) (p : Pt) (h2 : unitOf p ≤ b) : bcfg S p = bcfg T p := by
+  by_cases h1 : -8 ≤ unitOf p
+  · exact eqOn_spec (by decide) hb (by omega) h p h1 h2
+  · rw [bcfg_out (Or.inl (by omega)), bcfg_out (Or.inl (by omega))]
+
+/-- Agreement on all units ≥ a (the box ends at unit 23). -/
+theorem eqOn_spec_ge {a : Int} (ha : -8 ≤ a) (ha' : a ≤ 24) {S T : Nat}
+    (h : eqOn (unitMask a 23) S T = true) (p : Pt) (h1 : a ≤ unitOf p) : bcfg S p = bcfg T p := by
+  by_cases h2 : unitOf p ≤ 23
+  · exact eqOn_spec ha (by decide) (by omega) h p h1 h2
+  · rw [bcfg_out (Or.inr (by omega)), bcfg_out (Or.inr (by omega))]
+
 /-- **Disagreement on a range of units**, read off two numbers. -/
 theorem neqOn_spec {a b : Int} (ha : -8 ≤ a) (hb : b ≤ 23) (hab : a ≤ b + 1) {S T : Nat}
     (h : eqOn (unitMask a b) S T = false) : ∃ p, a ≤ unitOf p ∧ unitOf p ≤ b ∧ bcfg S p ≠ bcfg T p := by
