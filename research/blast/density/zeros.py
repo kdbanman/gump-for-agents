@@ -66,5 +66,7 @@ for key in sorted(groups):
     ge = G[key[0]][1]   # the gump reference's error is common to every row: it shifts the line, p* by ge / slope
     eps_ = math.sqrt(dpa ** 2 * va + dpb ** 2 * vb + 2 * dpa * dpb * cab + (ge / b) ** 2)
     chi = sum((D - a - b * p) ** 2 / e ** 2 for p, D, e, *_ in sel)
+    if len(sel) > 2 and chi / (len(sel) - 2) > 1:
+        eps_ *= math.sqrt(chi / (len(sel) - 2))   # scatter beyond the counting errors: the error scaled up
     print(f'   line through {len(sel)} rows (p {min(x[0] for x in sel):.3f} .. {max(x[0] for x in sel):.3f}): '
           f'p* = {ps:.4f} +- {eps_:.4f}, slope {b:.2f} +- {math.sqrt(vb):.2f} per unit p, chi2 {chi:.2f} on {len(sel) - 2}')
