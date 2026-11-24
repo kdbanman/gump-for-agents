@@ -9,11 +9,9 @@ Lemma0, Coins, Routes, Seam, SSM, Price, Inst, TiltLimit, Bits, Kagome, Torus, R
 Every theorem below compiles with no `sorry`, no `native_decide`, and `#print axioms` gives
 `[propext, Classical.choice, Quot.sound]` for each (`AxiomsChain.lean`; `Kagome.window_iff` needs only
 `[propext, Quot.sound]`). `sh research/blast/lean/check.sh
---mathlib` passed at 11:52 UTC with the first nine modules. At 12:40–13:05 it failed for reasons outside these files:
-another agent's untracked, in-progress `Gump/UnzipProof.lean` does not compile (check.sh builds every `Gump/*.lean`),
-and two of the dice agent's committed modules (`DicePatch13`, `DiceTorus113Exit`) were killed for memory (exit 137)
-when built in parallel with the other agents' jobs. The same steps restricted to tracked files built every core
-module and every `Chain*` module, and `AxiomsChain.lean` printed 82 lines, all on the standard axioms. Nothing here imports `GumpMath/Dice*.lean`; every theorem is proved from stated hypotheses on a
+--mathlib` passes (last run 13:10 UTC: "lean: all checks passed", mathlib package 226 theorems). Two earlier runs failed
+for reasons outside these files (another agent's then-unfinished `Gump/UnzipProof.lean`; two heavy dice modules killed
+for memory when built in parallel with other agents' jobs; each builds alone). Nothing here imports `GumpMath/Dice*.lean`; every theorem is proved from stated hypotheses on a
 finite killed Markov chain, and the section *Instantiation plan* says how the concrete surrogate meets them.
 
 ## The setting (`ChainTilt.lean`)
