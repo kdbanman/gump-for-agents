@@ -316,6 +316,30 @@ def clust_check(R, DW, p, c, trials=40, read_c=None):
     return None
 
 
+def stream_check():
+    """the second stream: seeds s and s + 1 must not share it shifted (the old start did; NZD_OLDSTREAM=1 restores it,
+    which must then show the shift: a negative control)."""
+    lib = ctypes.CDLL(so)
+    lib.set_coin.argtypes = [ctypes.c_int, ctypes.c_double]
+    n, A, co = geometry(lib, 11, 1, 3)
+    for d in range(1, 30): lib.set_coin(d, 0.385)
+    nN = lib.v_nN(); Nc = np.zeros(nN, np.int32); lib.v_ncells(Nc.ctypes.data_as(VP)); buf = np.zeros(n, np.uint8)
+    def field(seed, old):
+        lib.v_oldstream(old); lib.v_seed(seed); out = []
+        for t in range(3):
+            lib.v_clear(); lib.v_noise_full()
+            for lane in range(0, 512, 8):
+                lib.v_get(lane, buf.ctypes.data_as(VP)); out.append(buf[Nc].copy())
+        return np.array(out)
+    res = {}
+    for old in (0, 1):
+        a = field(5000, old); b = field(5001, old)
+        res[old] = (a == b).mean()
+    lib.v_oldstream(0)
+    q = 0.385 ** 2 + 0.615 ** 2
+    return res, q
+
+
 def brute(exe_, R, seed, gens, M, DW, extra=None, env=None):
     cmd = [exe_, str(R), 'brute', str(seed), str(gens), str(M), str(DW), '3'] + ([extra] if extra else [])
     e = dict(os.environ); e.update(env or {})
@@ -406,6 +430,9 @@ report('2. full replacement at R = 9', full_check(9, 1, {'*': 0.19}))
 report_neg('2. full replacement of bias 0.21 checked as 0.19', full_check(11, 1, {'*': 0.21}, gens=0, read_as={'*': 0.19}))
 report('2. clustered full replacement (p 0.3, c 0.3)', clust_check(11, 1, 0.3, 0.3))
 report_neg('2. clustered full replacement c 0.3 checked as independent', clust_check(11, 1, 0.3, 0.3, read_c=0.0))
+res_, q_ = stream_check()
+report(f'2. second stream: coin fields of seeds 5000 and 5001 agree {res_[0]:.4f} (independent {q_:.4f})', None if abs(res_[0] - q_) < 0.01 else 'seeds share the stream')
+report_neg(f'2. old second-stream start (NZD_OLDSTREAM): agreement {res_[1]:.4f}', None if abs(res_[1] - q_) < 0.01 else 'adjacent seeds are correlated')
 cases = [(11, 1201, 20000, 256, 1), (11, 1202, 20000, 128, 2), (11, 1206, 20000, 64, 6), (9, 901, 30000, 16, 6), (11, 5, 20000, 0, 1)]
 for R, seed, gens, M, DW in cases:
     a = first_line(brute(nzexe, R, seed, gens, M, DW)); b = first_line(brute(exe, R, seed, gens, M, DW))

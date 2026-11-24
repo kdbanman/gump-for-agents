@@ -52,6 +52,13 @@ static u64 *a, *b;
 static u64 sm, sm2;
 static inline u64 rnd(void) { u64 z = (sm += 0x9e3779b97f4a7c15ULL); z = (z ^ (z >> 30)) * 0xbf58476d1ce4e5b9ULL;
   z = (z ^ (z >> 27)) * 0x94d049bb133111ebULL; return z ^ (z >> 31); }
+/* The second stream's start. Up to commit 315062c it was seed * G + 99991 with G the stream's own increment, so that
+   seed s + 1's stream was seed s's shifted by one word (the referee's defect 8, ref-density/seedstream.py). Now it is
+   a hash of the seed (two rounds of the splitmix finaliser), so different seeds start at unrelated points of the
+   2^64-word cycle; NZD_OLDSTREAM=1 restores the old start (to reproduce the earlier rows). */
+static int oldstream = 0;
+static inline u64 fin64(u64 z) { z = (z ^ (z >> 30)) * 0xbf58476d1ce4e5b9ULL; z = (z ^ (z >> 27)) * 0x94d049bb133111ebULL; return z ^ (z >> 31); }
+static inline u64 stream2_start(u64 seed) { return oldstream ? seed * 0x9E3779B97F4A7C15ULL + 99991 : fin64(fin64(seed + 0x632BE59BD9B4E019ULL) ^ 0xD1B54A32D192ED03ULL); }
 static inline u64 rnd2(void) { u64 z = (sm2 += 0x9e3779b97f4a7c15ULL); z = (z ^ (z >> 30)) * 0xbf58476d1ce4e5b9ULL;
   z = (z ^ (z >> 27)) * 0x94d049bb133111ebULL; return z ^ (z >> 31); }
 
@@ -432,7 +439,8 @@ void v_soup(int lane) { lane_soup(lane); }
 void v_noise(int M) { noise_random(M); }
 void v_noise_full(void) { noise_full(); }
 void v_set_clust(double c) { clthr = (u64)floor(c * 65536.0 + 0.5); }
-void v_seed(unsigned long long s) { sm = s * 0x2545F4914F6CDD1DULL + 7; sm2 = s * 0x9E3779B97F4A7C15ULL + 99991; }
+void v_seed(unsigned long long s) { sm = s * 0x2545F4914F6CDD1DULL + 7; sm2 = stream2_start(s); }
+void v_oldstream(int o) { oldstream = o; }
 int v_pop(int lane) { return pop[lane]; }
 int v_od(int lane) { return (od[lane >> 6] >> (lane & 63)) & 1; }
 int v_ndead(int lane) { return ndead(lane); }
@@ -472,7 +480,8 @@ int main(int argc, char **argv) {
   if (frozen) { frz = aligned_alloc(64, (size_t)nN * W * 8 + 64); memset(frz, 0, (size_t)nN * W * 8); }
   int H = getenv("NZD_H") ? atoi(getenv("NZD_H")) : (int)floor(A / 4.0 + 0.5);
   if (layers) layer_init();
-  sm = seed0 * 0x2545F4914F6CDD1DULL + 7; sm2 = seed0 * 0x9E3779B97F4A7C15ULL + 99991;
+  if (getenv("NZD_OLDSTREAM")) oldstream = atoi(getenv("NZD_OLDSTREAM"));
+  sm = seed0 * 0x2545F4914F6CDD1DULL + 7; sm2 = stream2_start(seed0);
   static long age[NL]; double E = 0, dw = 0, sp = 0, spp = 0; long Dany = 0, n0 = 0, n0alone = 0, nsettled = 0, maxage = 0;
   /* excursions: arm[l] bit k = the face has been >= H since its last counted descent to <= k; pend[l] bit k = a
      counted descent to <= k is open (not yet recovered, dead or censored) */
