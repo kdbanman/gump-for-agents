@@ -1,0 +1,22 @@
+torusNb vs oracle on 208 tori (H, D = 1..5, K = 0..2D+1, and 8 larger or skewed): all match and every negative control fails: True
+
+price classes (wrapped_full_all, wrapped_area); claimed: i = j mod 3, all equal if rotation-invariant:
+  (1,0),(0,2) A= 6 rot-inv=False c_0,c_1,c_2 = 0.35421734 0.35421734 0.51239750 true classes: 2 classes    mod-3 violated: False  rotation clause violated: False  HD(c0+c1+c2) - ln tau = 0.0e+00
+  (2,0),(0,1) A= 6 rot-inv=False c_0,c_1,c_2 = 0.35421734 0.51239750 0.35421734 true classes: 2 classes    mod-3 violated: False  rotation clause violated: False  HD(c0+c1+c2) - ln tau = -8.9e-16
+  (1,1),(0,2) A= 6 rot-inv=False c_0,c_1,c_2 = 0.51239750 0.35421734 0.35421734 true classes: 2 classes    mod-3 violated: False  rotation clause violated: False  HD(c0+c1+c2) - ln tau = -4.4e-16
+  (2,1),(0,1) A= 6 rot-inv=False c_0,c_1,c_2 = 0.35421734 0.51239750 0.35421734 true classes: 2 classes    mod-3 violated: False  rotation clause violated: False  HD(c0+c1+c2) - ln tau = -8.9e-16
+  (1,0),(0,3) A= 9 rot-inv=False c_0,c_1,c_2 = 0.37975750 0.37975750 0.37165990 true classes: 2 classes    mod-3 violated: False  rotation clause violated: False  HD(c0+c1+c2) - ln tau = -8.9e-16
+  (1,1),(0,3) A= 9 rot-inv=True  c_0,c_1,c_2 = 0.29940296 0.29940296 0.29940296 true classes: one          mod-3 violated: False  rotation clause violated: False  HD(c0+c1+c2) - ln tau = -3.6e-15
+  (1,2),(0,3) A= 9 rot-inv=False c_0,c_1,c_2 = 0.37165990 0.37975750 0.37975750 true classes: 2 classes    mod-3 violated: False  rotation clause violated: False  HD(c0+c1+c2) - ln tau = -1.3e-15
+  (1,4),(0,3) A= 9 rot-inv=True  c_0,c_1,c_2 = 0.29940296 0.29940296 0.29940296 true classes: one          mod-3 violated: False  rotation clause violated: False  HD(c0+c1+c2) - ln tau = -3.6e-15
+  (3,0),(0,1) A= 9 rot-inv=False c_0,c_1,c_2 = 0.37975750 0.37165990 0.37975750 true classes: 2 classes    mod-3 violated: False  rotation clause violated: False  HD(c0+c1+c2) - ln tau = -1.3e-15
+  (1,0),(0,4) A=12 rot-inv=False c_0,c_1,c_2 = 0.35026711 0.35026711 0.33271888 true classes: 2 classes    mod-3 violated: False  rotation clause violated: False  HD(c0+c1+c2) - ln tau = 3.6e-15
+  (1,1),(0,4) A=12 rot-inv=False c_0,c_1,c_2 = 0.33193049 0.29801399 0.29801399 true classes: 2 classes    mod-3 violated: False  rotation clause violated: False  HD(c0+c1+c2) - ln tau = -3.6e-15
+  (1,2),(0,4) A=12 rot-inv=False c_0,c_1,c_2 = 0.29801399 0.29801399 0.33193049 true classes: 2 classes    mod-3 violated: False  rotation clause violated: False  HD(c0+c1+c2) - ln tau = -4.9e-15
+  (1,3),(0,4) A=12 rot-inv=False c_0,c_1,c_2 = 0.33271888 0.35026711 0.35026711 true classes: 2 classes    mod-3 violated: False  rotation clause violated: False  HD(c0+c1+c2) - ln tau = -3.6e-15
+  (1,5),(0,4) A=12 rot-inv=False c_0,c_1,c_2 = 0.33193049 0.29801399 0.29801399 true classes: 2 classes    mod-3 violated: False  rotation clause violated: False  HD(c0+c1+c2) - ln tau = -3.6e-15
+  (2,0),(0,2) A=12 rot-inv=True  c_0,c_1,c_2 = 0.33181972 0.33181972 0.33181972 true classes: one          mod-3 violated: False  rotation clause violated: False  HD(c0+c1+c2) - ln tau = -1.8e-15
+  (2,1),(0,2) A=12 rot-inv=False c_0,c_1,c_2 = 0.29801399 0.33193049 0.29801399 true classes: 2 classes    mod-3 violated: False  rotation clause violated: False  HD(c0+c1+c2) - ln tau = -4.9e-15
+  (4,0),(0,1) A=12 rot-inv=False c_0,c_1,c_2 = 0.35026711 0.33271888 0.35026711 true classes: 2 classes    mod-3 violated: False  rotation clause violated: False  HD(c0+c1+c2) - ln tau = 1.8e-15
+  (4,1),(0,1) A=12 rot-inv=False c_0,c_1,c_2 = 0.35026711 0.33271888 0.35026711 true classes: 2 classes    mod-3 violated: False  rotation clause violated: False  HD(c0+c1+c2) - ln tau = 1.8e-15
+  (4,2),(0,1) A=12 rot-inv=False c_0,c_1,c_2 = 0.35026711 0.33271888 0.35026711 true classes: 2 classes    mod-3 violated: False  rotation clause violated: False  HD(c0+c1+c2) - ln tau = 1.8e-15

@@ -353,3 +353,54 @@ trusted by the kernel).
 
 Files added: `link_numbers.py`, `link_lambda_ld.py`, `cellsok_check.py` (with `.out`), `RefChainLink.lean`
 (`RefChainLink.out`), `LinkAxiomSweep.lean` (`LinkAxiomSweep.out`, `link_names.txt`).
+
+---
+
+## Third review (2026-11-24, the chain agent's commits after 9fde4a9 up to 55cf4a5)
+
+Refereed: `LinkSurv.lean`, `LinkWrapped.lean`, `LinkWrappedFull.lean`, `LinkWrappedCheck.lean`, `LinkWrappedAll.lean`,
+`LinkWrappedArea.lean`, the generator scripts `research/blast/lean/link_*.py`, and the new rows of
+`statements_link.json` and lines of `AxiomsLink.lean`. Built oleans only (all six current), one Lean process at a time,
+≤ 0.36 GB anonymous memory. **Verdict: clean.** Each statement says what its row says; every check I could make
+against the oracle or my own numbers agrees; the generators reproduce the committed modules byte for byte. No defect.
+
+**(1) `LinkSurv.lean`.** `survFrom_cast` is an equality on the nose, for every t and every living x, on every face whose
+empty state is absorbing (`Absorbing`, proved for every hull face and every face with all its coins): the killed
+chain's P_x(T > t) is the dice agent's `Face.survival`, cast to ℝ. In `Hull3.hull3_complete` the constant 0.72 is
+attached to the full face only (`full'`, state 511) and 1384 to every living x, with λ₋ for the lower and λ₊ for the
+upper bound, as the row says. [measured] `surv_check.py` (my kernel, t = 0…3000): from the full face
+min_t P(T > t)/λ₋^t = 1.000 (at t = 0) ≥ 0.72; over all starts the minimum is 0.0012 (single cell 0, t = 81), so 0.72
+could not have been stated for every start; max_{t,x} P_x(T > t)/λ₊^t = 1.63 ≤ 1384. Both constants are right, and
+loose.
+
+**(2) `LinkWrappedAll.lean`.** `torusNb_all` (every H, D > 0, every K): cell i = 3(aD + b) + o of `gridCells H D`, and
+`(torus H K D).nb i` is a permutation of `kIdx H K D i` (the kagome list `offs`, reduced by the dice agent's `Tr`),
+which `phi` carries to `Kagome.nbrs`. [measured] `wrapped_check.py`: with in-layer neighbours taken from
+`oracle.offsets` and my own reduction modulo (H·E1 + K·E2, D·E2), the dice-indexed multisets equal kIdx on all **208**
+tori with H, D = 1…5 and K = 0…2D+1 (thin H = 1 or D = 1 faces, K ≥ D, self-neighbours and multiplicity 2 included)
+and on (1,7),(0,19), (1,4),(0,21), (1,12),(0,28), (1,17),(0,32), (6,0),(0,6), (4,9),(0,3), (2,5),(0,1), (1,30),(0,4);
+a list with one entry given the wrong orientation fails on every torus. `wrapped_theorems_all`, `wrapped_full_all`:
+no hypothesis but H, D > 0 (and 0 < ρ1, ρ2 < 1); the clauses are those of the 9-cell `*_full` theorems plus
+`survFrom = Face.survival` and ln τ < 1.9228·A. [measured] prices on 19 tori of 6–12 cells: "c_i = c_j whenever
+i ≡ j mod 3" holds everywhere and i mod 3 is the orientation; "all prices equal when (K, −H−K) and (D, −D) are
+periods" holds on the four rotation-invariant ones ((1,1),(0,3), (1,4),(0,3), (2,0),(0,2) and the same lattice
+twice). No finer equality is claimed; the truth is coarser than claimed on every non-invariant torus I ran: two
+classes, two orientations sharing a price (e.g. (1,0),(0,4): 0.350267 ×2, 0.332719), which the theorem does not
+assert — it claims less, honestly. `wrapped_area`: ln τ = HD(c₀ + c₁ + c₂) to ≤ 5·10⁻¹⁵ on all 19, for the cells
+0, 1, 2 = the three orientations at the origin (`c3`); its second form is the rotation clause with A = 3HD.
+
+**(3) Generators.** `LINK_OUT=<scratch> python3 research/blast/lean/link_gen_faces.py`, `link_gen_sym.py`,
+`link_gen_full.py`, `link_torus202.py` (5 s in all) write 12 modules; `cmp` against the committed
+`GumpMath/Link{Hull3,Torus103,Torus113,Strip13,Patch13}{,Sym}.lean`, `LinkFaces.lean`, `LinkTorus202.lean`:
+**all identical**.
+
+**(4) Hygiene.** [proved: Lean] `Link3AxiomSweep.lean` (`Link3AxiomSweep.out`): 1,233 constants of the Chain and Link
+modules, the six new ones included (155 constants), 904 theorems: only propext, Classical.choice, Quot.sound; no
+declared axiom, opaque or `sorryAx`; the same three compiler artefacts as before. No `sorry`, `native_decide`,
+`implemented_by`, `opaque` in the new files. All names in `statements_link.json` (22), `AxiomsLink.lean` (52),
+`statements_chain.json` (72) and `AxiomsChain.lean` (98) resolve to exactly one constant (`link3_names.txt`).
+
+**Not checked (third review):** the dice agent's `hull3_lifetime` constants beyond t = 3000 (they are its theorem);
+`lntau_le_torus`; `DiceMean.lean` (the dice agent's); tori above 12 cells for prices (dense reach).
+
+Files added: `surv_check.py`, `wrapped_check.py` (with `.out`), `Link3AxiomSweep.lean` (`.out`, `link3_names.txt`).
