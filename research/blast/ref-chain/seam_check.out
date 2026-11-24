@@ -1,0 +1,27 @@
+seam_identity on random F >= 0 (3x3, entries U(0,1) with 30% zeros):
+  m = 1, L = 1*m = 1: worst relative error 1.6e-16, failures 0, zero denominators 0
+  m = 1, L = 2*m = 2: worst relative error 1.1e-16, failures 0, zero denominators 1
+  m = 2, L = 1*m = 2: worst relative error 2.0e-16, failures 0, zero denominators 0
+  m = 2, L = 2*m = 4: worst relative error 1.6e-16, failures 0, zero denominators 0
+  m = 3, L = 1*m = 3: worst relative error 3.4e-16, failures 0, zero denominators 0
+  m = 3, L = 2*m = 6: worst relative error 1.0e-15, failures 0, zero denominators 0
+  m = 4, L = 1*m = 4: worst relative error 3.6e-16, failures 0, zero denominators 0
+  m = 4, L = 2*m = 8: worst relative error 9.0e-15, failures 0, zero denominators 0
+L not a multiple of m, random dense F > 0 (identity holds whenever (F^L)[a,a] > 0):
+  m = 2, L = 1: worst relative error 2.5e-16, failures 0, zero denominators 0
+  m = 3, L = 1: worst relative error 4.2e-16, failures 0, zero denominators 0
+  m = 3, L = 3: worst relative error 3.6e-16, failures 0, zero denominators 0
+  m = 4, L = 2: worst relative error 2.8e-16, failures 0, zero denominators 0
+L not a multiple of m, F = the 2-cycle [[0,1],[1,0]] (period 2), m = 2, L = 1 and L = 3:
+  m = 2, L = 1: failures 2 of 4 torus configurations, zero denominators 4  (P_T = 1/2 on (a, other), right-hand side 0)
+  m = 2, L = 3: failures 2 of 4 torus configurations, zero denominators 4  (P_T = 1/2 on (a, other), right-hand side 0)
+  m = 2, L = 2 (a multiple): failures 0, zero denominators 0
+  3-cycle, m = 3, L = 1: failures 3, zero denominators 27
+  3-cycle, m = 3, L = 2: failures 3, zero denominators 27
+  3-cycle, m = 3, L = 3: failures 0, zero denominators 0
+  3-cycle, m = 3, L = 6: failures 0, zero denominators 0
+seam_sharp, F = v w^T with w.v = 1 (Tr F^n = 1 for all n):
+  m = 1: Tr F^m = 1.000000000000000, Tr F^2m = 1.000000000000000, worst |lhs - rhs| = 5.6e-17
+  m = 2: Tr F^m = 1.000000000000000, Tr F^2m = 1.000000000000000, worst |lhs - rhs| = 0.0e+00
+  m = 3: Tr F^m = 1.000000000000000, Tr F^2m = 1.000000000000000, worst |lhs - rhs| = 6.9e-18
+  control, a generic F (traces 1.112, 1.012, not 1): worst relative |lhs - rhs| = 0.22 (the hypothesis is needed)

@@ -1,0 +1,3 @@
+two_routes_step over 200 random (alpha, beta, c_b, c_s, D): max |lhs - rhs| = 6.22e-15
+routes_first: max |d ln tau/dA - sum p c| = 1.13e-11;  routes_second: max |d(sum p c)/dA - (-Var + sum p c')| = 4.14e-12
+example c_b = 0.88, c_s = 0.585, p = 0.086: exact step 0.60729; corrected formula 0.60729; the source's c_s + p (c_b - c_s) = 0.61045
