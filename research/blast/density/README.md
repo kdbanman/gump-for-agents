@@ -634,7 +634,19 @@ Full replacement with DO = 1 at R = 13 (every cell not on a face a fresh coin of
 of 5 × 10⁶ generations on the hashed coin stream (`chunks84.sh`, binary from commit 7c64966, seeds 20001, 20011, … and
 40001, 40011, …); `python3 research/blast/density/pool84.py`:
 
-R84_RESULT
+| chunks | deaths | ln τ | Δ against gump's 18.141 ± 0.005 | death from one cell |
+|---|---:|---:|---:|---:|
+| 14, hashed stream (seeds 20001–20081, 40001–40041; 3.58 × 10¹⁰ hull-generations) | **559** | 17.976 ± 0.042 | **−0.165 ± 0.043** | 0.964 (559 of 580) |
+| 3, old stream (8885, 8890, 8891; not pooled with the above) | 119 | 17.983 ± 0.092 | −0.158 ± 0.092 | 0.975 |
+
+**At 84 cells the one density no longer gives gump's life: Δ = −0.165 ± 0.043 (3.9 σ) [measured]**; the old-stream chunks
+(independent of the hashed ones, though their own three share one coin stream at offsets of a few words) agree. With the life's steepness in p growing
+in proportion to the face (49 and 74 per unit p at 45 and 63 cells, so about 97 at 84: conjectured), this is p\*(84)
+≈ 0.3867 ± 0.0005, against 0.3848 and 0.3854: **p\* creeps up with the size**, by 0.0006 from 45 to 63 cells and
+about 0.0013 from 63 to 84. A face over independent coins of one density has gump's ln τ at 45 and 63 cells but
+falls behind at 84; the face law's slope over coins is a little lower than gump's beyond 63 cells (by about 0.165 /
+21 = 0.008 a cell between 63 and 84, if the 63-cell match is exact). And the face over coins still dies from one cell
+96% of the time.
 
 Lives at 84 cells outlast a chunk (the longest life is the chunk's length), so each chunk is mostly 512 lanes
 running from their soups; the rate is taken from exposure after the 200 generations of ageing-in, as everywhere.
@@ -657,13 +669,13 @@ referee's defect 9, negligible here).
 | 2d. Δ falls monotonically with d (both columns, both sizes) | 70% | **true down to d = 4**; beyond, the rows scatter about zero (63 cells A: +0.016, +0.027, +0.010 at d = 4, 5, 6), so strictly it is false at d = 5, within errors |
 | 2e. first row with \|Δ\| < 0.05: P₁ = 0.77 ± 0.03, dips and deadliness within ± 0.10 | 35% | **true** in both columns (d = 4) |
 | 2f. the way of dying converges more slowly in d than the rate | 65% | **false**: both converge at d = 4; at d = 3 P₁ is already gump's while the rate is not |
-| 3. 84 cells pooled: \|Δ\| < 0.10 | 40% | R84_SCORE1 |
-| 3. Δ < −0.10 | 45% | R84_SCORE2 |
+| 3. 84 cells pooled: \|Δ\| < 0.10 | 40% | **false**: −0.165 ± 0.043 (559 deaths) |
+| 3. Δ < −0.10 | 45% | **true** |
 
 The PI's block 6 (`research/blast/noisy/PREDICTIONS.md`, read after the above was committed), as these rows bear on it:
 (1) 45-cell layer 1 conditioned on a low face within 0.005 of 0.385: the whole layer's minimum is 0.319, the cells the
 coins replace 0.357, the 2-deep cells 0.393, the core 0.390 (none within 0.005); (2) 84 cells with ≥ 300 deaths below
-−0.10: R84_BLOCK6; (3) 63 cells, Δ(1) > +2: column B +3.53, column A +1.19; Δ(2) in [+0.3, +1.5]: A +0.69, B +1.44
+−0.10: yes (−0.165 ± 0.043, 559 deaths); (3) 63 cells, Δ(1) > +2: column B +3.53, column A +1.19; Δ(2) in [+0.3, +1.5]: A +0.69, B +1.44
 (both in); |Δ(3)| < 0.15: +0.295 (no); |Δ(4)| < 0.05: +0.016 (A), +0.016 (B) (yes); (4) at the smallest d with |Δ| < 0.1
 (d = 4) P₁ in [0.74, 0.80] and dips within 20% of gump's: yes (0.763–0.776; |Δ ln dips| ≤ 0.002).
 
@@ -687,6 +699,8 @@ python3 research/blast/density/validate.py 1200; python3 research/blast/density/
 S=research/scratch/blast/density; gcc -O3 -march=native -o $S/nzd_lay3 research/blast/density/nzd.c -lm
 NZD_LAYERS=1 $S/nzd_lay3 9 brute 9901 2000000 0 1 3 > lay3_gump_R9.txt; python3 research/blast/density/cells.py lay3_gump_R9.txt
 DO=4 NZD_FULL=1 NZD_BIN=nzd_prod4 sh research/blast/density/row.sh skinB_d4 11 9214 4000000 0 4 4:0.4171,5:0.4163,6:0.4164,7:0.4172
+#   the skin rows ran on nzd_prod4 (44ce0cc, old coin stream); the current nzd.c with NZD_OLDSTREAM=1 prints the same
+#   lines (checked: skinB_d4's settings, 20,000 generations, identical BRUTE line; without it the line differs)
 python3 research/blast/density/skin.py          # the skin table (hull)
 HKD=1_4_15 SLABBIN=slab2 sh research/blast/density/slabrows.sh skin45_L4:7404:1000000:4:0.3779,0.3728,0.4031,0.4767
 python3 research/blast/density/slabrec.py       # wrapped faces: p*, the skin, the way of dying

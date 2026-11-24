@@ -304,6 +304,14 @@ no hypothesis) and `rot_aut`, `refl_aut`, `hull_prices_sym` for every R (LinkHul
 passes (240 Mathlib theorems). `ref-chain` resumed for a fifth review (40 minutes). **Mine to update:** the
 "What is not proved" bullet on hull uniqueness beyond R = 13 in `lean/README.md`, the same clause in the REPORT entry
 and the short version ("every hull face up to 84 cells"), and the comment draft.
+`ref-chain` fifth review clean (53245f2); README and REPORT corrected for hull uniqueness (every R). 16:56: push
+loop restarted (by3xjoqmq, to about 18:45). Usage 16:42: Fable 0.93, all-model 0.73: NO new launches.
+`tape` back (c6c8e82): `Gump.run_or_far`, `superpose_units`, `Signals.pair_run`, `meet_U_K0`, `meet_UH`, `meet_EH`,
+`meet_EK`, `rigid_front`; a finding: the catalogue's §31 row "U meets H: the same" is wrong at the upper edge (E–H
+carries a defect X.X there, U–H does not). `ref-tape` resumed for a fourth review (40 minutes).
+**Owed now:** density's third task (placeholder in REPORT, block 6), ref-tape's fourth review, then a short REPORT
+addendum for the meetings, the comment on PR 39 (update the draft: hull uniqueness for every R, meetings, the §31
+correction, the fixed header), the owner, State.
 
 **13:15 UTC 2026-11-24.** `chain` handed back (notes: `lean/notes/chain.md`, last commit 23163ec; 15 `Chain*.lean`
 modules, 82 headline theorems, `check.sh --mathlib` passed at 13:10). `ref-lean` handed back earlier (repairs in
