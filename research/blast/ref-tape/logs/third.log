@@ -1,0 +1,129 @@
+PASS litList 13 = capL + 13 units + capR moved 13 + (1,0,4) moved 6 (clock-C.json)
+PASS litList 14 = capL + 14 units + capR moved 14 + (1,0,4) moved 7 (clock-C.json)
+PASS litList 15 = capL + 15 units + capR moved 15 + (1,0,4) moved 7 (clock-C.json)
+PASS litList 16 = capL + 16 units + capR moved 16 + (1,0,4) moved 8 (clock-C.json)
+PASS litList 17 = capL + 17 units + capR moved 17 + (1,0,4) moved 8 (clock-C.json)
+PASS litList 18 = capL + 18 units + capR moved 18 + (1,0,4) moved 9 (clock-C.json)
+PASS litList 19 = capL + 19 units + capR moved 19 + (1,0,4) moved 9 (clock-C.json)
+PASS litList 20 = capL + 20 units + capR moved 20 + (1,0,4) moved 10 (clock-C.json)
+PASS litList 21 = capL + 21 units + capR moved 21 + (1,0,4) moved 10 (clock-C.json)
+PASS litList 22 = capL + 22 units + capR moved 22 + (1,0,4) moved 11 (clock-C.json)
+PASS litList 23 = capL + 23 units + capR moved 23 + (1,0,4) moved 11 (clock-C.json)
+PASS litList 24 = capL + 24 units + capR moved 24 + (1,0,4) moved 12 (clock-C.json)
+PASS litList 25 = capL + 25 units + capR moved 25 + (1,0,4) moved 12 (clock-C.json)
+PASS litList 26 = capL + 26 units + capR moved 26 + (1,0,4) moved 13 (clock-C.json)
+PASS litList 27 = capL + 27 units + capR moved 27 + (1,0,4) moved 13 (clock-C.json)
+PASS litList 28 = capL + 28 units + capR moved 28 + (1,0,4) moved 14 (clock-C.json)
+PASS litList 29 = capL + 29 units + capR moved 29 + (1,0,4) moved 14 (clock-C.json)
+PASS litList 30 = capL + 30 units + capR moved 30 + (1,0,4) moved 15 (clock-C.json)
+PASS lit clock N=6: periodic from N-2 = 4 with exact period 26: True; generation 3 not on the cycle: True; clockOf 6 = its state at generation [27]; at N-3 the units <= 2 equal the base at times [], the units >= N-3 (moved back) the base's units >= 3 at times [7]
+PASS lit clock N=7: periodic from N-2 = 5 with exact period 30: True; generation 4 not on the cycle: True; clockOf 7 = its state at generation [31]; at N-3 the units <= 2 equal the base at times [4, 8, 12, 16], the units >= N-3 (moved back) the base's units >= 3 at times []
+PASS lit clock N=8: periodic from N-2 = 6 with exact period 34: True; generation 5 not on the cycle: True; clockOf 8 = its state at generation [33]; at N-3 the units <= 2 equal the base at times [], the units >= N-3 (moved back) the base's units >= 3 at times [7]
+PASS lit clock N=9: periodic from N-2 = 7 with exact period 38: True; generation 6 not on the cycle: True; clockOf 9 = its state at generation [37]; at N-3 the units <= 2 equal the base at times [4, 8, 12, 16], the units >= N-3 (moved back) the base's units >= 3 at times []
+PASS lit clock N=10: periodic from N-2 = 8 with exact period 42: True; generation 7 not on the cycle: True; clockOf 10 = its state at generation [39]; at N-3 the units <= 2 equal the base at times [], the units >= N-3 (moved back) the base's units >= 3 at times [7]
+PASS lit clock N=11: periodic from N-2 = 9 with exact period 46: True; generation 8 not on the cycle: True; clockOf 11 = its state at generation [43]; at N-3 the units <= 2 equal the base at times [4, 8, 12, 16], the units >= N-3 (moved back) the base's units >= 3 at times []
+PASS lit clock N=12: periodic from N-2 = 10 with exact period 50: True; generation 9 not on the cycle: True; clockOf 12 = its state at generation [45]; at N-3 the units <= 2 equal the base at times [], the units >= N-3 (moved back) the base's units >= 3 at times [7]
+PASS lit clock N=13: periodic from N-2 = 11 with exact period 54: True; generation 10 not on the cycle: True; clockOf 13 = its state at generation [49]; at N-3 the units <= 2 equal the base at times [4, 8, 12, 16], the units >= N-3 (moved back) the base's units >= 3 at times []
+PASS lit clock N=14: periodic from N-2 = 12 with exact period 58: True; generation 11 not on the cycle: True; clockOf 14 = its state at generation [51]; at N-3 the units <= 2 equal the base at times [], the units >= N-3 (moved back) the base's units >= 3 at times [7]
+PASS lit clock N=15: periodic from N-2 = 13 with exact period 62: True; generation 12 not on the cycle: True; clockOf 15 = its state at generation [55]; at N-3 the units <= 2 equal the base at times [4, 8, 12, 16], the units >= N-3 (moved back) the base's units >= 3 at times []
+PASS lit clock N=16: periodic from N-2 = 14 with exact period 66: True; generation 13 not on the cycle: True; clockOf 16 = its state at generation [57]; at N-3 the units <= 2 equal the base at times [], the units >= N-3 (moved back) the base's units >= 3 at times [7]
+PASS lit clock N=17: periodic from N-2 = 15 with exact period 70: True; generation 14 not on the cycle: True; clockOf 17 = its state at generation [61]; at N-3 the units <= 2 equal the base at times [4, 8, 12, 16], the units >= N-3 (moved back) the base's units >= 3 at times []
+PASS lit clock N=18: periodic from N-2 = 16 with exact period 74: True; generation 15 not on the cycle: True; clockOf 18 = its state at generation [63]; at N-3 the units <= 2 equal the base at times [], the units >= N-3 (moved back) the base's units >= 3 at times [7]
+PASS lit clock N=19: periodic from N-2 = 17 with exact period 78: True; generation 16 not on the cycle: True; clockOf 19 = its state at generation [67]; at N-3 the units <= 2 equal the base at times [4, 8, 12, 16], the units >= N-3 (moved back) the base's units >= 3 at times []
+PASS lit clock N=20: periodic from N-2 = 18 with exact period 82: True; generation 17 not on the cycle: True; clockOf 20 = its state at generation [69]; at N-3 the units <= 2 equal the base at times [], the units >= N-3 (moved back) the base's units >= 3 at times [7]
+PASS lit clock N=21: periodic from N-2 = 19 with exact period 86: True; generation 18 not on the cycle: True; clockOf 21 = its state at generation [73]; at N-3 the units <= 2 equal the base at times [4, 8, 12, 16], the units >= N-3 (moved back) the base's units >= 3 at times []
+PASS lit clock N=22: periodic from N-2 = 20 with exact period 90: True; generation 19 not on the cycle: True; clockOf 22 = its state at generation [75]; at N-3 the units <= 2 equal the base at times [], the units >= N-3 (moved back) the base's units >= 3 at times [7]
+PASS lit clock N=23: periodic from N-2 = 21 with exact period 94: True; generation 20 not on the cycle: True; clockOf 23 = its state at generation [79]; at N-3 the units <= 2 equal the base at times [4, 8, 12, 16], the units >= N-3 (moved back) the base's units >= 3 at times []
+PASS lit clock N=24: periodic from N-2 = 22 with exact period 98: True; generation 21 not on the cycle: True; clockOf 24 = its state at generation [81]; at N-3 the units <= 2 equal the base at times [], the units >= N-3 (moved back) the base's units >= 3 at times [7]
+PASS lit clock N=25: periodic from N-2 = 23 with exact period 102: True; generation 22 not on the cycle: True; clockOf 25 = its state at generation [85]; at N-3 the units <= 2 equal the base at times [4, 8, 12, 16], the units >= N-3 (moved back) the base's units >= 3 at times []
+PASS lit clock N=26: periodic from N-2 = 24 with exact period 106: True; generation 23 not on the cycle: True; clockOf 26 = its state at generation [87]; at N-3 the units <= 2 equal the base at times [], the units >= N-3 (moved back) the base's units >= 3 at times [7]
+PASS lit clock N=27: periodic from N-2 = 25 with exact period 110: True; generation 24 not on the cycle: True; clockOf 27 = its state at generation [91]; at N-3 the units <= 2 equal the base at times [4, 8, 12, 16], the units >= N-3 (moved back) the base's units >= 3 at times []
+PASS lit clock N=28: periodic from N-2 = 26 with exact period 114: True; generation 25 not on the cycle: True; clockOf 28 = its state at generation [93]; at N-3 the units <= 2 equal the base at times [], the units >= N-3 (moved back) the base's units >= 3 at times [7]
+PASS lit clock N=29: periodic from N-2 = 27 with exact period 118: True; generation 26 not on the cycle: True; clockOf 29 = its state at generation [97]; at N-3 the units <= 2 equal the base at times [4, 8, 12, 16], the units >= N-3 (moved back) the base's units >= 3 at times []
+PASS lit clock N=30: periodic from N-2 = 28 with exact period 122: True; generation 27 not on the cycle: True; clockOf 30 = its state at generation [99]; at N-3 the units <= 2 equal the base at times [], the units >= N-3 (moved back) the base's units >= 3 at times [7]
+PASS readerC = clock-C capL on the units < 0 + the tape of the word on the units >= 0 (81 cells)
+PASS readerCall = call9.json capL (units 0..3) + the tape from unit 4 (83 cells)
+PASS clock capL: word of 64 letters (C density 0.1), every even generation 0..40: the cap and the word moved on, cell for cell, on every unit the cut end cannot reach
+PASS clock capL: word of 64 letters (C density 0.5), every even generation 0..40: the cap and the word moved on, cell for cell, on every unit the cut end cannot reach
+PASS clock capL: word of 64 letters (C density 0.9), every even generation 0..40: the cap and the word moved on, cell for cell, on every unit the cut end cannot reach
+PASS clock capL: word of 64 letters (C density 0.3), every even generation 0..40: the cap and the word moved on, cell for cell, on every unit the cut end cannot reach
+PASS call9 capL: word of 64 letters (C density 0.1), every even generation 0..40: the cap and the word moved on, cell for cell, on every unit the cut end cannot reach
+PASS call9 capL: word of 64 letters (C density 0.5), every even generation 0..40: the cap and the word moved on, cell for cell, on every unit the cut end cannot reach
+PASS call9 capL: word of 64 letters (C density 0.9), every even generation 0..40: the cap and the word moved on, cell for cell, on every unit the cut end cannot reach
+PASS call9 capL: word of 64 letters (C density 0.3), every even generation 0..40: the cap and the word moved on, cell for cell, on every unit the cut end cannot reach
+PASS beamList 1 = the note of beam-5f.json (38 cells)
+PASS beamList 2 = the note of beam-5f.json (43 cells)
+PASS beamList 3 = the note of beam-5f.json (48 cells)
+PASS beamList 4 = the note of beam-5f.json (53 cells)
+PASS beamList 5 = the note of beam-5f.json (58 cells)
+PASS beamList 6 = the note of beam-5f.json (63 cells)
+PASS beamList 7 = the note of beam-5f.json (68 cells)
+PASS beamList 8 = the note of beam-5f.json (73 cells)
+PASS beamList 9 = the note of beam-5f.json (78 cells)
+PASS beamList 10 = the note of beam-5f.json (83 cells)
+PASS beamList 11 = the note of beam-5f.json (88 cells)
+PASS beamList 12 = the note of beam-5f.json (93 cells)
+PASS beam N=1: exact period 4 from generation 0 (oracle)
+PASS beam N=2: exact period 4 from generation 0 (oracle)
+PASS beam N=3: exact period 4 from generation 0 (oracle)
+PASS beam N=4: exact period 4 from generation 0 (oracle)
+PASS beam N=5: exact period 4 from generation 0 (oracle)
+PASS beam N=6: exact period 4 from generation 0 (oracle)
+PASS beam N=7: exact period 4 from generation 0 (oracle)
+PASS beam N=8: exact period 4 from generation 0 (oracle)
+PASS beam N=9: exact period 4 from generation 0 (oracle)
+PASS beam N=10: exact period 4 from generation 0 (oracle)
+PASS beam N=11: exact period 4 from generation 0 (oracle)
+PASS beam N=12: exact period 4 from generation 0 (oracle)
+PASS beam N=13: exact period 4 from generation 0 (oracle)
+PASS beam N=14: exact period 4 from generation 0 (oracle)
+PASS beam N=15: exact period 4 from generation 0 (oracle)
+PASS beam N=16: exact period 4 from generation 0 (oracle)
+PASS beam N=17: exact period 4 from generation 0 (oracle)
+PASS beam N=18: exact period 4 from generation 0 (oracle)
+PASS beam N=19: exact period 4 from generation 0 (oracle)
+PASS beam N=20: exact period 4 from generation 0 (oracle)
+PASS beam N=30: exact period 4 from generation 0 (oracle)
+PASS divList 3 = the note of divider-C8.json (72 cells)
+PASS divList 4 = the note of divider-C8.json (77 cells)
+PASS divList 5 = the note of divider-C8.json (82 cells)
+PASS divList 6 = the note of divider-C8.json (87 cells)
+PASS divList 7 = the note of divider-C8.json (92 cells)
+PASS divList 8 = the note of divider-C8.json (97 cells)
+PASS divList 9 = the note of divider-C8.json (102 cells)
+PASS divList 10 = the note of divider-C8.json (107 cells)
+PASS divList 11 = the note of divider-C8.json (112 cells)
+PASS divList 12 = the note of divider-C8.json (117 cells)
+PASS divList 13 = the note of divider-C8.json (122 cells)
+PASS divList 14 = the note of divider-C8.json (127 cells)
+PASS divList 15 = the note of divider-C8.json (132 cells)
+PASS divList 16 = the note of divider-C8.json (137 cells)
+PASS divList 17 = the note of divider-C8.json (142 cells)
+PASS divList 18 = the note of divider-C8.json (147 cells)
+PASS divList 19 = the note of divider-C8.json (152 cells)
+PASS divList 20 = the note of divider-C8.json (157 cells)
+INFO divider N=3 (not claimed): preperiod 3, period 8, population at the start 72, at 146: 71
+INFO divider N=4 (not claimed): preperiod 5, period 8, population at the start 77, at 148: 77
+INFO divider N=5 (not claimed): preperiod 7, period 8, population at the start 82, at 150: 81
+INFO divider N=6 (not claimed): preperiod 9, period 8, population at the start 87, at 152: 88
+INFO divider N=7 (not claimed): preperiod 11, period 8, population at the start 92, at 154: 91
+PASS divider N=8: preperiod 13, period 8 (claimed 2N-3 = 13, 8)
+PASS divider N=9: preperiod 15, period 8 (claimed 2N-3 = 15, 8)
+PASS divider N=10: preperiod 17, period 8 (claimed 2N-3 = 17, 8)
+PASS divider N=11: preperiod 19, period 8 (claimed 2N-3 = 19, 8)
+PASS divider N=12: preperiod 21, period 8 (claimed 2N-3 = 21, 8)
+PASS divider N=13: preperiod 23, period 8 (claimed 2N-3 = 23, 8)
+PASS divider N=14: preperiod 25, period 8 (claimed 2N-3 = 25, 8)
+PASS divider N=15: preperiod 27, period 8 (claimed 2N-3 = 27, 8)
+PASS divider N=16: preperiod 29, period 8 (claimed 2N-3 = 29, 8)
+PASS divider N=17: preperiod 31, period 8 (claimed 2N-3 = 31, 8)
+PASS divider N=18: preperiod 33, period 8 (claimed 2N-3 = 33, 8)
+PASS divider N=19: preperiod 35, period 8 (claimed 2N-3 = 35, 8)
+PASS divider N=20: preperiod 37, period 8 (claimed 2N-3 = 37, 8)
+PASS divider N=24: preperiod 45, period 8 (claimed 2N-3 = 45, 8)
+PASS divider N=30: preperiod 57, period 8 (claimed 2N-3 = 57, 8)
+ALL PASS
+
+real	0m33.156s
+user	0m31.137s
+sys	0m0.414s

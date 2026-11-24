@@ -193,3 +193,31 @@ Files: `rt_lib.py` holds `oracle.step` on an edge-asserted box and on a ring tor
   of `Lf` with the oracle covers them.
 - The internal steps of `local_union`.
 - k beyond 20 for the call law, and N beyond 20 for the clock.
+
+## Third review (2026-11-24, 15:47 to 16:00 UTC): the clock from one cell, the readers, the beam, the divider
+
+*Examined: commit `40520c7`. `Gump/` in the working tree is byte-identical to it. My Lean files ran with
+`lake env lean` against the shared tree's `.olean`s (no build).*
+
+**Verdict.** I found no defect in a statement or an object.
+
+- The objects equal the catalogue's: 48 object comparisons, all PASS.
+- The oracle agrees with every claim, at every size I tried.
+- Axioms: none beyond the standard three, in 3,556 constants.
+
+There is one inexactness in the prose, about the convention for base times.
+
+| question | finding | command |
+|---|---|---|
+| (1) the clock from one cell | **Start.** The start is `litList N`: capL + N units of wire C + capR moved N + (1,0,4) of unit ⌊N/2⌋. It equals clock-C.json's single-cell lighting, as in `verify_clock.py`, for N = 1…30 (N = 1–12 in the first review, 13–30 here). **Statement.** `lit_enters_at N` (N ≥ 6) says (∃ s, lit(N−2) = run (clockOf N) s) ∧ ∀ g < N − 2, ∀ k, lit(g) ≠ run (clockOf N) k. That is a statement about the named `clockOf N` and its whole orbit. "No earlier" is quantified over **every** earlier generation and every state of the cycle. `lit_clock_exact`: from N − 2 on, exact (minimal) period 4N + 2. `lit_clock` (every N ≥ 1, from `litEntry N`, which is N − 1 for odd N ≥ 6, as its row says): on the cycle, with exact period. For N ≤ 5 the entry time is not claimed minimal; the row says so. **Oracle, N = 6…30:** the lit clock is periodic from N − 2 with exact period 4N + 2. Generation N − 3 is not on the cycle. `clockOf N` (evaluated in Lean through `Xb_frame`, N = 6…30) is exactly one state of that cycle. **The remark about odd N** is confirmed: at N − 3 the left end (units ≤ 2) equals four base states, and the right end equals none. For even N it is the other way round: the left end equals no base state and the right end equals one. So each parity needs the witness it uses. **Prose inexactness:** in Lean's convention (`Xb s`, the one the notes use for "Xb 8", "Xb 10" and tR = 5) the four base times are **4, 8, 12, 16**, not "11, 15, 19, 23". Those are the generations s + 7 counted from X0 (`Xb_nat`). This affects `ClockLitFirst.lean`'s header, `notes/tape.md` and the row `lit_first`, and no theorem. | `RtDump3.lean` (5 s), `python3 rt_third.py dump2.txt dump3.txt` (33 s) |
+| (2) the readers | **Objects.** `readerC w` is clock-C.json's capL on the units < 0 plus `tape w` on the units ≥ 0. `readerCall w` is call9.json's `capL` (18 cells, units 0…3) plus the tape from unit 4. Both are equal cell for cell for a test word. **Statements:** whole-lattice equalities at every even generation, for every word. They say more than `prove_reader.py`'s finite automaton, and as much as §15's sentence. **Oracle:** each cap with a word of 64 letters (all B, and C densities 0.3, 0.5, 0.9), every even generation 0…40. On every unit the cut end of the finite word cannot reach, the state is the cap and the word moved on, cell for cell. **What `reader9_run` answers:** REVIEW-signals-9's open point (ii) asked whether the third push's reader theorem covers the call line's cap. It does not (the cap is different), but the same law is now a theorem for that cap: it eats any word, so it takes a train of any length, on a semi-infinite store wire. **What it does not cover:** the finite cell (right cap, finite wire), the call line crossing the cell while the train passes, and the gluing of `call_law`'s V_k to the cap. The row says this. | as above |
+| (3) the beam and the divider | **Beam.** `beamList N` equals the note of beam-5f.json (left + b0/b1 + R_even/R_odd moved N) for N = 1…12. `beam_period`: exact period 4 (minimal) from generation 0, every N ≥ 1. Oracle N = 1…20 and 30: exact period 4. **Divider.** `divList N` = line-C(N) + `osc` moved N, as in divider-C8.json's note, for N = 3…20. `divider_period` (N ≥ 8) states: period 8 at 2N − 3, minimal, and the state at 2N − 4 does not return after 8. That is exact preperiod 2N − 3. Check on paper: if the state at 2N − 4 returned after some p, then 8 ∣ p, because the orbit from 2N − 3 has exact period 8; it would then also return after 8. Oracle, N = 8…20, 24, 30: preperiod exactly 2N − 3, period 8. **The uncovered N = 3…7 [measured]:** the same law holds, with preperiod 3, 5, 7, 9, 11 = 2N − 3 and period 8. So the restriction N ≥ 8 is the proof's (and the source's), not the automaton's. | as above |
+| (4) axioms, names, rows | **Axioms:** 3,556 constants in the 29 tape modules (the 11 new ones: ClockLit 380, ClockLitData 4, ClockLitFirst 91, ClockLitOdd 134, ClockReader 48, CallReader 70, CallReaderData 3, LineBeam 96, LineBeamData 7, LineDivider 172, LineDividerData 2) and 795 dependency constants. None goes beyond `propext`, `Classical.choice`, `Quot.sound`; no `axiom` or `opaque`. **grep:** no `sorry`, `native_decide`, `extern` or instances; only `set_option maxHeartbeats`. **Names:** all 15 headline names resolve, and all 12 are in `AxiomsTape.lean`. `S_succ` now names two constants (`Line.S_succ`, `Divider.S_succ`). The row `S_succ` still means Line's, because `statements.py` takes the first file in sorted order. **Rows:** honest, including "N = 3…7 not covered" (divider), "minimality not claimed for N ≤ 5" (lit clock) and "the finite cell not covered" (reader9). The one exception is the base-time convention under (1). | `lake env lean RtAxioms3.lean` (16 s) |
+
+**Not checked:**
+- The internal steps: `zonesLit_ok`, `smallOK_ok`, `oddCheck_ok`, `baseLitCheck_ok`, the zone checks of the readers,
+  the divider's `S` structure.
+- The agent's scripts `tape_lit.py`, `tape_beam.py`, `tape_reader.py`, `tape_divider.py`.
+- `check.sh` at `40520c7`: the integrator is running it.
+- Sizes beyond the lit clock to N = 30, the beam to 30 and the divider to 30, and words beyond the 8 random words of
+  64 letters.
