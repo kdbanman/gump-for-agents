@@ -205,6 +205,10 @@ commit 6be19d4: tape theorem, line orbit, clock, nine signals, unzip law sharp, 
 statements left existential (`bit_surrogate`'s factorisation, "some QSD" admitting the dead point mass, |T| = HD
 unproved, rows). `chain` (a825b151b0cb2660a) resumed for the repairs (90 minutes); it waits for a second message
 from me, after `dice` hands back, before starting the instantiation on `Gump.Dice.Face.P`.
+`ref-tape` handed back (`research/blast/ref-tape/REVIEW.md`, commit e645679): no theorem broken, objects equal the
+catalogue's cell for cell; D1 `clock_every_length` never names the clock (sent to `tape`), D2 `STATEMENTS.md` stale
+and `check.sh` does not notice (mine, at integration: regenerate, and make the check compare), D3 three stale
+passages (sent to `tape`).
 
 **13:15 UTC 2026-11-24.** `chain` handed back (notes: `lean/notes/chain.md`, last commit 23163ec; 15 `Chain*.lean`
 modules, 82 headline theorems, `check.sh --mathlib` passed at 13:10). `ref-lean` handed back earlier (repairs in

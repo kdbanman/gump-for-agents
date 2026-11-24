@@ -185,7 +185,8 @@ sh research/blast/density/row.sh mean_d1 11 5111 12000000 256 1 1:0.4301,2:0.409
 #   every row: the line "BIAS seed ..." of its file in data/rows/ gives the bias string; tags and seeds as in the table;
 #   env: shuffled NZD_SRC=core (core) or nothing (whole layer) with BIAS s; frozen NZD_FROZEN=1; layer runs NZD_LAYERS=1
 #   binaries: rows up to shuf_d1 ran on scratch nzd_prod (nzd.c at commit 32aafd9), the conditioned rows on nzd_prod2
-#   (edbebd1), frozen and eps = 1/16 on nzd_prod3 (f9b2f1c), layer runs on nzd_lay/nzd_lay2 (edbebd1 / the VAR lines);
+#   (edbebd1), frozen and eps = 1/16 on nzd_prod3 (f9b2f1c), layer runs on nzd_lay/nzd_lay2 (edbebd1 / the VAR lines),
+#   the 4 M gump layer run on a build just before 32aafd9 (same stepper; it differed only in the noise code, unused at M = 0);
 #   later versions only add modes and diagnostics, and validate.py passed on each (nz.c's BRUTE lines unchanged).
 python3 research/blast/density/collect.py                    # the table, pooled by tag, and the excursion split
 python3 research/blast/density/chains.py research/blast/density/data/layers/lay*.txt   # the support table
