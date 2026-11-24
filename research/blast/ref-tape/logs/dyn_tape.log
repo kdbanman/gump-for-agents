@@ -1,0 +1,23 @@
+PASS tape: negative control, L = 40: generation 2 is not the word shifted by 2, nor the start
+PASS tape: random word BCCBBBBBCBBCBCBCCCCC... on a ring of 40 units, whole torus, generations 0..90: state at 2n = the word shifted by n
+PASS tape: negative control, L = 40: generation 2 is not the word shifted by 2, nor the start
+PASS tape: random word BBCBCCBCBCCBCCBCCCCC... on a ring of 40 units, whole torus, generations 0..90: state at 2n = the word shifted by n
+PASS tape: negative control, L = 40: generation 2 is not the word shifted by 2, nor the start
+PASS tape: random word BCCCCBBCBCCBBBBBBCCB... on a ring of 40 units, whole torus, generations 0..90: state at 2n = the word shifted by n
+PASS tape: negative control, L = 37: generation 2 is not the word shifted by 2, nor the start
+PASS tape: random word BBBBBBBCBBBBCCBCCBCB... on a ring of 37 units, whole torus, generations 0..84: state at 2n = the word shifted by n
+PASS tape: negative control, L = 37: generation 2 is not the word shifted by 2, nor the start
+PASS tape: random word CCBCCBCBCCCCBCCBBCBB... on a ring of 37 units, whole torus, generations 0..84: state at 2n = the word shifted by n
+PASS tape: negative control, L = 37: generation 2 is not the word shifted by 2, nor the start
+PASS tape: random word CCCBBBBCBCBBBCCBCCCB... on a ring of 37 units, whole torus, generations 0..84: state at 2n = the word shifted by n
+PASS tape: negative control, L = 23: generation 2 is not the word shifted by 2, nor the start
+PASS tape: random word BCCBBCBCCBCBBBBCBBBC... on a ring of 23 units, whole torus, generations 0..56: state at 2n = the word shifted by n
+PASS tape: negative control, L = 23: generation 2 is not the word shifted by 2, nor the start
+PASS tape: random word CCBBCBBCCCBCBBBBCBBB... on a ring of 23 units, whole torus, generations 0..56: state at 2n = the word shifted by n
+PASS tape: negative control, L = 23: generation 2 is not the word shifted by 2, nor the start
+PASS tape: random word BCBCBBCBCCCBCBBBBBBC... on a ring of 23 units, whole torus, generations 0..56: state at 2n = the word shifted by n
+ALL PASS
+
+real	0m2.139s
+user	0m1.969s
+sys	0m0.028s

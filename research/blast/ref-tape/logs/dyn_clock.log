@@ -1,0 +1,12 @@
+PASS lit clock N=1: exact period 6 from generation 0 (True), generation -1 not on the cycle (True), every state in units -4..4 (True)
+PASS lit clock N=2: exact period 10 from generation 0 (True), generation -1 not on the cycle (True), every state in units -4..5 (True)
+PASS lit clock N=3: exact period 14 from generation 1 (True), generation 0 not on the cycle (True), every state in units -4..6 (True)
+PASS lit clock N=4: exact period 18 from generation 2 (True), generation 1 not on the cycle (True), every state in units -4..7 (True)
+PASS lit clock N=5: exact period 22 from generation 3 (True), generation 2 not on the cycle (True), every state in units -4..8 (True)
+PASS lit clock N=13: exact period 54 from generation 11 (True), generation 10 not on the cycle (True), every state in units -4..16 (True)
+PASS lit clock N=20: exact period 82 from generation 18 (True), generation 17 not on the cycle (True), every state in units -4..23 (True)
+ALL PASS
+
+real	0m1.584s
+user	0m1.245s
+sys	0m0.064s

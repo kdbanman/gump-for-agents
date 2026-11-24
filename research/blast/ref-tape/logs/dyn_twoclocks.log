@@ -1,0 +1,6 @@
+PASS two clocks (N=1 and N=2, the second moved by (0,16,0)), 81 cells: exact period 30 = 4*7+2 from generation 0 (True); every state inside the tube of clock_every_length 7 (True)
+ALL PASS
+
+real	0m0.309s
+user	0m0.310s
+sys	0m0.016s
