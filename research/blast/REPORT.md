@@ -83,7 +83,7 @@ section).**
   refereed.** On the one-layer dice surrogate (private coins under each cell, not gump's shared ones): the 9-cell
   hull triangle's ln τ lies in (2.4837157463, 2.4837157464), with four more 9-cell faces; both exits at 9 cells;
   ln τ < 2.2165·A on every hull face and < 1.9228·A on every wrapped face; the quasi-stationary law is
-  unique on every wrapped face (one price per orientation) and on every hull face up to 84 cells. In core Lean: the
+  unique on every wrapped face (one price per orientation) and on every hull face. In core Lean: the
   tape theorem, the gun's line, the clock from a single cell (exact period 4N + 2, on its cycle exactly from
   generation N − 2 for N ≥ 6), nine signals, the unzip and call laws, the readers, the beam, the divider. Not proved: the
   limit of the price per cell and any lower bound.
@@ -875,7 +875,7 @@ referee broke a theorem.
   `LinkHull.lean`), and uniqueness with equal prices along every table automorphism under one hypothesis,
   `Lemma0F (hull R)` (`hull_full_sym`, `LinkFaceAut.lean`), which is kernel-proved for R = 1, 3, …, 13 (3 to 84
   cells, `LinkHullCert.lean`; the referee regenerated the certificates byte for byte from tables it built from the
-  oracle). `hull R` has no cells for even R, so "every R" means every R with A > 0, as the rows say.
+  oracle). `hull R` has no cells for even R, so "every R" means every R with A > 0, as the rows say. **Later the same day (after this was written): proved for every R by a general argument, `HullGen.hull_lemma0` and `hull_full_every` (`LinkHullGen.lean`), with the rotation and reflection as automorphisms for every R (`rot_aut`, `refl_aut`, `hull_prices_sym`, `LinkHullSym.lean`); refereed clean (`ref-chain/REVIEW.md`, fifth review: unconditional, elaborates at R = 21 with no certificate; the construction's steps hold on oracle-built hulls R = 3…13).**
 - **Referees' defects and repairs** (details in `lean/README.md`, "Refereed on 2026-11-24"). `ref-chain`: seven, the
   main ones in what statements left existential (an unnamed local factorisation that let all prices but one be zero; "some
   QSD" admitting the λ = 0 point mass; |T| = HD), repaired and closed by its second review. `ref-tape`: an
@@ -886,9 +886,7 @@ referee broke a theorem.
   proved it), the bust share as the flux's only through prose (now `flux_share`), wording; two late text slips
   corrected here.
 - **Not proved.** The limit of the price per cell (only under gluing inequalities or pointwise convergence, neither
-  known for the surrogate) and any lower bound ln τ ≥ c·A (B2). Uniqueness on hull faces beyond R = 13 (`Lemma0F`
-  for every R: the certificate is uniform in R and its formalisation is not written; a module for R = 15, 17 passed
-  10 GB of memory). λ intervals beyond the five 9-cell faces (the 12-cell certificate exists; its build did not
+  known for the surrogate) and any lower bound ln τ ≥ c·A (B2). (Uniqueness on hull faces beyond R = 13 stood here when the entry was first written; it was proved for every R later the same day, see the link paragraph above.) λ intervals beyond the five 9-cell faces (the 12-cell certificate exists; its build did not
   finish). The meetings of signals (§31). And the surrogate is not gump: it gives each cell private coins, and from
   the full 9-cell hull face its one-step law differs by total variation 0.33 from gump's over shared coins
   [measured exactly, `PYTHONPATH=reference python3 research/blast/ref-dice/shared.py`]; 12 of the 15 cells beneath that
