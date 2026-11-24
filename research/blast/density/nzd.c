@@ -17,6 +17,7 @@
  *     BIAS: "f" (all fair) | a number p (all depths) | a list "k:v,k:v,...,*:v" (v = number, "f" or "s"; "*" = every
  *     depth not listed; default f). A biased coin has bias round(p 2^16) / 2^16, compared with 16 bits of sm2. Env NZD_GENERAL=1: bias 1/2 goes through the comparison path (a control: a
  *     different line, the same law). Env NZD_LAYERS=1: also the layer diagnostics (LAYER / LAG lines; slower).
+ *     Env NZD_FULL=1: full replacement: every cell of N is a fresh coin of its bias every generation (M ignored).
  *     Env NZD_FROZEN=1: frozen coins: each cell of N is set ONCE per life (at the soup) to a coin of its bias and is
  *     then held at that value for the whole life (not stepped, no darts; M is ignored for the noise but kept in eps).
  *   -DLIB: the stepper and the noise for validation (validate.py).
@@ -60,7 +61,8 @@ static inline u64 rnd2(void) { u64 z = (sm2 += 0x9e3779b97f4a7c15ULL); z = (z ^ 
 static u64 cctab[MAXD][4]; static double ccb[MAXD][4]; static int *fnb, *nfnb;
 static int ckind[MAXD]; static u64 cthr[MAXD]; static double cbias[MAXD]; static int *srcs[MAXD], nsrc[MAXD];
 static int general = 0, frozen = 0, srccore = 0;
-static int allfair = -1, allthr = -1;     /* caches of the noise loop's form; reset whenever a coin changes */
+static int allfair = -1, allthr = -1;
+static int fullrep = 0;      /* NZD_FULL=1: full replacement, every cell of N a fresh coin of its bias every generation */     /* caches of the noise loop's form; reset whenever a coin changes */
 
 int geom_init(int R_, int dw, int dov) {
   R = R_; DW = dw; DO = dov;
@@ -169,6 +171,18 @@ static inline u64 coin(int lane, int cell, uint32_t v) {
     default: { uint32_t z = (bits16() << 16) | bits16(); int s = srcs[d][((u64)z * (u64)nsrc[d]) >> 32];
       return (a[(size_t)s * W + (lane >> 6)] >> (lane & 63)) & 1; }
   }
+}
+/* Full replacement: after every step each cell of N, in every lane, is set to a fresh coin of its depth's bias
+   (a fair depth: bias 1/2), independent of everything; a word of 64 lanes is made bit-serially from 16 words of sm2:
+   r <- b_i ? (z | r) : (z & r) over the bits b_i of round(p 2^16), least significant first, so P(r = 1) = that / 2^16. */
+static void noise_full(void) {
+  for (int j = 0; j < nN; j++) { int c = Ncell[j], d = dep0[c]; u64 thr = ckind[d] == 1 ? cthr[d] : 32768;
+    if (ckind[d] == 2 || ckind[d] == 4) { fprintf(stderr, "full replacement takes plain biases only\n"); exit(1); }
+    u64 *x = a + (size_t)c * W;
+    for (int w = 0; w < W; w++) {
+      if (thr >= 65536) { x[w] = ~0ULL; continue; }
+      u64 r = 0; for (int i = 0; i < 16; i++) { u64 z = rnd2(); r = ((thr >> i) & 1) ? (z | r) : (z & r); }
+      x[w] = r; } }
 }
 /* nz.c's noise_random, the coin replaced by coin(): of M darts at a board of B squares, the number that land on N is
    Binomial(M, |N|/B), and those land on uniformly random cells of N, in random order, each with its own coin. */
@@ -388,6 +402,7 @@ void v_step(void) { step(); observe(); }
 void v_frozen_init(void) { frozen = 1; frz = aligned_alloc(64, (size_t)nN * W * 8 + 64); memset(frz, 0, (size_t)nN * W * 8); }
 void v_soup(int lane) { lane_soup(lane); }
 void v_noise(int M) { noise_random(M); }
+void v_noise_full(void) { noise_full(); }
 void v_seed(unsigned long long s) { sm = s * 0x2545F4914F6CDD1DULL + 7; sm2 = s * 0x9E3779B97F4A7C15ULL + 99991; }
 int v_pop(int lane) { return pop[lane]; }
 int v_od(int lane) { return (od[lane >> 6] >> (lane & 63)) & 1; }
@@ -418,6 +433,8 @@ int main(int argc, char **argv) {
   if (getenv("NZD_GENERAL")) general = atoi(getenv("NZD_GENERAL"));
   if (getenv("NZD_SRC") && !strcmp(getenv("NZD_SRC"), "core")) srccore = 1;
   if (getenv("NZD_FROZEN")) frozen = atoi(getenv("NZD_FROZEN"));
+  if (getenv("NZD_FULL")) fullrep = atoi(getenv("NZD_FULL"));
+  if (fullrep && frozen) { fprintf(stderr, "full and frozen exclude each other\n"); return 2; }
   int layers = getenv("NZD_LAYERS") ? atoi(getenv("NZD_LAYERS")) : 0;
   long gens = atol(argv[4]); int M = atoi(argv[5]);
   geom_init(atoi(argv[1]), argc > 6 ? atoi(argv[6]) : 6, argc > 7 ? atoi(argv[7]) : 3);
@@ -434,7 +451,7 @@ int main(int argc, char **argv) {
   for (int l = 0; l < NL; l++) { lane_soup(l); age[l] = 0; arm[l] = pend[l] = 0; }
   FILE *dump = getenv("NZD_DUMP") ? fopen(getenv("NZD_DUMP"), "wb") : 0;   /* validation: per generation 512 pops, 512 bytes odl */
   for (long g = 0; g < gens + T0; g++) {
-    step(); if (M && !frozen) noise_random(M); observe();
+    step(); if (fullrep) noise_full(); else if (M && !frozen) noise_random(M); observe();
     if (layers) { for (int q = 0; q < ng; q++) count_group(q); face_births();
       u64 cm[W]; for (int w = 0; w < W; w++) cm[w] = 0; for (int l = 0; l < NL; l++) if (g >= T0 && age[l] + 1 > T0) cm[l >> 6] |= 1ULL << (l & 63);
       cond_measure(cm); }
@@ -464,7 +481,7 @@ int main(int argc, char **argv) {
   if (Dany) printf(" lntau_any8 %.4f +- %.4f", log(8 * E / Dany), 1 / sqrt((double)Dany));
   if (n0) printf(" lntau_watched %.4f +- %.4f", log(E / n0), 1 / sqrt((double)n0));
   printf(" settled %ld longest_life %ld\n", nsettled, maxage);
-  printf("BIAS seed %llu general %d frozen %d src %s :", (unsigned long long)seed0, general, frozen, srccore ? "core" : "layer");
+  printf("BIAS seed %llu general %d frozen %d full %d src %s :", (unsigned long long)seed0, general, frozen, fullrep, srccore ? "core" : "layer");
   for (int d = DW; d <= R; d++) { int any = 0; for (int j = 0; j < nN; j++) if (dep0[Ncell[j]] == d) any++; if (!any) continue;
     if (ckind[d] == 2) printf(" %d(%d):s", d, any); else if (ckind[d] == 4) printf(" %d(%d):c%.4f/%.4f/%.4f", d, any, ccb[d][0], ccb[d][1], ccb[d][2]); else printf(" %d(%d):%.5f", d, any, cbias[d]); }
   printf("\n");

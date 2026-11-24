@@ -241,6 +241,56 @@ def frozen_check(R, DW, p, gens=300, swap=False):
     return None
 
 
+def full_check(R, DW, biases, gens=200, trials=30, read_as=None):
+    """full replacement: one call sets every cell of N, in every lane, to a fresh coin of its depth's bias, whatever the
+    state before (from all dead and from all alive the share alive is p_d), nothing outside N changes, two calls are
+    independent; and the stepper with full replacement after every step is the oracle's step of the previous state
+    outside N."""
+    lib = ctypes.CDLL(so)
+    lib.set_coin.argtypes = [ctypes.c_int, ctypes.c_double]
+    n, A, co = geometry(lib, R, DW, 3)
+    for d in range(1, 30): lib.set_coin(d, biases.get(d, biases.get('*', 0.5)))
+    nN = lib.v_nN(); Nc = np.zeros(nN, np.int32); lib.v_ncells(Nc.ctypes.data_as(VP))
+    dep = (R - co @ SIG[0]) // 2; inN = np.zeros(n, bool); inN[Nc] = True
+    lib.v_seed(2468); buf = np.zeros(n, np.uint8)
+    ones = np.zeros(n); cnt = 0; prev = None; same = np.zeros(n); both = 0
+    for start in (0, 1):
+        for t in range(trials):
+            st = np.full(n, start, np.uint8); lib.v_clear()
+            for lane in range(512): lib.v_set(lane, st.ctypes.data_as(VP))
+            lib.v_noise_full()
+            snap = []
+            for lane in range(0, 512, 3):
+                lib.v_get(lane, buf.ctypes.data_as(VP))
+                if (buf[~inN] != start).any(): return 'a cell outside N changed'
+                ones += buf; cnt += 1; snap.append(buf.copy())
+            lib.v_noise_full()
+            for k, lane in enumerate(range(0, 512, 3)):
+                lib.v_get(lane, buf.ctypes.data_as(VP)); same += (buf == snap[k]); both += 1
+    for d in sorted(set(dep[Nc])):
+        chk = read_as or biases
+        sel = inN & (dep == d); p = chk.get(int(d), chk.get('*', 0.5)); c = sel.sum() * cnt
+        f = ones[sel].sum() / c; sd = np.sqrt(p * (1 - p) / c)
+        if abs(f - p) > 5 * sd: return f'depth {d}: share alive {f:.5f}, bias {p}'
+        g = same[sel].sum() / (sel.sum() * both); want = p * p + (1 - p) * (1 - p); sd = np.sqrt(want * (1 - want) / (sel.sum() * both))
+        if abs(g - want) > 5 * sd: return f'depth {d}: two calls agree {g:.5f}, independent {want:.5f}'
+    H = 2 * (R + 3); c0 = H // 2; m = oracle.masks(H); ix = tuple((co + c0).T)
+    cc = np.indices((H, H, H)) - c0; inside = (m[0] | m[1] | m[2]) & (np.abs(cc).sum(0) <= R)
+    rng = np.random.default_rng(5); lib.v_clear(); xs = []
+    for lane in (0, 300):
+        x = (inside & (rng.random((H, H, H)) < 0.35)).astype(np.int8)
+        lib.v_set(lane, np.ascontiguousarray(x[ix].astype(np.uint8)).ctypes.data_as(VP))
+    for g in range(gens):
+        before = []
+        for lane in (0, 300):
+            lib.v_get(lane, buf.ctypes.data_as(VP)); x = np.zeros((H, H, H), np.int8); x[ix] = buf; before.append(oracle.step(x, m)[ix])
+        lib.v_step(); lib.v_noise_full()
+        for k, lane in enumerate((0, 300)):
+            lib.v_get(lane, buf.ctypes.data_as(VP))
+            if not (buf[~inN] == before[k][~inN]).all(): return f'outside N the state differs from the oracle at generation {g + 1}'
+    return None
+
+
 def brute(exe_, R, seed, gens, M, DW, extra=None, env=None):
     cmd = [exe_, str(R), 'brute', str(seed), str(gens), str(M), str(DW), '3'] + ([extra] if extra else [])
     e = dict(os.environ); e.update(env or {})
@@ -326,6 +376,9 @@ report('2. shuffled coin, source = the layer\'s core', shuffle_check(11, 1, 256,
 report('2. conditioned coins (bias by the number of live face neighbours), face all dead and all alive', cond_check(11, 1, 256))
 report('2. frozen coins (bias 0.42): the oracle with the cells of N held', frozen_check(11, 1, 0.42))
 report_neg('2. frozen coins, one neighbour swapped', frozen_check(11, 1, 0.42, 100, True))
+report('2. full replacement (R = 11, d = 1; biases 0.19, 0.3, 0.5 by depth)', full_check(11, 1, {1: 0.19, 2: 0.3, '*': 0.5}))
+report('2. full replacement at R = 9', full_check(9, 1, {'*': 0.19}))
+report_neg('2. full replacement of bias 0.21 checked as 0.19', full_check(11, 1, {'*': 0.21}, gens=0, read_as={'*': 0.19}))
 cases = [(11, 1201, 20000, 256, 1), (11, 1202, 20000, 128, 2), (11, 1206, 20000, 64, 6), (9, 901, 30000, 16, 6), (11, 5, 20000, 0, 1)]
 for R, seed, gens, M, DW in cases:
     a = first_line(brute(nzexe, R, seed, gens, M, DW)); b = first_line(brute(exe, R, seed, gens, M, DW))

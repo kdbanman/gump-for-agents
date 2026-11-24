@@ -215,6 +215,9 @@ zero at coin density ≈ 0.19). Block 4 scored and block 5 frozen in `noisy/PRED
 resumed at 13:58 for p*(ε, size) (is the equivalent density a constant; ε = 1 is the dice picture on the hull), two
 hours. ref-density ad8647ed13bc7c8ae started 13:58 (own code from the oracle, two hours, writes
 `research/blast/ref-density/REVIEW.md`). Usage at 13:41: Fable 0.90, all-model 0.62.
+`chain` handed back its repairs at 13:57 (f32bb82: D1–D7 all repaired; `exists_qsd` now gives `IsDominantQSD`;
+`torus_card`; `kagome_sharp_bound` ln τ ≤ 2.2412·A on wrapped faces) and was resumed at 14:00 for the instantiation
+on `Gump.Dice.Face.P` (new files `GumpMath/Link*.lean`, `notes/link.md`), two hours.
 
 **13:15 UTC 2026-11-24.** `chain` handed back (notes: `lean/notes/chain.md`, last commit 23163ec; 15 `Chain*.lean`
 modules, 82 headline theorems, `check.sh --mathlib` passed at 13:10). `ref-lean` handed back earlier (repairs in
