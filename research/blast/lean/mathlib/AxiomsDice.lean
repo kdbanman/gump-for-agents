@@ -7,6 +7,10 @@ import GumpMath.DiceBound
 import GumpMath.DiceBound2
 import GumpMath.DiceHull3Exit
 import GumpMath.DiceTorus113Exit
+import GumpMath.DiceFlux
+import GumpMath.DiceHull
+import GumpMath.DiceBound3
+import GumpMath.DiceHullAll
 open Gump.Dice
 #print axioms hull3_lifetime
 #print axioms hull3_tau
@@ -33,3 +37,14 @@ open Gump.Dice
 #print axioms Data.poisson_bound
 #print axioms Data.rows_le
 #print axioms Tree.eval_eq
+#print axioms flux_share
+#print axioms death_flux
+#print axioms hull3_bust_flux
+#print axioms torus113_bust_flux
+#print axioms survival_le_hull
+#print axioms lntau_le_hull
+#print axioms qsd_le_balanced
+#print axioms lntau_le_hull_small
+#print axioms Face.hull_balanced
+#print axioms Face.hull_type
+#print axioms lntau_le_hull_all

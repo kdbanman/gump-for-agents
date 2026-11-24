@@ -78,5 +78,40 @@
     "For every face with all its coins that is regular (six neighbour slots per cell, each cell in six slots: every wrapped face; `regular` is checked here for the tori (1,0),(0,3), (1,1),(0,3), (2,0),(0,2) only, not proved for the general torus), ln τ < 1.9228·A for every QSD (δ₁ = 0.1462 from a weight 152/125 on every live-dead edge; the weights cancel)."
    ]
   ]
+ },
+ {
+  "section": "Second task, 2026-11-24 14:00–15:30 UTC: the exits as path statements; Theorem 1 on every hull face (mathlib/GumpMath/DiceFlux.lean, DiceHull.lean, DiceBound3.lean, DiceHullAll.lean)",
+  "rows": [
+   [
+    "flux_share",
+    "rigour/README.md claim 4 and qsd.c halffall_share: the share of the quasi-stationary death flux whose last K transitions contain a fall of at least half the face.",
+    "Path form, every generation: for every QSD (μ, λ) with 0 < λ < 1, K ≥ 1, m ≥ 0, P_μ(T = m+K, bust in the last K) / P_μ(T = m+K) = bustShare K μ λ, with paths summed explicitly (pathE: every list of m+K states with the product of its transition probabilities). Replaces the prose step of DiceExit.lean. The sum over all generations is not formed (every generation has the same ratio)."
+   ],
+   [
+    "death_flux",
+    "From the QSD the death time is geometric: P_μ(T = n+1) = λ^n (1-λ).",
+    "Same, on the explicit path sum."
+   ],
+   [
+    "hull3_bust_flux",
+    "README claim 4: triangle R = 3, bust share 0.0170 (a rimmed face dies by the fade).",
+    "For every QSD and every generation m+6, the path share is in (0.017017, 0.017018)."
+   ],
+   [
+    "torus113_bust_flux",
+    "README claim 4: wrapped (1,1),(0,3), bust share 0.9369.",
+    "For every QSD with λ > 0 and every generation m+6, in (0.936852, 0.936853)."
+   ],
+   [
+    "lntau_le_hull",
+    "THEOREMS.md Theorem 1 (B1) on hull faces, whose corners have two coins.",
+    "Every R: ln τ < 2.5095·A for every QSD of hull R (hull_cells: corners have coins (2,0) and degree ≤ 2, every other cell (2,1)); survival_le_hull for every state and t."
+   ],
+   [
+    "lntau_le_hull_all",
+    "The weighted local inequality applied to hull faces (not in the source).",
+    "Every R: ln τ < 2.2165·A for every QSD of hull R (weight 1341/1000 on live–dead slots; hull_balanced and hull_type: degrees 6/4/2 with coins (2,1)/(2,1)/(2,0), proved for every R; type_check by the kernel)."
+   ]
+  ]
  }
 ]
