@@ -11,6 +11,9 @@
 2. conditioned coins (bias by the number of live face neighbours), face all dead and all alive: OK
 2. frozen coins (bias 0.42): the oracle with the cells of N held: OK
 2. frozen coins, one neighbour swapped (negative control): fails as it must: state differs at generation 1, lane 511
+2. full replacement (R = 11, d = 1; biases 0.19, 0.3, 0.5 by depth): OK
+2. full replacement at R = 9: OK
+2. full replacement of bias 0.21 checked as 0.19 (negative control): fails as it must: depth 1: share alive 0.20994, bias 0.19
 3. same BRUTE line as nz.c: R 11 seed 1201 gens 20000 M 256 DW 1: OK
 3. same BRUTE line as nz.c: R 11 seed 1202 gens 20000 M 128 DW 2: OK
 3. same BRUTE line as nz.c: R 11 seed 1206 gens 20000 M 64 DW 6: OK
