@@ -67,3 +67,14 @@ population: mean 31.25 of 63; "low" = at most 10 (a third of the mean; 3.4 × 10
   0 and ≤ 0.05 after; core 2 +0.04; deeper ones < 0.03. The face itself: +0.52 at lag 1, +0.21 at 4, +0.09 at 8.
 - Not checked: the deep densities per depth (6, 7, 8 are pooled as "core ≥ 6"); the errors of these densities are not
   computed (correlated samples); a 20,000-generation run on another seed (5) agrees to ± 0.005 at face ≤ 10.
+
+## The control: 63 cells, ε = 1/4 [measured]
+
+Every row: `sh research/blast/density/row.sh TAG 11 SEED GENS M DW BIAS` (output `data/rows/TAG_sSEED.txt`), the table
+by `python3 research/blast/density/collect.py`. ε = 1/4 is M = 256 at d = 1 (B = 1,024), M = 128 at d = 2 (B = 512).
+ln τ of the watched face = ln(exposure / its deaths) ± 1/√deaths; "− gump" against 13.633 ± 0.001 (this session's own
+gump row, seed 5001: 13.644 ± 0.012). Bias strings: MEAN = `1:0.4301,2:0.4094,3:0.4149,4:0.4166,5:0.4157,*:0.4157`,
+LOW10 = `1:0.3836,2:0.4280,3:0.4205,4:0.4184,5:0.4160,*:0.4158` (the table above; deeper than 5: the "core ≥ 6" value).
+
+RESULTS_TABLE
+
