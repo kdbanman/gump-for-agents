@@ -9,8 +9,7 @@ Nothing from research/blast/lean/ (the tape agent's scripts) is imported or copi
                                   asserted dead, so the run is the run of the infinite lattice.
   orc_ring(cells, T, L, hy)       the same step on the torus (2L, hy, 2L): a wire along (1,0,-1) of L units closes into
                                   a ring (unit u is moved by (2u, 0, -2u)); the run of a periodic infinite word.
-  sstep / srun                    a sparse stepper on the infinite lattice (offsets from oracle.offsets); trusted only
-                                  through rt_validate.py, which compares it with orc_run state for state.
+No other stepper is used: every dynamic check of this directory is a run of oracle.step itself.
 """
 import os, sys, json
 import numpy as np
@@ -90,39 +89,6 @@ def orc_ring(cells, T, L, hy=24, y0=-8):
 
 def ringwrap(cells, L):
     return frozenset((c[0] % (2 * L), c[1], c[2] % (2 * L)) for c in cells)
-
-
-OFFS = [oracle.offsets(a) for a in range(3)]
-
-
-def axis(c):
-    for a in range(3):
-        if c[a] & 1:
-            return a
-
-
-def sstep(S, offs=OFFS):
-    """one generation of B45/S345 on the infinite lattice, sparse (neighbourhood is symmetric on cells)."""
-    cnt = {}
-    for p in S:
-        for o in offs[axis(p)]:
-            q = (p[0] + o[0], p[1] + o[1], p[2] + o[2])
-            cnt[q] = cnt.get(q, 0) + 1
-    out = set()
-    for q, n in cnt.items():
-        if q in S:
-            if 3 <= n <= 5:
-                out.add(q)
-        elif n == 4 or n == 5:
-            out.add(q)
-    return frozenset(out)
-
-
-def srun(S, T, offs=OFFS):
-    S = frozenset(S); out = [S]
-    for _ in range(T):
-        S = sstep(S, offs); out.append(S)
-    return out
 
 
 def units(S, a, b):

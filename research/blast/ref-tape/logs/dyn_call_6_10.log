@@ -1,0 +1,10 @@
+PASS call k=6: (a) X_k = V_k + Lf, disjoint, whole torus, t = 0..50: True; (b) V_k(2n) = k pulses at c+3-(n-14) exactly for n >= k+17 among n = 20..25: True {20: False, 21: False, 22: False, 23: True, 24: True, 25: True}; the free line at rest from 42: True (ring of 76 units, 5 s)
+PASS call k=7: (a) X_k = V_k + Lf, disjoint, whole torus, t = 0..52: True; (b) V_k(2n) = k pulses at c+3-(n-14) exactly for n >= k+17 among n = 21..26: True {21: False, 22: False, 23: False, 24: True, 25: True, 26: True}; the free line at rest from 42: True (ring of 76 units, 5 s)
+PASS call k=8: (a) X_k = V_k + Lf, disjoint, whole torus, t = 0..54: True; (b) V_k(2n) = k pulses at c+3-(n-14) exactly for n >= k+17 among n = 22..27: True {22: False, 23: False, 24: False, 25: True, 26: True, 27: True}; the free line at rest from 42: True (ring of 76 units, 5 s)
+PASS call k=9: (a) X_k = V_k + Lf, disjoint, whole torus, t = 0..56: True; (b) V_k(2n) = k pulses at c+3-(n-14) exactly for n >= k+17 among n = 23..28: True {23: False, 24: False, 25: False, 26: True, 27: True, 28: True}; the free line at rest from 42: True (ring of 76 units, 6 s)
+PASS call k=10: (a) X_k = V_k + Lf, disjoint, whole torus, t = 0..58: True; (b) V_k(2n) = k pulses at c+3-(n-14) exactly for n >= k+17 among n = 24..29: True {24: False, 25: False, 26: False, 27: True, 28: True, 29: True}; the free line at rest from 42: True (ring of 76 units, 7 s)
+ALL PASS
+
+real	0m33.344s
+user	0m19.217s
+sys	0m1.821s

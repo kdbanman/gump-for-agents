@@ -2,7 +2,7 @@
 """ref-tape, check 2: the claimed behaviour of the catalogue's objects, on reference/oracle.py, at sizes and times the
 Lean base cases do not cover, with the sharp boundaries. Objects from rt_objects.py (the JSON files only).
 
-    python3 rt_dyn.py tape | line | clock | twoclocks | train | signals | unzip | call      (each under 10 minutes)
+    python3 rt_dyn.py tape | line | clock | twoclocks | train | signals | unzip [K1-K2] | stands | call [K1-K2]      (each under 10 minutes)
 
 Infinite configurations (tape words, the train, the store wire) are run as rings on the oracle's torus
 (2L, hy, 2L) (rt_lib.orc_ring); where the infinite word is not periodic, only units whose light cone sees one copy of
@@ -125,9 +125,9 @@ def check_signals():
             report(good, f'signal {k} (u = {u}): train(1+2n) xor the signal moved {d:+d}*n units, whole torus, n = 0..{T // 2}')
 
 
-def check_unzip(kmax=10):
+def check_unzip(ks=range(1, 11)):
     """unzip_law_sharp: for n >= k+3 the count read at 2n is tape(pulses k (2-n)); not at n = k+2 (nor earlier)"""
-    for k in range(1, kmax + 1):
+    for k in ks:
         t0 = time.time()
         nmax = k + 7
         L = k + 4 * nmax + 4                                   # every compared unit's light cone sees one copy
@@ -144,19 +144,34 @@ def check_unzip(kmax=10):
                f'checked n = 1..{nmax}, ring of {L} units, units -1-2n..k+2n ({time.time() - t0:.0f} s)')
 
 
+def check_stands():
+    """stretch_stands: wire B with d^k f has period dividing 2 (whole torus, ring of 3k + 20 units, 40 generations)"""
+    for k in list(range(1, 13)) + [20]:
+        L = 3 * k + 20
+        cells = O.hex_word_cells(O.store_word(k), -4, L - 5)
+        orb = orc_ring(cells, 40, L)
+        good = all(orb[2 * n] == orb[0] for n in range(21)) and orb[1] != orb[0]
+        report(good, f'store k={k}: state at every even generation 0..40 = the start, generation 1 differs (ring of {L} units)')
+
+
 def check_call(ks=(1, 2, 3, 4, 5)):
     """the call law on the oracle: (a) X_k = V_k disjoint-union Lf and (b) V_k(2n) = k pulses at c+3-(n-14), n >= k+17,
     not at n = k+16; whole torus for (a), the light-cone window for (b)."""
     c = O.CROSS
-    L, hy, y0 = 76, 104, -56
-    Tmax = 2 * (max(ks) + 19)
+    hy, y0 = 104, -56
     line = frozenset(O.CALL_LINE) | frozenset(O.CALL_CELLS)
-    Lf = orc_ring(line, Tmax, L, hy, y0)
+    Lfs = {}
     for k in ks:
         t0 = time.time()
         nmax = k + 19
         T = 2 * nmax
-        assert L > 3 * k + 44
+        # light cones of the compared units (b: lead-3 .. c+k+4 at 2n; a: c-1 .. c+3 at t) must not reach a copy
+        # of the stretch or of the crossing one ring away: L > 4k + 44 (left) and L > 3k + 42 (right)
+        L = max(76, 4 * k + 48)
+        assert L > 4 * k + 44 and L > 3 * k + 42
+        if L not in Lfs:
+            Lfs[L] = orc_ring(line, 2 * (max(ks) + 19), L, hy, y0)
+        Lf = Lfs[L]
         wire = O.hex_word_cells(O.store_word(k, c + 1), c - L // 2, c - L // 2 + L - 1)
         X = orc_ring(wire | line, T, L, hy, y0)
         Vpre = orc_ring(wire, 29, L)
@@ -180,7 +195,12 @@ def check_call(ks=(1, 2, 3, 4, 5)):
 
 if __name__ == '__main__':
     what = sys.argv[1]
+    if len(sys.argv) > 2:                     # optional list of k for unzip / call, e.g. 11-20
+        a, b = map(int, sys.argv[2].split('-'))
+        {'unzip': check_unzip, 'call': check_call}[what](range(a, b + 1))
+        print('ALL PASS' if ok else 'SOME CHECKS FAILED')
+        sys.exit(0 if ok else 1)
     {'tape': check_tape, 'line': check_line, 'clock': check_clock, 'twoclocks': check_twoclocks,
-     'train': check_train, 'signals': check_signals, 'unzip': check_unzip, 'call': check_call}[what]()
+     'train': check_train, 'signals': check_signals, 'unzip': check_unzip, 'stands': check_stands, 'call': check_call}[what]()
     print('ALL PASS' if ok else 'SOME CHECKS FAILED')
     sys.exit(0 if ok else 1)
