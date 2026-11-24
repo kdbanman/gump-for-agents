@@ -221,3 +221,28 @@ There is one inexactness in the prose, about the convention for base times.
 - `check.sh` at `40520c7`: the integrator is running it.
 - Sizes beyond the lit clock to N = 30, the beam to 30 and the divider to 30, and words beyond the 8 random words of
   64 letters.
+
+## Fourth review (2026-11-24, 17:01 to 17:20 UTC): superposition and the meetings of §31
+
+*Examined: commit `c6c8e82`. Its `Gump/` equals the working tree. The `.olean`s are newer than their sources, and
+nothing was built.*
+
+**Verdict.** I found no defect in any statement or object.
+
+- **The finding is confirmed.** The catalogue's row "U meets H: the same: wire B between the same two edges" is
+  right for the lower edge and wrong for the upper one. The tape agent's corrected row is right.
+- **Axioms:** none beyond the standard three, in 3,824 constants.
+
+| question | finding | command |
+|---|---|---|
+| (1) superposition | **`run_or_far`** assumes ∀ p q, c₁ p → c₂ q → ¬ Near (4n) p q: every live point of c₁ and every live point of c₂ are more than 4n apart in max norm. It concludes run (c₁ ∪ c₂) n = run c₁ n ∪ run c₂ n pointwise on the whole lattice. There is no hidden disjointness assumption: the hypothesis itself excludes overlap, since distance 0 ≤ 4n. **The norm and distance are right.** Every neighbour offset has max norm 2 in doubled coordinates, so one cell's influence spreads 2n in n generations (`light_cone`). Two influences can meet only if the cells are within 4n of each other, by the triangle inequality, which is what the proof uses. **On the oracle:** at n = 1 the bound is tight: random patterns whose closest cells are exactly 4 apart do interact in one generation. At 4n + 1, no trial interacted, for n = 1, 2, 3. At n = 2 a 90 s random search found interactions only at distances 2 and 4, none at 5…8. So the 4n bound is sufficient, which is all the theorem claims, and is not seen to be tight beyond n = 1. **`superpose_units`:** Y = X on the units ≥ a, Z = X on the units ≤ b, and a + n ≤ m + 1, m + n ≤ b. By the unit light cone (n generations read n units), the glued run is the glue of the runs, on any background. Correct by reading, and the kernel checked it. | `python3 rt_fourth.py super` (2 min), `… super2` (90 s) |
+| (2) the meetings | **Start objects.** `pair A B a b` = train(1) ⊕ sig A a ⊕ sig B b, which is §31's set-up: "at train phase 1 each signal sits on units of one parity". The train and the nine signals were shown equal to the catalogue's in the first review. **Parity.** The distance's parity is forced by the kinds' parities (U, H odd; E, K0 even), so U–H and E–K0 only meet at even distances and E–H, U–K0 only at odd ones. There is no "other parity" for a given pair: a signal of the other parity is another kind (H at an even unit is E). **Oracle, rings of 160 units, generations to 120:** U–K0 at distances 3, 9 and 19 is exactly the plain train from 2n + 4 (to 2n + 40), and not yet at 2n + 3. U–H (distances 4, 14), E–H (5, 15) and E–K0 (4, 14): X(t + 4) = `front (m) (X t)` at every t from the stated 2n + g to 116, with m as stated. This is the front transcribed by output position: output units ≤ m hold the state moved two units down, units > m two up. For U–H and E–H the six seam units hold wire B at the stated phase (`wireB`). A seam 3 units off fails (negative control). The recurrence fails a few generations before the stated start. Its first generation is not sharp (it holds from about 2n + 10 for U–H), and the theorems do not claim it is. E–K0's medium `medEK` I did not transcribe, only the front recurrence. | `python3 rt_fourth.py meet` (57 s) |
+| (3) **the finding** | **The tape agent is right, and the catalogue's row is wrong for the upper edge.** Unit pictures at generations 97…100 of U–H (distances 4, 12, 22) and E–H (5, 13, 23), from the catalogue's train and signals: `.` = plain train, `o` = wire B, `#` = neither. **Lower edges:** identical in all six runs at all four generations (`#.oooo…` / `#..ooo…`). **Upper edges:** U–H is clean wire B up to its top. E–H carries `#.#` or `##.` (two altered units around one unit of plain train, alternating with the phase) directly below its four topmost units of wire B, for example `…oooooo#.#oooo….` at generation 100. This holds at every distance and moves with the edge. That is the tape agent's `X.X` exactly. The catalogue's own note in §31 ("the edge of E-meets-H is wider … one unit 6 units below its upper edge is not yet wire B") is this inclusion seen at one generation, so the table row contradicts the catalogue's own note. | `python3 rt_fourth.py edges` (27 s; pictures in `logs/fourth_edges.log`) |
+| (4) axioms, names, rows | **Axioms:** 3,824 constants in the 34 tape modules (new: TapeSuper 9, TapeMeet 65, TapeMeetData 48, TapeMeetFront 89, TapeMeetFronts 57) plus 795 dependency constants, none beyond the standard three. **grep:** no `sorry`, `native_decide`, `set_option`, instances or `extern` in the new modules. **Names:** the 11 names resolve, and all are in `AxiomsTape.lean`. **Rows:** honest. `meet_EH`'s row carries the correction, `meet_EK`'s says the medium is checked by the agent's script, and "Not covered" lists the same-direction pairs, words of holes and K3. The base-time convention I flagged in the third review is now corrected in the notes. | `lake env lean RtAxioms4.lean` (20 s) |
+
+**Not checked:**
+- `medEK` and the kernel's states `dUH`, `dEH`, `dEK` as cell lists. They enter only through the front recurrence,
+  which I checked on the oracle.
+- The meetings beyond generation 120 on the ring and distances beyond 23.
+- The agent's `tape_meet.py`.
+- A constructed example of interaction at exactly 4n for n ≥ 2.

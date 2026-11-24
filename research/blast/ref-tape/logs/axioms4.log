@@ -1,0 +1,115 @@
+tape modules: 3824 constants ([(Gump.Unzip, 78),
+ (Gump.CallUnionLocal, 187),
+ (Gump.ClockLitOdd, 134),
+ (Gump.TapeSignals, 179),
+ (Gump.Tape, 111),
+ (Gump.CallBox, 133),
+ (Gump.LineBeamData, 7),
+ (Gump.TapeSuper, 9),
+ (Gump.Clock, 359),
+ (Gump.UnzipProof, 455),
+ (Gump.ClockLit, 380),
+ (Gump.CallProof, 533),
+ (Gump.CallUnionData, 4),
+ (Gump.TapeMeetFronts, 57),
+ (Gump.CallReaderData, 3),
+ (Gump.TapeBase, 142),
+ (Gump.TapeMeetData, 48),
+ (Gump.CallUnion, 68),
+ (Gump.LineBeam, 96),
+ (Gump.LineData, 3),
+ (Gump.CallLine, 71),
+ (Gump.ClockLitData, 4),
+ (Gump.ClockReader, 48),
+ (Gump.LineDivider, 172),
+ (Gump.TapeMeet, 65),
+ (Gump.LineDividerData, 2),
+ (Gump.ClockLitFirst, 91),
+ (Gump.CallReader, 70),
+ (Gump.Line, 156),
+ (Gump.TapeMeetFront, 89),
+ (Gump.CallData, 3),
+ (Gump.ClockData, 3),
+ (Gump.TapeSignalsData, 52),
+ (Gump.Call,
+  12)]); their Gump dependencies: 795 constants; axiom sets seen in the tape modules: [([Quot.sound], 9),
+ ([propext], 527),
+ ([propext, Quot.sound], 2095),
+ ([], 551),
+ ([propext, Classical.choice, Quot.sound], 642)]
+0 constants (tape modules and their dependencies) with an axiom beyond propext, Classical.choice, Quot.sound, or declared axiom/opaque
+name tape_run: 1 constant(s) [Gump.Tape.tape_run (Gump.Tape)]
+name tape_local_run: 1 constant(s) [Gump.Tape.tape_local_run (Gump.Tape)]
+name line_orbit: 1 constant(s) [Gump.Line.line_orbit (Gump.Line)]
+name line_period_four: 1 constant(s) [Gump.Line.line_period_four (Gump.Line)]
+name S_succ: 2 constant(s) [Gump.Divider.S_succ (Gump.LineDivider), Gump.Line.S_succ (Gump.Line)]
+name train_step: 1 constant(s) [Gump.Tape.Signals.train_step (Gump.TapeSignals)]
+name signal_run: 1 constant(s) [Gump.Tape.Signals.signal_run (Gump.TapeSignals)]
+name glue_run: 1 constant(s) [Gump.Tape.glue_run (Gump.TapeBase)]
+name orbit_classify: 1 constant(s) [Gump.Tape.orbit_classify (Gump.TapeBase)]
+name clock_every_length: 1 constant(s) [Gump.Clock.clock_every_length (Gump.Clock)]
+name clock_cycle: 1 constant(s) [Gump.Clock.clock_cycle (Gump.Clock)]
+name lit_clock_small: 1 constant(s) [Gump.Clock.lit_clock_small (Gump.Clock)]
+name unzip_law_sharp: 1 constant(s) [Gump.Unzip.unzip_law_sharp (Gump.UnzipProof)]
+name unzip_law: 1 constant(s) [Gump.Unzip.unzip_law (Gump.UnzipProof)]
+name stretch_stands: 1 constant(s) [Gump.Unzip.stretch_stands (Gump.Unzip)]
+name glue_run_moving: 1 constant(s) [Gump.Unzip.glue_run_moving (Gump.Unzip)]
+name call_law_b: 1 constant(s) [Gump.Call.call_law_b (Gump.CallProof)]
+name train_shift: 1 constant(s) [Gump.Tape.Signals.train_shift (Gump.TapeSignals)]
+name surg_step: 1 constant(s) [Gump.Clock.surg_step (Gump.Clock)]
+name chartA: 1 constant(s) [Gump.Clock.chartA (Gump.Clock)]
+name chartB: 1 constant(s) [Gump.Clock.chartB (Gump.Clock)]
+name hex_local: 1 constant(s) [Gump.Unzip.hex_local (Gump.Unzip)]
+name pieceCheck_spec: 1 constant(s) [Gump.Tape.pieceCheck_spec (Gump.TapeSignals)]
+name forcedCheck_spec: 1 constant(s) [Gump.Call.forcedCheck_spec (Gump.CallProof)]
+name lineC_N_period_four: 0 constant(s) []
+name CallLaw: 1 constant(s) [Gump.Call.CallLaw (Gump.Call)]
+name UnzipLawSharp: 1 constant(s) [Gump.Unzip.UnzipLawSharp (Gump.Unzip)]
+name UnzipLaw: 1 constant(s) [Gump.Unzip.UnzipLaw (Gump.Unzip)]
+name LineRest: 1 constant(s) [Gump.Call.LineRest (Gump.Call)]
+name call_law: 1 constant(s) [Gump.Call.call_law (Gump.CallUnionLocal)]
+name call_law_a: 1 constant(s) [Gump.Call.call_law_a (Gump.CallUnionLocal)]
+name V_HV: 1 constant(s) [Gump.Call.V_HV (Gump.CallUnion)]
+name Lf_HL: 1 constant(s) [Gump.Call.Lf_HL (Gump.CallUnion)]
+name V_Lf_disjoint: 1 constant(s) [Gump.Call.V_Lf_disjoint (Gump.CallUnion)]
+name step_or: 1 constant(s) [Gump.Call.step_or (Gump.CallUnion)]
+name zone_cover: 1 constant(s) [Gump.Call.zone_cover (Gump.CallUnion)]
+name LC_spec: 1 constant(s) [Gump.Call.LC_spec (Gump.CallUnionLocal)]
+name local_union: 1 constant(s) [Gump.Call.local_union (Gump.CallUnionLocal)]
+name bstep_spec: 2 constant(s) [Gump.Call.Box.bstep_spec (Gump.CallBox), Gump.Bits.bstep_spec (Gump.Bits)]
+name line_rest: 1 constant(s) [Gump.Call.line_rest (Gump.CallLine)]
+name Lf_period: 1 constant(s) [Gump.Call.Lf_period (Gump.CallLine)]
+name Lf_snap: 1 constant(s) [Gump.Call.Lf_snap (Gump.CallLine)]
+name clockOf_period: 1 constant(s) [Gump.Clock.clockOf_period (Gump.Clock)]
+name X0_lit: 1 constant(s) [Gump.Clock.X0_lit (Gump.Clock)]
+name clockY_zero_lit: 1 constant(s) [Gump.Clock.clockY_zero_lit (Gump.Clock)]
+name lit_word: 1 constant(s) [Gump.Clock.lit_word (Gump.ClockLit)]
+name lit_enters: 1 constant(s) [Gump.Clock.lit_enters (Gump.ClockLit)]
+name FL_entry: 1 constant(s) [Gump.Clock.FL_entry (Gump.ClockLit)]
+name lit_odd_entry: 1 constant(s) [Gump.Clock.lit_odd_entry (Gump.ClockLitOdd)]
+name lit_enters_at: 1 constant(s) [Gump.Clock.lit_enters_at (Gump.ClockLitOdd)]
+name lit_first: 1 constant(s) [Gump.Clock.lit_first (Gump.ClockLitFirst)]
+name lit_clock_exact: 1 constant(s) [Gump.Clock.lit_clock_exact (Gump.ClockLitOdd)]
+name lit_clock: 1 constant(s) [Gump.Clock.lit_clock (Gump.ClockLit)]
+name lit_enters_exact: 1 constant(s) [Gump.Clock.lit_enters_exact (Gump.ClockLitFirst)]
+name reader_run: 1 constant(s) [Gump.Clock.reader_run (Gump.ClockReader)]
+name reader_step: 1 constant(s) [Gump.Clock.reader_step (Gump.ClockReader)]
+name reader9_run: 1 constant(s) [Gump.Reader.reader9_run (Gump.CallReader)]
+name reader_run_gen: 1 constant(s) [Gump.Reader.reader_run_gen (Gump.CallReader)]
+name beam_period: 1 constant(s) [Gump.Beam.beam_period (Gump.LineBeam)]
+name divider_period: 1 constant(s) [Gump.Divider.divider_period (Gump.LineDivider)]
+name run_or_far: 1 constant(s) [Gump.run_or_far (Gump.TapeSuper)]
+name superpose_units: 1 constant(s) [Gump.superpose_units (Gump.TapeSuper)]
+name pair_run: 1 constant(s) [Gump.Tape.Signals.pair_run (Gump.TapeMeet)]
+name meet_U_K0: 1 constant(s) [Gump.Tape.Signals.meet_U_K0 (Gump.TapeMeet)]
+name meet_UH: 1 constant(s) [Gump.Tape.Signals.meet_UH (Gump.TapeMeetFronts)]
+name meet_EH: 1 constant(s) [Gump.Tape.Signals.meet_EH (Gump.TapeMeetFronts)]
+name meet_EK: 1 constant(s) [Gump.Tape.Signals.meet_EK (Gump.TapeMeetFronts)]
+name rigid_front: 1 constant(s) [Gump.Tape.Signals.rigid_front (Gump.TapeMeetFront)]
+name stateUH: 1 constant(s) [Gump.Tape.Signals.stateUH (Gump.TapeMeetFronts)]
+name stateEH: 1 constant(s) [Gump.Tape.Signals.stateEH (Gump.TapeMeetFronts)]
+name stateEK: 1 constant(s) [Gump.Tape.Signals.stateEK (Gump.TapeMeetFronts)]
+
+real	0m20.111s
+user	0m19.503s
+sys	0m0.393s

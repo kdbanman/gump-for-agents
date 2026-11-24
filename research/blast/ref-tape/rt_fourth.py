@@ -61,12 +61,47 @@ def check_super():
                f'at 4n + 1 apart no interaction in any trial')
 
 
+def check_super2(n=2):
+    """for n = 2: the largest distance (max norm) at which random facing patterns are seen to interact"""
+    rnd = random.Random(5)
+    best = {}
+    t0 = time.time()
+    while time.time() - t0 < 90:
+        R = 4
+        A = frozenset(c for c in ((x, y, z) for x in range(-R, 1) for y in range(-R, R + 1) for z in range(-R, R + 1))
+                      if is_cell(c) and rnd.random() < 0.5)
+        B0 = frozenset((-c[0], c[1], c[2]) for c in A) if rnd.random() < 0.5 else frozenset(
+            c for c in ((x, y, z) for x in range(0, R + 1) for y in range(-R, R + 1) for z in range(-R, R + 1))
+            if is_cell(c) and rnd.random() < 0.5)
+        for s in range(0, 20, 2):
+            B = frozenset((c[0] + s, c[1], c[2]) for c in B0)
+            if A & B:
+                continue
+            d = min(max(abs(p[0] - q[0]), abs(p[1] - q[1]), abs(p[2] - q[2])) for p in A for q in B)
+            if d > 4 * n:
+                break
+            if d in best:
+                continue
+            oa, ob, oab = orc_run(A, n), orc_run(B, n), orc_run(A | B, n)
+            if any(oab[t] != oa[t] | ob[t] for t in range(n + 1)):
+                best[d] = True
+    print(f'n={n}: distances at which an interaction was found within {n} generations: {sorted(best)} '
+          f'(the theorem allows interaction only at distance <= {4 * n})', flush=True)
+
+
 def front_ring(m, S, L):
+    """Lean's front m C = glue m (shiftC (-2) C) (shiftC 2 C), on the ring: the OUTPUT units <= m hold C moved two
+    units down, the output units > m hold C moved two units up (units counted relative to m in (-L/2, L/2])"""
+    rel = lambda u: ((u - m + L // 2 - 1) % L) - (L // 2 - 1)
     out = set()
     for c in S:
-        r = ((unit_of(c) - m + L // 2 - 1) % L) - (L // 2 - 1)
-        out.add(tr(c, -2 if r <= 0 else 2))
-    return ringwrap(out, L)
+        lo, hi = ringwrap([tr(c, -2)], L), ringwrap([tr(c, 2)], L)
+        lo, hi = next(iter(lo)), next(iter(hi))
+        if rel(unit_of(lo)) <= 0:
+            out.add(lo)
+        if rel(unit_of(hi)) > 0:
+            out.add(hi)
+    return frozenset(out)
 
 
 MEET = {  # Lean: pair A B a b(n); seam m(n); from generation 2n + g; medium on units m-2..m+3 (None: not checked)
@@ -99,6 +134,8 @@ def check_meet(T=120, L=160):
             start = 2 * n + g
             rec = [t for t in range(start, T - 3) if orb[t + 4] != front_ring(m, orb[t], L)]
             early = [t for t in range(max(0, start - 6), start) if orb[t + 4] != front_ring(m, orb[t], L)]
+            wrong = orb[start + 4] == front_ring(m + 3, orb[start], L)
+            report(not wrong, f'{name} distance {bf(n) - a0}: negative control, the seam 3 units off fails')
             medok = True
             if med == 'wireB':
                 for t in range(start, T + 1):
@@ -158,5 +195,5 @@ def check_edges(L=128, T=100):
 
 
 if __name__ == '__main__':
-    {'super': check_super, 'meet': check_meet, 'edges': check_edges}[sys.argv[1]]()
+    {'super': check_super, 'super2': check_super2, 'meet': check_meet, 'edges': check_edges}[sys.argv[1]]()
     print('ALL PASS' if rt_dyn.ok else 'SOME CHECKS FAILED')
