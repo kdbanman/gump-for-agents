@@ -312,6 +312,13 @@ carries a defect X.X there, U–H does not). `ref-tape` resumed for a fourth rev
 **Owed now:** density's third task (placeholder in REPORT, block 6), ref-tape's fourth review, then a short REPORT
 addendum for the meetings, the comment on PR 39 (update the draft: hull uniqueness for every R, meetings, the §31
 correction, the fixed header), the owner, State.
+17:03: `density` third hand-back (2d67675), now idle: **four real layers give gump's rate and gump's way of dying**
+(45 cells +0.004 ± 0.007, 63 cells +0.016 ± 0.012; three layers +0.17, +0.30; wrapped faces agree); the 0.385
+coincidence is an accident; 84 cells on coins alone −0.165 ± 0.043. Written into REPORT (section and short version)
+and block 6 scored (43a672c). `ref-density` (ad8647ed13bc7c8ae) resumed for the skin rows with its own code (60
+minutes). **Owed:** ref-tape's fourth review (meetings; the §31 correction) → a REPORT addendum; ref-density's
+second review → one line in REPORT; then the comment on PR 39 from `pi/COMMENT-DRAFT.md` (update: hull uniqueness
+for every R, the meetings, the §31 row, the skin, 84 cells, the header now fixed), the owner, State.
 
 **13:15 UTC 2026-11-24.** `chain` handed back (notes: `lean/notes/chain.md`, last commit 23163ec; 15 `Chain*.lean`
 modules, 82 headline theorems, `check.sh --mathlib` passed at 13:10). `ref-lean` handed back earlier (repairs in

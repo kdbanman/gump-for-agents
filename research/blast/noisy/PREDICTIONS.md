@@ -225,7 +225,7 @@ under the 63-cell face has density 0.384 when the face is at most 10 cells (its 
 4. At the smallest d with |Δ| < 0.1, the face's way of dying is gump's: from one cell it dies between 74% and 80%
    of the time, and dips below 16 cells are within 20% of gump's frequency: 60%.
 
-### Scores of block 6 (17:25 UTC 2026-11-24; from `density`'s third task, `research/blast/density/README.md`, commit 2d67675; one code, not yet refereed)
+### Scores of block 6 (17:03 UTC 2026-11-24; from `density`'s third task, `research/blast/density/README.md`, commit 2d67675; one code, not yet refereed)
 
 | item | forecast | outcome | Brier |
 |---|---|---|---|
