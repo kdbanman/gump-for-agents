@@ -1,0 +1,21 @@
+1. oracle, R = 11, 1200 generations x 3 lanes, no noise: OK
+1. oracle, R = 11, one neighbour swapped (negative control): fails as it must: state differs at generation 4, lane 37 (1 cells)
+1. oracle, R = 9, 1200 generations x 3 lanes, no noise: OK
+1. oracle, R = 9, one neighbour swapped (negative control): fails as it must: state differs at generation 7, lane 511 (1 cells)
+2. coins by depth (R = 11, DW = 1, M = 256): 0.1, 0.9, 0.3, 0.42, rest 0.7: OK
+2. fair path (every bias 1/2): OK
+2. bias 1/2 through the comparison path: OK
+2. coins of bias 0.6 read as 0.5 (negative control): fails as it must: depth 1: share set alive 0.13421, expected 0.11065 +- 0.00157
+2. shuffled coin, source = the whole layer: OK
+2. shuffled coin, source = the layer's core: OK
+3. same BRUTE line as nz.c: R 11 seed 1201 gens 20000 M 256 DW 1: OK
+3. same BRUTE line as nz.c: R 11 seed 1202 gens 20000 M 128 DW 2: OK
+3. same BRUTE line as nz.c: R 11 seed 1206 gens 20000 M 64 DW 6: OK
+3. same BRUTE line as nz.c: R 9 seed 901 gens 30000 M 16 DW 6: OK
+3. same BRUTE line as nz.c: R 11 seed 5 gens 20000 M 0 DW 1: OK
+3. bias 1/2 through the comparison path against nz.c (negative control): fails as it must: lines differ
+3. another seed against nz.c (negative control): fails as it must: lines differ
+3. the list form with every bias 1/2: OK
+4. excursion counts recomputed from a dump (R = 9, M = 16, 30,000 generations): OK
+5. layer groups and the face group: OK
+VALIDATION PASSED
