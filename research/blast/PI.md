@@ -274,6 +274,16 @@ coin stream. Sent to `density` to fold into its third task. For my REPORT entry:
 dominant law, tilt identity, ln τ < 2.2165·A, `survFrom = Face.survival`); uniqueness on hull faces is
 `hull_full_sym R` under the one hypothesis `Lemma0F (hull R)`, kernel-proved for R = 1, 3, …, 13 (unrefereed).
 In flight at 15:50: tape (third task), density (third task). Next: when `tape` returns, launch the integrator.
+`tape` third hand-back (40520c7), now idle: the clock from a single cell for every N (`lit_clock_exact`,
+`lit_enters_at`, `lit_first`), `Clock.reader_run`, `Reader.reader9_run`, `Beam.beam_period`,
+`Divider.divider_period`; not done: the meetings of §31.
+16:15 UTC: integrator ae578bc595e5e8719 launched (75 minutes: STATEMENTS and its check, two text slips, lean README,
+`check.sh --mathlib` and `--long`, blast README, REPORT entry and short version, `pi/COMMENT-DRAFT.md`). `ref-tape`
+resumed for a third review (tape's third task, 45 minutes); `ref-chain` for a fourth (every hull face, DiceMean; 40
+minutes). `density` third task still running (to about 17:35).
+**Owed when the integrator returns:** read its diff of REPORT.md and the comment draft; fill the density third-task
+placeholder; score block 6; commit by path; push; post the comment on PR 39 with `gh api`; tell the owner; update
+State above.
 
 **13:15 UTC 2026-11-24.** `chain` handed back (notes: `lean/notes/chain.md`, last commit 23163ec; 15 `Chain*.lean`
 modules, 82 headline theorems, `check.sh --mathlib` passed at 13:10). `ref-lean` handed back earlier (repairs in
