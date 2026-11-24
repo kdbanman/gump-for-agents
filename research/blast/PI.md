@@ -209,6 +209,12 @@ from me, after `dice` hands back, before starting the instantiation on `Gump.Dic
 catalogue's cell for cell; D1 `clock_every_length` never names the clock (sent to `tape`), D2 `STATEMENTS.md` stale
 and `check.sh` does not notice (mine, at integration: regenerate, and make the check compare), D3 three stale
 passages (sent to `tape`).
+`density` (a672d9caa1fd19096) handed back at 13:50 (README in `research/blast/density/`, commit 9a105d3): mostly
+correlation (matched-density coins keep +0.532 of +0.678 at d = 1; copy coins shorten the life, −0.434; the gain is
+zero at coin density ≈ 0.19). Block 4 scored and block 5 frozen in `noisy/PREDICTIONS.md` (993a3d5). `density`
+resumed at 13:58 for p*(ε, size) (is the equivalent density a constant; ε = 1 is the dice picture on the hull), two
+hours. ref-density ad8647ed13bc7c8ae started 13:58 (own code from the oracle, two hours, writes
+`research/blast/ref-density/REVIEW.md`). Usage at 13:41: Fable 0.90, all-model 0.62.
 
 **13:15 UTC 2026-11-24.** `chain` handed back (notes: `lean/notes/chain.md`, last commit 23163ec; 15 `Chain*.lean`
 modules, 82 headline theorems, `check.sh --mathlib` passed at 13:10). `ref-lean` handed back earlier (repairs in
