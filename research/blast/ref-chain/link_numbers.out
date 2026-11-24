@@ -1,0 +1,54 @@
+
+== hull 3: A = 9, coins (m1,m2) = [(2, 0), (2, 1), (2, 1), (2, 0), (2, 1), (2, 1), (2, 1), (2, 1), (2, 0)], neighbour counts = [2, 4, 4, 2, 4, 4, 4, 4, 2]
+   lambda = 0.9165673655948841   ln tau = 2.483715746334  (exact.csv 2.483715746334)   sum c_i - ln tau = -3.1e-15
+   c_i = 0.0481050722, 0.3899000883, 0.3899000883, 0.0481050722, 0.3899000883, 0.3899000883, 0.3899000883, 0.3899000883, 0.0481050722
+   classes asserted equal by Lean: [[0, 3, 8], [1, 2, 4, 5, 6, 7]]
+   classes of equal prices (|diff| < 1e-11): [[0, 3, 8], [1, 2, 4, 5, 6, 7]]
+   asserted equalities violated: none;  Lean's classes as coarse as the numerics: True
+   states that can survive: 511 of 511; surely dying: [];  u = 207: every cell alive-able True, Q u y > 0 for all living y: True
+   every state that can survive reaches u: True; largest distance to u: 3
+
+== torus 1 0 3: A = 9, coins (m1,m2) = [(2, 1), (2, 1), (2, 1), (2, 1), (2, 1), (2, 1), (2, 1), (2, 1), (2, 1)], neighbour counts = [6, 6, 6, 6, 6, 6, 6, 6, 6]
+   lambda = 0.9664099275695950   ln tau = 3.393524719052  (exact.csv 3.393524719052)   sum c_i - ln tau = -8.9e-16
+   c_i = 0.3797575033, 0.3797575033, 0.3716598997, 0.3797575033, 0.3797575033, 0.3716598997, 0.3797575033, 0.3797575033, 0.3716598997
+   classes asserted equal by Lean: [[0, 1, 3, 4, 6, 7], [2, 5, 8]]
+   classes of equal prices (|diff| < 1e-11): [[0, 1, 3, 4, 6, 7], [2, 5, 8]]
+   asserted equalities violated: none;  Lean's classes as coarse as the numerics: True
+   states that can survive: 510 of 511; surely dying: [511];  u = 10: every cell alive-able True, Q u y > 0 for all living y: True
+   every state that can survive reaches u: True; largest distance to u: 2
+
+== torus 1 1 3: A = 9, coins (m1,m2) = [(2, 1), (2, 1), (2, 1), (2, 1), (2, 1), (2, 1), (2, 1), (2, 1), (2, 1)], neighbour counts = [6, 6, 6, 6, 6, 6, 6, 6, 6]
+   lambda = 0.9324323935928461   ln tau = 2.694626605944  (exact.csv 2.694626605944)   sum c_i - ln tau = -3.6e-15
+   c_i = 0.2994029562, 0.2994029562, 0.2994029562, 0.2994029562, 0.2994029562, 0.2994029562, 0.2994029562, 0.2994029562, 0.2994029562
+   classes asserted equal by Lean: [[0, 1, 2, 3, 4, 5, 6, 7, 8]]
+   classes of equal prices (|diff| < 1e-11): [[0, 1, 2, 3, 4, 5, 6, 7, 8]]
+   asserted equalities violated: none;  Lean's classes as coarse as the numerics: True
+   states that can survive: 510 of 511; surely dying: [511];  u = 3: every cell alive-able True, Q u y > 0 for all living y: True
+   every state that can survive reaches u: True; largest distance to u: 2
+
+== strip 1 3: A = 9, coins (m1,m2) = [(2, 1), (2, 1), (2, 1), (2, 1), (2, 1), (2, 1), (2, 1), (2, 1), (2, 1)], neighbour counts = [3, 4, 3, 3, 4, 3, 3, 4, 3]
+   lambda = 0.9391216736592645   ln tau = 2.798878056925  (exact.csv 2.798878056925)   sum c_i - ln tau = -4.0e-15
+   c_i = 0.2774035020, 0.3781523483, 0.2774035020, 0.2774035020, 0.3781523483, 0.2774035020, 0.2774035020, 0.3781523483, 0.2774035020
+   classes asserted equal by Lean: [[0, 2, 3, 5, 6, 8], [1, 4, 7]]
+   classes of equal prices (|diff| < 1e-11): [[0, 2, 3, 5, 6, 8], [1, 4, 7]]
+   asserted equalities violated: none;  Lean's classes as coarse as the numerics: True
+   states that can survive: 511 of 511; surely dying: [];  u = 14: every cell alive-able True, Q u y > 0 for all living y: True
+   every state that can survive reaches u: True; largest distance to u: 3
+
+== patch 1 3: A = 9, coins (m1,m2) = [(2, 1), (2, 1), (2, 1), (2, 1), (2, 1), (2, 1), (2, 1), (2, 1), (2, 1)], neighbour counts = [3, 3, 2, 3, 4, 3, 2, 3, 3]
+   lambda = 0.8474738060566526   ln tau = 1.880418934121  (exact.csv 1.880418934121)   sum c_i - ln tau = -1.6e-15
+   c_i = 0.1913329607, 0.1952921412, 0.1127909274, 0.2727663171, 0.3360542414, 0.2727663171, 0.1127909274, 0.1952921412, 0.1913329607
+   classes asserted equal by Lean: [[0, 8], [1, 7], [2, 6], [3, 5], [4]]
+   classes of equal prices (|diff| < 1e-11): [[0, 8], [1, 7], [2, 6], [3, 5], [4]]
+   asserted equalities violated: none;  Lean's classes as coarse as the numerics: True
+   states that can survive: 511 of 511; surely dying: [];  u = 73: every cell alive-able True, Q u y > 0 for all living y: True
+   every state that can survive reaches u: True; largest distance to u: 4
+
+== torus 2 0 2: A = 12, coins (m1,m2) = [(2, 1), (2, 1), (2, 1), (2, 1), (2, 1), (2, 1), (2, 1), (2, 1), (2, 1), (2, 1), (2, 1), (2, 1)], neighbour counts = [6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6]
+   lambda = 0.9813486469939217   ln tau = 3.981836588281  (exact.csv 3.981836588280)   sum c_i - ln tau = -1.3e-15
+   c_i = 0.3318197157, 0.3318197157, 0.3318197157, 0.3318197157, 0.3318197157, 0.3318197157, 0.3318197157, 0.3318197157, 0.3318197157, 0.3318197157, 0.3318197157, 0.3318197157
+   classes asserted equal by Lean: [[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]]
+   classes of equal prices (|diff| < 1e-11): [[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]]
+   asserted equalities violated: none;  Lean's classes as coarse as the numerics: True
+   states that can survive: 4094 of 4095; surely dying: [4095];  u = 7: every cell alive-able True, Q u y > 0 for all living y: True
+   every state that can survive reaches u: True; largest distance to u: 2

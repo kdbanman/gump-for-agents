@@ -244,6 +244,15 @@ over a layer of coins shares each coin between two face cells, so `Face.P` is no
 for four more 9-cell faces; `torus202_full` (12 cells, no λ interval). Resumed a last time (commit the generators,
 `survFrom` = `Face.survival`, the general torus bijection; 90 minutes). `ref-chain` (a7d485bc698b4b1c4) resumed for
 a second review of the repairs and the Link modules (60 minutes).
+`density` second hand-back (b7f5904): p* is not a constant (0.17, 0.19 at ε = 1/16, 1/4; 0.27/0.32 at full
+replacement under the middle at 45/63 cells; with every cell not on a face a coin, 0.3848/0.3854, one density for
+both sizes, 84 cells −0.28 ± 0.15 undecided; the face dies differently there). Block 5 scored, block 6 frozen
+(1e62823). Resumed a third time at 15:05 (the 0.385 coincidence at 45 cells, skin depth at full replacement d = 1–4,
+the 84-cell row, a wrapped face if time; two and a half hours).
+`ref-dice` back (003cb73): could not break the Dice modules at a65957b; six small defects (a cited theorem that
+does not exist, proved by the referee in `ref-dice/QsdSurvival.lean`; notes and rows); private against shared coins
+differ by total variation 0.33 in one step. `dice` resumed for the repairs (30 minutes); `ref-dice`
+(a4857c15ecf3e29cc) resumed for a second review of dice's second task (50 minutes).
 
 **13:15 UTC 2026-11-24.** `chain` handed back (notes: `lean/notes/chain.md`, last commit 23163ec; 15 `Chain*.lean`
 modules, 82 headline theorems, `check.sh --mathlib` passed at 13:10). `ref-lean` handed back earlier (repairs in
