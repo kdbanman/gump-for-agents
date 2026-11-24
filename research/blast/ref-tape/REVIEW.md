@@ -155,3 +155,41 @@ Run these from `research/blast/ref-tape/`, against a built copy (see §4) at `C 
 
 Files: `rt_lib.py` holds `oracle.step` on an edge-asserted box and on a ring torus; it contains no other stepper.
 `rt_objects.py` builds the catalogue's objects from the JSON files. The other scripts are named above.
+
+## Second review (2026-11-24, 14:31 to 14:50 UTC): the call law whole, the second box, the clock named
+
+*Examined: the tape files at `ba36f77`. The files I read are byte-identical in the working tree at `9cde231`.*
+
+- **New modules:** `Gump/CallBox.lean`, `CallLine.lean`, `CallUnion.lean`, `CallUnionData.lean`,
+  `CallUnionLocal.lean`.
+- **Changed:** the additions to `Clock.lean`, the Unzip header, `AxiomsTape.lean` and the rows.
+- `Gump/Call.lean` (the definition `CallLaw`) is unchanged since `6be19d4`.
+- The PI asked me not to build, so my Lean files ran with `lake env lean` against the shared tree's `.olean`s,
+  which are newer than their sources.
+
+**Verdict.** I found no new defect, and the first review's D1 and D3 are repaired. In detail:
+
+- **`call_law : CallLaw`** says what REVIEW-signals-9 §3 says, parts (a) and (b), for the objects of `call9.json`.
+- **`Gump.Call.Box.bstep_spec`** ties the second box to `Gump.step` on the whole lattice. Its checkers reject a
+  false claim at three edges.
+- **`zone_cover`** is complete, and its 44 cells are exactly the cells whose closed neighbourhood meets both
+  supports.
+- **`clockOf_period`** names an object for every N, with exact period 4N + 2. The two-clocks object does not
+  satisfy it.
+- **Axioms:** none beyond the standard three in 2,549 constants.
+
+| question | finding | command |
+|---|---|---|
+| (1) `CallLaw` against the source and the objects | `CallLaw` = ∀ k ≥ 1, (∀ t, run (callStart k) t = V k t ∪ Lf t, disjoint) ∧ (b), word for word REVIEW-signals-9 §3 (a), (b). `call_law` proves it (CallUnionLocal.lean:458) from `call_law_a` and `call_law_b`. `line_rest` proves `LineRest`. **Objects:** `callStart 1` and `callStart 3` (360 cells each: store wire on units 8…46, the line and the CALL) equal call9.json's. `Lf t`, read by `#eval` through the kernel-proved `Lf_frame` on the new box, equals the oracle run of line + CALL at every t = 0…46. That run is `line` at 42 and 44 and not at 43, so `Lf` is the catalogue's free line. `V` was compared in the first review and is unchanged. **Oracle:** (a) on the whole torus and (b) exactly from n = k + 17 now hold for k = 1…10, **14 and 20** (rings of 104 and 128 units, every generation to 2k + 38). As the row says, the review's "what is left" (ii)–(iv) is not covered: the finite cell, other seed places, and "no earlier generation". | `RtDump2.lean` (6 min under load), `python3 rt_second.py dump2.txt` (48 s), `python3 rt_dyn.py call 14-14`, `… call 20-20` (38 s, 75 s) |
+| (2) the second box | `bstep_spec` (CallBox.lean:246) is the whole-lattice `Box.bcfg (Box.bstep S) = step (Box.bcfg S)` for S in the core [−12, 108)² × [−12, −4). Its z-range is only 8 doubled units. The line moved by `lineFrame` lies at z ∈ [−10, −6], and `lineCheck` asks `boxCoreRun LS 45`, so every state the proofs read is in the core. The oracle run also stays in the core (checked). **Edges:** cubes with faces outside the interior at z = −15, at z = −1 and −2, and at x = 110 and 111. `Box.bstep` keeps only their interior faces, which is wrong because the cube is a still life. `Box.inCore` is false for all three. A `lineCheck`-style claim (`boxCoreRun` + `boxEqOn`) of the false successor is rejected for each. In the core the cube is stepped correctly, the true claim is accepted and a false one rejected. `LC`, the union check, uses the first box `Gump.Bits`, which the first review attacked. | `lake env lean RtCert2.lean` (all `decide +kernel`, 2 s) |
+| (3) `zone_cover` | It is a theorem for every cell: if the closed neighbourhood meets HV and HL, the cell is in `zoneZ`. HV (the wire's tube) and HL (the line's hull) are proved supports: `V_HV` from `confinement` on four diagonals, `Lf_HL` from `hull`. Off Z, `step_or` gives the union law; at non-cells `step` is false. **Independent checks:** (i) The brute-force set of cells whose closed neighbourhood meets my transcription of HV and HL, over the whole box that holds HL + 2, is exactly `zoneZ` (44 = 44). (ii) HL's eight bounds are exactly the diagonal hull of line + CALL. (iii) On the oracle, V_k stays in HV at every generation (k = 1, 3, 10) and Lf in HL (t ≤ 46). (iv) The cells whose closed neighbourhood actually holds live cells of both V_k(t) and Lf(t) number 12–13 and all lie in Z. So there is no interaction outside the 44 cells. The union law at those 44 cells is the kernel's `local_union`: store, start, `VW` words, and all 256 tape words on units 32…39 for t ≥ 44, at both parities. I did not re-derive it. | `python3 rt_second.py dump2.txt` |
+| (4) `clockOf_period` | `clockOf N` is the lit clock at generation max(N − 2, 0) for N ≤ 5 and `clockY (N − 6)` for N ≥ 6. The statement gives exact (minimal) period 4N + 2 and the support, so it names its object: D1 is repaired. The two-clocks object is not `clockOf 7`, nor any state of the lit clock of 7 units. **Oracle, N = 1…20:** `clockOf N` is exactly one state of the lit clock's cycle (N ≤ 5: the state at max(N − 2, 0)) and has exact period 4N + 2. For N ≥ 7, "`clockOf N` is on the lit clock's orbit" is still measured, not proved; `X0_lit` and `clockY_zero_lit` prove it for N = 6. The rows say so. `clock_every_length` is kept; its row now says "Less", as it should. | `python3 rt_second.py dump2.txt` |
+| (5) axioms | 2,549 constants in the 18 tape modules (the 5 new ones: 133 + 71 + 68 + 4 + 187) plus 795 dependency constants: none beyond `propext`, `Classical.choice` and `Quot.sound`, and none is an `axiom` or `opaque`. All 16 names the PI listed resolve, `bstep_spec` in both boxes. **grep of the 5 new modules:** no `sorry`, `native_decide`, `set_option` or `extern`. There are two `Decidable` instances (`HV`, `HL`, CallUnion.lean:27, 34), derived by `unfold; infer_instance`. A `Decidable` value carries its proof, so with no `native_decide` such an instance cannot make a false statement provable. | `lake env lean RtAxioms2.lean` (36 s) |
+
+**Not checked in this round:**
+- A fresh-clone `check.sh` at `ba36f77` (the PI asked for no build).
+- `tape_callunion.py`, which generated `CallUnionData.lean`. Its `zoneZ` matches my brute force; I did not recompute
+  `zoneNZ` or the snapshots `lineSnap` separately. Their tie to `Lf` is the kernel's `lineCheck`, and my comparison
+  of `Lf` with the oracle covers them.
+- The internal steps of `local_union`.
+- k beyond 20 for the call law, and N beyond 20 for the clock.
