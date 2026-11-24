@@ -377,7 +377,8 @@ No: p\* is not a property of gump's support alone. With part of the support repl
 of coins and the rule-made cells they prop up: 0.17–0.19 at ε = 1/16 and 1/4 (nearly the same at 45 and 63 cells),
 0.27 and 0.32 at full replacement of the 3 or 9 cells under the middle of the face. Only when nearly the whole support
 is coins (DO = 1, two thirds of layer 1 and everything below) does one density, **0.385**, give gump's life at both
-45 and 63 cells, so the face law's slope as well as a point. Even then a face of gump is not a face over coins in its
+45 and 63 cells (at p = 0.385 itself: +0.009 ± 0.007 and −0.028 ± 0.020), so the face law's slope as well as a point;
+at 84 cells one row reads −0.28 ± 0.15 (1.9 σ, 45 deaths), not decided. Even then a face of gump is not a face over coins in its
 way of dying: over coins it is fuller, dips 6–8 times less often below a quarter of its cells, and dies from one cell
 96–98% of the time instead of 77%. Its rate is reproduced; its excursions are not.
 
