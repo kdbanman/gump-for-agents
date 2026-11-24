@@ -3,8 +3,26 @@
 Referee session, 2026-11-24 (13:55–15:50 UTC). Subject: the sections of the density agent's README present at commit
 9a105d3 (program `nzd.c` at that commit), not the section it is adding now. Everything below was computed with my own
 code, `rd.c`, written from `reference/oracle.py` and from the prose of `research/blast/noisy/README.md` ("The chain,
-exactly") and of the density README, before reading `nz.c` or `nzd.c` (I never opened `research/audit/blastnoisy/`).
+exactly") and of the density README, before I read `nz.c` or `nzd.c` (I never opened `research/audit/blastnoisy/`).
 `nzd.c` was then read critically and run as a black box, built from `git show 9a105d3:research/blast/density/nzd.c`.
+
+## In brief
+
+- **The numbers stand.** Every headline row I reran reproduces with independent code and seeds, all within 2σ
+  (table). The layer densities and lagged correlations reproduce to the third decimal. The largest tension is fair
+  coins at d = 1 (my first seed +0.631 ± 0.025 against +0.678 ± 0.016; see the note under the table).
+- **The program does what the README says.** Two defects of form, none of substance: the noisy chains' layer
+  densities are read after the darts (they include the fresh coins), and adjacent seeds share their coin stream.
+- **The mechanism does not stand as stated.** "The lives order by the low-face density of the replaced core"
+  [measured on their four chains] fails on three further chains of mine: the whole-layer copy has gump's low-face
+  density (0.386 against 0.384) and gump's clustering, yet lives 0.20 less; the scan chains at p = 0.1 and 0.2 have
+  low-face densities *below* the core copy's or near it (0.311, 0.354 against 0.348) yet live 0.12 and 0.45 longer.
+- **The reading has further soft spots**: "the layer leads by 1–2 generations" (the cross-correlation peaks at lag 0;
+  the asymmetry is real and points layer → face, the reverse of the causal sentence it is quoted for); "density
+  accounts for a fifth" (coins at gump's mean density make a denser support than gump's at every replaced depth; on
+  the realized density the share is about a third); "independence from the face" (the README's own face-dependent
+  coins keep most of the gain); "gump's layers are worth coins of 0.19" (the chain at p = 0.2 has a support at 0.40
+  after the darts, 0.46 before, not 0.2).
 
 ## My chain, exactly
 
@@ -13,8 +31,9 @@ exactly") and of the density README, before reading `nz.c` or `nzd.c` (I never o
   seed, 1,200 generations, against `oracle.step` on a box of side 2R + 4: every hull cell, no live cell outside the
   hull, the watched face's population, the eight faces' emptiness, identical at every generation. Negative control
   (`RD_NEGCTL=1`: one corner-touching neighbour of every x-normal cell replaced by the edge-sharing coplanar face)
-  fails at generation 1 at both radii. Bit-sliced, 512 lanes; group sizes come out as the README's (core 9, 9, 18, 18,
-  21 at depths 1–5, 57 deeper; whole layers 63, 75, 75, 81, 81; |N| = 132, B = 1,024 at d = 1).
+  fails at generation 1 at both radii. Bit-sliced, 512 lanes. Group sizes come out as the README's (core 9, 9, 18,
+  18, 21 at depths 1–5, 57 deeper; whole layers 63, 75, 75, 81, 81; |N| = 132, B = 1,024 at d = 1; at R = 9 |N| = 42,
+  B = 256).
 - **Noise law** [exact, by construction]: N = cells at depth ≥ d under the watched face (+,+,+) and ≥ 3 under each
   other face; B = smallest power of two ≥ 4|N|; after each generation, in each lane independently, M darts i.i.d.
   uniform on B squares, thrown in sequence, a dart on a cell of N setting it to its coin. Sampled in the
@@ -22,98 +41,165 @@ exactly") and of the density README, before reading `nz.c` or `nzd.c` (I never o
   Coins: fair = one bit of a fresh 32-bit word; bias p = a fresh 32-bit word < round(p 2³²); copy = the current state
   (earlier darts of the same generation included) of a uniformly chosen cell of the source set at the same depth
   under the watched face, the dart's own cell included (source: N's cells at that depth = "core", or every hull cell
-  at that depth = "whole layer"). A cell is hit with probability q = 1 − (1 − 1/B)^M = 0.2213 per generation at
-  ε = M/B = 1/4. RNG: xoshiro256** seeded by splitmix64; my seeds (1001–1012, 9001–9013), none of theirs.
+  at that depth = "whole layer"). A replaced cell is hit with probability q = 1 − (1 − 1/B)^M = 0.2213 per generation
+  at ε = M/B = 1/4 (check: in the fair chain the replaced core of layer 1 goes from 0.4342 before the darts to 0.4487
+  after, against 0.4342 (1 − q) + q/2 = 0.4488). RNG xoshiro256** seeded by splitmix64; my seeds only.
 - **Life protocol and estimator**: as the noisy README states it (soup 0.35, age 0; a lane-generation is exposure iff
   age > 200 after the step; a life ends when any face is empty; a watched death is a life ended with the watched face
   empty, alone or tied, at an exposure generation; re-seed). ln τ = ln(exposure / watched deaths) ± 1/√deaths. No
-  settled-life guard (longest life reported instead). All diagnostics are read after the step and before the darts;
-  for the replaced core of layer 1 also after the darts (`DENS core1 after darts`, `BYFPOST`).
-- Rows: `sh research/blast/ref-density/row.sh TAG R SEED GENS M D0 COIN [LAGGENS]` (output scratch `rows/TAG.txt`,
-  copied to `data/rows/`); the table: `python3 research/blast/ref-density/collect.py`.
+  settled-life guard; the longest life in every row is below 1.4 × 10⁶ generations (no stuck lane). Diagnostics are
+  read after the step and before the darts; for the replaced core of layer 1 also after the darts.
+- Rows: `sh research/blast/ref-density/row.sh TAG R SEED GENS M D0 COIN [LAGGENS]`, full outputs in `data/rows/TAG.txt`
+  (the line `SETUP` gives every parameter); `nzdrow.sh` runs nzd.c, outputs in `data/nzd/`. Every number below:
+  `python3 research/blast/ref-density/collect.py` (reads `data/rows`, `data/nzd`).
 
-DRAFT — the table and the rest are being filled in.
+## The table (63 cells, ε = 1/4, d = 1 unless noted; Δ = ln τ − 13.633; σ in quadrature)
 
-## What `nzd.c` does, read against its README [read at 9a105d3; checked where a command is given]
+| row | theirs: ln τ (Δ) | mine: ln τ (Δ) | deaths, mine | difference |
+|---|---|---|---:|---:|
+| gump | 13.633 ± 0.001 (own seed 13.644 ± 0.012) | 13.632 ± 0.014; all eight faces 13.631 ± 0.005 | 4,913 (39,315) | −0.1σ (−0.3σ) |
+| fair coins | 14.311 ± 0.016 (+0.678) | 14.264 ± 0.025 (+0.631) | 1,632 | −1.6σ |
+| fair coins, second seed | | PENDING-FAIR2 | | |
+| mean-density coins | 14.165 ± 0.011 (+0.532) | 14.168 ± 0.026 (+0.535) | 1,437 | +0.1σ |
+| copy from the replaced cells | 13.199 ± 0.013 (−0.434) | 13.188 ± 0.020 (−0.445) | 2,392 | −0.5σ |
+| copy from the whole layer | 13.464 ± 0.011 (−0.169) | 13.428 ± 0.026 (−0.205) | 1,505 | −1.3σ |
+| every depth at p = 0.1 | 13.312 ± 0.022 (−0.322) | 13.306 ± 0.024 (−0.327) | 1,701 | −0.2σ |
+| every depth at p = 0.2 | 13.676 ± 0.024 (+0.043) | 13.635 ± 0.023 (+0.002) | 1,837 | −1.2σ |
+| zero of the scan (linear, 0.1–0.2) | p* = 0.188 ± 0.007 | p* = 0.199 ± 0.007 | | +1.1σ |
+| LOW10 coins | 14.096 ± 0.010 (+0.463) | PENDING-LOW10 | | |
+| mean-density coins, d = 2 | 13.877 ± 0.013 (+0.244) | PENDING-MEAND2 | | |
+| fair coins, d = 2 | 13.965 ± 0.014 (+0.332) | PENDING-FAIRD2 | | |
+| mean-density coins, ε = 1/16 | 13.797 ± 0.013 (+0.164) | PENDING-E16 | | |
+| gump: replaced core of layer 1, all time | 0.4301 | 0.4301 | | |
+| … the same, face ≤ 10 (≤ 4) | 0.3836 (0.401) | 0.3843 (0.4016) | | |
+| … whole layer 1, face ≤ 10 | 0.3425 | 0.3422 | | |
+| … core-1 count variance / binomial, face ≤ 10 | 1.81 | 1.80 (within each F, 1 ≤ F ≤ 10) | | |
+| gump: face mean, sd | 31.25, 5.24 | 31.25, 5.24 | | |
+| gump: P₁ (descent from ≥ 16 to ≤ 1 ends in death) | 0.771 ± 0.004 | 0.766 ± 0.005 | | −0.8σ |
+| lag: corr(full 1 at t − L, face at t), L = 0, 1, 2, 4, 8 | 0.375, 0.30, 0.30, 0.17, 0.09 | 0.375, 0.296, 0.296, 0.173, 0.086 | | |
+| lag: corr(face at t − L, full 1 at t), L = 1, 2, 4, 8 | 0.09, 0.08, 0.09, 0.06 | 0.091, 0.082, 0.088, 0.059 | | |
+| lag: face autocorrelation, L = 1, 4, 8 | 0.52, 0.21, 0.09 | 0.517, 0.206, 0.087 | | |
+| lag: replaced core 1 with face, L = 0 | 0.106 | 0.106 | | |
+| excursions, fair: Δ ln f_k at k = 15, 4, 1 | −0.23, −0.60, −0.65 | −0.232, −0.592, −0.657 | | |
 
-Confirmed as stated (each read in the source; the first five also reproduced by my independent rows):
-which cells are replaced (depth ≥ DW under the watched face and ≥ DO = 3 under every other face, `geom_init`);
-ε = M/B with B the smallest power of two ≥ 4|N|, K ~ Binomial(M, |N|/B) darts on N per lane and generation from a
-32-bit fixed-point CDF, cells by a 31-bit multiply-shift (`noise_random`); the fair coin is bit 0 of the dart's word,
-independent of its 31 square bits; a biased coin is 16 bits of the second stream against round(p 2¹⁶); the copy
-coin reads the current state, darts of the same generation included, of a uniform cell of the source set (self
-included), the core source being the cells at that depth with depth ≥ 3 under every other face; a death is the
-watched face's population 0 after the step (alone or tied); exposure = lane-generations at age > 200;
-ln τ = ln(E/n₀) ± 1/√n₀; lanes are independent soups with independent darts; descents (`REC`) from ≥ round(A/4) = 16;
-`LAG` = Pearson correlation of face(t − L) with group(t) and of group(t − L) with face(t), within a life.
-"MEAN" and "LOW10" are the core densities of gump's own layers at M = 0 (after the step; my gump row gives the same
-to 4 decimals, below).
+Errors on the layer densities are not computed (correlated samples); treating each descent to ≤ 10 cells as one
+sample gives about ± 0.0005 for the face-≤-10 densities. The lag table is from 2 × 10⁶ generations × 512 lanes.
 
-Departures and defects, in order of consequence:
+**The chain against nzd.c at R = 9 (45 cells), same settings, my seeds for both programs** (`r9_*` rows): gump
+9.823 ± 0.010 against 9.817 ± 0.010 (+0.4σ); fair d = 1 (M = 64, B = 256) 10.081 ± 0.011 against 10.085 ± 0.011
+(−0.3σ); core copy, two seeds each, 9.645 ± 0.006 against 9.655 ± 0.007 (−1.1σ); p = 0.2, 9.840 ± 0.010 against
+9.832 ± 0.010 (+0.6σ). P₁ agrees in every pair (0.764–0.778).
 
-1. **The layer diagnostics of the noisy chains are read after the darts** (`step(); noise_random(M); observe();`).
-   So "the coins' support does not fade (0.42–0.44)" and the support table's chain densities (0.348, 0.423, 0.435)
-   are a mixture of the 22% of replaced cells that are fresh coins at that moment and the rule-made rest. In gump
-   (no darts) nothing changes. The mixture is the state the next step reads, so it is a fair definition of "the
-   support", but the README does not say so, and the rule-made part alone behaves differently (table below:
-   before the darts the mean-density and fair chains' replaced cells are at gump's density or barely above it).
-2. **Consecutive seeds share the coin stream** [proved; `python3 research/blast/ref-density/seedstream.py`]:
-   `sm2 = seed·G + 99991` and the stream advances by the same constant G, so word i of seed s + 1 is word i + 1 of
-   seed s. The "two seeds" of rows (b) (5111, 5112) and (c) (5121, 5122) and every pair of adjacent scan seeds draw
-   their biased or copied coins from one sequence, offset by four 16-bit coins. Their darts (the main stream) are
-   independent, so the coins land on unrelated cells, lanes and times, and I expect no measurable effect (argued,
-   not measured); but "two seeds that agree to 0.001" is not two fully independent replications. Fair rows are
-   unaffected (their coin is in the main stream).
-3. **Estimator against anchor** (minor): every Δ is "watched-face ln τ − 13.633", the anchor being an eight-face
-   value 8E/D. The watched-face estimator counts tied deaths for each face, so at ε = 0 it sits slightly below the
-   eight-face value (R = 9: 9.823 against 9.827 in my row, 9.817 against 9.829 in nzd's). The bias is a few
-   thousandths, inside every quoted error.
+**The fair-coin tension.** My first fair seed is 14.264 ± 0.025. nzd.c run by me at R = 11 with my seed 9201 (4 × 10⁶
+generations) gives 14.344 ± 0.029, the agent's seed 14.311 ± 0.016; nzd pooled 14.319 ± 0.014, mine −0.055 ± 0.029
+(−1.9σ). The excess deaths in my row sit in P₁ (0.785 ± 0.009 against nzd's 0.758 and 0.761), not in the descent
+rates (Δ ln f₁ −0.657 against −0.654). The eight-face values agree (mine 13.802 ± 0.007, theirs 13.808 ± 0.005). I
+find no difference of law between the two programs (both read; my law check above; R = 9 agrees). PENDING-FAIRNOTE
 
-## The reading (sentences of the README at 9a105d3, labelled)
+## Defects, ranked by how much they matter
 
-**R1. "Leads by one to two generations" [the numbers reproduce; the word does not].** My gump row (independent code,
-seed 1001, 2 × 10⁶ generations × 512 lanes) gives, to three decimals, the README's lagged correlations (table
-below). They are computed correctly (Pearson within a life, both times past the ageing-in, same in `nzd.c` and in my
-code). But the cross-correlation of the whole layer 1 with the face **peaks at lag 0** (+0.375), not at lag 1–2
-(+0.296, +0.296): nothing leads in the sense of a displaced peak. What is measured is an asymmetry: the side where
-the layer is earlier decays slowly, the other side drops at once to +0.09. The layer's own autocorrelation is +0.056
-at lag 1 and +0.177 at lag 2 (a period-2 component; the face's is +0.517 at lag 1), which is why lags 1 and 2 tie.
-A Granger comparison on a 64-lane, 300,000-generation dump (`lagdump.py`, VAR(4) on standardized series) says the
-direction is real: the layer's past raises the share of the face's variance explained by its own past from 0.279 to
-0.317 (+0.038); the face's past raises the layer's from 0.053 to 0.060 (+0.007) [measured]. So "the layer drives the
-face more than the face drives the layer" is supported. **This contradicts the sentence the number is cited for**:
-"when the face thins, layer 1's cells lose their face neighbours and thin too (gump's layer 1 leads the face's
-population by one to two generations …)" — a layer that thins *because* the face thinned would follow it, not lead
-it; the data's strong arrow is layer → face, and the face → layer arrow of the proposed loop is the weak one. The
-replaced cells themselves (core 1) carry almost none of this: +0.106 at lag 0, Granger +0.002 and +0.004.
+1. **The ordering variable fails on a fifth, sixth and seventh chain** [measured]. The README: "the four annealed
+   chains are in the same order by this low-face density as by their lives (0.348, 0.384, 0.423, 0.435 →
+   −0.43, 0, +0.46, +0.53)", density = the replaced core of layer 1 after the darts, face ≤ 10. Mine, same quantity:
 
-**R2. "Density alone is the smaller part … +0.146 ± 0.020, a fifth to a quarter" [measured along one path; the share
-depends on what is matched].** The decomposition is gump → independent coins at gump's density → independent coins at
-0.5. The other order needs "gump's correlations at density 0.5", which is not a defined chain, so the split is an
-attribution along one path, not a property of the system. Along that path the answer depends on which density is
-matched: the coin bias matched to the all-time mean (row b) leaves 0.146 for density; but in that chain the replaced
-core sits at 0.438 after the darts (their `lay2_mean_d1_s6112.txt`) against gump's 0.430, i.e. it is not
-density-matched; the chain whose replaced core *is* at gump's all-time density is LOW10 (0.428, their
-`lay2_low10_d1_s6122.txt`; the README says so itself), which leaves 0.678 − 0.463 = 0.215 ± 0.019 for density, a
-third. "A fifth to a third" is the fair range [inference from their numbers; my rows below].
+   | chain | Δ ln τ (mine) | core 1 after darts, face ≤ 10 | before darts, face ≤ 10 | var/binom (before, within F) |
+   |---|---:|---:|---:|---:|
+   | every depth at 0.1 | −0.327 | **0.311** | 0.371 | 1.75 |
+   | copy from the replaced cells | −0.445 | 0.348 | 0.348 | 2.10 |
+   | every depth at 0.2 | +0.002 | **0.354** | 0.397 | 1.69 |
+   | gump | 0 | 0.384 | 0.384 | 1.80 |
+   | copy from the whole layer | −0.205 | **0.386** | 0.398 | 1.77 |
+   | mean-density coins | +0.535 | 0.435 | 0.436 | 1.58 |
+   | fair coins | +0.631 | 0.457 | 0.445 | 1.54 |
 
-**R3. "Independence from the face" [inference; their own conditioned rows argue against the literal reading].** Coins
-whose bias follows the cell's live face neighbours (gump's own P(alive | m), overall or under a low face) are not
-independent of the face, yet keep +0.497 and +0.446 of the +0.532 (their rows; not rerun by me). Gump's local
-dependence on the face is weak (0.375 / 0.450 / 0.445 for m = 0, 1, 2 at depth 1), and the lagged correlation of
-the replaced core with the face is +0.106 at lag 0 and ≤ 0.05 after (reproduced). What the coins remove is not a
-cell's correlation with the face above it but everything else gump's layer has and a fresh coin lacks: memory, the
-in-layer correlation among the replaced cells, and the collective thinning of the layer while the face is low. The
-README's own mechanism paragraph says the last; its headline word "independence" says less than that.
+   The whole-layer copy has gump's low-face density and gump's clustering and lives 0.20 shorter; the p = 0.2 chain
+   is thinner than gump under a low face and lives as long; p = 0.1 is the thinnest of all and outlives the core copy.
+   The scan chains also change the deeper replaced layers (their rule-made density is 0.44–0.46 at depths 2–4,
+   against gump's 0.41–0.42), so they are not a clean test of layer 1 alone; the whole-layer copy is (its deeper
+   replaced layers are within 0.004 of gump's before the darts). Whatever sets the life, it is not the low-face density of the replaced core,
+   nor its clustering, alone. `python3 research/blast/ref-density/collect.py` (section "Descents").
+2. **"Gump's layer 1 leads the face's population by one to two generations" contradicts the loop it supports**
+   [numbers measured, reading inference]. The lagged correlations reproduce to three decimals (table), but the
+   cross-correlation of the whole layer 1 with the face **peaks at lag 0** (+0.375 > +0.296 at lags 1 and 2):
+   nothing leads in the sense of a displaced peak. What is measured is an asymmetry. The layer's own autocorrelation
+   is +0.056 at lag 1 and +0.177 at lag 2 (a period-2 component; the face's is +0.517 at lag 1), which is why lags 1
+   and 2 tie. A Granger comparison (`python3 research/blast/ref-density/lagdump.py` on a 64-lane, 300,000-generation
+   dump, VAR(4), standardized; `data/lagdump_gump_R11_s1101.txt`) says the asymmetry is directional: the layer's past
+   raises the explained share of the face's variance from 0.279 to 0.317 (+0.038), the face's past raises the layer's
+   from 0.053 to 0.060 (+0.007). The README's causal sentence is "when the face thins, layer 1's cells lose their
+   face neighbours and thin too (gump's layer 1 leads …), which removes the supply …": a layer that thins because
+   the face thinned would lag it. The data's strong arrow is layer → face; the face → layer arrow that closes the
+   proposed loop is the weak one. The replaced cells carry almost none of either (core 1: +0.106 at lag 0; Granger
+   +0.002 and +0.004).
+3. **"Density accounts for a fifth" depends on what is matched** [measured; the share is an attribution]. The split is
+   gump → independent coins at gump's density → coins at 0.5; the other order needs "gump's correlations at density
+   0.5", which is not a chain, so the split is an attribution along one path, not a property of the system. Along
+   it, coins at the mean density do not make gump's density: in my mean-density chain the replaced cells' rule-made
+   density is 0.4405, 0.4202, 0.4257, 0.4280 at depths 1–4 against gump's 0.4301, 0.4094, 0.4149, 0.4165 (+0.010 to
+   +0.011 at every depth; after the darts 0.438 at depth 1, theirs 0.438). Fresh coins at gump's density hold up more
+   rule-made life than gump's correlated layer does. The chain whose replaced core is at gump's realized density is
+   LOW10 (0.428 after the darts, their `lay2_low10_d1_s6122.txt`; the README says so); on it the density share is
+   0.678 − 0.463 = 0.215 ± 0.019, a third, not "a fifth to a quarter".
+4. **"Independence from the face" is narrower than what the rows show** [inference]. Their conditioned coins (bias
+   = gump's P(alive | m live face neighbours), overall or under a low face) are not independent of the face, yet keep
+   +0.497 and +0.446 of the +0.532 (not rerun by me). Gump's local dependence on the face is weak (0.375 / 0.450 /
+   0.445 for m = 0, 1, 2 at depth 1), and the replaced core correlates +0.106 with the face (reproduced). With item 1,
+   what coins remove is something other than a cell's correlation with the face above it or the core's low-face
+   density: candidates are the layer's memory (its own autocorrelation) and the correlations among the replaced cells
+   and their unreplaced neighbours. The copy rows (−0.17, −0.43) add correlation of a kind gump does not have (a voter
+   move; the core copy's within-F variance 2.10 against gump's 1.80): "random placement is not what helps;
+   independence from the face is" is an inference they do not carry.
+5. **"Gump's own layers are worth independent coins of 0.19, less than half their own density"** [p* measured;
+   the reading is not]. p* is a coin bias. The chain at p = 0.2, which lives as gump does (+0.002 ± 0.023), has its
+   replaced core of layer 1 at 0.399 after the darts and 0.456 before (gump 0.430), its deeper replaced layers at
+   0.44–0.45 before the darts: sparse coins make the rule fill in (fewer overcrowded cells). The support that is
+   "worth gump's" is not at 0.19, and not half of anything; "an independent support of 0.19" is not what that chain has.
+6. **"An independent bath of gump's density overestimates the life by 0.53"** [inference stated as a number]. 0.53 is
+   the effect of darts that refresh 22% of the replaced cells per generation; the README shows the effect grows with
+   the rate (+0.164 at ε = 1/16). A bath (every replaced cell fresh every generation) was not run at 9a105d3.
+7. **The noisy chains' layer densities are read after the darts** (`step(); noise_random(M); observe();` in
+   nzd.c). The support table's chain densities (0.348, 0.423, 0.435) mix the 22% of replaced cells that are fresh
+   coins at that moment with the rule-made rest. It is the state the next step reads, a fair definition, but unstated;
+   before the darts the same cells read differently (columns above).
+8. **Adjacent seeds share the coin stream** [proved; `python3 research/blast/ref-density/seedstream.py`]: in nzd.c
+   `sm2 = seed·G + 99991` and the stream advances by the same G, so word i of seed s + 1 is word i + 1 of seed s. The
+   "two seeds" of rows (b) (5111, 5112) and (c) (5121, 5122) and adjacent scan seeds draw their biased or copied coins
+   from one sequence offset by four coins. Their darts are independent, so the coins land on unrelated cells and
+   times; I expect no measurable effect (argued, not measured), but "two seeds that agree to 0.001" is not two fully
+   independent replications. Fair rows are unaffected (their coin is in the main stream).
+9. **Minor.** Δ is taken against the eight-face anchor; the watched-face estimator counts ties for each face, so it
+   sits a few thousandths below at ε = 0 (R = 9, mine 9.823 against 9.827). "P₁ is gump's 0.77 to within ± 0.02 in every
+   chain": true in mine (0.762–0.790), but with a drift along the scan in both programs (theirs 0.786 at p = 0.1 to
+   0.745 at p = 0.7; mine 0.790 at 0.1, 0.771 at 0.2, against gump 0.766); its share of Δ ln τ is ≤ 0.03.
 
-**R4. "Random placement is not what helps; independence from the face is" (from the copy coins) [inference].** A
-copy coin is not gump's correlation: copying a random replaced cell into another is a voter move that clusters the
-9 replaced cells of layer 1 far beyond gump (their count's variance 2.47 of binomial under a low face, gump 1.81).
-The two copy rows show that adding correlation of this kind shortens the life; they do not show that gump's own
-correlations are what shortens gump's life relative to coins.
+## Sentences of the README's conclusions: measured or inference
 
-**R8. "A face law that treats the support as an independent bath of gump's density overestimates the life (by 0.53
-in ln τ at 63 cells)" [inference stated as a number].** 0.53 is the effect of darts that refresh 22% of the replaced
-cells per generation (ε = 1/4); the README itself shows it grows with the rate (+0.164 at ε = 1/16). An independent
-bath (every replaced cell fresh every generation) was not run at 9a105d3, so its offset is not 0.53; it is
-presumably larger.
+| sentence (9a105d3) | status |
+|---|---|
+| fair +0.678, mean +0.532, LOW10 +0.463, copies −0.17 / −0.43, scan, p* ≈ 0.19 | measured; reproduced (table) |
+| "mostly correlation (loss of correlation)" | attribution along one path (defect 3); "correlation" is everything but the mean |
+| "gump's support fades with its face (0.430 → 0.384)" | measured; reproduced |
+| "the coins' does not (0.42–0.44)" | measured after the darts (defect 7) |
+| "the lives order by that low-face density" | measured on four chains; fails on three more (defect 1) |
+| "a face down to one cell dies as often (0.77) with coins as without" | measured; reproduced (± 0.03) |
+| "the coins slow the whole descent rather than rescue the last cell" | measured (Δ ln f_k); reproduced |
+| "for its face, gump's own layers are worth independent coins of 0.19" | inference; misleading (defect 5) |
+| "random placement is not what helps; independence from the face is" | inference (defect 4) |
+| "layer 1 leads the face by one to two generations" | numbers measured; "leads" not (defect 2) |
+| "the face and its first two layers fail together … a loop" | conjecture; its face → layer arrow is the weak one (defect 2) |
+| "an independent bath overestimates the life by 0.53" | inference (defect 6) |
+| "frozen coins are a disorder effect" | not checked |
+
+## Forecasts, scored (`PREDICTIONS.md`, committed before each row)
+
+PENDING-SCORES
+
+## Not checked
+
+- The conditioned coins (+0.497, +0.446), frozen coins (+1.18), the scan at 0.3, 0.4, 0.7, LOW10 and fair at d = 2,
+  the births-per-supply and drift columns of the support table, the agent's `validate.py`, its REC recount.
+- Errors of the layer densities (correlated samples; only the rough per-descent estimate above).
+- Whether the dart law's small departures from independent per-cell coins matter (both programs share the law).
+- A full bath (every replaced cell fresh every generation); the decomposition's other order (no chain defines it).
+- Whether depths ≥ 2 or the layer's memory are what orders the chains (defect 1 says what it is not, not what it is).
+- 84 cells; any radius but 9 and 11.
